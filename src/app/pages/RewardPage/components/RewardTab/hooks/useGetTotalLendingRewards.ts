@@ -1,25 +1,14 @@
-import { useMemo } from 'react';
-import { bignumber } from 'mathjs';
+import { useAccount } from 'app/hooks/useAccount';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
+import { useGetRewardClaimedQuery } from 'utils/graphql/rsk/generated';
 
-import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
-import { lendingPools } from 'app/pages/RewardPage/helpers';
+export const useGetTotalLendingRewards = () => {
+  const account = useAccount();
 
-export const useGetTotalLendingRewards = (): string => {
-  const { events: lendingRewardEvents } = useGetContractPastEvents(
-    'liquidityMiningProxy',
-    'RewardClaimed',
-  );
-
-  const totalLendingRewards = useMemo(
-    () =>
-      lendingRewardEvents
-        .filter(item =>
-          lendingPools.includes(item.returnValues.poolToken?.toLowerCase()),
-        )
-        .map(item => item.returnValues.amount)
-        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
-    [lendingRewardEvents],
-  );
-
-  return totalLendingRewards;
+  return useGetRewardClaimedQuery({
+    variables: {
+      user: account.toLowerCase(),
+    },
+    pollInterval: APOLLO_POLL_INTERVAL,
+  });
 };

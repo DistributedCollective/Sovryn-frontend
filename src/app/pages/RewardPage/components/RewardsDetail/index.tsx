@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Tooltip } from '@blueprintjs/core';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import { Asset } from 'types';
@@ -84,18 +83,15 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           <LoadableValue
             value={
               bignumber(availableAmount).greaterThan(0) ? (
-                <Tooltip content={`${availableAmount} ${asset}`}>
-                  <>
-                    <AssetValue
-                      value={Number(availableAmount)}
-                      minDecimals={6}
-                      maxDecimals={6}
-                      assetString={asset}
-                      mode={AssetValueMode.auto}
-                      isApproximation={showApproximateSign}
-                    />
-                  </>
-                </Tooltip>
+                <AssetValue
+                  value={Number(availableAmount)}
+                  minDecimals={6}
+                  maxDecimals={6}
+                  asset={asset}
+                  mode={AssetValueMode.auto}
+                  isApproximation={showApproximateSign}
+                  useTooltip
+                />
               ) : (
                 <>0 {asset}</>
               )
@@ -111,18 +107,15 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         <LoadableValue
           value={
             bignumber(totalEarnedAmount).greaterThan(0) ? (
-              <Tooltip content={`${totalEarnedAmount} ${asset}`}>
-                <>
-                  <AssetValue
-                    value={Number(totalEarnedAmount)}
-                    minDecimals={6}
-                    maxDecimals={6}
-                    assetString={asset}
-                    mode={AssetValueMode.auto}
-                    isApproximation={showApproximateSign}
-                  />
-                </>
-              </Tooltip>
+              <AssetValue
+                value={Number(totalEarnedAmount)}
+                minDecimals={6}
+                maxDecimals={6}
+                assetString={asset}
+                mode={AssetValueMode.auto}
+                isApproximation={showApproximateSign}
+                useTooltip
+              />
             ) : (
               <>0 {asset}</>
             )

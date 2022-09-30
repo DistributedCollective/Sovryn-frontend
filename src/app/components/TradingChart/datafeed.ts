@@ -9,131 +9,48 @@
  * this directory. Refer to:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import { backendUrl, currentChainId } from 'utils/classifiers';
+
 import { stream } from './streaming';
+import { ApolloClient } from '@apollo/client';
+import {
+  ChartingLibraryWidgetOptions,
+  SearchSymbolsCallback,
+  LibrarySymbolInfo,
+} from '@sovryn/charting-library/src/charting_library/charting_library.min';
+import {
+  Bar,
+  config,
+  resolutionMap,
+  supportedResolutions,
+} from 'app/pages/PerpetualPage/components/TradingChart/helpers';
+import {
+  getTokensFromSymbol,
+  hasDirectFeed,
+  queryPairByChunks,
+} from './helpers';
+import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import { TradingCandleDictionary } from './dictionary';
+import { Asset } from 'types';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { pushPrice } from 'utils/pair-price-tracker';
 
-export type Bar = {
-  time: number;
-  low: number;
-  high: number;
-  open: number;
-  close: number;
-  volume?: number;
-};
+const newestBarsCache = new Map<string, Bar>();
+const oldestBarsCache = new Map<string, Bar>();
 
-export const api_root = `${backendUrl[currentChainId]}/datafeed/price/`;
-export const supportedResolutions = [
-  '10',
-  '20',
-  '30',
-  '60',
-  '120',
-  '240',
-  '360',
-  '720',
-  '1D',
-  '3D',
-  '1W',
-  '1M',
-];
-const MAX_DAYS = 5;
-const MAX_MONTHS = 1;
-/**
- * Number of 10 minute candles that can be loaded in one chunk from the backend endpoint.
- * NOTE: this must be lower or equal to the limit set on backend
- */
-const MAX_CANDLES = 4000;
-const CANDLE_SIZE_SECONDS = 600; //10 minute candles
-const lastBarCache = new Map<string, Bar>();
-
-// Supported configuration options can be found here:
-// https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-const config = {
-  exchanges: [],
-  symbols_types: [],
-  supported_resolutions: supportedResolutions,
-  supports_time: false,
-};
-
-const makeApiRequest = async path => {
-  try {
-    const response = await fetch(`${api_root}${path}`);
-    return response.json();
-  } catch (error) {
-    throw new Error(`Request error: ${(error as any).status}`);
-  }
-};
-
-const loadCandleChunk = async (props: {
-  oldestCandleTime: number;
-  newestCandleTime: number;
-  url: string;
-  bars: Bar[];
-  from: number;
-  to: number;
-}) => {
-  let candleTimes = {
-    oldestCandleTime: props.oldestCandleTime,
-    newestCandleTime: props.newestCandleTime,
-  };
-  const query = Object.entries({
-    startTime: candleTimes.oldestCandleTime * 1e3,
-    endTime: candleTimes.newestCandleTime * 1e3,
-  })
-    .map(item => `${item[0]}=${encodeURIComponent(item[1])}`)
-    .join('&');
-  const data = await makeApiRequest(`${props.url}?${query}`);
-  let newBars: Bar[] = props.bars;
-  if (data && data.series) {
-    for (let i = data.series.length - 1; i >= 0; i--) {
-      let newBar = data.series[i];
-      if (newBar && newBars[0] && newBar.time * 1e3 >= newBars[0].time) {
-        // skip candles with time violations, but make sure chart doesn't request further data from this time period
-        candleTimes.newestCandleTime = newBar.time;
-      } else if (newBar.time >= props.from && newBar.time <= props.to) {
-        newBars = [
-          {
-            time: newBar.time * 1e3,
-            low: newBar.low,
-            high: newBar.high,
-            open: newBar.open,
-            close: newBar.close,
-          },
-          ...newBars,
-        ];
-
-        candleTimes.newestCandleTime = Math.min(
-          newBar.time,
-          candleTimes.oldestCandleTime,
-        );
-      }
-    }
-  } else {
-    newBars = [];
-  }
-
-  return {
-    bars: newBars,
-    oldestCandleTime: candleTimes.oldestCandleTime,
-    newestCandleTime: candleTimes.newestCandleTime,
-  };
-};
-
-const tradingChartDataFeeds = {
+const tradingChartDataFeeds = (
+  graphqlClient: ApolloClient<any>,
+): ChartingLibraryWidgetOptions['datafeed'] => ({
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-  onReady: callback => {
-    setTimeout(() => callback(config));
-  },
+  onReady: callback => setTimeout(() => callback(config)),
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
-  searchSymbols: async (
-    userInput,
-    exchange,
-    symbolType,
-    onResultReadyCallback,
-  ) => {
-    // disabled via chart config in index.tsx
-  },
+  // searchSymbols disabled via chart config in index.tsx
+  searchSymbols: (
+    userInput: string,
+    exchange: string,
+    symbolType: string,
+    onResult: SearchSymbolsCallback,
+  ) => {},
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
@@ -141,21 +58,29 @@ const tradingChartDataFeeds = {
     onSymbolResolvedCallback,
     onResolveErrorCallback,
   ) => {
-    const symbolInfo = {
+    const [, quote] = symbolName.split('/') as [Asset, Asset];
+    const asset = AssetsDictionary.get(quote);
+
+    const symbolInfo: LibrarySymbolInfo = {
       name: symbolName,
+      full_name: symbolName,
       description: '',
       type: 'crypto',
+      exchange: '',
+      listed_exchange: '',
+      format: 'price',
+      volume_precision: 6,
       session: '24x7',
       timezone: 'Etc/UTC',
       ticker: symbolName,
-      minmov: 1, //0.00000001,
-      pricescale: symbolName.split('/')[1]?.match(/USDT|DOC/) ? 100 : 100000000,
+      minmov: 1,
+      pricescale: 10 ** asset.displayDecimals,
       has_intraday: true,
-      intraday_multipliers: ['10'],
-      supported_resolution: supportedResolutions,
-      has_no_volume: true,
-      has_empty_bars: true,
-      has_daily: false,
+      intraday_multipliers: ['1', '15', '60', '240'],
+      supported_resolutions: supportedResolutions,
+      has_no_volume: false,
+      has_empty_bars: false,
+      has_daily: true,
       has_weekly_and_monthly: false,
       data_status: 'streaming',
     };
@@ -173,72 +98,72 @@ const tradingChartDataFeeds = {
     onErrorCallback,
     firstDataRequest,
   ) => {
-    var split_symbol = symbolInfo.name.split('/');
-    const url = split_symbol[0] + ':' + split_symbol[1];
-    const totalNumCandles = Math.ceil((to - from) / CANDLE_SIZE_SECONDS);
-    let bars: Bar[] = [];
+    const candleDuration: CandleDuration = resolutionMap[resolution];
+    const candleDetails = TradingCandleDictionary.get(candleDuration);
+
+    const fromTime = (): number => {
+      const oldestBarTime = oldestBarsCache.get(symbolInfo.name)?.time;
+      if (firstDataRequest) {
+        return from;
+      } else if (oldestBarTime !== undefined) {
+        if (from < oldestBarTime / 1e3) {
+          return from;
+        }
+        return oldestBarTime / 1e3 - candleDetails.candleSeconds;
+      } else {
+        return from;
+      }
+    };
 
     try {
-      if (totalNumCandles > MAX_CANDLES) {
-        let oldestCandleTime,
-          latestCandleTime = to,
-          loadedAllCandles = false;
-        while (!loadedAllCandles) {
-          oldestCandleTime =
-            latestCandleTime - MAX_CANDLES * CANDLE_SIZE_SECONDS;
-          const {
-            bars: newBars,
-            oldestCandleTime: newOldestCandleTime,
-            newestCandleTime: newLatestCandleTime,
-          } = await loadCandleChunk({
-            oldestCandleTime,
-            newestCandleTime: latestCandleTime,
-            url,
-            bars,
-            from,
-            to,
-          });
-          bars = newBars;
-          oldestCandleTime = newOldestCandleTime;
-          latestCandleTime = newLatestCandleTime;
+      const { baseToken, quoteToken } = getTokensFromSymbol(symbolInfo.name);
 
-          if (latestCandleTime <= from) {
-            loadedAllCandles = true;
-          }
-        }
-      } else {
-        //total num candles needed is lower than the limit so we can just load all data in one chunk
-        const { bars: newBars } = await loadCandleChunk({
-          oldestCandleTime: from,
-          newestCandleTime: to,
-          url,
-          bars,
-          from,
-          to,
-        });
-        bars = newBars;
-      }
+      let items = await queryPairByChunks(
+        graphqlClient,
+        candleDetails,
+        baseToken,
+        quoteToken,
+        fromTime(),
+        to,
+        hasDirectFeed(symbolInfo.name),
+      );
 
-      if (!bars.length) {
+      if (!items || items.length === 0) {
         onHistoryCallback([], {
           noData: true,
         });
         return;
       }
 
-      const newestBar = bars[bars.length - 1];
-      if (newestBar) {
-        const lastBar = lastBarCache.get(symbolInfo.name);
-        if (lastBar) {
-          if (newestBar.time >= lastBar.time) {
-            lastBarCache.set(symbolInfo.name, newestBar);
-          }
-        } else {
-          lastBarCache.set(symbolInfo.name, newestBar);
-        }
+      if (firstDataRequest) {
+        newestBarsCache.set(symbolInfo.name, { ...items[items.length - 1] });
+        oldestBarsCache.set(symbolInfo.name, { ...items[0] });
       }
 
-      onHistoryCallback(bars, {
+      const lastBar = newestBarsCache.get(symbolInfo.name);
+      const newestBar = items[items.length - 1];
+
+      if (!lastBar) {
+        newestBarsCache.set(symbolInfo.name, newestBar);
+      }
+
+      if (lastBar && newestBar && newestBar?.time >= lastBar.time) {
+        newestBarsCache.set(symbolInfo.name, newestBar);
+        pushPrice(`${baseToken}/${quoteToken}`, newestBar.close);
+      }
+
+      const oldestBar = oldestBarsCache.get(symbolInfo.name);
+      const currentOldest = items[0];
+
+      if (!oldestBar) {
+        oldestBarsCache.set(symbolInfo.name, currentOldest);
+      }
+
+      if (oldestBar && currentOldest && currentOldest?.time <= oldestBar.time) {
+        oldestBarsCache.set(symbolInfo.name, currentOldest);
+      }
+
+      onHistoryCallback(items, {
         noData: false,
       });
     } catch (error) {
@@ -248,13 +173,13 @@ const tradingChartDataFeeds = {
   },
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
   calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
-    if (resolutionBack === 'D') {
-      if (resolution > MAX_DAYS)
-        return { resolutionBack: 'D', intervalBack: MAX_DAYS };
-    } else if (resolutionBack === 'M') {
-      if (resolution > MAX_MONTHS)
-        return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
-    }
+    const candleDetails = TradingCandleDictionary.get(
+      resolutionMap[resolution],
+    );
+    return {
+      resolutionBack: candleDetails.resolutionBack,
+      intervalBack: candleDetails.intervalBack,
+    };
   },
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
   subscribeBars: (
@@ -264,20 +189,20 @@ const tradingChartDataFeeds = {
     subscribeUID,
     onResetCacheNeededCallback,
   ) => {
+    const newestBar = newestBarsCache.get(symbolInfo.name);
     stream.subscribeOnStream(
+      graphqlClient,
       symbolInfo,
       resolution,
       onRealtimeCallback,
       subscribeUID,
       onResetCacheNeededCallback,
-      lastBarCache.get(symbolInfo.name),
+      newestBar,
     );
   },
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
-  unsubscribeBars: subscriberUID => {
-    stream.unsubscribeFromStream(subscriberUID);
-  },
-};
+  unsubscribeBars: subscriberUID => stream.unsubscribeFromStream(subscriberUID),
+});
 
 export default tradingChartDataFeeds;

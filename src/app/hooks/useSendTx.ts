@@ -12,7 +12,7 @@ import {
 } from 'store/global/transactions-store/types';
 import { actions } from 'store/global/transactions-store/slice';
 import { useAccount } from './useAccount';
-import { gasLimit } from '../../utils/classifiers';
+import { currentChainId, gasLimit } from '../../utils/classifiers';
 import {
   ResetTxResponseInterface,
   TransactionOptions,
@@ -64,7 +64,7 @@ export const useSendTx = (): SendTxResponseInterface => {
           gasPrice: String(transaction.gasPrice),
           nonce: Number(transaction.nonce),
           gasLimit: String(transaction.gas),
-          chainId: transaction.chainId,
+          chainId: transaction.chainId || currentChainId,
         })
         .then(signedTxOrTransactionHash => {
           // Browser wallets (extensions) signs and broadcasts transactions themselves

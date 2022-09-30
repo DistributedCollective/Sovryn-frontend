@@ -96,7 +96,18 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
                   'tw-text-xs tw-mt-4',
                 )}
               >
-                {t(trans.withdrawDisclaimer)}
+                <Trans
+                  i18nKey={trans.withdrawDisclaimer}
+                  components={[
+                    <a
+                      href="https://wiki.sovryn.app/en/sovryn-dapp/bridge#beware-when-sending-to-exchange-addresses"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Learn more.
+                    </a>,
+                  ]}
+                />
               </div>
             </div>
           ) : null}

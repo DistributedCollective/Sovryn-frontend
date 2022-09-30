@@ -11,15 +11,12 @@ import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpM
 // Supported configuration options can be found here:
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
 export const supportedResolutions = [
-  '1',
-  '5',
   '10',
   '15',
   '30',
   '60',
   '240',
   '720',
-  '1440',
   '1D',
   '3D',
   '1W',

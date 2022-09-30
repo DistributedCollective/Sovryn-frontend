@@ -2160,8 +2160,8 @@
       "title": "Enter receiving {{currentNetwork}} wallet address",
       "desc": "Receiving {{targetAsset}} Address",
       "confirm": "Please check and confirm",
-      "withdrawWarning": "Do not send to exchange addresses!",
-      "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
+      "withdrawWarning": "Beware when sending to exchange addresses!",
+      "withdrawDisclaimer": "Not all exchanges support receiving assets directly from the bridge smart contracts. Before sending directly to an exchange address, be sure to confirm that your exchange supports directly receiving transactions from smart contracts. <0>Learn more here.</0>"
     },
     "tokenSelector": {
       "title": "Select the token you'd like to receive on the {{network}} network",
@@ -2832,6 +2832,9 @@
       "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
+  },
+  "tradingChart": {
+    "lineChartOnly": "Non <0/> or <1/> assets are displayed as line charts"
   },
   "competitionPage": {
     "allTimeRanking": "All time ranking",
