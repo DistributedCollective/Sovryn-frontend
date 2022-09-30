@@ -15,6 +15,8 @@ import { getNetworkByChainId } from '../../../utils/blockchain/networks';
 import { isMainnet } from 'utils/classifiers';
 import { ChainId } from 'types';
 
+const showPerps = !isMainnet;
+
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
   const { connected, wallet, chainId, expectedChainId } = useContext(
@@ -28,7 +30,8 @@ export function NetworkRibbon(this: any) {
     if (
       !connected ||
       !isWeb3Wallet(wallet.providerType!) ||
-      location.pathname.startsWith('/cross-chain')
+      location.pathname.startsWith('/cross-chain') ||
+      (!showPerps && location.pathname.startsWith('/perpetuals'))
     ) {
       return false;
     }
@@ -92,7 +95,7 @@ const getExpectedChainId = (
   expectedChainId: number | undefined,
   pathname: string,
 ) => {
-  if (pathname.startsWith('/perpetuals')) {
+  if (pathname.startsWith('/perpetuals') && showPerps) {
     return isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET;
   }
 

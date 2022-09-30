@@ -51,13 +51,14 @@ import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
+import { PerpetualsPlaceholderPageLoadable } from './pages/PerpetualsPlaceholderPage/Loadable';
 import { ReceiveRBTCPage } from './pages/ReceiveRBTCPage';
 import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
 // TODO: Delete this once we go live, we may need it after the competition
-const showPerps = true; // !isMainnet || isStaging;
+const showPerps = !isMainnet; // !isMainnet || isStaging;
 
 export function App() {
   useAppTheme();
@@ -136,19 +137,22 @@ export function App() {
                   component={FastBtcPage}
                 />
                 <Route exact path="/rbtc/" component={ReceiveRBTCPage} />
+
+                <Route
+                  exact
+                  path="/perpetuals"
+                  component={
+                    showPerps
+                      ? PerpetualPageLoadable
+                      : PerpetualsPlaceholderPageLoadable
+                  }
+                />
                 {showPerps && (
-                  <>
-                    <Route
-                      exact
-                      path="/perpetuals"
-                      component={PerpetualPageLoadable}
-                    />
-                    <Route
-                      exact
-                      path="/perpetuals/competition"
-                      component={CompetitionPage}
-                    />
-                  </>
+                  <Route
+                    exact
+                    path="/perpetuals/competition"
+                    component={CompetitionPage}
+                  />
                 )}
                 <Route component={NotFoundPage} />
               </Switch>
