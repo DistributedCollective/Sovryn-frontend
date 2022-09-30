@@ -11,12 +11,12 @@ import {
   EventQuery,
 } from './graphql/useGetTraderEvents';
 import { useContext, useMemo, useEffect } from 'react';
-import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 export type OpenPositionEntry = {
   id: string;

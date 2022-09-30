@@ -112,7 +112,6 @@ class EventDictionary {
           'perpetual { id }',
           'tradeAmountBC',
           'newPositionSizeBC',
-          'orderFlags',
           'price',
           'limitPrice',
           'isClose',

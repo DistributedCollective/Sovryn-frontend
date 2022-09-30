@@ -2,7 +2,6 @@ import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useMemo, useContext, useEffect } from 'react';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   Event,
   OrderDirection,
@@ -11,6 +10,7 @@ import {
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 export type FundingPaymentsEntry = {
   id: string;

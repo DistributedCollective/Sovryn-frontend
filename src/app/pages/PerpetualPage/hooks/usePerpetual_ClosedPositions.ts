@@ -2,7 +2,6 @@ import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useContext, useMemo, useEffect } from 'react';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   Event,
   useGetTraderEvents,
@@ -16,6 +15,7 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 const { getQuote2CollateralFX } = perpUtils;
 

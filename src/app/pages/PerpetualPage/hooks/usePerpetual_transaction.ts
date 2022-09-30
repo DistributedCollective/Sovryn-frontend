@@ -32,7 +32,7 @@ const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
 const PerpetualTxMethodTypeMap: { [key in PerpetualTxMethod]: TxType } = {
   [PerpetualTxMethod.trade]: TxType.PERPETUAL_TRADE,
   [PerpetualTxMethod.createLimitOrder]: TxType.PERPETUAL_CREATE_LIMIT_ORDER,
-  [PerpetualTxMethod.cancelLimitOrder]: TxType.PERPETUAL_CREATE_LIMIT_ORDER,
+  [PerpetualTxMethod.cancelLimitOrder]: TxType.PERPETUAL_CANCEL_LIMIT_ORDER,
   [PerpetualTxMethod.deposit]: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
   [PerpetualTxMethod.withdraw]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
   [PerpetualTxMethod.withdrawAll]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,

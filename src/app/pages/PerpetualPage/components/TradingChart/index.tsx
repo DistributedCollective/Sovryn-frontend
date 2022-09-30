@@ -99,6 +99,10 @@ export const TradingChart: React.FC<TradingChartProps> = ({
           'mainSeriesProperties.candleStyle.wickUpColor': colors.long,
           'mainSeriesProperties.candleStyle.wickDownColor': colors.short,
         },
+        studies_overrides: {
+          // https://github.com/tradingview/charting_library/wiki/Studies-Overrides/afa60a5da72b0fa4e9909296cdade9e30ee89215
+          'volume.precision': 4,
+        },
         custom_css_url: '/charting_library_custom.css',
 
         autosize: true,
