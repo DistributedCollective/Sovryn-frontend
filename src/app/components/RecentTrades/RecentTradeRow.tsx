@@ -9,6 +9,7 @@ import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { bignumber } from 'mathjs';
+import { compareAddress } from 'utils/helpers';
 
 type RecentTradeRowProps = {
   row: RecentTradesDataEntry;
@@ -31,7 +32,7 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
   );
 
   const isLong = useMemo(
-    () => row.loanToken.id.toLowerCase() === quoteTokenAddress.toLowerCase(),
+    () => compareAddress(row.loanToken.id, quoteTokenAddress),
     [row.loanToken, quoteTokenAddress],
   );
 

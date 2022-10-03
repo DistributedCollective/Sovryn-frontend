@@ -3,7 +3,7 @@ import { bignumber } from 'mathjs';
 import type { Decimal } from 'decimal.js';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
-import { Asset } from '../types';
+import { Asset, Nullable } from '../types';
 import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 import { CachedAssetRate } from 'app/containers/WalletProvider/types';
@@ -80,6 +80,9 @@ export const isAddress = (address: string) => {
     return false;
   }
 };
+
+export const compareAddress = (address1: string, address2: string) =>
+  address1.toLowerCase() === address2.toLowerCase();
 
 export const validateEmail = (email: string) => {
   // eslint-disable-next-line no-useless-escape
