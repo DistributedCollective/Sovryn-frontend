@@ -3,7 +3,7 @@ import { bignumber } from 'mathjs';
 import type { Decimal } from 'decimal.js';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
-import { Asset, Nullable } from '../types';
+import { Asset } from '../types';
 import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 import { CachedAssetRate } from 'app/containers/WalletProvider/types';
