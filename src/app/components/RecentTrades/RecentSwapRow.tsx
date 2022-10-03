@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { AssetDetails } from 'utils/models/asset-details';
 import { RecentSwapsDataEntry } from 'types/trading-pairs';
+import { compareAddress } from 'utils/helpers';
 
 type RecentSwapRowProps = {
   row: RecentSwapsDataEntry;
@@ -24,8 +25,10 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
   );
   const isBuy = useMemo(
     () =>
-      row._fromToken.id.toLowerCase() !==
-      baseAssetDetails.getTokenContractAddress().toLowerCase(),
+      compareAddress(
+        row._fromToken.id,
+        baseAssetDetails.getTokenContractAddress(),
+      ),
     [baseAssetDetails, row._fromToken.id],
   );
 
