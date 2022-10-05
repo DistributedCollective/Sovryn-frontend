@@ -2,14 +2,15 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-import { toAssetNumberFormat, toNumberFormat } from 'utils/display-text/format';
 import { RecentTradesDataEntry } from 'types/trading-pairs';
 import dayjs from 'dayjs';
-import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { bignumber } from 'mathjs';
-import { compareAddress } from 'utils/helpers';
+import { areAddressesEqual } from 'utils/helpers';
+import { AssetValue } from '../AssetValue';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { AssetValueMode } from '../AssetValue/types';
 
 type RecentTradeRowProps = {
   row: RecentTradesDataEntry;
@@ -32,7 +33,7 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
   );
 
   const isLong = useMemo(
-    () => compareAddress(row.loanToken.id, quoteTokenAddress),
+    () => areAddressesEqual(row.loanToken.id, quoteTokenAddress),
     [row.loanToken, quoteTokenAddress],
   );
 
@@ -48,6 +49,11 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
       : bignumber(1).div(row.positionSize).toString();
   }, [isLong, row.positionSize]);
 
+  const [quoteTokenDetails, baseTokenDetails] = useMemo(
+    () => [quoteToken, baseToken].map(item => AssetsDictionary.get(item)),
+    [quoteToken, baseToken],
+  );
+
   return (
     <tr
       key={row.id}
@@ -62,13 +68,13 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip
-          position="top"
-          interactionKind="hover"
-          content={<>{toNumberFormat(entryPrice, 18)}</>}
-        >
-          {toAssetNumberFormat(entryPrice, quoteToken)}
-        </Tooltip>
+        <AssetValue
+          value={Number(entryPrice)}
+          mode={AssetValueMode.auto}
+          minDecimals={quoteTokenDetails.displayDecimals}
+          maxDecimals={quoteTokenDetails.displayDecimals}
+          useTooltip
+        />
       </td>
       <td
         className={classNames(
@@ -76,13 +82,13 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip
-          position="top"
-          interactionKind="hover"
-          content={<>{toNumberFormat(positionSize, 18)}</>}
-        >
-          {toAssetNumberFormat(positionSize, baseToken)}
-        </Tooltip>
+        <AssetValue
+          value={Number(positionSize)}
+          mode={AssetValueMode.auto}
+          minDecimals={baseTokenDetails.displayDecimals}
+          maxDecimals={baseTokenDetails.displayDecimals}
+          useTooltip
+        />
       </td>
       <td
         className={classNames(

@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { AssetDetails } from 'utils/models/asset-details';
 import { RecentSwapsDataEntry } from 'types/trading-pairs';
-import { compareAddress } from 'utils/helpers';
+import { areAddressesEqual } from 'utils/helpers';
+import { AssetValue } from '../AssetValue';
+import { AssetValueMode } from '../AssetValue/types';
 
 type RecentSwapRowProps = {
   row: RecentSwapsDataEntry;
@@ -25,7 +26,7 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
   );
   const isBuy = useMemo(
     () =>
-      compareAddress(
+      !areAddressesEqual(
         row._fromToken.id,
         baseAssetDetails.getTokenContractAddress(),
       ),
@@ -60,9 +61,13 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip position="top" interactionKind="hover" content={<>{price}</>}>
-          {Number(price).toFixed(quoteAssetDetails.displayDecimals)}
-        </Tooltip>
+        <AssetValue
+          value={Number(price)}
+          mode={AssetValueMode.auto}
+          minDecimals={quoteAssetDetails.displayDecimals}
+          maxDecimals={quoteAssetDetails.displayDecimals}
+          useTooltip
+        />
       </td>
       <td
         className={classNames(
@@ -70,9 +75,13 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip position="top" interactionKind="hover" content={<>{size}</>}>
-          {Number(size).toFixed(baseAssetDetails.displayDecimals)}
-        </Tooltip>
+        <AssetValue
+          value={Number(size)}
+          mode={AssetValueMode.auto}
+          minDecimals={baseAssetDetails.displayDecimals}
+          maxDecimals={baseAssetDetails.displayDecimals}
+          useTooltip
+        />
       </td>
       <td
         className={classNames(
