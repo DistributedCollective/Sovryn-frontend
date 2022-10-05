@@ -102,6 +102,24 @@ export const queryPairByChunks = async (
   );
 };
 
+type Candle = {
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  totalVolume: string;
+  periodStartUnix: string;
+};
+
+const candleToBar = (item: Candle): Bar => ({
+  open: Number(item.open),
+  high: Number(item.high),
+  low: Number(item.low),
+  close: Number(item.close),
+  volume: Number(item.totalVolume),
+  time: Number(item.periodStartUnix) * 1000,
+});
+
 const queryDirectPair = async (
   client: ApolloClient<any>,
   candleDetails: CandleDetails,
@@ -139,16 +157,7 @@ const queryDirectPair = async (
       query,
     })
     .then(response => response.data?.[candleDetails.entityName] || [])
-    .then(items =>
-      items.map(item => ({
-        open: Number(item.open),
-        high: Number(item.high),
-        low: Number(item.low),
-        close: Number(item.close),
-        volume: Number(item.totalVolume),
-        time: Number(item.periodStartUnix) * 1000,
-      })),
-    );
+    .then(items => items.map(candleToBar));
 };
 
 const fillItem = (base: Bar, quote?: Bar, lastQuote?: Bar): Bar | null => {
@@ -211,6 +220,80 @@ const getFirstCandleTimestamp = async (
     })
     .then(response => response.data?.[candleDetails.entityName] || [])
     .then(items => items[0]?.periodStartUnix || Date.now() / 1000);
+};
+
+const getBarOlderThan = async (
+  client: ApolloClient<any>,
+  candleDetails: CandleDetails,
+  baseToken: string,
+  quoteToken: string,
+  timestamp,
+): Promise<Bar | undefined> => {
+  const query = gql`
+      {
+        ${candleDetails.entityName} (
+          where: {
+            baseToken: "${baseToken}"
+            quoteToken: "${quoteToken}"
+            periodStartUnix_lte: ${timestamp}
+          }
+          orderBy: periodStartUnix
+          orderDirection: desc
+          first: 1
+        ) {
+          open
+          close
+          high
+          low
+          totalVolume
+          periodStartUnix
+        }
+      }
+    `;
+  return client
+    .query({
+      query,
+    })
+    .then(response => response.data?.[candleDetails.entityName] || [])
+    .then(items => items.map(candleToBar))
+    .then(items => items[0]);
+};
+
+const getBarNewerThan = async (
+  client: ApolloClient<any>,
+  candleDetails: CandleDetails,
+  baseToken: string,
+  quoteToken: string,
+  timestamp,
+): Promise<Bar | undefined> => {
+  const query = gql`
+      {
+        ${candleDetails.entityName} (
+          where: {
+            baseToken: "${baseToken}"
+            quoteToken: "${quoteToken}"
+            periodStartUnix_gte: ${timestamp}
+          }
+          orderBy: periodStartUnix
+          orderDirection: asc
+          first: 1
+        ) {
+          open
+          close
+          high
+          low
+          totalVolume
+          periodStartUnix
+        }
+      }
+    `;
+  return client
+    .query({
+      query,
+    })
+    .then(response => response.data?.[candleDetails.entityName] || [])
+    .then(items => items.map(candleToBar))
+    .then(items => items[0]);
 };
 
 export const queryCustomPairs = async (
@@ -348,6 +431,9 @@ export const queryCandles = async (
 
     return addMissingBars(
       bars,
+      client,
+      baseToken,
+      quoteToken,
       candleDetails,
       graphStartTime !== undefined && graphStartTime > startTime
         ? graphStartTime
@@ -371,12 +457,15 @@ export const getTokensFromSymbol = (symbol: string) => {
   };
 };
 
-export const addMissingBars = (
+export const addMissingBars = async (
   bars: Bar[],
+  client: ApolloClient<any>,
+  baseToken: string,
+  quoteToken: string,
   candleDetails: CandleDetails,
   startTimestamp: number,
   endTimestamp: number,
-): Bar[] => {
+): Promise<Bar[]> => {
   const seconds = candleDetails.candleSeconds;
   const barCount = Math.floor((endTimestamp - startTimestamp) / seconds);
 
@@ -387,21 +476,37 @@ export const addMissingBars = (
   let items = uniqBy(bars, 'time').sort((a, b) => a.time - b.time);
 
   if (items.length === 0) {
+    const oldestExistingBar = await getBarOlderThan(
+      client,
+      candleDetails,
+      baseToken,
+      quoteToken,
+      startTimestamp,
+    );
+
+    const newestBar = await getBarNewerThan(
+      client,
+      candleDetails,
+      baseToken,
+      quoteToken,
+      endTimestamp,
+    );
+
     items = [
       {
         time: startTimestamp * 1000,
-        open: 0,
-        close: 0,
-        high: 0,
-        low: 0,
+        open: oldestExistingBar?.open || 0,
+        close: oldestExistingBar?.open || 0,
+        high: oldestExistingBar?.open || 0,
+        low: oldestExistingBar?.open || 0,
         volume: 0,
       },
       {
         time: endTimestamp * 1000,
-        open: 0,
-        close: 0,
-        high: 0,
-        low: 0,
+        open: newestBar?.open || 0,
+        close: newestBar?.open || 0,
+        high: newestBar?.open || 0,
+        low: newestBar?.open || 0,
         volume: 0,
       },
     ];
