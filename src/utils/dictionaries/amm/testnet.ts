@@ -51,7 +51,7 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11',
     '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
-  ).setPreviousConverters(['0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11']),
+  ),
   new AmmLiquidityPool(
     Asset.ETH,
     Asset.RBTC,

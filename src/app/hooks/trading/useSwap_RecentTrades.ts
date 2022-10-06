@@ -13,7 +13,9 @@ export const useSwap_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
 
   const [load, { called, data, loading }] = useGetRecentSwapEventsLazyQuery({
     variables: {
-      converterAddress: [pool.converter.toLowerCase()],
+      converterAddress: [...pool.previousConverters, pool.converter].map(item =>
+        item.toLowerCase(),
+      ),
       limit: 100,
     },
     pollInterval: APOLLO_POLL_INTERVAL,
