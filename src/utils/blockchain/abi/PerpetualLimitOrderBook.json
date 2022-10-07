@@ -46,6 +46,12 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "traderMgnTokenAddr",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint32",
         "name": "flags",
         "type": "uint32"
@@ -138,6 +144,11 @@
       {
         "components": [
           {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
             "internalType": "bytes32",
             "name": "iPerpetualId",
             "type": "bytes32"
@@ -173,9 +184,9 @@
             "type": "address"
           },
           {
-            "internalType": "uint32",
-            "name": "flags",
-            "type": "uint32"
+            "internalType": "address",
+            "name": "traderMgnTokenAddr",
+            "type": "address"
           },
           {
             "internalType": "int128",
@@ -232,6 +243,11 @@
       {
         "components": [
           {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
             "internalType": "bytes32",
             "name": "iPerpetualId",
             "type": "bytes32"
@@ -267,9 +283,9 @@
             "type": "address"
           },
           {
-            "internalType": "uint32",
-            "name": "flags",
-            "type": "uint32"
+            "internalType": "address",
+            "name": "traderMgnTokenAddr",
+            "type": "address"
           },
           {
             "internalType": "int128",
@@ -333,6 +349,11 @@
       {
         "components": [
           {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
             "internalType": "bytes32",
             "name": "iPerpetualId",
             "type": "bytes32"
@@ -368,9 +389,9 @@
             "type": "address"
           },
           {
-            "internalType": "uint32",
-            "name": "flags",
-            "type": "uint32"
+            "internalType": "address",
+            "name": "traderMgnTokenAddr",
+            "type": "address"
           },
           {
             "internalType": "int128",
@@ -577,6 +598,11 @@
     "name": "orderOfDigest",
     "outputs": [
       {
+        "internalType": "uint32",
+        "name": "flags",
+        "type": "uint32"
+      },
+      {
         "internalType": "bytes32",
         "name": "iPerpetualId",
         "type": "bytes32"
@@ -612,9 +638,9 @@
         "type": "address"
       },
       {
-        "internalType": "uint32",
-        "name": "flags",
-        "type": "uint32"
+        "internalType": "address",
+        "name": "traderMgnTokenAddr",
+        "type": "address"
       },
       {
         "internalType": "int128",
@@ -693,6 +719,11 @@
       {
         "components": [
           {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
             "internalType": "bytes32",
             "name": "iPerpetualId",
             "type": "bytes32"
@@ -728,9 +759,9 @@
             "type": "address"
           },
           {
-            "internalType": "uint32",
-            "name": "flags",
-            "type": "uint32"
+            "internalType": "address",
+            "name": "traderMgnTokenAddr",
+            "type": "address"
           },
           {
             "internalType": "int128",
