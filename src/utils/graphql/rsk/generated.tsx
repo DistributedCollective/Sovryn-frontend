@@ -11263,6 +11263,42 @@ export type MarginLoansFieldsFragment = {
   }> | null;
 };
 
+export type GetRecentMarginEventsQueryVariables = Exact<{
+  tokens?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  limit: Scalars['Int'];
+}>;
+
+export type GetRecentMarginEventsQuery = {
+  __typename?: 'Query';
+  trades: Array<{
+    __typename?: 'Trade';
+    positionSize: string;
+    entryLeverage: string;
+    entryPrice: string;
+    timestamp: number;
+    collateralToken: { __typename?: 'Token'; id: string };
+    loanToken: { __typename?: 'Token'; id: string };
+  }>;
+};
+
+export type GetRecentSwapEventsQueryVariables = Exact<{
+  converterAddress?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  limit: Scalars['Int'];
+}>;
+
+export type GetRecentSwapEventsQuery = {
+  __typename?: 'Query';
+  conversions: Array<{
+    __typename?: 'Conversion';
+    timestamp: number;
+    _amount: string;
+    _return: string;
+    transaction: { __typename?: 'Transaction'; id: string };
+    _fromToken: { __typename?: 'Token'; id: string };
+    _toToken: { __typename?: 'Token'; id: string };
+  }>;
+};
+
 export type GetRewardClaimedQueryVariables = Exact<{
   user?: InputMaybe<Scalars['String']>;
 }>;
@@ -12261,6 +12297,154 @@ export type GetMarginLoansDataLazyQueryHookResult = ReturnType<
 export type GetMarginLoansDataQueryResult = Apollo.QueryResult<
   GetMarginLoansDataQuery,
   GetMarginLoansDataQueryVariables
+>;
+export const GetRecentMarginEventsDocument = gql`
+  query getRecentMarginEvents($tokens: [String!], $limit: Int!) {
+    trades(
+      orderBy: timestamp
+      orderDirection: desc
+      first: $limit
+      where: { collateralToken_in: $tokens, loanToken_in: $tokens }
+    ) {
+      positionSize
+      entryLeverage
+      entryPrice
+      timestamp
+      collateralToken {
+        id
+      }
+      loanToken {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecentMarginEventsQuery__
+ *
+ * To run a query within a React component, call `useGetRecentMarginEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentMarginEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentMarginEventsQuery({
+ *   variables: {
+ *      tokens: // value for 'tokens'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetRecentMarginEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >(GetRecentMarginEventsDocument, options);
+}
+export function useGetRecentMarginEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >(GetRecentMarginEventsDocument, options);
+}
+export type GetRecentMarginEventsQueryHookResult = ReturnType<
+  typeof useGetRecentMarginEventsQuery
+>;
+export type GetRecentMarginEventsLazyQueryHookResult = ReturnType<
+  typeof useGetRecentMarginEventsLazyQuery
+>;
+export type GetRecentMarginEventsQueryResult = Apollo.QueryResult<
+  GetRecentMarginEventsQuery,
+  GetRecentMarginEventsQueryVariables
+>;
+export const GetRecentSwapEventsDocument = gql`
+  query getRecentSwapEvents($converterAddress: [String!], $limit: Int!) {
+    conversions(
+      orderBy: timestamp
+      orderDirection: desc
+      first: $limit
+      where: { emittedBy_in: $converterAddress }
+    ) {
+      timestamp
+      transaction {
+        id
+      }
+      _amount
+      _return
+      _fromToken {
+        id
+      }
+      _toToken {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecentSwapEventsQuery__
+ *
+ * To run a query within a React component, call `useGetRecentSwapEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentSwapEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentSwapEventsQuery({
+ *   variables: {
+ *      converterAddress: // value for 'converterAddress'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetRecentSwapEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >(GetRecentSwapEventsDocument, options);
+}
+export function useGetRecentSwapEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >(GetRecentSwapEventsDocument, options);
+}
+export type GetRecentSwapEventsQueryHookResult = ReturnType<
+  typeof useGetRecentSwapEventsQuery
+>;
+export type GetRecentSwapEventsLazyQueryHookResult = ReturnType<
+  typeof useGetRecentSwapEventsLazyQuery
+>;
+export type GetRecentSwapEventsQueryResult = Apollo.QueryResult<
+  GetRecentSwapEventsQuery,
+  GetRecentSwapEventsQueryVariables
 >;
 export const GetRewardClaimedDocument = gql`
   query getRewardClaimed($user: String) {

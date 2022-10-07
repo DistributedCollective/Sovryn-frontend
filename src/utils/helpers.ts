@@ -81,6 +81,9 @@ export const isAddress = (address: string) => {
   }
 };
 
+export const areAddressesEqual = (address1: string, address2: string) =>
+  address1.toLowerCase() === address2.toLowerCase();
+
 export const validateEmail = (email: string) => {
   // eslint-disable-next-line no-useless-escape
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
