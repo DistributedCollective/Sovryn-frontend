@@ -45,6 +45,11 @@ export const AssetValue: React.FC<AssetValueProps> = ({
       min = (asset && AssetDecimals[asset]) || 2;
       max = min;
     }
+    if (mode === AssetValueMode.auto) {
+      // normalize if one is not provided or provided incorrectly
+      min = Math.min(min, max);
+      max = Math.max(min, max);
+    }
 
     const numberValue =
       typeof value === 'string' ? numberFromWei(value) : value;

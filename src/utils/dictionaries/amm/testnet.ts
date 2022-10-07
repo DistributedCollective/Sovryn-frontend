@@ -49,7 +49,7 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11',
+    '0x20d5c55c92615d416d73b34c8afed99288e99be1',
     '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
   ).setPreviousConverters(['0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11']),
   new AmmLiquidityPool(
