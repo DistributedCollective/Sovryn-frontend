@@ -124,7 +124,7 @@ const tradingChartDataFeeds = (
         baseToken,
         quoteToken,
         fromTime(),
-        to,
+        to + candleDetails.candleSeconds,
         hasDirectFeed(symbolInfo.name),
       );
 
