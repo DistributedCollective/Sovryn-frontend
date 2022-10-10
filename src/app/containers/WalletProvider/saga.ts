@@ -23,7 +23,11 @@ import { whitelist } from '../../../utils/whitelist';
 import delay from '@redux-saga/delay-p';
 import axios from 'axios';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { backendUrl, currentChainId } from '../../../utils/classifiers';
+import {
+  backendUrl,
+  currentChainId,
+  userLogUrl,
+} from '../../../utils/classifiers';
 import { bridgeNetwork } from '../../pages/BridgeDepositPage/utils/bridge-network';
 import { BridgeNetworkDictionary } from '../../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Chain, Nullable } from '../../../types';
@@ -238,6 +242,17 @@ function* addVisitSaga({ payload }: PayloadAction<string>) {
     yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
       walletAddress: payload,
     });
+    const ga = yield window.cookieStore.get('_ga');
+    const cid = ga !== null ? ga.value.slice(6, ga.value.length) : null;
+    const queryString = new URL(window.location.href).search;
+    yield call(
+      [axios, axios.post],
+      userLogUrl[currentChainId] + '/visit' + queryString,
+      {
+        walletAddress: payload,
+        cid: cid,
+      },
+    );
   } catch (error) {
     log.error('failed to log visit', error);
   }
