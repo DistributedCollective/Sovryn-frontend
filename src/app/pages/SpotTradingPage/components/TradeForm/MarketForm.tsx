@@ -13,7 +13,6 @@ import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { Asset } from 'types/asset';
 import { maxMinusFee } from 'utils/helpers';
 import {
   stringToFixedPrecision,
@@ -27,8 +26,6 @@ import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-n
 import styles from './index.module.scss';
 import { TradeDialog } from '../TradeDialog';
 import { OrderLabel } from '../OrderLabel';
-import { useAccount } from 'app/hooks/useAccount';
-import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import classNames from 'classnames';
@@ -52,7 +49,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  const account = useAccount();
+  // const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
@@ -67,19 +64,19 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
+  // const {
+  //   send: sendExternal,
+  //   ...txExternal
+  // } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
 
   const { value: path } = useSwapNetwork_conversionPath(
     AssetsDictionary.get(sourceToken).getTokenContractAddress(),
@@ -104,16 +101,20 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     );
   }, [balance, minReturn, sourceToken, weiAmount]);
 
-  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
-    targetToken,
-    txExternal,
-    txPath,
-  ]);
+  const tx = useMemo(() => txPath, [txPath]);
 
-  const send = useCallback(
-    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
-    [targetToken, sendPath, sendExternal],
-  );
+  // const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
+  //   targetToken,
+  //   txExternal,
+  //   txPath,
+  // ]);
+
+  const send = useCallback(() => sendPath(), [sendPath]);
+  // const send = useCallback(
+  //   () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
+  //   [targetToken, sendPath, sendExternal],
+  // );
+
   const showToast = useCallback(
     (status: string) => {
       Toast(

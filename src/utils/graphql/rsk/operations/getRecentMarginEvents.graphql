@@ -1,0 +1,19 @@
+query getRecentMarginEvents($tokens: [String!], $limit: Int!) {
+  trades(
+    orderBy: timestamp
+    orderDirection: desc
+    first: $limit
+    where: { collateralToken_in: $tokens, loanToken_in: $tokens }
+  ) {
+    positionSize
+    entryLeverage
+    entryPrice
+    timestamp
+    collateralToken {
+      id
+    }
+    loanToken {
+      id
+    }
+  }
+}
