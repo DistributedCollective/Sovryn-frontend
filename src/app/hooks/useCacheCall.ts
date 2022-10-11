@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { useEffect, useMemo, useState } from 'react';
+import { startCall, observeCall } from 'utils/blockchain/cache';
 
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { ContractName } from 'utils/types/contracts';
 
 import { Nullable } from '../../types';
-import { useAccount, useBlockSync } from './useAccount';
+import { useAccount } from './useAccount';
 import { useIsMounted } from './useIsMounted';
 
 export interface CacheCallResponse<T = string> {
@@ -16,9 +18,6 @@ export interface CacheCallResponse<T = string> {
 /**
  * Calls blockchain on read node to get data.
  * Updates data by calling blockchain again if any of method args changed.
- * Updates if syncBlockNumber changes (changes if user wallet or any of contracts txs is found in new blockchain block)
- * Note: Right now there is no actual caching.
- * TODO: Add actual result caching to prevent calling blockchain multiple times if hook was used with same data.
  * @param contractName
  * @param methodName
  * @param args
@@ -29,62 +28,49 @@ export function useCacheCall<T = any>(
   ...args: any
 ): CacheCallResponse<T> {
   const isMounted = useIsMounted();
-  const syncBlockNumber = useBlockSync();
   const account = useAccount();
 
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState<CacheCallResponse<T>>({
     value: null,
     loading: false,
     error: null,
   });
 
-  useEffect(() => {
-    if (isMounted()) {
-      setState(prevState => ({ ...prevState, loading: true, error: null }));
-    }
-
-    try {
-      contractReader
-        .call(contractName, methodName, args, account || undefined)
-        .then(value => {
-          if (isMounted()) {
-            setState(prevState => ({
-              ...prevState,
-              value,
-              loading: false,
-              error: null,
-            }));
-          }
-        })
-        .catch(error => {
-          // todo add logger?
-          if (isMounted()) {
-            setState(prevState => ({
-              ...prevState,
-              loading: false,
-              value: null,
-              error: error.message || error,
-            }));
-          }
-        });
-    } catch (error) {
-      // todo add logger?
-      if (isMounted()) {
-        setState(prevState => ({
-          ...prevState,
-          loading: false,
-          value: null,
-          error: (error as Error).message || error,
-        }));
-      }
-    }
-
-    return () => {
-      // todo: find a way to cancel contract call
-    };
-
+  // @dev: generating id from contractName, methodName and args
+  // @dev: ignoring account because contract response is the same for all accounts unless account is part of the args
+  const hashedArgs = useMemo(
+    () =>
+      ethers.utils.hashMessage(
+        JSON.stringify([contractName, methodName, args]),
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contractName, methodName, syncBlockNumber, JSON.stringify(args)]);
+    [contractName, methodName, JSON.stringify(args)],
+  );
+
+  useEffect(() => {
+    if (!isMounted()) {
+      return;
+    }
+
+    const sub = observeCall(hashedArgs).subscribe(e =>
+      setState(e.result as CacheCallResponse<T>),
+    );
+
+    startCall(hashedArgs, () =>
+      contractReader.call(contractName, methodName, args, account || undefined),
+    );
+
+    return () => sub.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- prevent loop when arg has object
+  }, [
+    account,
+    contractName,
+    hashedArgs,
+    isMounted,
+    methodName,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(args),
+  ]);
 
   return state;
 }
