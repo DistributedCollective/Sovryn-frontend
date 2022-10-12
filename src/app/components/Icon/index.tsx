@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 import { IconSvgPaths } from './iconSvgPaths';
 import { IconType, ViewBoxSize } from './types';
 
-const STANDARD = 16;
+const STANDARD = '1x';
 const INLINE = '1em';
 const SM = 'sm';
 
