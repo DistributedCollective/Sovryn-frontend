@@ -1,4 +1,5 @@
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
+import { hashMessage } from 'ethers/lib/utils';
 import { BehaviorSubject, distinctUntilKeyChanged, map, filter } from 'rxjs';
 import { Nullable } from 'types';
 import { debug } from 'utils/debug';
@@ -17,9 +18,12 @@ type SubjectMap = {
   [id: string]: SubjectState;
 };
 
-type CallOptions = {
-  ttl?: number;
-  force?: boolean;
+export type CacheCallOptions = {
+  // time to live in miliseconds
+  ttl: number;
+  force: boolean;
+  // when data expires or needs to be refreshed forcely, show previous successful result while loading
+  fallbackToPreviousResult: boolean;
 };
 
 const INITIAL_STATE: SubjectMap = {};
@@ -30,14 +34,17 @@ const store = new BehaviorSubject<SubjectMap>(INITIAL_STATE);
 export const startCall = <T>(
   id: string,
   promise: () => Promise<T>,
-  options?: CallOptions,
+  options: Partial<CacheCallOptions> = {
+    fallbackToPreviousResult: true,
+    ttl: DEFAULT_TTL,
+    force: false,
+  },
 ) => {
   const state = store.getValue();
 
   const now = Date.now();
-  const ttl = options?.ttl ?? DEFAULT_TTL;
 
-  if (state.hasOwnProperty(id) && state[id].ttl > now && !options?.force) {
+  if (state.hasOwnProperty(id) && state[id].ttl > now && !options.force) {
     log.log('cache HIT', id);
     return;
   }
@@ -45,21 +52,36 @@ export const startCall = <T>(
   log.log('cache MISS', id);
 
   const promise$ = promise()
-    .then(result => completeCall(id, result, null))
-    .catch(error => completeCall(id, null, error));
+    .then(result => {
+      completeCall(id, result, null);
+      return result;
+    })
+    .catch(error => {
+      completeCall(id, null, error);
+      return error;
+    });
+
+  let result: CacheCallResponse = {
+    value: null,
+    loading: true,
+    error: null,
+  };
+
+  if (options.fallbackToPreviousResult) {
+    const cached = state[id];
+    if (cached && !cached.result?.error) {
+      result = cached.result;
+    }
+  }
 
   store.next({
     ...state,
     [id]: {
       pending: true,
       timestamp: now,
-      ttl: now + ttl,
+      ttl: now + (options?.ttl ?? DEFAULT_TTL),
       promise: promise$,
-      result: {
-        value: null,
-        loading: true,
-        error: null,
-      },
+      result,
     },
   });
 };
@@ -76,12 +98,10 @@ export const completeCall = (
     return;
   }
 
-  const item = state[id];
-
   store.next({
     ...state,
     [id]: {
-      ...item,
+      ...state[id],
       pending: false,
       result: {
         loading: false,
@@ -103,4 +123,10 @@ export const observeCall = (id: string) => {
 export const getCall = (id: string) => {
   const state = store.getValue();
   return state[id];
+};
+
+export const idHash = (args: any[]) => {
+  const params = args.map(item => item.toString().toLowerCase());
+  const json = JSON.stringify(params);
+  return hashMessage(json);
 };

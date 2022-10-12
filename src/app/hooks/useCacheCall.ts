@@ -1,12 +1,12 @@
-import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
-import { startCall, observeCall } from 'utils/blockchain/cache';
+import { startCall, observeCall, idHash } from 'utils/blockchain/cache';
+import { getContract } from 'utils/blockchain/contract-helpers';
 
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { ContractName } from 'utils/types/contracts';
 
 import { Nullable } from '../../types';
-import { useAccount } from './useAccount';
+import { useAccount, useBlockSync } from './useAccount';
 import { useIsMounted } from './useIsMounted';
 
 export interface CacheCallResponse<T = string> {
@@ -29,6 +29,7 @@ export function useCacheCall<T = any>(
 ): CacheCallResponse<T> {
   const isMounted = useIsMounted();
   const account = useAccount();
+  const syncBlock = useBlockSync();
 
   const [state, setState] = useState<CacheCallResponse<T>>({
     value: null,
@@ -39,10 +40,7 @@ export function useCacheCall<T = any>(
   // @dev: generating id from contractName, methodName and args
   // @dev: ignoring account because contract response is the same for all accounts unless account is part of the args
   const hashedArgs = useMemo(
-    () =>
-      ethers.utils.hashMessage(
-        JSON.stringify([contractName, methodName, args]),
-      ),
+    () => idHash([getContract(contractName).address, methodName, args]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [contractName, methodName, JSON.stringify(args)],
   );
@@ -57,7 +55,12 @@ export function useCacheCall<T = any>(
     );
 
     startCall(hashedArgs, () =>
-      contractReader.call(contractName, methodName, args, account || undefined),
+      contractReader.callDirect(
+        contractName,
+        methodName,
+        args,
+        account || undefined,
+      ),
     );
 
     return () => sub.unsubscribe();
@@ -68,6 +71,7 @@ export function useCacheCall<T = any>(
     hashedArgs,
     isMounted,
     methodName,
+    syncBlock,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     JSON.stringify(args),
   ]);

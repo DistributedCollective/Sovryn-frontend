@@ -3,9 +3,9 @@ import { AbiItem } from 'web3-utils';
 
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { CacheCallResponse } from '../useCacheCall';
-import { ethers } from 'ethers';
-import { observeCall, startCall } from 'utils/blockchain/cache';
+import { idHash, observeCall, startCall } from 'utils/blockchain/cache';
 import { useIsMounted } from '../useIsMounted';
+import { useBlockSync } from '../useAccount';
 
 /**
  * Calls blockchain on read node to get data.
@@ -21,6 +21,7 @@ export function useCacheCallTo<T = string>(
   args: any[],
 ): CacheCallResponse<T> {
   const isMounted = useIsMounted();
+  const syncBlock = useBlockSync();
 
   const [state, setState] = useState<CacheCallResponse<T>>({
     value: null,
@@ -29,7 +30,7 @@ export function useCacheCallTo<T = string>(
   });
 
   const hashedArgs = useMemo(
-    () => ethers.utils.hashMessage(JSON.stringify([to, abi, methodName, args])),
+    () => idHash([to, methodName, args]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [to, abi, methodName, args, JSON.stringify(args)],
   );
@@ -44,12 +45,12 @@ export function useCacheCallTo<T = string>(
     );
 
     startCall(hashedArgs, () =>
-      contractReader.callByAddress(to, abi, methodName, args),
+      contractReader.callByAddressDirect(to, abi, methodName, args),
     );
 
     return () => sub.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [to, methodName, JSON.stringify(args), JSON.stringify(abi)]);
+  }, [to, methodName, syncBlock, JSON.stringify(args), JSON.stringify(abi)]);
 
   return state;
 }
