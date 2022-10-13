@@ -51,7 +51,7 @@ export function LiquidityMining() {
   ]);
 
   const { value: ammData, loading } = useFetch(
-    `${ammServiceUrl[currentChainId]}/amm?stmp=${Date.now()}`,
+    `${ammServiceUrl[currentChainId]}/amm`,
   );
 
   useEffect(() => linkAsset && history.replace(location.pathname), [
