@@ -16,7 +16,7 @@ export const useGetCryptoPairs = (): IPairsData => {
 
   useEffect(() => {
     axios
-      .get(graphWrapperUrl[currentChainId] + 'cmc/summary?extra=true', {
+      .get(graphWrapperUrl[currentChainId] + 'cmc/summary', {
         params: {
           extra: true,
           stmp: Date.now(),
