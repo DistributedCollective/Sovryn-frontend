@@ -76,6 +76,7 @@ export const SwapFormContainer: React.FC = () => {
     });
     axios
       .get(graphWrapperUrl[currentChainId] + 'cmc/summary', {
+        cancelToken,
         params: {
           extra: true,
           stmp: Date.now(),
@@ -105,6 +106,11 @@ export const SwapFormContainer: React.FC = () => {
       .get(graphWrapperUrl[currentChainId] + 'cmc/asset', {
         params: {
           stmp: Date.now(),
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '30',
         },
         cancelToken,
       })
