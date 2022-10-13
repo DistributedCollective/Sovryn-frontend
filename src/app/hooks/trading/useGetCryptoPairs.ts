@@ -19,6 +19,12 @@ export const useGetCryptoPairs = (): IPairsData => {
       .get(graphWrapperUrl[currentChainId] + 'cmc/summary?extra=true', {
         params: {
           extra: true,
+          stmp: Date.now(),
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '30',
         },
       })
       .then(res => {

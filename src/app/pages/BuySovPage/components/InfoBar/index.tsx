@@ -42,7 +42,8 @@ export function InfoBar() {
     value: { circulating_supply: totalSupply },
     loading: totalSupplyLoading,
   } = useFetch<{ circulating_supply: number; insertion_time: Date }>(
-    graphWrapperUrl[currentChainId] + '/sov/circulating-supply',
+    graphWrapperUrl[currentChainId] +
+      `/sov/circulating-supply?stmp=${Date.now()}`,
     { circulating_supply: 0 },
   );
 
