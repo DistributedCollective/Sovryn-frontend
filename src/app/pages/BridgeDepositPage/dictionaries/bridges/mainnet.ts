@@ -33,7 +33,7 @@ const mainnetBridges = [
     ChainId.RSK_MAINNET,
     ChainId.ETH_MAINNET,
     '0x1CcAd820B6d031B41C54f1F3dA11c0d48b399581',
-    '0xd2090fe759613C3A3E2962c6bB2ad046f62d32fF',
+    '0x200FD7A1Ccea4651f15008Cc99bf82d7461EFD3f',
     rskToEthAssets,
     AppMode.MAINNET,
   ),

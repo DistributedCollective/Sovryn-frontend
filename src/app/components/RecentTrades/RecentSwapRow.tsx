@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { RecentSwapsDataEntry, SwapsType } from 'types/trading-pairs';
 import dayjs from 'dayjs';
-import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { AssetDetails } from 'utils/models/asset-details';
+import { RecentSwapsDataEntry } from 'types/trading-pairs';
+import { areAddressesEqual } from 'utils/helpers';
+import { AssetValue } from '../AssetValue';
+import { AssetValueMode } from '../AssetValue/types';
 
 type RecentSwapRowProps = {
   row: RecentSwapsDataEntry;
@@ -22,11 +24,32 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
     () => (isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1'),
     [isOddRow],
   );
-  const isBuy = useMemo(() => row.type === SwapsType.BUY, [row.type]);
+  const isBuy = useMemo(
+    () =>
+      !areAddressesEqual(
+        row._fromToken.id,
+        baseAssetDetails.getTokenContractAddress(),
+      ),
+    [baseAssetDetails, row._fromToken.id],
+  );
+
+  const size = useMemo(() => (isBuy ? row._return : row._amount), [
+    isBuy,
+    row._amount,
+    row._return,
+  ]);
+
+  const price = useMemo(
+    () =>
+      isBuy
+        ? Number(row._amount) / Number(row._return)
+        : Number(row._return) / Number(row._amount),
+    [isBuy, row._amount, row._return],
+  );
 
   return (
     <tr
-      key={row.transactionHash}
+      key={row.transaction.id}
       className={classNames(
         'tw-h-6',
         isBuy ? 'tw-text-trade-long' : 'tw-text-trade-short',
@@ -38,13 +61,13 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip
-          position="top"
-          interactionKind="hover"
-          content={<>{row.price}</>}
-        >
-          {Number(row.price).toFixed(quoteAssetDetails.displayDecimals)}
-        </Tooltip>
+        <AssetValue
+          value={Number(price)}
+          mode={AssetValueMode.auto}
+          minDecimals={quoteAssetDetails.displayDecimals}
+          maxDecimals={quoteAssetDetails.displayDecimals}
+          useTooltip
+        />
       </td>
       <td
         className={classNames(
@@ -52,13 +75,13 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip
-          position="top"
-          interactionKind="hover"
-          content={<>{row.quoteVolume}</>}
-        >
-          {Number(row.quoteVolume).toFixed(baseAssetDetails.displayDecimals)}
-        </Tooltip>
+        <AssetValue
+          value={Number(size)}
+          mode={AssetValueMode.auto}
+          minDecimals={baseAssetDetails.displayDecimals}
+          maxDecimals={baseAssetDetails.displayDecimals}
+          useTooltip
+        />
       </td>
       <td
         className={classNames(

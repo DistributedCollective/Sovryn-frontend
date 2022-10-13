@@ -1,0 +1,11 @@
+.wrapper {
+  @apply tw-flex tw-justify-center tw-items-center tw-relative tw--mt-3;
+  height: calc(100vh - 59px);
+}
+
+.overlay {
+  @apply tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center tw-flex-col;
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+}

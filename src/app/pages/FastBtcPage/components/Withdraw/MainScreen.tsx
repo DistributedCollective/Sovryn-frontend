@@ -9,6 +9,7 @@ import { NetworkAwareComponentProps } from '../../types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { WalletContext } from '@sovryn/react-wallet';
 
 export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -17,6 +18,8 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const fastBtcLocked = checkMaintenance(States.FASTBTC);
+
+  const { connect, connected, connecting } = useContext(WalletContext);
 
   const onContinueClick = useCallback(
     () => set(prevState => ({ ...prevState, step: WithdrawStep.AMOUNT })),
@@ -32,11 +35,20 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
         <WithdrawDetails network={network} />
         <WithdrawInstructions />
         <div className="tw-px-8 tw-text-center">
-          <FastBtcButton
-            text={t(translations.common.continue)}
-            onClick={onContinueClick}
-            disabled={fastBtcLocked}
-          />
+          {connected ? (
+            <FastBtcButton
+              text={t(translations.common.continue)}
+              onClick={onContinueClick}
+              disabled={fastBtcLocked}
+            />
+          ) : (
+            <FastBtcButton
+              text={t(translations.wallet.btn)}
+              onClick={connect}
+              disabled={connecting}
+              loading={connecting}
+            />
+          )}
           {fastBtcLocked && (
             <ErrorBadge
               content={
