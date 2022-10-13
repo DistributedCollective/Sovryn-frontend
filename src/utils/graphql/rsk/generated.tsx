@@ -11374,6 +11374,19 @@ export type GetSwapHistoryQuery = {
   }>;
 };
 
+export type GetTokenRatesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTokenRatesQuery = {
+  __typename?: 'Query';
+  tokens: Array<{
+    __typename?: 'Token';
+    id: string;
+    symbol?: string | null;
+    lastPriceBtc: string;
+    lastPriceUsd: string;
+  }>;
+};
+
 export type GetTradingRewardsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -12719,6 +12732,66 @@ export type GetSwapHistoryLazyQueryHookResult = ReturnType<
 export type GetSwapHistoryQueryResult = Apollo.QueryResult<
   GetSwapHistoryQuery,
   GetSwapHistoryQueryVariables
+>;
+export const GetTokenRatesDocument = gql`
+  query getTokenRates {
+    tokens {
+      id
+      symbol
+      lastPriceBtc
+      lastPriceUsd
+    }
+  }
+`;
+
+/**
+ * __useGetTokenRatesQuery__
+ *
+ * To run a query within a React component, call `useGetTokenRatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTokenRatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTokenRatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTokenRatesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetTokenRatesQuery,
+    GetTokenRatesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTokenRatesQuery, GetTokenRatesQueryVariables>(
+    GetTokenRatesDocument,
+    options,
+  );
+}
+export function useGetTokenRatesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTokenRatesQuery,
+    GetTokenRatesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTokenRatesQuery, GetTokenRatesQueryVariables>(
+    GetTokenRatesDocument,
+    options,
+  );
+}
+export type GetTokenRatesQueryHookResult = ReturnType<
+  typeof useGetTokenRatesQuery
+>;
+export type GetTokenRatesLazyQueryHookResult = ReturnType<
+  typeof useGetTokenRatesLazyQuery
+>;
+export type GetTokenRatesQueryResult = Apollo.QueryResult<
+  GetTokenRatesQuery,
+  GetTokenRatesQueryVariables
 >;
 export const GetTradingRewardsDocument = gql`
   query getTradingRewards($id: ID!) {

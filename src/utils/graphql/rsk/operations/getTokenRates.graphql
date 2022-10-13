@@ -1,0 +1,8 @@
+query getTokenRates {
+  tokens {
+    id
+    symbol
+    lastPriceBtc
+    lastPriceUsd
+  }
+}

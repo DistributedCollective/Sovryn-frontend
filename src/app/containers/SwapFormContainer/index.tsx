@@ -42,6 +42,7 @@ import { IPairsData } from 'types/trading-pairs';
 import { useInterval } from 'app/hooks/useInterval';
 import { getFavoriteList } from 'utils/helpers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
+import { usePriceFeeds_tradingPairRates } from 'app/hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const refreshInterval = 300000;
 
@@ -66,6 +67,8 @@ export const SwapFormContainer: React.FC = () => {
   const cancelPairsDataRequest = useRef<Canceler>();
   const [assetData, setAssetData] = useState<IAssets>();
   const location = useLocation<IPromotionLinkState>();
+
+  usePriceFeeds_tradingPairRates();
 
   const getPairsData = useCallback(() => {
     setPairsLoading(true);

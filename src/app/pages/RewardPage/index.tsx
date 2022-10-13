@@ -19,11 +19,14 @@ import { useGetRewardSovClaimAmount } from './hooks/useGetRewardSovClaimAmount';
 import { useGetFeesEarnedClaimAmount } from './hooks/useGetFeesEarnedClaimAmount';
 import { useAccount } from 'app/hooks/useAccount';
 import { Button, ButtonStyle } from 'app/components/Button';
+import { usePriceFeeds_tradingPairRates } from 'app/hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 export function RewardPage() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(RewardTabType.REWARD_SOV);
   const address = useAccount();
+
+  usePriceFeeds_tradingPairRates();
 
   const {
     availableLendingRewards,

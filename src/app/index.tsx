@@ -44,7 +44,6 @@ import { MarginTradePage } from './pages/MarginTradePage/Loadable';
 import { SpotTradingPage } from './pages/SpotTradingPage/Loadable';
 import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
-import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
@@ -69,7 +68,6 @@ export function App() {
 
   const { checkMaintenance, States } = useMaintenance();
   const siteLocked = checkMaintenance(States.FULL);
-  usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
     dispatch(maintenanceActions.fetchMaintenance());
