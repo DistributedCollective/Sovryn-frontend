@@ -37,7 +37,7 @@ const excludeAssets: Asset[] = [
 export const usePriceFeeds_tradingPairRates = () => {
   const dispatch = useDispatch();
 
-  const { data, loading } = useGetTokenRatesQuery();
+  const { data, loading } = useGetTokenRatesQuery(); // note no polling here to reduce number of queries (realtime rates are unnecessary)
 
   const getRate = useCallback(
     (sourceAsset: Asset, destAsset: Asset) => {
