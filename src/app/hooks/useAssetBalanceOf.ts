@@ -33,7 +33,6 @@ export function useAssetBalanceOf(
   const account = useAccount();
   const isMounted = useIsMounted();
   const syncBlock = useBlockSync();
-
   const contractName = useMemo(() => getTokenContractName(asset), [asset]);
 
   const [state, setState] = useState<AssetBalanceOfResponse<string>>({
