@@ -83,3 +83,17 @@ export const switchNetwork = (params: any) => {
     .request({ method: 'wallet_switchEthereumChain', params })
     .catch((error: Error) => console.log(`Error: ${error.message}`));
 };
+
+export const changeNetwork = async (chainId: string, params) => {
+  try {
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId }],
+    });
+  } catch (error) {
+    // This error code indicates that the chain has not been added to MetaMask.
+    if (error.code === 4902) {
+      addNetwork(params);
+    }
+  }
+};

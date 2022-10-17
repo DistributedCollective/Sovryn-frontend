@@ -17,11 +17,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositStep } from '../../types';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import {
-  switchNetwork,
-  addNetwork,
-  metamaskDefaultChains,
-} from 'utils/metamaskHelpers';
+import { changeNetwork } from 'utils/metamaskHelpers';
 import styles from './index.module.scss';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -71,28 +67,20 @@ export const WalletSelector: React.FC = () => {
     chain,
   ]);
 
-  const changeNetwork = useCallback(() => {
+  const switchNetwork = useCallback(() => {
     if (!network) return;
 
     const { chain, rpc, explorer } = network;
     const chainId = `0x${network?.chainId.toString(16)}`;
 
-    if (metamaskDefaultChains.includes(network?.chainId!)) {
-      switchNetwork([
-        {
-          chainId,
-        },
-      ]);
-    } else {
-      addNetwork([
-        {
-          chainId,
-          chainName: chain,
-          rpcUrls: [rpc],
-          blockExplorerUrls: [explorer],
-        },
-      ]);
-    }
+    changeNetwork(chainId, [
+      {
+        chainId,
+        chainName: chain,
+        rpcUrls: [rpc],
+        blockExplorerUrls: [explorer],
+      },
+    ]);
   }, [network]);
 
   return (
@@ -154,7 +142,7 @@ export const WalletSelector: React.FC = () => {
                   translations.BridgeDepositPage.returnToPortfolio
                     .switchNetwork,
                 )}
-                onClick={changeNetwork}
+                onClick={switchNetwork}
               />
             )}
 
