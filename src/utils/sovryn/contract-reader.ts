@@ -5,8 +5,18 @@ import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
 import { ContractName } from '../types/contracts';
 import { debug } from '../debug';
+import {
+  CacheCallOptions,
+  idHash,
+  observeCall,
+  startCall,
+} from 'utils/blockchain/cache';
+import { firstValueFrom } from 'rxjs';
+import { getContract } from 'utils/blockchain/contract-helpers';
 
 const { error } = debug('reader');
+
+const TINY_TTL = 300; // 0.3 seconds
 
 class ContractReader {
   private sovryn: SovrynNetwork;
@@ -15,34 +25,74 @@ class ContractReader {
     this.sovryn = Sovryn;
   }
 
-  public async nonce(address: string) {
-    return this.sovryn
-      .getWeb3()
-      .eth.getTransactionCount(address, 'pending')
-      .catch(e => {
+  public async nonce(address: string): Promise<number> {
+    const id = idHash(['nonce', address]);
+    const result$ = observeCall(id);
+
+    startCall(
+      id,
+      () => this.sovryn.getWeb3().eth.getTransactionCount(address, 'pending'),
+      {
+        ttl: TINY_TTL,
+      },
+    );
+
+    return (await firstValueFrom(result$)).promise.then(e => {
+      if (e instanceof Error) {
         error('nonce', e);
         throw e;
-      });
+      }
+      return e;
+    });
   }
 
-  public async blockNumber() {
-    return this.sovryn
-      .getWeb3()
-      .eth.getBlockNumber()
-      .catch(e => {
+  public async blockNumber(): Promise<number> {
+    const result$ = observeCall('blockNumber');
+
+    startCall('blockNumber', () => this.sovryn.getWeb3().eth.getBlockNumber(), {
+      ttl: TINY_TTL,
+    });
+
+    return (await firstValueFrom(result$)).promise.then(e => {
+      if (e instanceof Error) {
         error('blockNumber', e);
         throw e;
-      });
+      }
+      return e;
+    });
   }
 
-  /**
-   * Call contract and return response string or revert error
-   * @param contractName
-   * @param methodName
-   * @param args
-   * @param account
-   */
   public async call<T = string | RevertInstructionError>(
+    contractName: ContractName,
+    methodName: string,
+    args: Array<any>,
+    account?: string,
+    cacheOptions?: CacheCallOptions,
+  ): Promise<T> {
+    const hashedId = idHash([
+      getContract(contractName).address,
+      methodName,
+      args,
+    ]);
+
+    const result$ = observeCall(hashedId);
+
+    startCall(
+      hashedId,
+      () => this.callDirect(contractName, methodName, args, account),
+      cacheOptions,
+    );
+
+    return (await firstValueFrom(result$)).promise.then(e => {
+      if (e instanceof Error) {
+        error('call', { contractName, methodName, args }, e);
+        throw e;
+      }
+      return e;
+    });
+  }
+
+  public async callDirect<T = string | RevertInstructionError>(
     contractName: ContractName,
     methodName: string,
     args: Array<any>,
@@ -56,21 +106,33 @@ class ContractReader {
       });
   }
 
-  public async callAsync<T = string | RevertInstructionError>(
-    contractName: ContractName,
+  public async callByAddress<T = string | RevertInstructionError>(
+    address: string,
+    abi: AbiItem[] | AbiItem | any,
     methodName: string,
     args: Array<any>,
-    account?: string,
+    cacheOptions?: CacheCallOptions,
   ): Promise<T> {
-    return this.sovryn.contracts[contractName].methods[methodName](...args)
-      .callAsync({ from: account })
-      .catch(e => {
-        error('callAsync', { contractName, methodName, args }, e);
+    const hashedId = idHash([address, methodName, args]);
+
+    const result$ = observeCall(hashedId);
+
+    startCall(
+      hashedId,
+      () => this.callByAddressDirect(address, abi, methodName, args),
+      cacheOptions,
+    );
+
+    return (await firstValueFrom(result$)).promise.then(e => {
+      if (e instanceof Error) {
+        error('callByAddresss', { address, methodName, args }, e);
         throw e;
-      });
+      }
+      return e;
+    });
   }
 
-  public async callByAddress<T = string | RevertInstructionError>(
+  public async callByAddressDirect<T = string | RevertInstructionError>(
     address: string,
     abi: AbiItem[] | AbiItem | any,
     methodName: string,
@@ -82,7 +144,7 @@ class ContractReader {
     return contract.methods[methodName](...args)
       .call()
       .catch(e => {
-        error('callByAddresss', { address, methodName, args }, e);
+        error('callByAddresssDirect', { address, methodName, args }, e);
         throw e;
       });
   }
@@ -101,6 +163,20 @@ class ContractReader {
       .estimateGas(config)
       .catch(e => {
         error('estimateGas', { address, methodName, args }, e);
+        throw e;
+      });
+  }
+
+  public async callAsync<T = string | RevertInstructionError>(
+    contractName: ContractName,
+    methodName: string,
+    args: Array<any>,
+    account?: string,
+  ): Promise<T> {
+    return this.sovryn.contracts[contractName].methods[methodName](...args)
+      .callAsync({ from: account })
+      .catch(e => {
+        error('callAsync', { contractName, methodName, args }, e);
         throw e;
       });
   }

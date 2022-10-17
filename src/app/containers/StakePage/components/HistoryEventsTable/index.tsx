@@ -75,7 +75,7 @@ export const HistoryEventsTable: React.FC = () => {
 
           {data &&
             data.stakeHistoryItems.map(value => (
-              <HistoryEventRow event={value} />
+              <HistoryEventRow event={value} key={value.id} />
             ))}
         </tbody>
       </table>
