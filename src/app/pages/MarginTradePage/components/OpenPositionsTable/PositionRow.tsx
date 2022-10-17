@@ -50,12 +50,13 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const loanAsset = assetByTokenAddress(loanToken.id);
   const collateralAsset = assetByTokenAddress(collateralToken.id);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
+
+  // this if just a fix for testnet, shouldn't happen on mainnet
+  const longAsset = pair?.longAsset || loanAsset;
   const position = useMemo(
     () =>
-      pair.longAsset === loanAsset
-        ? TradingPosition.LONG
-        : TradingPosition.SHORT,
-    [loanAsset, pair],
+      longAsset === loanAsset ? TradingPosition.LONG : TradingPosition.SHORT,
+    [loanAsset, longAsset],
   );
 
   const isLong = useMemo(() => isLongTrade(position), [position]);

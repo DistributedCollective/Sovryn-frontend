@@ -53,6 +53,7 @@ import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 import { PerpetualsPlaceholderPageLoadable } from './pages/PerpetualsPlaceholderPage/Loadable';
 import { ReceiveRBTCPage } from './pages/ReceiveRBTCPage';
 import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
+import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
@@ -68,6 +69,8 @@ export function App() {
 
   const { checkMaintenance, States } = useMaintenance();
   const siteLocked = checkMaintenance(States.FULL);
+
+  usePriceFeeds_tradingPairRates();
 
   useEffect(() => {
     dispatch(maintenanceActions.fetchMaintenance());
