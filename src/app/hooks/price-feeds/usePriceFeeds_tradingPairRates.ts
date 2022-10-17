@@ -1,15 +1,14 @@
 import { Asset } from 'types/asset';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { useDispatch } from 'react-redux';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { CachedAssetRate } from '../../containers/WalletProvider/types';
 import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
-import { bignumber } from 'mathjs';
-import { debug } from '@sovryn/common';
+import { useGetTokenRatesQuery } from 'utils/graphql/rsk/generated';
+import { areAddressesEqual } from 'utils/helpers';
+import { debug } from 'utils/debug';
 
 const console = debug('usePriceFeeds_tradingPairRates');
 
@@ -27,38 +26,47 @@ const assetsWithoutOracle: Asset[] = [
   Asset.ZUSD,
 ];
 
-const excludeAssets: Asset[] = [Asset.CSOV, Asset.RDOC, Asset.MYNT, Asset.ZUSD];
+const excludeAssets: Asset[] = [
+  Asset.CSOV,
+  Asset.RDOC,
+  Asset.MYNT,
+  Asset.ZUSD,
+  Asset.USDT,
+];
 
-/**
- * use this only once
- */
-export function usePriceFeeds_tradingPairRates() {
-  const { syncBlockNumber, assetRates } = useSelector(selectWalletProvider);
+export const usePriceFeeds_tradingPairRates = () => {
   const dispatch = useDispatch();
 
-  const getRate = useCallback(async (sourceAsset: Asset, destAsset: Asset) => {
-    return await contractReader.call('priceFeed', 'queryRate', [
-      getTokenContract(sourceAsset).address,
-      getTokenContract(destAsset).address,
-    ]);
-  }, []);
+  const { data, loading } = useGetTokenRatesQuery(); // note no polling here to reduce number of queries (realtime rates are unnecessary)
 
-  const getSwapRate = useCallback(
-    async (sourceAsset: Asset, destAsset: Asset, amount: string = '1') => {
-      return await contractReader.call(
-        'sovrynProtocol',
-        'getSwapExpectedReturn',
-        [
-          getTokenContract(sourceAsset).address,
-          getTokenContract(destAsset).address,
-          amount,
-        ],
-      );
+  const getRate = useCallback(
+    (sourceAsset: Asset, destAsset: Asset) => {
+      if (!loading && data?.tokens) {
+        const { tokens } = data;
+
+        const sourceToken = tokens.find(token =>
+          areAddressesEqual(token.id, getTokenContract(sourceAsset).address),
+        );
+
+        const destinationToken = tokens.find(token =>
+          areAddressesEqual(token.id, getTokenContract(destAsset).address),
+        );
+
+        if (!sourceToken?.lastPriceUsd || !destinationToken?.lastPriceUsd) {
+          return 0;
+        }
+
+        return toWei(
+          Number(sourceToken?.lastPriceUsd) /
+            Number(destinationToken?.lastPriceUsd),
+        );
+      }
+      return 0;
     },
-    [],
+    [data, loading],
   );
 
-  const getRates = useCallback(async () => {
+  const getRates = useCallback(() => {
     const assets = AssetsDictionary.list()
       .filter(item => !excludeAssets.includes(item.asset))
       .map(item => item.asset);
@@ -75,7 +83,7 @@ export function usePriceFeeds_tradingPairRates() {
           continue;
         }
         try {
-          const result = await getRate(source, target);
+          const result = getRate(source, target);
           items.push({
             source,
             target,
@@ -87,21 +95,24 @@ export function usePriceFeeds_tradingPairRates() {
       }
     }
 
-    const btcToUsd = items.find(
-      item => item.source === Asset.RBTC && item.target === Asset.USDT,
-    )?.value?.rate;
-
     for (let asset of assetsWithoutOracle) {
-      if (!AssetsDictionary.get(asset)?.hasAMM) continue;
+      if (!AssetsDictionary.get(asset)?.hasAMM) {
+        continue;
+      }
+
       try {
-        const btcToAsset = await getSwapRate(Asset.RBTC, asset, '1');
+        const token = data?.tokens.find(token =>
+          areAddressesEqual(token.id, getTokenContract(asset).address),
+        );
 
         items.push({
           source: Asset.RBTC,
           target: asset,
           value: {
             precision: '1000000000000000000',
-            rate: toWei(btcToAsset),
+            rate: token?.lastPriceBtc
+              ? toWei(1 / Number(token?.lastPriceBtc))
+              : '0',
           },
         });
 
@@ -110,20 +121,16 @@ export function usePriceFeeds_tradingPairRates() {
           target: Asset.RBTC,
           value: {
             precision: '1000000000000000000',
-            rate: toWei(1 / Number(btcToAsset)),
+            rate: toWei(token?.lastPriceBtc),
           },
         });
-
-        const assetToUsd = bignumber(btcToUsd)
-          .mul(1 / Number(btcToAsset))
-          .toFixed(0);
 
         items.push({
           source: asset,
           target: Asset.USDT,
           value: {
             precision: '1000000000000000000',
-            rate: assetToUsd,
+            rate: toWei(token?.lastPriceUsd),
           },
         });
       } catch (e) {
@@ -132,14 +139,11 @@ export function usePriceFeeds_tradingPairRates() {
     }
 
     return items;
-  }, [getRate, getSwapRate]);
+  }, [data?.tokens, getRate]);
 
   useEffect(() => {
     dispatch(actions.getPrices());
-    getRates()
-      .then(e => dispatch(actions.setPrices(JSON.parse(JSON.stringify(e)))))
-      .catch(console.error);
-  }, [dispatch, getRates, syncBlockNumber]);
-
-  return assetRates;
-}
+    const rates = getRates();
+    dispatch(actions.setPrices(JSON.parse(JSON.stringify(rates))));
+  }, [dispatch, getRates]);
+};

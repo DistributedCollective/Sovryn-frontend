@@ -191,6 +191,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
                 assetData={assetData}
                 assetLoading={assetLoading}
                 marketCap={marketCap.toNumber()}
+                key={assetDetails.getTokenContractAddress()}
               />
             ),
           )}

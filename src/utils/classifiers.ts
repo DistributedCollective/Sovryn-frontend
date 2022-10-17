@@ -199,3 +199,4 @@ export const graphWrapperUrl = {
 };
 
 export const DEFAULT_PAGE_SIZE = 5;
+export const DEFAULT_ASSET_DECIMALS = 18;
