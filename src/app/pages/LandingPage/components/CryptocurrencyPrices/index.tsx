@@ -184,7 +184,6 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
               marketCap,
             }) => (
               <Row
-                key={assetDetails.asset}
                 assetDetails={assetDetails}
                 price24h={price24h}
                 priceWeek={priceWeek}
