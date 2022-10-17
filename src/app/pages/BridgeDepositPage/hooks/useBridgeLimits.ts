@@ -49,72 +49,69 @@ export function useBridgeLimits(
 
   useEffect(() => {
     setState(prevState => ({ ...prevState, loading: true }));
-    bridgeNetwork
-      .multiCall(chain, [
-        {
-          address: bridge.bridgeContractAddress,
-          abi: bridgeAbi,
-          fnName: 'spentToday',
-          args: [],
-          key: 'spentToday',
-          parser: value => value[0].toString(),
-        },
-        {
-          address: bridge.allowTokensContractAddress,
-          abi: allowTokensAbi,
-          fnName: 'dailyLimit',
-          args: [],
-          key: 'dailyLimit',
-          parser: value => value[0].toString(),
-        },
-        {
-          address: bridge.allowTokensContractAddress,
-          abi: allowTokensAbi,
-          fnName: 'getMinPerToken',
-          args: [asset.bridgeTokenAddress],
-          key: 'getMinPerToken',
-          parser: value => value[0].toString(),
-        },
-        {
-          address: bridge.allowTokensContractAddress,
-          abi: allowTokensAbi,
-          fnName: 'getFeePerToken',
-          args: [asset.bridgeTokenAddress],
-          key: 'getFeePerToken',
-          parser: value => value[0].toString(),
-        },
-        {
-          address: bridge.allowTokensContractAddress,
-          abi: allowTokensAbi,
-          fnName: 'getMaxTokensAllowed',
-          args: [],
-          key: 'getMaxTokensAllowed',
-          parser: value => value[0].toString(),
-        },
-      ])
-      .then(result => {
-        setState(prevState => ({
-          ...prevState,
-          value: result as any,
-          loading: false,
-          error: null,
-        }));
-      })
-      .catch(error => {
-        console.error('e', error);
-        setState(prevState => ({
-          ...prevState,
-          value: emptyState,
-          loading: false,
-          error,
-        }));
-      });
-  }, [
-    account,
-    asset,
-    bridge.allowTokensContractAddress,
-    bridge.bridgeContractAddress,
-    chain,
-  ]);
+
+    bridge.getAllowTokensContractAddress().then(address => {
+      bridgeNetwork
+        .multiCall(chain, [
+          {
+            address: bridge.bridgeContractAddress,
+            abi: bridgeAbi,
+            fnName: 'spentToday',
+            args: [],
+            key: 'spentToday',
+            parser: value => value[0].toString(),
+          },
+          {
+            address,
+            abi: allowTokensAbi,
+            fnName: 'dailyLimit',
+            args: [],
+            key: 'dailyLimit',
+            parser: value => value[0].toString(),
+          },
+          {
+            address,
+            abi: allowTokensAbi,
+            fnName: 'getMinPerToken',
+            args: [asset.bridgeTokenAddress],
+            key: 'getMinPerToken',
+            parser: value => value[0].toString(),
+          },
+          {
+            address,
+            abi: allowTokensAbi,
+            fnName: 'getFeePerToken',
+            args: [asset.bridgeTokenAddress],
+            key: 'getFeePerToken',
+            parser: value => value[0].toString(),
+          },
+          {
+            address,
+            abi: allowTokensAbi,
+            fnName: 'getMaxTokensAllowed',
+            args: [],
+            key: 'getMaxTokensAllowed',
+            parser: value => value[0].toString(),
+          },
+        ])
+        .then(result => {
+          setState(prevState => ({
+            ...prevState,
+            value: result as any,
+            loading: false,
+            error: null,
+          }));
+        })
+        .catch(error => {
+          console.error('e', error);
+          setState(prevState => ({
+            ...prevState,
+            value: emptyState,
+            loading: false,
+            error,
+          }));
+        });
+    });
+  }, [account, asset, bridge, chain]);
   return state;
 }

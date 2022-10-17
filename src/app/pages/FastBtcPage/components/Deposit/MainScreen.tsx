@@ -12,6 +12,7 @@ import { NetworkAwareComponentProps } from '../../types';
 import { currentNetwork } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
+import { WalletContext } from '@sovryn/react-wallet';
 
 export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -27,6 +28,8 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
 
   const { checkMaintenance, States } = useMaintenance();
   const fastBtcLocked = checkMaintenance(States.FASTBTC);
+
+  const { connect, connected, connecting } = useContext(WalletContext);
 
   const prefix = useMemo(() => {
     if (network === Chain.BSC) {
@@ -50,12 +53,22 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
         <DepositInstructions />
         {addressError && <ErrorBadge content={addressError} />}
         <div className="tw-px-8 tw-text-center">
-          <FastBtcButton
-            text={t(translations.fastBtcPage.deposit.mainScreen.cta)}
-            disabled={!ready || addressLoading || fastBtcLocked}
-            loading={addressLoading}
-            onClick={onContinueClick}
-          />
+          {connected ? (
+            <FastBtcButton
+              text={t(translations.fastBtcPage.deposit.mainScreen.cta)}
+              disabled={!ready || addressLoading || fastBtcLocked}
+              loading={addressLoading}
+              onClick={onContinueClick}
+            />
+          ) : (
+            <FastBtcButton
+              text={t(translations.wallet.btn)}
+              disabled={connecting}
+              loading={connecting}
+              onClick={connect}
+            />
+          )}
+
           {fastBtcLocked && (
             <ErrorBadge
               content={

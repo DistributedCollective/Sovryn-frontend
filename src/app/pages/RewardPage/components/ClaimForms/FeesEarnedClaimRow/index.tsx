@@ -24,6 +24,7 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   contractAddress: string;
   asset: Asset;
   loading?: boolean;
+  assetClaimLocked?: boolean;
 }
 
 export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
@@ -32,6 +33,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   asset,
   rbtcValue,
   loading,
+  assetClaimLocked = false,
 }) => {
   const { t } = useTranslation();
   const address = useAccount();
@@ -47,8 +49,11 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
 
   const isClaimDisabled = useMemo(
-    () => claimFeesEarnedLocked || !bignumber(amountToClaim).greaterThan(0),
-    [claimFeesEarnedLocked, amountToClaim],
+    () =>
+      claimFeesEarnedLocked ||
+      !bignumber(amountToClaim).greaterThan(0) ||
+      assetClaimLocked,
+    [claimFeesEarnedLocked, amountToClaim, assetClaimLocked],
   );
 
   const onSubmit = useCallback(() => {
@@ -91,7 +96,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
           textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
           disabled={isClaimDisabled}
           title={
-            (claimFeesEarnedLocked &&
+            ((claimFeesEarnedLocked || assetClaimLocked) &&
               t(translations.maintenance.claimRewards).replace(
                 /<\/?\d+>/g,
                 '',

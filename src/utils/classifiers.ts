@@ -98,7 +98,7 @@ export const gasLimit = {
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.CLOSE_WITH_DEPOSIT]: 950000,
-  [TxType.ADD_LIQUIDITY]: 525000,
+  [TxType.ADD_LIQUIDITY]: 550000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
@@ -199,3 +199,4 @@ export const graphWrapperUrl = {
 };
 
 export const DEFAULT_PAGE_SIZE = 5;
+export const DEFAULT_ASSET_DECIMALS = 18;

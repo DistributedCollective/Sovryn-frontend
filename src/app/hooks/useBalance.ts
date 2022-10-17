@@ -1,45 +1,66 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Sovryn } from '../../utils/sovryn';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../containers/WalletProvider/selectors';
-import { useAccount } from './useAccount';
+import { useAccount, useBlockSync } from './useAccount';
 import { useIsMounted } from './useIsMounted';
+import { AssetBalanceOfResponse } from './useAssetBalanceOf';
+import {
+  getContract,
+  getTokenContractName,
+} from 'utils/blockchain/contract-helpers';
+import { Asset } from 'types';
+import {
+  CacheCallOptions,
+  idHash,
+  observeCall,
+  startCall,
+} from 'utils/blockchain/cache';
 
-export function useBalance() {
+export function useBalance(
+  options?: Partial<CacheCallOptions>,
+): AssetBalanceOfResponse<string> {
+  const account = useAccount();
   const isMounted = useIsMounted();
-  const { syncBlockNumber } = useSelector(selectWalletProvider);
-  const address = useAccount();
-  const [state, setState] = useState({
+  const syncBlock = useBlockSync();
+
+  const contractName = useMemo(() => getTokenContractName(Asset.RBTC), []);
+
+  const [state, setState] = useState<AssetBalanceOfResponse<string>>({
     value: '0',
-    loading: true,
+    loading: false,
     error: null,
   });
 
+  const hashedArgs = useMemo(
+    () =>
+      idHash([
+        getContract('RBTC_token').address,
+        'nativeBalance',
+        account,
+        syncBlock,
+      ]),
+    [account, syncBlock],
+  );
+
   useEffect(() => {
-    if (address) {
-      if (isMounted()) {
-        setState(prevState => ({ ...prevState, loading: true, error: null }));
-      }
-      Sovryn.getWeb3()
-        .eth.getBalance(address)
-        .then(balance => {
-          if (isMounted()) {
-            setState(prevState => ({
-              ...prevState,
-              value: balance,
-              loading: false,
-              error: null,
-            }));
-          }
-        })
-        .catch(error => {
-          if (isMounted()) {
-            setState(prevState => ({ ...prevState, error }));
-          }
-        });
-    } else {
-      setState(prevState => ({ ...prevState, loading: false }));
+    if (!isMounted() || !account) {
+      return;
     }
-  }, [address, isMounted, syncBlockNumber]);
-  return state;
+
+    const sub = observeCall(hashedArgs).subscribe(e =>
+      setState(e.result as AssetBalanceOfResponse<string>),
+    );
+
+    startCall(
+      hashedArgs,
+      () => Sovryn.getWeb3().eth.getBalance(account),
+      options,
+    );
+
+    return () => sub.unsubscribe();
+  }, [account, contractName, hashedArgs, isMounted, options]);
+
+  return useMemo(
+    () => ({ ...state, value: state.value === null ? '0' : state.value }),
+    [state],
+  );
 }

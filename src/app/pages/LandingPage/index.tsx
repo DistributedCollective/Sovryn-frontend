@@ -49,6 +49,9 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
     });
     axios
       .get(graphWrapperUrl[currentChainId] + '/cmc/tvl', {
+        params: {
+          stmp: Date.now(),
+        },
         cancelToken,
       })
       .then(res => {
@@ -68,7 +71,16 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       cancelDataRequest.current = c;
     });
     axios
-      .get(graphWrapperUrl[currentChainId] + 'cmc/summary?extra=true', {
+      .get(graphWrapperUrl[currentChainId] + 'cmc/summary', {
+        params: {
+          extra: true,
+          stmp: Date.now(),
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+          Expires: '30',
+        },
         cancelToken,
       })
       .then(res => {

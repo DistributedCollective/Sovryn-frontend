@@ -1,5 +1,6 @@
 import { bignumber } from 'mathjs';
 import { useMemo } from 'react';
+import { DEFAULT_ASSET_DECIMALS } from 'utils/classifiers';
 import { Asset } from '../../../types/asset';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { useCachedAssetPrice } from './useCachedAssetPrice';
@@ -13,6 +14,8 @@ export const useGetProfitDollarValue = (
   const assetDetails = assets.filter(
     item => item.asset === destinationAsset,
   )[0];
+
+  const decimals = assetDetails?.decimals || DEFAULT_ASSET_DECIMALS;
 
   const dollarConversionRate = useCachedAssetPrice(
     destinationAsset,
@@ -30,14 +33,9 @@ export const useGetProfitDollarValue = (
 
     return bignumber(amount)
       .mul(dollarConversionRate.value)
-      .div(10 ** assetDetails.decimals)
+      .div(10 ** decimals)
       .toFixed(0);
-  }, [
-    amount,
-    destinationAsset,
-    dollarConversionRate.value,
-    assetDetails.decimals,
-  ]);
+  }, [amount, destinationAsset, dollarConversionRate.value, decimals]);
 
   return [dollarValue, dollarConversionRate.loading];
 };

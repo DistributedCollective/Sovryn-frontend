@@ -1,18 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AbiItem } from 'web3-utils';
-import { Nullable } from 'types';
 
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { useBlockSync } from '../useAccount';
 import { CacheCallResponse } from '../useCacheCall';
+import { idHash, observeCall, startCall } from 'utils/blockchain/cache';
+import { useIsMounted } from '../useIsMounted';
+import { useBlockSync } from '../useAccount';
 
 /**
  * Calls blockchain on read node to get data.
  * Updates data by calling blockchain again if any of method args changed.
- * Updates if syncBlockNumber changes (changes if user wallet or any of contracts txs is found in new blockchain block)
- * Note: Right now there is no actual caching.
- * TODO: Add actual result caching to prevent calling blockchain multiple times if hook was used with same data.
  * @param contractName
  * @param methodName
  * @param args
@@ -23,7 +20,8 @@ export function useCacheCallTo<T = string>(
   methodName: string,
   args: any[],
 ): CacheCallResponse<T> {
-  const syncBlockNumber = useBlockSync();
+  const isMounted = useIsMounted();
+  const syncBlock = useBlockSync();
 
   const [state, setState] = useState<CacheCallResponse<T>>({
     value: null,
@@ -31,47 +29,28 @@ export function useCacheCallTo<T = string>(
     error: null,
   });
 
-  useEffect(() => {
-    setState(prevState => ({ ...prevState, loading: true, error: null }));
+  const hashedArgs = useMemo(
+    () => idHash([to, methodName, args]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [to, abi, methodName, args, JSON.stringify(args)],
+  );
 
-    try {
-      contractReader
-        .callByAddress(to, abi, methodName, args)
-        .then(response => {
-          setState({
-            value: (response as unknown) as Nullable<T>,
-            loading: false,
-            error: null,
-          });
-        })
-        .catch(error => {
-          // todo add logger?
-          // silence...
-          setState(prevState => ({
-            ...prevState,
-            loading: false,
-            value: null,
-            error,
-          }));
-        });
-    } catch (error) {
-      setState({
-        loading: false,
-        value: null,
-        error: (error as any)?.message || error,
-      });
+  useEffect(() => {
+    if (!isMounted()) {
+      return;
     }
 
-    return () => {
-      // todo: find a way to cancel contract call
-    };
-  }, [
-    to,
-    methodName,
-    syncBlockNumber,
-    JSON.stringify(args),
-    JSON.stringify(abi),
-  ]);
+    const sub = observeCall(hashedArgs).subscribe(e =>
+      setState(e.result as CacheCallResponse<T>),
+    );
+
+    startCall(hashedArgs, () =>
+      contractReader.callByAddressDirect(to, abi, methodName, args),
+    );
+
+    return () => sub.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [to, methodName, syncBlock, JSON.stringify(args), JSON.stringify(abi)]);
 
   return state;
 }
