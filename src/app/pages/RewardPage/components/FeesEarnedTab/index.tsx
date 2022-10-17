@@ -78,6 +78,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                     rbtcValue={earnedFee.rbtcValue}
                     loading={loading}
                     key={earnedFee.contractAddress}
+                    assetClaimLocked={earnedFee.asset === Asset.RBTC} //hardcoded lock on claiming RBTC fees as loan token contract is currently paused
                   />
                 ))}
               </tbody>
