@@ -64,7 +64,7 @@ export function useAssetBalanceOf(
     const callback =
       asset === Asset.RBTC
         ? () => Sovryn.getWeb3().eth.getBalance(account)
-        : () => contractReader.callDirect(contractName, 'balanceOf', account);
+        : () => contractReader.callDirect(contractName, 'balanceOf', [account]);
 
     startCall(hashedArgs, callback, options);
 
