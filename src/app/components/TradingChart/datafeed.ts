@@ -30,8 +30,6 @@ import {
 } from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { TradingCandleDictionary } from './dictionary';
-import { Asset } from 'types';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { pushPrice } from 'utils/pair-price-tracker';
 
 const newestBarsCache = new Map<string, Bar>();
