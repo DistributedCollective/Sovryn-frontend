@@ -35,7 +35,7 @@
    yarn install
    ```
 
-   Yarn dependecies packages will be downloaded.
+   Yarn dependencies packages will be downloaded.
 
 2. Start DApp server:
 
