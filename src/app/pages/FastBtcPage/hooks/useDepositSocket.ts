@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { currentNetwork } from 'utils/classifiers';
 import { endpoints } from '../config/endpoints';
@@ -19,6 +19,7 @@ export type HistoryItem = {
 
 export function useDepositSocket(eventHandler?: EventHandler) {
   const socket = useRef<Socket>();
+  const [connected, setConnected] = useState(false);
 
   const handleInput = useCallback(
     (type: any) => (value: any) => {
@@ -40,9 +41,14 @@ export function useDepositSocket(eventHandler?: EventHandler) {
 
     socket.current.on('connect', () => {
       const s = socket.current;
+      setConnected(s?.connected || false);
       s?.on('txAmount', handleInput('txAmount'));
       s?.on('depositTx', handleInput('depositTx'));
       s?.on('transferTx', handleInput('transferTx'));
+    });
+
+    socket.current.on('disconnect', () => {
+      setConnected(socket.current?.connected || false);
     });
 
     return () => {
@@ -53,6 +59,7 @@ export function useDepositSocket(eventHandler?: EventHandler) {
         s.off('transferTx');
         s.disconnect();
         socket.current = undefined;
+        setConnected(false);
       }
     };
   }, [handleInput]);
@@ -121,7 +128,7 @@ export function useDepositSocket(eventHandler?: EventHandler) {
   );
 
   return {
-    ready: socket.current?.connected || false,
+    ready: connected,
     getDepositAddress,
     getDepositHistory,
     getTxAmount,

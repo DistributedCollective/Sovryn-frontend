@@ -104,6 +104,8 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
     handleEvents,
   );
 
+  console.log({ ready });
+
   const handleAddressRequest = useCallback(
     (address: string) => {
       setState(prevState => ({
