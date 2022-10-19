@@ -58,9 +58,6 @@ const tradingChartDataFeeds = (
     onSymbolResolvedCallback,
     onResolveErrorCallback,
   ) => {
-    const [, quote] = symbolName.split('/') as [Asset, Asset];
-    const asset = AssetsDictionary.get(quote);
-
     const symbolInfo: LibrarySymbolInfo = {
       name: symbolName,
       full_name: symbolName,
@@ -74,7 +71,7 @@ const tradingChartDataFeeds = (
       timezone: 'Etc/UTC',
       ticker: symbolName,
       minmov: 1,
-      pricescale: 10 ** asset.displayDecimals,
+      pricescale: 10 ** 8,
       has_intraday: true,
       intraday_multipliers: ['1', '15', '60', '240'],
       supported_resolutions: supportedResolutions,
