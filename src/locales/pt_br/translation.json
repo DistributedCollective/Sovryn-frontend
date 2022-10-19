@@ -71,7 +71,6 @@
     "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "fastBTCPortfolio": "Sorry, FastBTC transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-
     "bridge": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "bridgeSteps": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, Por favor verifique o nosso <0>discord</0> para atualizações.",
     "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -94,7 +93,6 @@
     "withdrawVestsModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
-
     "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -385,7 +383,6 @@
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
       "interestAPY": "Interest APY:",
-      "slippageSettings": "Configurações avançadas",
       "interestAPR": "Taxa anual:"
     },
     "buttons": {
@@ -504,7 +501,8 @@
       "zero": "Empréstimos sem juros garantidos por seus bitcoins",
       "voting": "Participe das decisões de governança",
       "forum": "Junte-se à comunidade"
-    }
+    },
+    "bridge": "ponte"
   },
   "originsLaunchpad": {
     "upcomingSales": {
