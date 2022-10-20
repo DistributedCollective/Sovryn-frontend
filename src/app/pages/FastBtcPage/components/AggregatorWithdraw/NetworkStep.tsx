@@ -16,11 +16,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import {
-  addNetwork,
-  metamaskDefaultChains,
-  switchNetwork,
-} from 'utils/metamaskHelpers';
+import { switchNetwork } from 'utils/metamaskHelpers';
 import { noop } from 'app/constants';
 
 export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
@@ -45,22 +41,14 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
 
     const chainId = `0x${chain?.chainId.toString(16)}`;
 
-    if (metamaskDefaultChains.includes(chain?.chainId!)) {
-      switchNetwork([
-        {
-          chainId,
-        },
-      ]);
-    } else {
-      addNetwork([
-        {
-          chainId,
-          chainName: chain,
-          rpcUrls: [chain.rpc],
-          blockExplorerUrls: [chain.explorer],
-        },
-      ]);
-    }
+    switchNetwork(chainId, [
+      {
+        chainId,
+        chainName: chain,
+        rpcUrls: [chain.rpc],
+        blockExplorerUrls: [chain.explorer],
+      },
+    ]);
   }, [chain]);
 
   return (
