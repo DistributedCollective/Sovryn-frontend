@@ -70,6 +70,11 @@ export const backendUrl = {
   31: 'https://api.test.sovryn.app',
 };
 
+export const userLogUrl = {
+  30: 'https://user-log.sovryn.app',
+  31: 'https://user-log.test.sovryn.app',
+};
+
 export const subgraphWrapperUrl = {
   30: 'https://graph-wrapper.sovryn.app',
   31: 'https://graph-wrapper.test.sovryn.app',
