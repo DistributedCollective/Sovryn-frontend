@@ -296,7 +296,9 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
             />
           )}
 
-          {weiAmount !== '0' && error && <ErrorBadge content={error} />}
+          {weiAmount !== '0' && error && (
+            <ErrorBadge content={error.toString()} />
+          )}
 
           {closeTradesLocked && (
             <ErrorBadge
