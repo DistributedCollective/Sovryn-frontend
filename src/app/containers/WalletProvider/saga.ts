@@ -239,19 +239,24 @@ function* testTransactionsPeriodically() {
 
 function* addVisitSaga({ payload }: PayloadAction<string>) {
   try {
-    yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
+    let finalPayload: { walletAddress: string; cid?: string } = {
       walletAddress: payload,
-    });
+    };
+    yield call(
+      [axios, axios.post],
+      backendUrl[currentChainId] + '/addVisit',
+      finalPayload,
+    );
     const ga = yield window.cookieStore.get('_ga');
-    const cid = ga !== null ? ga.value.slice(6, ga.value.length) : null;
+    if (ga !== null) {
+      finalPayload.cid = ga.value.slice(6, ga.value.length);
+    }
+
     const queryString = new URL(window.location.href).search;
     yield call(
       [axios, axios.post],
       userLogUrl[currentChainId] + '/visit' + queryString,
-      {
-        walletAddress: payload,
-        cid: cid,
-      },
+      finalPayload,
     );
   } catch (error) {
     log.error('failed to log visit', error);
