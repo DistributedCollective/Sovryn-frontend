@@ -128,7 +128,7 @@ export function TradingChart(props: ChartContainerProps) {
   return (
     <div
       className={classNames(
-        'tw-w-full tw-h-full tw-flex tw-flex-col tw-rounded tw-overflow-hidden',
+        'tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden',
         hasCharts && 'tw-border',
       )}
       style={
@@ -137,7 +137,7 @@ export function TradingChart(props: ChartContainerProps) {
           : { minWidth: 270, minHeight: 500 }
       }
     >
-      <>
+      <div className="tw-flex tw-flex-col tw-w-full">
         <div
           id="tv_chart_container"
           className={classNames(
@@ -184,7 +184,7 @@ export function TradingChart(props: ChartContainerProps) {
             />
           </div>
         )}
-      </>
+      </div>
     </div>
   );
 }
