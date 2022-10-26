@@ -144,13 +144,13 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                       return null;
                     }
 
-                    //as we don't have RBTC as source, we make a separate reverted pair from USDT_RBTC
+                    //as we don't have RBTC as source, we make a separate reverted pair from XUSD_RBTC
                     let pairDivRBTC;
                     let pairDiv;
 
                     //show RBTC asset and make it searchable
                     if (
-                      assetDetails.asset === Asset.USDT &&
+                      assetDetails.asset === Asset.XUSD &&
                       Asset.RBTC.includes(search.toUpperCase())
                     )
                       pairDivRBTC = (
