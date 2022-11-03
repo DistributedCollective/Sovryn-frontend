@@ -383,7 +383,8 @@
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
       "interestAPY": "Interest APY:",
-      "interestAPR": "Taxa anual:"
+      "interestAPR": "Taxa anual:",
+      "advancedSettings": "Configurações Avançadas"
     },
     "buttons": {
       "submit": "Realizar operação"
