@@ -6,13 +6,11 @@ export enum HeaderTypes {
   FAST_BTC,
   CROSS_CHAIN,
   LABS,
-  PERPETUALS,
 }
 
 export enum FooterTypes {
   NONE,
   DEFAULT,
-  PERPETUALS,
 }
 
 export type PageContextState = {

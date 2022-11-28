@@ -50,9 +50,6 @@ type PagesProps = {
   hrefExternal?: boolean;
 };
 
-// TODO: Delete this once we go live, we may need it after the competition
-const showPerps = true; // !isMainnet || isStaging;
-
 const showZero = isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
@@ -129,13 +126,6 @@ export const DefaultHeaderComponent: React.FC = () => {
       title: t(translations.mainMenu.zero),
       dataActionId: 'header-mobile-lab-link-zero',
       hrefExternal: true,
-    });
-  }
-  if (showPerps) {
-    labPages.push({
-      to: '/perpetuals',
-      title: t(translations.mainMenu.perpetuals),
-      dataActionId: 'header-mobile-lab-link-perpetuals',
     });
   }
 
@@ -293,7 +283,6 @@ export const DefaultHeaderComponent: React.FC = () => {
         '/labs',
         '/zero',
         '/mynt-token',
-        '/perpetuals',
       ],
       [SECTION_TYPE.BORROW]: ['/borrow'],
     };
@@ -466,13 +455,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                         dataActionId="header-lab-link-zero"
                       />
                     )}
-                    <MenuItem
-                      text={t(translations.mainMenu.perpetuals)}
-                      label={t(translations.mainMenu.labels.perpetuals)}
-                      href="/perpetuals"
-                      disabled={!showPerps}
-                      dataActionId="header-lab-link-perpetuals"
-                    />
                   </>
                 }
               >
