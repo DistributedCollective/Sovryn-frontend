@@ -99,9 +99,11 @@
         font-family: Courier, monospace;
       }
     </style>
+    <% if (process.env.REACT_APP_TILEDESK_ID) { %>
+    <!-- Tiledesk Code -->
     <script type="application/javascript">
       window.tiledeskSettings = {
-        projectid: '636a62fe75aa2d001b2126f4',
+        projectid: '%REACT_APP_TILEDESK_ID%',
       };
       (function (d, s, id) {
         var w = window;
@@ -124,6 +126,9 @@
         fjs.parentNode.insertBefore(js, fjs);
       })(document, 'script', 'tiledesk-jssdk');
     </script>
+    app_id: '%REACT_APP_TILEDESK_ID%',
+    <!-- End Tiledesk Code -->
+    <% } %>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
