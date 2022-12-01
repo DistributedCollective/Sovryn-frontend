@@ -82,10 +82,10 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     const message = `Login to backend on: ${timestamp}`;
     return axios
       .get(url + 'user/isUser/' + account)
-      .then(alreadyUser =>
+      .then(res =>
         walletService.signMessage(message).then(signedMessage =>
           axios
-            .post(url + 'user/' + (alreadyUser ? 'auth' : 'register'), {
+            .post(url + 'user/' + (res.data === true ? 'auth' : 'register'), {
               signedMessage,
               message,
               walletAddress: account,
