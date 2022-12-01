@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import crypto from 'crypto';
 import {
   useWalletContext,
   WalletProvider as SovrynWallet,
@@ -19,8 +18,6 @@ import { transactionsStateSaga } from 'store/global/transactions-store/saga';
 import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
-import { intercomUpdate } from 'utils/intercom';
-import { detectWeb3Wallet } from 'utils/helpers';
 import { TxRequestDialog } from 'app/components/TransactionDialog/TxRequestDialog';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
@@ -76,18 +73,6 @@ function WalletWatcher() {
   const { wallet, address, chainId } = useWalletContext();
 
   useEffect(() => {
-    if (address) {
-      intercomUpdate({
-        'Wallet address': crypto
-          .createHash('md5')
-          .update(address)
-          .digest('hex'),
-        'Wallet type': detectWeb3Wallet(),
-        'Wallet network': wallet?.wallet?.chainId?.toString() || 'unknown',
-        Environment: currentChainId,
-      });
-    }
-
     dispatch(actions.accountChanged(address || ''));
   }, [dispatch, address, wallet?.wallet]);
 
