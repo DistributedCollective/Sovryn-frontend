@@ -16,6 +16,7 @@ type AddressQrCodeProps = {
   address: string;
   uri?: URIType;
   hideClickToCopy?: boolean;
+  hideQr?: boolean;
 };
 
 const CopySuccess = ({ copied }) => {
@@ -42,6 +43,7 @@ export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
   address,
   uri,
   hideClickToCopy,
+  hideQr,
 }) => {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -50,18 +52,20 @@ export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
       <div className="tw-font-semibold tw-text-sov-white tw-text-center tw-mb-4">
         {t(translations.fastBtcPage.deposit.qr.title)}
       </div>
-      <div className="tw-qrcode-container">
+      <div className="tw-qrcode-container tw-w-full">
         {label && <div className="tw-qrcode-label">{label}</div>}
-        <div className="tw-qrcode-wrapper">
-          <QRCode
-            value={`${uri || ''}${address}`}
-            renderAs="svg"
-            bgColor="var(--white)"
-            fgColor="var(--gray-1)"
-            includeMargin={false}
-            className="rounded"
-          />
-        </div>
+        {!hideQr && (
+          <div className="tw-qrcode-wrapper">
+            <QRCode
+              value={`${uri || ''}${address}`}
+              renderAs="svg"
+              bgColor="var(--white)"
+              fgColor="var(--gray-1)"
+              includeMargin={false}
+              className="rounded"
+            />
+          </div>
+        )}
         {!hideClickToCopy && (
           <div className="tw-qrcode-clipboard">
             <CopySuccess copied={copied} />

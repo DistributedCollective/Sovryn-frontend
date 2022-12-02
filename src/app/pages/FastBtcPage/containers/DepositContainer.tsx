@@ -17,7 +17,7 @@ import styles from '../fast-btc-page.module.css';
 import { SidebarStepsDeposit } from '../components/Deposit/SidebarStepsDeposit';
 import { useDepositSocket } from '../hooks/useDepositSocket';
 import { StatusScreen } from '../components/Deposit/StatusScreen';
-import { NetworkAwareComponentProps } from '../types';
+import { FastBtcDirectionType, NetworkAwareComponentProps } from '../types';
 import { Signature } from '../contexts/deposit-context';
 import { SignatureValidation } from '../components/Deposit/SignatureValidation';
 import { isMainnet } from 'utils/classifiers';
@@ -25,8 +25,13 @@ import { Chain, ChainId } from 'types';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { debug } from 'utils/debug';
 
-export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
+type DepositContainerProps = NetworkAwareComponentProps & {
+  type: FastBtcDirectionType;
+};
+
+export const DepositContainer: React.FC<DepositContainerProps> = ({
   network,
+  type = FastBtcDirectionType.DEPOSIT,
 }) => {
   const log = debug('FastBTCDeposit');
   const [state, setState] = useState<DepositContextStateType>(defaultValue);
@@ -103,8 +108,6 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
   const { ready, getDepositAddress, getTxAmount } = useDepositSocket(
     handleEvents,
   );
-
-  console.log({ ready });
 
   const handleAddressRequest = useCallback(
     (address: string) => {
@@ -191,7 +194,7 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
         }}
         className="tw-flex tw-flex-col tw-items-center tw-w-full"
       >
-        <SidebarStepsDeposit network={network} />
+        <SidebarStepsDeposit network={network} type={type} />
         <div
           className={classNames(
             'tw-flex tw-flex-col tw-flex-1 tw-justify-center tw-items-center',
@@ -201,9 +204,9 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
           <div className={styles.container}>
             {step === DepositStep.MAIN && <MainScreen network={network} />}
             {step === DepositStep.VALIDATION && (
-              <SignatureValidation onClick={handleValidation} />
+              <SignatureValidation onClick={handleValidation} type={type} />
             )}
-            {step === DepositStep.ADDRESS && <AddressForm />}
+            {step === DepositStep.ADDRESS && <AddressForm type={type} />}
             {[DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step) && (
               <StatusScreen network={network} />
             )}

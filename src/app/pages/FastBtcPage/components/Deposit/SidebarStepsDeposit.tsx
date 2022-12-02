@@ -7,7 +7,7 @@ import { prettyTx } from 'utils/helpers';
 import addressIcon from 'assets/images/fast-btc/address-icon.svg';
 import successIcon from 'assets/images/fast-btc/success-icon.svg';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
-import { NetworkAwareComponentProps } from '../../types';
+import { FastBtcDirectionType, NetworkAwareComponentProps } from '../../types';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Stepper, StepItem } from 'app/components/Stepper';
 
@@ -21,7 +21,13 @@ const stepOrder = [
 const isBehindStep = (current: DepositStep, needed: DepositStep) =>
   stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
-export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = () => {
+type SidebarStepsDepositProps = NetworkAwareComponentProps & {
+  type: FastBtcDirectionType;
+};
+
+export const SidebarStepsDeposit: React.FC<SidebarStepsDepositProps> = ({
+  type,
+}) => {
   const { t } = useTranslation();
   const { step, set, address, depositTx } = useContext(DepositContext);
 
@@ -35,32 +41,53 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = () => {
         ),
         value: DepositStep.VALIDATION,
       },
-      {
-        stepTitle: (
-          <Trans
-            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.address}
-          />
-        ),
-        value: DepositStep.ADDRESS,
-      },
-      {
-        stepTitle: (
-          <Trans
-            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.processing}
-          />
-        ),
-        value: DepositStep.PROCESSING,
-      },
-      {
-        stepTitle: (
-          <Trans
-            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.completed}
-          />
-        ),
-        value: DepositStep.COMPLETED,
-      },
+      ...(type === FastBtcDirectionType.DEPOSIT
+        ? [
+            {
+              stepTitle: (
+                <Trans
+                  i18nKey={
+                    translations.fastBtcPage.deposit.sidebarSteps.address
+                  }
+                />
+              ),
+              value: DepositStep.ADDRESS,
+            },
+            {
+              stepTitle: (
+                <Trans
+                  i18nKey={
+                    translations.fastBtcPage.deposit.sidebarSteps.processing
+                  }
+                />
+              ),
+              value: DepositStep.PROCESSING,
+            },
+            {
+              stepTitle: (
+                <Trans
+                  i18nKey={
+                    translations.fastBtcPage.deposit.sidebarSteps.completed
+                  }
+                />
+              ),
+              value: DepositStep.COMPLETED,
+            },
+          ]
+        : [
+            {
+              stepTitle: (
+                <Trans
+                  i18nKey={
+                    translations.fastBtcPage.transak.sidebarSteps.address
+                  }
+                />
+              ),
+              value: DepositStep.ADDRESS,
+            },
+          ]),
     ],
-    [],
+    [type],
   );
 
   const steps = useMemo<StepItem[]>(() => {

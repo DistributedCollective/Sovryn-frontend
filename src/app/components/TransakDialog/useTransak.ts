@@ -11,6 +11,11 @@ export const useTransak = () => {
   const account = useAccount();
   const [open, setOpen] = useState(false);
 
+  const [config, setConfig] = useState<{ address: string; currency: string }>({
+    address: account,
+    currency: 'RBTC',
+  });
+
   const isWrongChainId = useMemo(
     () =>
       connected &&
@@ -20,12 +25,12 @@ export const useTransak = () => {
   );
 
   useEffect(() => {
-    if (open && account !== '') {
+    if (open && config.address !== '') {
       const transakSettings = {
         apiKey: process.env.REACT_APP_TRANSAK_API_KEY, // Your API Key
         environment: process.env.REACT_APP_TRANSAK_ENV, // STAGING/PRODUCTION
-        defaultCryptoCurrency: 'RBTC',
-        walletAddress: account, // Your customer's wallet address
+        defaultCryptoCurrency: config.currency,
+        walletAddress: config.address, // Your customer's wallet address
         themeColor: '000000', // App theme color
         fiatCurrency: '', // INR/GBP
         email: '', // Your customer's email address
@@ -34,23 +39,33 @@ export const useTransak = () => {
         widgetHeight: '550px',
         widgetWidth: '450px',
         disableWalletAddressForm: true,
-        cryptoCurrencyCode: 'RBTC',
-        cryptoCurrencyList: 'RBTC',
+        cryptoCurrencyCode: config.currency,
+        cryptoCurrencyList: config.currency,
         hideMenu: true,
       };
       const transak = new transakSDK(transakSettings);
       transak.init();
       // This will trigger when the user marks payment is made.
       transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, orderData => {
+        console.log('market as done', orderData);
         // transak.close();
       });
       transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
         setOpen(false);
       });
     }
-  }, [account, open]);
+  }, [config, open]);
 
-  const handleClick = useCallback(() => setOpen(true), []);
+  const handleClick = useCallback(
+    (defaultCurrency: string, depositAddress?: string) => {
+      setConfig({
+        currency: defaultCurrency,
+        address: depositAddress || account,
+      });
+      setOpen(true);
+    },
+    [account],
+  );
 
   return { handleClick, isWrongChainId };
 };
