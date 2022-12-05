@@ -15,7 +15,7 @@ export const TransakScreen: React.FC = () => {
 
   const { handleClick, isWrongChainId } = useTransak();
 
-  const handleTransakClick = useCallback(() => handleClick('RBTC'), [
+  const handleTransakClick = useCallback(() => handleClick('BTC'), [
     handleClick,
   ]);
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { DepositDetails } from './DepositDetails';
 import { AddressQrCode, URIType } from 'app/components/Form/AddressQrCode';
 import { DepositContext } from '../../contexts/deposit-context';
@@ -17,6 +17,11 @@ export const AddressForm: React.FC<AddressFormProps> = ({ type }) => {
   const { t } = useTranslation();
   const { handleClick, isWrongChainId } = useTransak();
 
+  const isTransakDeposit = useMemo(
+    () => type === FastBtcDirectionType.TRANSAK,
+    [type],
+  );
+
   const handleTransakClick = useCallback(() => handleClick('BTC', address), [
     address,
     handleClick,
@@ -29,10 +34,10 @@ export const AddressForm: React.FC<AddressFormProps> = ({ type }) => {
         <AddressQrCode
           uri={URIType.BITCOIN}
           address={address}
-          hideQr={type === FastBtcDirectionType.TRANSAK}
+          hideQr={isTransakDeposit}
         />
 
-        {type === FastBtcDirectionType.TRANSAK && (
+        {isTransakDeposit && (
           <FastBtcButton
             className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
             text={t(translations.fastBtcPage.transak.validationScreen.cta)}

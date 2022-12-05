@@ -13,7 +13,7 @@ export const useTransak = () => {
 
   const [config, setConfig] = useState<{ address: string; currency: string }>({
     address: account,
-    currency: 'RBTC',
+    currency: 'BTC',
   });
 
   const isWrongChainId = useMemo(
@@ -45,12 +45,19 @@ export const useTransak = () => {
       };
       const transak = new transakSDK(transakSettings);
       transak.init();
+
+      transak.on(transak.ALL_EVENTS, data => {
+        console.log('transak::all_events', data);
+      });
+
       // This will trigger when the user marks payment is made.
       transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, orderData => {
-        console.log('market as done', orderData);
-        // transak.close();
+        console.log('transak::success', orderData);
       });
-      transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
+
+      transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, event => {
+        console.log('transak::closed', event);
+        transak.close();
         setOpen(false);
       });
     }

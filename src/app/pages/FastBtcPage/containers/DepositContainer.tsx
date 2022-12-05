@@ -31,7 +31,7 @@ type DepositContainerProps = NetworkAwareComponentProps & {
 
 export const DepositContainer: React.FC<DepositContainerProps> = ({
   network,
-  type = FastBtcDirectionType.DEPOSIT,
+  type,
 }) => {
   const log = debug('FastBTCDeposit');
   const [state, setState] = useState<DepositContextStateType>(defaultValue);
