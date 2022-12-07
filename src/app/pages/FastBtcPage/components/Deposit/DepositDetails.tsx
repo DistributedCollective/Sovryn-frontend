@@ -57,7 +57,7 @@ export const DepositDetails: React.FC = () => {
                   maxDecimals={8}
                   mode={AssetValueMode.auto}
                   assetString="BTC"
-                />
+                />{' '}
                 +{' '}
                 <AssetValue
                   value={(limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100}

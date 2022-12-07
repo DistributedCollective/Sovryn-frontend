@@ -25,7 +25,7 @@ const CopySuccess = ({ copied }) => {
   return (
     <div
       className={classNames(
-        'tw-absolute tw--bottom-2 tw-left-0 tw-transform tw-translate-y-full tw-border tw-border-secondary tw-text-sov-white tw-bg-secondary tw-bg-opacity-70 tw-px-6 tw-py-2 tw-text-center tw-w-full tw-transition-opacity tw-rounded-sm',
+        'tw-absolute tw--bottom-2 tw-left-0 tw-transform tw-translate-y-full tw-border tw-border-secondary tw-text-sov-white tw-bg-secondary tw-bg-opacity-70 tw-px-6 tw-py-2 tw-text-center tw-w-full tw-transition-opacity tw-rounded-sm tw-z-10',
         {
           'tw-opacity-100': copied,
           'tw-opacity-0': !copied,
