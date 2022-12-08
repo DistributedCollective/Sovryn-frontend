@@ -11,13 +11,10 @@ import poundIcon from 'assets/images/fiat/pound.svg';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { useTransak } from 'app/components/TransakDialog/useTransak';
 import { Tooltip } from '@blueprintjs/core';
 
 export const ReceiveRBTCPage: React.FC = () => {
   const { t } = useTranslation();
-  const { handleClick, isWrongChainId } = useTransak();
-
   return (
     <>
       <Helmet>
@@ -56,25 +53,26 @@ export const ReceiveRBTCPage: React.FC = () => {
             </div>
 
             <div className="tw-text-center">
-              <SelectBox disabled={isWrongChainId} onClick={handleClick}>
-                <div className="tw-flex">
-                  <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-                    <img src={dollarIcon} alt="dollar" />
+              <Link to="/fast-btc/transak">
+                <SelectBox>
+                  <div className="tw-flex">
+                    <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+                      <img src={dollarIcon} alt="dollar" />
+                    </div>
+                    <div className="tw-z-10 tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+                      <img src={poundIcon} alt="pound" />
+                    </div>
+                    <div className="tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+                      <img src={eruoIcon} alt="euro" />
+                    </div>
                   </div>
-                  <div className="tw-z-10 tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-                    <img src={poundIcon} alt="pound" />
-                  </div>
-                  <div className="tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-                    <img src={eruoIcon} alt="euro" />
-                  </div>
-                </div>
-              </SelectBox>
+                </SelectBox>
+              </Link>
               <Tooltip
                 position="bottom"
                 hoverOpenDelay={0}
                 hoverCloseDelay={0}
                 className="tw-block"
-                disabled={!isWrongChainId}
                 interactionKind="hover"
                 content={t(translations.transakDialog.chainId)}
               >

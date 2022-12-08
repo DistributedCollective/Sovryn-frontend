@@ -11,15 +11,18 @@ import { FastBtcButton } from '../../FastBtcButton';
 import { TxStatus } from 'store/global/transactions-store/types';
 import styles from './index.module.scss';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
+import { FastBtcDirectionType } from 'app/pages/FastBtcPage/types';
 
 const multisigAddress = getContract('fastBtcMultisig').address;
 
 interface ISignatureValidationProps {
   onClick: () => void;
+  type: FastBtcDirectionType;
 }
 
 export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
   onClick,
+  type,
 }) => {
   const { address, signatures } = useContext(DepositContext);
   const { t } = useTranslation();
@@ -72,7 +75,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
       <div className="tw-mb-5 tw-text-gray-8 tw-text-center">
         {t(translations.fastBtcPage.deposit.validationScreen.description)}
       </div>
-      <div className="tw-full tw-mb-12">
+      <div className="tw-w-full tw-mb-12">
         <StatusComponent status={pageStatus} showLabel={false} />
         <div className={styles.status}>{statusText}</div>
         <div className={styles.download}>
@@ -86,7 +89,11 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
         </div>
         <FastBtcButton
           className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
-          text={t(translations.fastBtcPage.deposit.validationScreen.cta)}
+          text={t(
+            type === FastBtcDirectionType.TRANSAK
+              ? translations.fastBtcPage.transak.validationScreen.cta
+              : translations.fastBtcPage.deposit.validationScreen.cta,
+          )}
           disabled={!isSignatureValid || loading}
           loading={loading}
           onClick={onClick}
