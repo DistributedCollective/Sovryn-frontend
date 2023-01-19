@@ -5,10 +5,7 @@ import { toNumberFormat } from 'utils/display-text/format';
 import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { useGetCandlesData } from 'app/hooks/trading/useGetCandlesData';
 import { watchPrice } from 'utils/pair-price-tracker';
-import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { isEqual } from 'lodash';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
@@ -17,109 +14,63 @@ interface IPairNavbarInfoProps {
 export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { t } = useTranslation();
   const [lowPrice, setLowPrice] = useState(0);
-  const [hightPrice, setHightPrice] = useState(0);
+  const [highPrice, setHighPrice] = useState(0);
   const [lastPrice, setLastPrice] = useState(0);
   const [lastPriceEvent, setLastPriceEvent] = useState(0);
-  const [dayPrice, setDayPrice] = useState(0);
   const [percent, setPercent] = useState(0);
-  const [symbolA, setSymbolA] = useState('');
-  const [symbolB, setSymbolB] = useState('');
-  const { candles, loading } = useGetCandlesData(symbolA, symbolB);
 
-  useEffect(() => {
-    setSymbolA(assetByTokenAddress(pair[0].base_id));
-    setSymbolB(assetByTokenAddress(pair[1].base_id));
-  }, [pair]);
-
-  useEffect(() => {
-    if (!loading && candles) {
-      //generating lastPrice for all pairs
-      // for pairs without RBTC
-      if (!isEqual(pair[1], pair[0])) {
-        setLastPrice(pair[0].last_price / pair[1].last_price);
-      }
-      //for pairs with RBTC as source
-      if (pair[2]) {
-        setLastPrice(pair[0].inverse_price);
-      }
-      //for pairs with RBTC as target
-      if (isEqual(pair[0], pair[1]) && !pair[2]) {
-        setLastPrice(pair[0].last_price);
-      }
-
-      //generating dayPrice for all pairs
-      //for pairs without RBTC
-      if (!isEqual(pair[0], pair[1])) {
-        setDayPrice(pair[0].day_price / pair[1].day_price);
-      }
-      //for pairs with RBTC as source
-      if (pair[2]) {
-        setDayPrice(1 / pair[0].day_price);
-      }
-      //for pairs with RBTC as target
-      if (isEqual(pair[0], pair[1]) && !pair[2]) {
-        setDayPrice(pair[0].day_price);
-      }
-
-      //generating percent for all pairs
-      //for pairs without RBTC
-      setPercent(0);
-      if (!isEqual(pair[0], pair[1])) {
-        if (lastPrice > dayPrice) {
-          setPercent(((lastPrice - dayPrice) / dayPrice) * 100);
-        } else if (lastPrice < dayPrice) {
-          setPercent(((lastPrice - dayPrice) / lastPrice) * 100);
-        }
-      }
-      //for pairs with RBTC as source
-      if (pair[2]) {
-        setPercent(
-          pair[0].price_change_percent_24h !== 0
-            ? -pair[0].price_change_percent_24h
-            : pair[0].price_change_percent_24h,
-        );
-      }
-
-      //for pairs with RBTC as target
-      if (isEqual(pair[0], pair[1]) && !pair[2]) {
-        setPercent(pair[0].price_change_percent_24h);
-      }
-
-      const sortedLowPrice = candles.sort((a, b) => {
-        return a.low - b.low;
-      });
-
-      const sortedHightPrice = candles.sort((a, b) => {
-        return b.high - a.high;
-      });
-
-      if (sortedLowPrice.length) {
-        setLowPrice(sortedLowPrice[0].low);
-      } else {
-        // for pairs with RBTC as source
-        if (pair[2]) {
-          setLowPrice(1 / pair[0].high_price_24h);
-        }
-        // for pairs with RBTC as target
-        if (isEqual(pair[0], pair[1]) && !pair[2]) {
-          setLowPrice(pair[0].lowest_price_24h);
-        }
-      }
-
-      if (sortedHightPrice.length) {
-        setHightPrice(sortedHightPrice[0].high);
-      } else {
-        // for pairs with RBTC as source
-        if (pair[2]) {
-          setHightPrice(1 / pair[0].lowest_price_24h);
-        }
-        // for pairs with RBTC as target
-        if (isEqual(pair[0], pair[1]) && !pair[2]) {
-          setHightPrice(pair[0].high_price_24h);
-        }
-      }
+  const getPercentageChange = (currentPrice: number, prevPrice: number) => {
+    const diff = currentPrice - prevPrice;
+    if (diff === 0) {
+      return 0;
     }
-  }, [lastPrice, pair, candles, loading, dayPrice]);
+    return (diff / prevPrice) * 100;
+  };
+
+  useEffect(() => {
+    const parsePairData = (
+      pairData: ITradingPairs,
+    ): {
+      lastPrice: number;
+      percentageChange: number;
+      highPrice: number;
+      lowPrice: number;
+    } => {
+      let lastPrice = 0;
+      let percentageChange = 0;
+      let highPrice = 0;
+      let lowPrice = 0;
+      /** BTC is quote symbol */
+      if (pairData[0].trading_pairs === pairData[1].trading_pairs) {
+        lastPrice = pairData[0].last_price;
+        percentageChange = pairData[0].price_change_percent_24h;
+        highPrice = pairData[0].high_price_24h;
+        lowPrice = pairData[0].lowest_price_24h;
+      } else {
+        lastPrice = pairData[0].last_price * (1 / pairData[1].last_price);
+        percentageChange = getPercentageChange(
+          lastPrice,
+          pairData[0].day_price * (1 / pairData[1].day_price),
+        );
+        if (pairData[1].base_symbol === 'XUSD') {
+          highPrice = pairData[0].high_price_24h_usd;
+          lowPrice = pairData[0].lowest_price_24h_usd;
+        }
+      }
+
+      return {
+        lastPrice,
+        percentageChange,
+        highPrice,
+        lowPrice,
+      };
+    };
+    const parsedData = parsePairData(pair);
+    setLastPrice(parsedData.lastPrice);
+    setPercent(parsedData.percentageChange);
+    setHighPrice(parsedData.highPrice);
+    setLowPrice(parsedData.lowPrice);
+  }, [pair]);
 
   useEffect(() => {
     const symbol =
@@ -145,7 +96,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
             value={toNumberFormat(_lastPrice, 8)}
-            loading={loading}
+            loading={undefined}
           />
         </span>
       </div>
@@ -163,27 +114,36 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           {percent > 0 && <>+</>}
           <LoadableValue
             value={<>{toNumberFormat(percent, percent !== 0 ? 6 : 0)}%</>}
-            loading={loading}
+            loading={undefined}
           />
         </span>
       </div>
+
       <div className="tw-hidden lg:tw-flex tw-items-center tw-text-center tw-flex-row">
-        {t(translations.pairNavbar.dayLow)}{' '}
-        <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
-          <LoadableValue
-            value={toNumberFormat(lowPrice, 8)}
-            loading={loading}
-          />
-        </span>
+        {lowPrice > 0 && (
+          <div>
+            {t(translations.pairNavbar.dayLow)}
+            <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
+              <LoadableValue
+                value={toNumberFormat(lowPrice, 8)}
+                loading={undefined}
+              />
+            </span>
+          </div>
+        )}{' '}
       </div>
       <div className="tw-hidden xl:tw-flex tw-items-center tw-text-center tw-flex-row">
-        {t(translations.pairNavbar.dayHigh)}{' '}
-        <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
-          <LoadableValue
-            value={toNumberFormat(hightPrice, 8)}
-            loading={loading}
-          />
-        </span>
+        {highPrice > 0 && (
+          <div>
+            {t(translations.pairNavbar.dayHigh)}{' '}
+            <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
+              <LoadableValue
+                value={toNumberFormat(highPrice, 8)}
+                loading={undefined}
+              />
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
