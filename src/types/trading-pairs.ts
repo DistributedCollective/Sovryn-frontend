@@ -22,7 +22,9 @@ export interface IPairData {
   last_price_usd: number;
   inverse_price: number;
   high_price_24h: number;
+  high_price_24h_usd: number;
   lowest_price_24h: number;
+  lowest_price_24h_usd: number;
   base_volume: number;
   quote_volume: number;
   price_change_percent_24h: number;
