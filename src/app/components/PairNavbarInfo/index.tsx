@@ -4,12 +4,58 @@ import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
 import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
-import { LoadableValue } from 'app/components/LoadableValue';
 import { watchPrice } from 'utils/pair-price-tracker';
+import { Asset } from 'types';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
 }
+
+const getPercentageChange = (currentPrice: number, prevPrice: number) => {
+  const diff = currentPrice - prevPrice;
+  if (diff === 0) {
+    return 0;
+  }
+  return (diff / prevPrice) * 100;
+};
+
+const parsePairData = (
+  pairData: ITradingPairs,
+): {
+  lastPrice: number;
+  percentageChange: number;
+  highPrice: number;
+  lowPrice: number;
+} => {
+  let lastPrice = 0;
+  let percentageChange = 0;
+  let highPrice = 0;
+  let lowPrice = 0;
+  /** BTC is quote symbol */
+  if (pairData[0].trading_pairs === pairData[1].trading_pairs) {
+    lastPrice = pairData[0].last_price;
+    percentageChange = pairData[0].price_change_percent_24h;
+    highPrice = pairData[0].high_price_24h;
+    lowPrice = pairData[0].lowest_price_24h;
+  } else {
+    lastPrice = pairData[0].last_price * (1 / pairData[1].last_price);
+    percentageChange = getPercentageChange(
+      lastPrice,
+      pairData[0].day_price * (1 / pairData[1].day_price),
+    );
+    if (pairData[1].base_symbol === Asset.XUSD) {
+      highPrice = pairData[0].high_price_24h_usd;
+      lowPrice = pairData[0].lowest_price_24h_usd;
+    }
+  }
+
+  return {
+    lastPrice,
+    percentageChange,
+    highPrice,
+    lowPrice,
+  };
+};
 
 export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { t } = useTranslation();
@@ -19,52 +65,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const [lastPriceEvent, setLastPriceEvent] = useState(0);
   const [percent, setPercent] = useState(0);
 
-  const getPercentageChange = (currentPrice: number, prevPrice: number) => {
-    const diff = currentPrice - prevPrice;
-    if (diff === 0) {
-      return 0;
-    }
-    return (diff / prevPrice) * 100;
-  };
-
   useEffect(() => {
-    const parsePairData = (
-      pairData: ITradingPairs,
-    ): {
-      lastPrice: number;
-      percentageChange: number;
-      highPrice: number;
-      lowPrice: number;
-    } => {
-      let lastPrice = 0;
-      let percentageChange = 0;
-      let highPrice = 0;
-      let lowPrice = 0;
-      /** BTC is quote symbol */
-      if (pairData[0].trading_pairs === pairData[1].trading_pairs) {
-        lastPrice = pairData[0].last_price;
-        percentageChange = pairData[0].price_change_percent_24h;
-        highPrice = pairData[0].high_price_24h;
-        lowPrice = pairData[0].lowest_price_24h;
-      } else {
-        lastPrice = pairData[0].last_price * (1 / pairData[1].last_price);
-        percentageChange = getPercentageChange(
-          lastPrice,
-          pairData[0].day_price * (1 / pairData[1].day_price),
-        );
-        if (pairData[1].base_symbol === 'XUSD') {
-          highPrice = pairData[0].high_price_24h_usd;
-          lowPrice = pairData[0].lowest_price_24h_usd;
-        }
-      }
-
-      return {
-        lastPrice,
-        percentageChange,
-        highPrice,
-        lowPrice,
-      };
-    };
     const parsedData = parsePairData(pair);
     setLastPrice(parsedData.lastPrice);
     setPercent(parsedData.percentageChange);
@@ -94,10 +95,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
       <div className="tw-hidden sm:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
-          <LoadableValue
-            value={toNumberFormat(_lastPrice, 8)}
-            loading={undefined}
-          />
+          {toNumberFormat(_lastPrice, 8)}
         </span>
       </div>
       <div className="tw-hidden md:tw-flex tw-items-center tw-text-center tw-flex-row">
@@ -111,11 +109,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
             },
           )}
         >
-          {percent > 0 && <>+</>}
-          <LoadableValue
-            value={<>{toNumberFormat(percent, percent !== 0 ? 6 : 0)}%</>}
-            loading={undefined}
-          />
+          <>{toNumberFormat(percent, percent !== 0 ? 6 : 0)}%</>
         </span>
       </div>
 
@@ -124,10 +118,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           <div>
             {t(translations.pairNavbar.dayLow)}
             <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
-              <LoadableValue
-                value={toNumberFormat(lowPrice, 8)}
-                loading={undefined}
-              />
+              {toNumberFormat(lowPrice, 8)}
             </span>
           </div>
         )}{' '}
@@ -137,10 +128,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           <div>
             {t(translations.pairNavbar.dayHigh)}{' '}
             <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
-              <LoadableValue
-                value={toNumberFormat(highPrice, 8)}
-                loading={undefined}
-              />
+              {toNumberFormat(highPrice, 8)}
             </span>
           </div>
         )}
