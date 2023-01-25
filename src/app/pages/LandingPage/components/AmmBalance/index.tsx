@@ -1,6 +1,9 @@
 import React, { useCallback, useRef, useState } from 'react';
 import axios, { Canceler } from 'axios';
-import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
+import {
+  ammServiceUrl,
+  currentChainId,
+} from '../../../../../utils/classifiers';
 import { SkeletonRow } from '../../../../components/Skeleton/SkeletonRow';
 import { formatNumber } from 'app/containers/StatsPage/utils';
 import { translations } from 'locales/i18n';
@@ -83,7 +86,6 @@ interface IRowProps {
 
 const Row: React.FC<IRowProps> = ({ pool, rate, hide = false }) => {
   const history = useHistory();
-  const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AmmBalanceRow>();
   const cancelDataRequest = useRef<Canceler>();
@@ -97,13 +99,18 @@ const Row: React.FC<IRowProps> = ({ pool, rate, hide = false }) => {
       cancelDataRequest.current = c;
     });
     axios
-      .get(`${url}/amm/pool-balance/${pool.assetA}`, { cancelToken })
+      .get(
+        `${ammServiceUrl[currentChainId]}/amm/pool-balance/${pool.converter}`,
+        {
+          cancelToken,
+        },
+      )
       .then(res => {
         setData(res.data);
         setLoading(false);
       })
       .catch(e => console.error(e));
-  }, [url, pool]);
+  }, [pool]);
 
   useInterval(
     () => {
