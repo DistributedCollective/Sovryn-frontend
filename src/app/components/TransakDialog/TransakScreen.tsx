@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trans } from 'react-i18next';
 
@@ -14,6 +14,10 @@ export const TransakScreen: React.FC = () => {
   const { t } = useTranslation();
 
   const { handleClick, isWrongChainId } = useTransak();
+
+  const handleTransakClick = useCallback(() => handleClick('BTC'), [
+    handleClick,
+  ]);
 
   return (
     <>
@@ -51,7 +55,7 @@ export const TransakScreen: React.FC = () => {
           ready
           loading={false}
           disabled={isWrongChainId}
-          onClick={handleClick}
+          onClick={handleTransakClick}
         />
       </div>
     </>
