@@ -237,11 +237,13 @@
   "fastBtcPage": {
     "meta": {
       "title": "Fast-BTC",
+      "description": "Move your Bitcoin to RSK network.",
       "titleDeposit": "Receive Bitcoin with FastBTC",
       "descriptionDeposit": "Transfer Bitcoin to a deposit address in the Bitcoin network, and it will be received as RBTC",
       "titleWithdraw": "Send Bitcoin with FastBTC",
       "descriptionWithdraw": "Send Bitcoin by transferring RBTC to the Bitcoin network",
-      "description": "Move your Bitcoin to RSK network."
+      "titleTransak": "Receive Bitcoin with Transak and FastBTC",
+      "descriptionTransak": "Deposit FIAT and receive BTC which would be automatically received as RBTC"
     },
     "backToPortfolio": "Back to portfolio",
     "backToPerpetuals": "Back to perpetuals",
@@ -300,6 +302,14 @@
       "qr": {
         "title": "Send BTC to this address:",
         "generating": "Generating..."
+      }
+    },
+    "transak": {
+      "sidebarSteps": {
+        "address": "Review<br/>Address"
+      },
+      "validationScreen": {
+        "cta": "Continue to deposit FIAT"
       }
     },
     "withdraw": {

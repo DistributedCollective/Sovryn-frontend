@@ -19,7 +19,10 @@ export const FastBtcButton: React.FC<FastBtcButtonProps> = ({
 }) => {
   return (
     <Button
-      className={classNames('tw-w-42 tw-font-semibold', className)}
+      className={classNames(
+        'tw-max-w-xs tw-font-semibold tw-whitespace-nowrap',
+        className,
+      )}
       size={ButtonSize.sm}
       text={text}
       disabled={disabled}

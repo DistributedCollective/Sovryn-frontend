@@ -33,9 +33,11 @@ export const FastBtcPage: React.FC = () => {
 
   useEffect(() => {
     if (
-      ![FastBtcDirectionType.DEPOSIT, FastBtcDirectionType.WITHDRAW].includes(
-        type,
-      )
+      ![
+        FastBtcDirectionType.DEPOSIT,
+        FastBtcDirectionType.WITHDRAW,
+        FastBtcDirectionType.TRANSAK,
+      ].includes(type)
     ) {
       history.push('/portfolio');
     }
@@ -45,6 +47,8 @@ export const FastBtcPage: React.FC = () => {
     switch (type) {
       case FastBtcDirectionType.DEPOSIT:
         return t(translations.fastBtcPage.meta.titleDeposit);
+      case FastBtcDirectionType.TRANSAK:
+        return t(translations.fastBtcPage.meta.titleTransak);
       case FastBtcDirectionType.WITHDRAW:
         return t(translations.fastBtcPage.meta.titleWithdraw);
       default:
@@ -56,6 +60,8 @@ export const FastBtcPage: React.FC = () => {
     switch (type) {
       case FastBtcDirectionType.DEPOSIT:
         return t(translations.fastBtcPage.meta.descriptionDeposit);
+      case FastBtcDirectionType.TRANSAK:
+        return t(translations.fastBtcPage.meta.descriptionTransak);
       case FastBtcDirectionType.WITHDRAW:
         return t(translations.fastBtcPage.meta.descriptionWithdraw);
       default:
@@ -76,8 +82,9 @@ export const FastBtcPage: React.FC = () => {
         network={network}
       >
         <div className="tw-flex tw-flex-col tw-h-full tw-relative">
-          {type === FastBtcDirectionType.DEPOSIT && (
-            <DepositContainer network={network} />
+          {(type === FastBtcDirectionType.DEPOSIT ||
+            type === FastBtcDirectionType.TRANSAK) && (
+            <DepositContainer network={network} type={type} />
           )}
           {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
             <WithdrawContainer />
