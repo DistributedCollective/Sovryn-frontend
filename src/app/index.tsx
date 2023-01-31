@@ -49,16 +49,10 @@ import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
-import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
-import { PerpetualsPlaceholderPageLoadable } from './pages/PerpetualsPlaceholderPage/Loadable';
 import { ReceiveRBTCPage } from './pages/ReceiveRBTCPage';
-import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeeds_tradingPairRates';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
-
-// TODO: Delete this once we go live, we may need it after the competition
-const showPerps = !isMainnet; // !isMainnet || isStaging;
 
 export function App() {
   useAppTheme();
@@ -98,6 +92,7 @@ export function App() {
                 <Route exact path="/borrow" component={BorrowPage} />
                 <Route exact path="/stake" component={StakePage} />
                 <Redirect exact from="/liquidity" to="/yield-farm" />
+                <Redirect exact from="/perpetuals" to="/" />
                 <Route
                   exact
                   path="/yield-farm"
@@ -138,23 +133,6 @@ export function App() {
                   component={FastBtcPage}
                 />
                 <Route exact path="/rbtc/" component={ReceiveRBTCPage} />
-
-                <Route
-                  exact
-                  path="/perpetuals"
-                  component={
-                    showPerps
-                      ? PerpetualPageLoadable
-                      : PerpetualsPlaceholderPageLoadable
-                  }
-                />
-                {showPerps && (
-                  <Route
-                    exact
-                    path="/perpetuals/competition"
-                    component={CompetitionPage}
-                  />
-                )}
                 <Route component={NotFoundPage} />
               </Switch>
             </PageContainer>

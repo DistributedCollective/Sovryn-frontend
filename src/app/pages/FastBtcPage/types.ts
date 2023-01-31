@@ -2,6 +2,7 @@ import { Chain } from 'types';
 
 export enum FastBtcDirectionType {
   DEPOSIT = 'deposit',
+  TRANSAK = 'transak',
   WITHDRAW = 'withdraw',
 }
 

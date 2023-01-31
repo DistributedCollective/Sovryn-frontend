@@ -99,51 +99,34 @@
         font-family: Courier, monospace;
       }
     </style>
-    <% if (process.env.REACT_APP_INTERCOM_ID) { %>
-    <!-- Intercom Code -->
-    <script type="text/javascript">
-      window.intercomSettings = {
-        api_base: 'https://api-iam.intercom.io',
-        app_id: '%REACT_APP_INTERCOM_ID%',
-        Environment: '%REACT_APP_NETWORK%',
+    <% if (process.env.REACT_APP_TILEDESK_ID) { %>
+    <!-- Tiledesk Code -->
+    <script type="application/javascript">
+      window.tiledeskSettings = {
+        projectid: '%REACT_APP_TILEDESK_ID%',
       };
-    </script>
-    <script type="text/javascript">
-      (function () {
+      (function (d, s, id) {
         var w = window;
-        var ic = w.Intercom;
-        if (typeof ic === 'function') {
-          ic('reattach_activator');
-          ic('update', w.intercomSettings);
-        } else {
-          var d = document;
-          var i = function () {
-            i.c(arguments);
-          };
-          i.q = [];
-          i.c = function (args) {
-            i.q.push(args);
-          };
-          w.Intercom = i;
-          var l = function () {
-            var s = d.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = 'https://widget.intercom.io/widget/%REACT_APP_INTERCOM_ID%';
-            var x = d.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(s, x);
-          };
-          if (document.readyState === 'complete') {
-            l();
-          } else if (w.attachEvent) {
-            w.attachEvent('onload', l);
-          } else {
-            w.addEventListener('load', l, false);
-          }
-        }
-      })();
+        var d = document;
+        var i = function () {
+          i.c(arguments);
+        };
+        i.q = [];
+        i.c = function (args) {
+          i.q.push(args);
+        };
+        w.Tiledesk = i;
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.async = true;
+        js.src = 'https://widget.tiledesk.com/v5/launch.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'tiledesk-jssdk');
     </script>
-    <!-- End Intercom Code -->
+    <!-- End Tiledesk Code -->
     <% } %>
   </head>
   <body>
