@@ -377,4 +377,8 @@ export const contracts = {
     address: '0x63f9a9145147330dFAdc991CC3821DF23879ae16',
     abi: Masset,
   },
+  DLLR_token: {
+    address: '0x007b3AA69A846cB1f76b60b3088230A52D2A83AC',
+    abi: erc20TokenAbi,
+  },
 };

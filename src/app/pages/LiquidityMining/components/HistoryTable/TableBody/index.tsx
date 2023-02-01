@@ -26,7 +26,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           txHash={item.txHash}
           amount={roundToSmaller(item.amount, 4)}
           type={item.type}
-          asset={AssetsDictionary.getByTokenContractAddress(item.asset).asset}
+          asset={AssetsDictionary.getByTokenContractAddress(item.asset)?.asset}
         />
       ))}
 

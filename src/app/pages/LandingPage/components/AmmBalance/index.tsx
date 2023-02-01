@@ -100,7 +100,7 @@ const Row: React.FC<IRowProps> = ({ pool, rate, hide = false }) => {
     });
     axios
       .get(
-        `${ammServiceUrl[currentChainId]}/amm/pool-balance/${pool.converter}`,
+        `${ammServiceUrl[currentChainId]}amm/pool-balance/${pool.converter}`,
         {
           cancelToken,
         },
