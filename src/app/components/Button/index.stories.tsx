@@ -44,7 +44,7 @@ LinkInternal.args = {
 export const LinkExternal = Template.bind({});
 LinkExternal.args = {
   text: 'External Link',
-  href: 'https://live.sovryn.app',
+  href: 'https://alpha.sovryn.app',
   hrefExternal: true,
   type: ButtonType.button,
   color: ButtonColor.primary,

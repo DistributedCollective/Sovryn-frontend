@@ -49,16 +49,16 @@ export const bitocracyUrl =
 export const zeroUrl =
   currentNetwork === AppMode.MAINNET
     ? isStaging
-      ? 'https://staging.sovryn.app/zero'
-      : 'https://live.sovryn.app/zero'
-    : 'https://test.sovryn.app/zero';
+      ? 'https://alpha-staging.sovryn.app/zero'
+      : 'https://alpha.sovryn.app/zero'
+    : 'https://alpha-test.sovryn.app/zero';
 
 export const myntUrl =
   currentNetwork === AppMode.MAINNET
     ? isStaging
-      ? 'https://staging.sovryn.app/mynt-token'
-      : 'https://live.sovryn.app/mynt-token'
-    : 'https://test.sovryn.app/mynt-token';
+      ? 'https://alpha-staging.sovryn.app/mynt-token'
+      : 'https://alpha.sovryn.app/mynt-token'
+    : 'https://alpha-test.sovryn.app/mynt-token';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
@@ -131,7 +131,7 @@ export const gasLimit = {
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
-  [TxType.SOV_WITHDRAW_VESTING]: 2350000,
+  [TxType.SOV_WITHDRAW_VESTING]: 3000000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
