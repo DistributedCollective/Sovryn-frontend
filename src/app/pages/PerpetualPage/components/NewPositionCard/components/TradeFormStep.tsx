@@ -48,7 +48,7 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
                 components={[
                   <a
                     className="tw-underline"
-                    href="https://live.sovryn.app/"
+                    href="https://alpha.sovryn.app/"
                     target="_blank"
                     rel="noreferrer"
                   >

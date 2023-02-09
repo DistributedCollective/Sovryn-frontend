@@ -94,7 +94,7 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 ### Which Branch?
 
-The `development` branch acts as a testnet containing the latest changes. The `master` branch is production branch for the **live.sovryn.app**. Depending on your feature you are contributing with, select the proper branch as a starting point. Most of the time, it will be the `development` branch unless you provide hotfixes or features that should be released before other features - then it can be `master`. By doing so, we merge all features to `development` and then `development` to `master` to make one big release batch.
+The `development` branch acts as a testnet containing the latest changes. The `master` branch is production branch for the **alpha.sovryn.app**. Depending on your feature you are contributing with, select the proper branch as a starting point. Most of the time, it will be the `development` branch unless you provide hotfixes or features that should be released before other features - then it can be `master`. By doing so, we merge all features to `development` and then `development` to `master` to make one big release batch.
 
 **All** bug fixes should be sent to the latest stable `master` branch. Bug fixes should never be sent to the development branch unless they fix features that exist only in the upcoming release.
 
