@@ -27,7 +27,7 @@ export function StakeVote() {
       </div>
       <div className="tw-container tw-text-center">
         <a
-          href="https://live.sovryn.app/stake"
+          href="https://alpha.sovryn.app/stake"
           className="button"
           target="_blank"
           rel="noreferrer noopener"

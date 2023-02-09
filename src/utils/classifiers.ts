@@ -49,16 +49,16 @@ export const bitocracyUrl =
 export const zeroUrl =
   currentNetwork === AppMode.MAINNET
     ? isStaging
-      ? 'https://staging.sovryn.app/zero'
-      : 'https://live.sovryn.app/zero'
-    : 'https://test.sovryn.app/zero';
+      ? 'https://alpha-staging.sovryn.app/zero'
+      : 'https://alpha.sovryn.app/zero'
+    : 'https://alpha-test.sovryn.app/zero';
 
 export const myntUrl =
   currentNetwork === AppMode.MAINNET
     ? isStaging
-      ? 'https://staging.sovryn.app/mynt-token'
-      : 'https://live.sovryn.app/mynt-token'
-    : 'https://test.sovryn.app/mynt-token';
+      ? 'https://alpha-staging.sovryn.app/mynt-token'
+      : 'https://alpha.sovryn.app/mynt-token'
+    : 'https://alpha-test.sovryn.app/mynt-token';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
