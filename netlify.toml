@@ -21,6 +21,7 @@
   [context.production.environment]
     REACT_APP_NETWORK = "mainnet"
     REACT_APP_GOOGLE_ANALYTICS = "GTM-KTSX2PL"
+    REACT_APP_GOOGLE_ANALYTICS_CLICKTHROUGH = "GTM-5MWCJN3"
     REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
     REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
     REACT_APP_TRANSAK_ENV = "PRODUCTION"
@@ -38,6 +39,7 @@
   [context.branch-deploy.environment]
     REACT_APP_NETWORK = "mainnet"
     REACT_APP_GOOGLE_ANALYTICS = "GTM-KTSX2PL"
+    REACT_APP_GOOGLE_ANALYTICS_CLICKTHROUGH = "GTM-5MWCJN3"
     REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
     REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
     REACT_APP_TRANSAK_ENV = "PRODUCTION"
