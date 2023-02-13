@@ -39,6 +39,9 @@ import { OrderView } from './OrderView';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
 import { gasLimit } from 'utils/classifiers';
+import { useGetMaximumAssetPrice } from 'app/hooks/tutorial/useGetMaximumAssetPrice';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -64,6 +67,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
+  const maximumPrice = useGetMaximumAssetPrice(targetToken, slippage);
   // const {
   //   send: sendExternal,
   //   ...txExternal
@@ -253,6 +257,20 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
               <span>
                 {weiToNumberFormat(minReturn, 6)}{' '}
                 <AssetRenderer asset={targetToken} />
+              </span>
+            </span>
+          </div>
+
+          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
+            <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap">
+              <span>{t(translations.swap.maximumPrice)} </span>
+              <span>
+                <AssetValue
+                  value={maximumPrice}
+                  assetString="USD"
+                  mode={AssetValueMode.auto}
+                  maxDecimals={6}
+                />
               </span>
             </span>
           </div>

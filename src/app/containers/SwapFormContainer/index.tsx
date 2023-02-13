@@ -42,6 +42,9 @@ import { IPairsData } from 'types/trading-pairs';
 import { useInterval } from 'app/hooks/useInterval';
 import { getFavoriteList } from 'utils/helpers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
+import { useGetMaximumAssetPrice } from 'app/hooks/tutorial/useGetMaximumAssetPrice';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 const refreshInterval = 300000;
 
@@ -145,6 +148,7 @@ export const SwapFormContainer: React.FC = () => {
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
+  const maximumPrice = useGetMaximumAssetPrice(targetToken, slippage);
 
   const { value: path } = useSwapNetwork_conversionPath(
     AssetsDictionary.get(sourceToken).getTokenContractAddress(),
@@ -311,6 +315,18 @@ export const SwapFormContainer: React.FC = () => {
               <div>
                 {weiToNumberFormat(minReturn, 6)}{' '}
                 <AssetRenderer asset={targetToken} />
+              </div>
+            </div>
+
+            <div className={styles.swapBtnHelper}>
+              <div>{t(translations.swap.maximumPrice)}</div>
+              <div>
+                <AssetValue
+                  value={maximumPrice}
+                  assetString="USD"
+                  mode={AssetValueMode.auto}
+                  maxDecimals={6}
+                />
               </div>
             </div>
           </FormGroup>

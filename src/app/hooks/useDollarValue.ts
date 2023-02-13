@@ -14,7 +14,7 @@ export function useDollarValue(asset: Asset, weiAmount: string) {
     const assetDetails = AssetsDictionary.get(asset);
     const decimals = assetDetails?.decimals || DEFAULT_ASSET_DECIMALS;
 
-    if ([Asset.USDT, Asset.DOC, Asset.RDOC].includes(asset)) {
+    if ([Asset.USDT, Asset.DOC, Asset.RDOC, Asset.DLLR].includes(asset)) {
       return weiAmount;
     } else {
       return bignumber(weiAmount)
