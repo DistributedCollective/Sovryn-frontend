@@ -47,6 +47,10 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     contractAddress,
   );
   const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
+  const { send: withdrawRBTC, ...tx2 } = useSendContractTx(
+    'feeSharingProxy',
+    'withdrawRBTC',
+  );
 
   const isClaimDisabled = useMemo(
     () =>
@@ -57,12 +61,20 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   );
 
   const onSubmit = useCallback(() => {
-    send(
-      [contractAddress, maxCheckpoints, address],
-      { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
-      { type: TxType.STAKING_REWARDS_CLAIM },
-    );
-  }, [address, contractAddress, maxCheckpoints, send]);
+    if (asset === Asset.RBTC) {
+      withdrawRBTC(
+        [maxCheckpoints, address],
+        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
+        { type: TxType.STAKING_REWARDS_CLAIM },
+      );
+    } else {
+      send(
+        [contractAddress, maxCheckpoints, address],
+        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
+        { type: TxType.STAKING_REWARDS_CLAIM },
+      );
+    }
+  }, [address, asset, contractAddress, maxCheckpoints, send, withdrawRBTC]);
 
   return (
     <tr
@@ -106,6 +118,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
           dataActionId={`rewards-claim-feesearned-${asset}`}
         />
         <TransactionDialog tx={tx} />
+        <TransactionDialog tx={tx2} />
       </td>
     </tr>
   );

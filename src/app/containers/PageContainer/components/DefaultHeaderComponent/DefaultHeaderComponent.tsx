@@ -209,7 +209,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: '',
     },
     {
-      to: '/reward',
+      to: '/rewards',
       title: t(translations.mainMenu.reward),
       dataActionId: 'header-mobile-link-rewards',
     },

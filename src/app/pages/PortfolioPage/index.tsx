@@ -76,7 +76,7 @@ export const PortfolioPage: React.FC = () => {
           text={t(translations.portfolioPage.rewards)}
           style={ButtonStyle.link}
           className="tw-ml-10 tw-text-2xl tw-text-gray-6 hover:tw-text-sov-white hover:tw-no-underline focus:tw-no-underline"
-          href="/reward"
+          href="/rewards"
           dataActionId="portfolio-tab-rewards"
         />
       </div>

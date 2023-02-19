@@ -114,7 +114,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     />
                     <MenuItem
                       text={t(translations.mainMenu.rewards)}
-                      href="/reward"
+                      href="/rewards"
                       icon={faCoins}
                       className="bp3-popover-dismiss"
                     />
