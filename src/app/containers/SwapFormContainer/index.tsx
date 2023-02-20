@@ -148,7 +148,11 @@ export const SwapFormContainer: React.FC = () => {
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const maximumPrice = useGetMaximumAssetPrice(targetToken, slippage);
+  const maximumPrice = useGetMaximumAssetPrice(
+    sourceToken,
+    targetToken,
+    slippage,
+  );
 
   const { value: path } = useSwapNetwork_conversionPath(
     AssetsDictionary.get(sourceToken).getTokenContractAddress(),

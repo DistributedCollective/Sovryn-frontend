@@ -1,12 +1,25 @@
 import { bignumber } from 'mathjs';
 import { useMemo } from 'react';
 import { Asset } from 'types';
-import { toWei } from 'utils/blockchain/math-helpers';
+import { fromWei, toWei } from 'utils/blockchain/math-helpers';
+import { useSwapsExternal_getSwapExpectedReturn } from '../swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useDollarValue } from '../useDollarValue';
 
-export const useGetMaximumAssetPrice = (asset: Asset, slippage: number) => {
-  const { value, loading, error } = useDollarValue(asset, toWei(1));
+const oneToken = toWei(1);
+
+export const useGetMaximumAssetPrice = (
+  sourceToken: Asset,
+  targetToken: Asset,
+  slippage: number,
+) => {
+  const { value, loading, error } = useDollarValue(targetToken, oneToken);
   const slippageMultiplier = useMemo(() => 1 + slippage / 100, [slippage]);
+
+  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    targetToken,
+    oneToken,
+  );
 
   const hasAssetDollarValue = useMemo(() => !loading && !error && !!value, [
     error,
@@ -18,5 +31,8 @@ export const useGetMaximumAssetPrice = (asset: Asset, slippage: number) => {
     return '0';
   }
 
-  return bignumber(value).mul(slippageMultiplier).toString();
+  return bignumber(rateByPath)
+    .mul(fromWei(value))
+    .mul(slippageMultiplier)
+    .toString();
 };
