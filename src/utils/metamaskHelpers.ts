@@ -20,7 +20,7 @@ const networks = {
         symbol: 'RBTC',
         decimals: 18,
       },
-      rpcUrls: ['https://mainnet.sovryn.app/rpc'],
+      rpcUrls: ['https://rsk-live.sovryn.app/rpc'],
       blockExplorerUrls: ['https://explorer.rsk.co'],
     },
   ],
