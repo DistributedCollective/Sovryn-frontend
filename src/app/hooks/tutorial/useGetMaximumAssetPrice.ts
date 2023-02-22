@@ -1,9 +1,9 @@
+import { TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { bignumber } from 'mathjs';
 import { useMemo } from 'react';
 import { Asset } from 'types';
-import { fromWei, toWei } from 'utils/blockchain/math-helpers';
+import { toWei } from 'utils/blockchain/math-helpers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useDollarValue } from '../useDollarValue';
 
 const oneToken = toWei(1);
 
@@ -11,28 +11,34 @@ export const useGetMaximumAssetPrice = (
   sourceToken: Asset,
   targetToken: Asset,
   slippage: number,
+  tradeType?: TradingTypes,
 ) => {
-  const { value, loading, error } = useDollarValue(targetToken, oneToken);
-  const slippageMultiplier = useMemo(() => 1 + slippage / 100, [slippage]);
+  const baseToken = useMemo(() => {
+    if (!tradeType) {
+      return sourceToken;
+    }
+
+    return tradeType === TradingTypes.BUY ? targetToken : sourceToken;
+  }, [sourceToken, targetToken, tradeType]);
+
+  const quoteToken = useMemo(() => {
+    if (!tradeType) {
+      return targetToken;
+    }
+
+    return tradeType === TradingTypes.BUY ? sourceToken : targetToken;
+  }, [sourceToken, targetToken, tradeType]);
 
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
-    sourceToken,
-    targetToken,
+    baseToken,
+    quoteToken,
     oneToken,
   );
 
-  const hasAssetDollarValue = useMemo(() => !loading && !error && !!value, [
-    error,
-    loading,
-    value,
-  ]);
+  const slippageMultiplier = useMemo(() => 1 + slippage / 100, [slippage]);
 
-  if (!hasAssetDollarValue) {
-    return '0';
-  }
-
-  return bignumber(rateByPath)
-    .mul(fromWei(value))
-    .mul(slippageMultiplier)
-    .toString();
+  return {
+    value: bignumber(rateByPath).mul(slippageMultiplier).toString(),
+    token: quoteToken,
+  };
 };

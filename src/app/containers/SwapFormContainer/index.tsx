@@ -148,7 +148,7 @@ export const SwapFormContainer: React.FC = () => {
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const maximumPrice = useGetMaximumAssetPrice(
+  const { value: maximumPrice, token: quoteToken } = useGetMaximumAssetPrice(
     sourceToken,
     targetToken,
     slippage,
@@ -327,7 +327,7 @@ export const SwapFormContainer: React.FC = () => {
               <div>
                 <AssetValue
                   value={maximumPrice}
-                  assetString="USD"
+                  assetString={quoteToken}
                   mode={AssetValueMode.auto}
                   maxDecimals={6}
                 />

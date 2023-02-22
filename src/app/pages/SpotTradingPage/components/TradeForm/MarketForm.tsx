@@ -67,10 +67,11 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const maximumPrice = useGetMaximumAssetPrice(
+  const { value: maximumPrice, token: quoteToken } = useGetMaximumAssetPrice(
     sourceToken,
     targetToken,
     slippage,
+    tradeType,
   );
   // const {
   //   send: sendExternal,
@@ -271,7 +272,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
               <span>
                 <AssetValue
                   value={maximumPrice}
-                  assetString="USD"
+                  assetString={quoteToken}
                   mode={AssetValueMode.auto}
                   maxDecimals={6}
                 />
