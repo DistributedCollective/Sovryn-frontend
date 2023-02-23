@@ -45,6 +45,7 @@ import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useGetMaximumAssetPrice } from 'app/hooks/tutorial/useGetMaximumAssetPrice';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { Tooltip } from '@blueprintjs/core';
 
 const refreshInterval = 300000;
 
@@ -148,7 +149,7 @@ export const SwapFormContainer: React.FC = () => {
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const { value: maximumPrice, token: quoteToken } = useGetMaximumAssetPrice(
+  const { sourceTokenValue, targeTokenValue } = useGetMaximumAssetPrice(
     sourceToken,
     targetToken,
     slippage,
@@ -325,12 +326,23 @@ export const SwapFormContainer: React.FC = () => {
             <div className={styles.swapBtnHelper}>
               <div>{t(translations.swap.maximumPrice)}</div>
               <div>
-                <AssetValue
-                  value={maximumPrice}
-                  assetString={quoteToken}
-                  mode={AssetValueMode.auto}
-                  maxDecimals={6}
-                />
+                <Tooltip
+                  content={
+                    <AssetValue
+                      value={targeTokenValue}
+                      assetString={sourceToken}
+                      mode={AssetValueMode.auto}
+                      maxDecimals={6}
+                    />
+                  }
+                >
+                  <AssetValue
+                    value={sourceTokenValue}
+                    assetString={targetToken}
+                    mode={AssetValueMode.auto}
+                    maxDecimals={6}
+                  />
+                </Tooltip>
               </div>
             </div>
           </FormGroup>

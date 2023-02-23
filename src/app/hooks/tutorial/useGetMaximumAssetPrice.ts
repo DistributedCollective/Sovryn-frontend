@@ -7,6 +7,9 @@ import { useSwapsExternal_getSwapExpectedReturn } from '../swap-network/useSwaps
 
 const oneToken = toWei(1);
 
+const getMaximumPrice = (rate: string, slippage: number) =>
+  bignumber(rate).mul(slippage).toString();
+
 export const useGetMaximumAssetPrice = (
   sourceToken: Asset,
   targetToken: Asset,
@@ -29,16 +32,32 @@ export const useGetMaximumAssetPrice = (
     return tradeType === TradingTypes.BUY ? sourceToken : targetToken;
   }, [sourceToken, targetToken, tradeType]);
 
+  const slippageMultiplier = useMemo(() => 1 + slippage / 100, [slippage]);
+
+  // Used on Spot page
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
     baseToken,
     quoteToken,
     oneToken,
   );
 
-  const slippageMultiplier = useMemo(() => 1 + slippage / 100, [slippage]);
+  // Used on Swap page
+  const { value: rateByPathSource } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    targetToken,
+    oneToken,
+  );
+
+  const { value: rateByPathTarget } = useSwapsExternal_getSwapExpectedReturn(
+    targetToken,
+    sourceToken,
+    oneToken,
+  );
 
   return {
-    value: bignumber(rateByPath).mul(slippageMultiplier).toString(),
+    value: getMaximumPrice(rateByPath, slippageMultiplier),
     token: quoteToken,
+    sourceTokenValue: getMaximumPrice(rateByPathSource, slippageMultiplier),
+    targeTokenValue: getMaximumPrice(rateByPathTarget, slippageMultiplier),
   };
 };
