@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Trans } from 'react-i18next';
 
 import { useSendContractTx } from '../../../../../hooks/useSendContractTx';
@@ -9,6 +9,9 @@ import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { bignumber } from 'mathjs';
 
 export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   className,
@@ -19,6 +22,18 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const claimLiquidSovLocked = checkMaintenance(States.CLAIM_LIQUID_SOV);
   const { send, ...tx } = useSendContractTx('stakingRewards', 'collectReward');
+
+  const { address: stakingRewardAddress } = getContract('stakingRewards');
+  const { value: tokenBalance } = useCacheCallWithValue(
+    'SOV_token',
+    'balanceOf',
+    '0',
+    stakingRewardAddress,
+  );
+
+  const hasTokenBalance = useMemo(() => {
+    return bignumber(tokenBalance).greaterThanOrEqualTo(amountToClaim);
+  }, [amountToClaim, tokenBalance]);
 
   const onSubmit = useCallback(() => {
     send(
@@ -37,6 +52,7 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
     <BaseClaimForm
       className={className}
       amountToClaim={amountToClaim}
+      hasTokenBalance={hasTokenBalance}
       tx={tx}
       onSubmit={onSubmit}
       footer={<Footer />}
