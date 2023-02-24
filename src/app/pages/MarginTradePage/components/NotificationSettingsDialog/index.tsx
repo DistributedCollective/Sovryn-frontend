@@ -47,13 +47,11 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
 
   const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
   const isSubscribedToD1Notifications = (subscriptions: Subscription[]) => {
-    console.log(notificationUser);
     const subscribed = subscriptions
       .filter(item => item.isSubscribed === true)
       .map(item => item.notification);
     const d1Notifications = Object.values(Notification);
     const output = d1Notifications.every(item => subscribed.includes(item));
-    console.log(output);
     return output;
   };
 
