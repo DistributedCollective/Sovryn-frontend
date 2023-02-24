@@ -4,7 +4,7 @@ import { Button, ButtonSize } from 'app/components/Button';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
 import { TransactionDialog } from 'app/components/TransactionDialog';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import classNames from 'classnames';
@@ -14,7 +14,7 @@ import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
+
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { discordInvite } from 'utils/classifiers';
 import { weiToNumberFormat } from 'utils/display-text/format';
@@ -22,6 +22,7 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 interface IBaseClaimFormProps {
   className?: string;
   amountToClaim: string;
+  hasTokenBalance: boolean;
   tx: ResetTxResponseInterface;
   footer?: JSX.Element;
   onSubmit: () => void;
@@ -33,6 +34,7 @@ interface IBaseClaimFormProps {
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   className,
   amountToClaim,
+  hasTokenBalance,
   tx,
   footer,
   onSubmit,
@@ -43,17 +45,6 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
-  const { address } = getContract('stakingRewards');
-  const { value: tokenBalance } = useCacheCallWithValue(
-    'SOV_token',
-    'balanceOf',
-    '0',
-    address,
-  );
-
-  const isTokenBalance = useMemo(() => {
-    return bignumber(tokenBalance).greaterThanOrEqualTo(amountToClaim);
-  }, [amountToClaim, tokenBalance]);
 
   const isDisabled = useMemo(
     () =>
@@ -119,14 +110,14 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
             <Tooltip
               position="bottom"
               className="tw-max-w-lg tw-block"
-              disabled={isTokenBalance}
+              disabled={hasTokenBalance}
               interactionKind="hover"
               content={
                 <>{t(translations.rewardPage.claimForm.claimDisabled)}</>
               }
             >
               <Button
-                disabled={isDisabled || !isTokenBalance}
+                disabled={isDisabled || !hasTokenBalance}
                 onClick={onSubmit}
                 className="tw-w-full tw-mb-4 tw-mt-16"
                 size={ButtonSize.lg}
