@@ -23,6 +23,21 @@ interface INotificationSettingsDialogProps {
   onClose: () => void;
 }
 
+const isSubscribedToD1Notifications = (
+  subscriptions: Subscription[] | undefined,
+) => {
+  if (subscriptions === undefined) {
+    return false;
+  } else {
+    const subscribed = subscriptions
+      .filter(item => item.isSubscribed === true)
+      .map(item => item.notification);
+    const d1Notifications = Object.values(Notification);
+    const output = d1Notifications.every(item => subscribed.includes(item));
+    return output;
+  }
+};
+
 export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogProps> = ({
   isOpen,
   onClose,
@@ -46,15 +61,6 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   const [isDiscordActive, setIsDiscordActive] = useState(false);
 
   const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
-  const isSubscribedToD1Notifications = (subscriptions: Subscription[]) => {
-    const subscribed = subscriptions
-      .filter(item => item.isSubscribed === true)
-      .map(item => item.notification);
-    const d1Notifications = Object.values(Notification);
-    const output = d1Notifications.every(item => subscribed.includes(item));
-    return output;
-  };
-
   const onChangeEmailSwitch = useCallback(
     () => setIsEmailActive(prevValue => !prevValue),
     [],
@@ -85,7 +91,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationUser]);
 
-  const updateSubscriptions = () => {
+  const updateSubscriptions = useCallback(() => {
     if (notificationUser) {
       const subscriptions: Subscription[] = JSON.parse(
         JSON.stringify(notificationUser?.subscriptions),
@@ -110,7 +116,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     } else {
       return [];
     }
-  };
+  }, [notificationUser, isEmailActive]);
 
   const getToken = async () => {
     if (!account) return;
