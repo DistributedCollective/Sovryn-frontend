@@ -47,6 +47,10 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
 
   const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
   const isSubscribedToD1Notifications = (subscriptions: Subscription[]) => {
+    if (!subscriptions) {
+      return false;
+    }
+
     const subscribed = subscriptions
       .filter(item => item.isSubscribed === true)
       .map(item => item.notification);
