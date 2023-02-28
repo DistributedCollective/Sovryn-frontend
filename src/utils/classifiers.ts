@@ -27,11 +27,7 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: [
-    'https://mainnet.sovryn.app/rpc',
-    'https://mainnet2.sovryn.app/rpc',
-    'https://public-node.rsk.co/',
-  ],
+  30: ['https://rsk-live.sovryn.app/rpc', 'https://public-node.rsk.co/'],
   31: [
     'https://testnet.sovryn.app/rpc',
     'https://testnet2.sovryn.app/rpc',
@@ -128,7 +124,7 @@ export const gasLimit = {
   [TxType.STAKING_WITHDRAW]: 650000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
   [TxType.DEPOSIT_COLLATERAL]: 250000,
-  [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
+  [TxType.STAKING_LIQUID_SOV_CLAIM]: 3500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 3000000,
