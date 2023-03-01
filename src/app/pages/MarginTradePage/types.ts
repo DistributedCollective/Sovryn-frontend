@@ -71,7 +71,22 @@ export type NotificationUser = {
   isDiscordNotifications: boolean;
   isEmailNotifications: boolean;
   isTelegramNotifications: boolean;
+  subscriptions: Subscription[];
   role: string;
+};
+
+export enum Notification {
+  MarginCall = 'Margin_Call',
+  Liquidation = 'Liquidation',
+  SpotOrderFilled = 'SpotOrderFilled',
+  MarginOrderFilled = 'MarginOrderFilled',
+  MarginUndercollateralized = 'MarginUndercollateralized',
+}
+
+export type Subscription = {
+  notification: Notification;
+  isSubscribed: boolean;
+  userId: string;
 };
 
 export enum EventType {

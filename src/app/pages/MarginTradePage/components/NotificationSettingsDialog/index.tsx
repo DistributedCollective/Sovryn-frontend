@@ -16,11 +16,27 @@ import { parseJwt, validateEmail } from 'utils/helpers';
 import { walletService } from '@sovryn/react-wallet';
 import { Toast } from 'app/components/Toast';
 import { currentChainId, notificationServiceUrl } from 'utils/classifiers';
+import { Notification, Subscription } from '../../types';
 
 interface INotificationSettingsDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const isSubscribedToD1Notifications = (
+  subscriptions: Subscription[] | undefined,
+) => {
+  if (subscriptions === undefined) {
+    return false;
+  } else {
+    const subscribed = subscriptions
+      .filter(item => item.isSubscribed === true)
+      .map(item => item.notification);
+    const d1Notifications = Object.values(Notification);
+    const output = d1Notifications.every(item => subscribed.includes(item));
+    return output;
+  }
+};
 
 export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogProps> = ({
   isOpen,
@@ -45,7 +61,6 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   const [isDiscordActive, setIsDiscordActive] = useState(false);
 
   const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
-
   const onChangeEmailSwitch = useCallback(
     () => setIsEmailActive(prevValue => !prevValue),
     [],
@@ -75,6 +90,33 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     resetForm(notificationUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationUser]);
+
+  const updateSubscriptions = useCallback(() => {
+    if (notificationUser) {
+      const subscriptions: Subscription[] = JSON.parse(
+        JSON.stringify(notificationUser?.subscriptions),
+      );
+      const d1Notifications = Object.values(Notification);
+      d1Notifications.forEach(item => {
+        const foundSubscription = subscriptions.findIndex(
+          sub => sub.notification === item,
+        );
+        if (foundSubscription >= 0) {
+          subscriptions[foundSubscription].isSubscribed = isEmailActive;
+        } else {
+          const newSubscription: Subscription = {
+            notification: item,
+            userId: notificationUser.id,
+            isSubscribed: isEmailActive,
+          };
+          subscriptions.push(newSubscription);
+        }
+      });
+      return subscriptions;
+    } else {
+      return [];
+    }
+  }, [notificationUser, isEmailActive]);
 
   const getToken = async () => {
     if (!account) return;
@@ -155,6 +197,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
           isEmailNotifications: isEmailActive,
           isDiscordNotifications: isDiscordActive,
           isTelegramNotifications: isTelegramActive,
+          subscriptions: updateSubscriptions(),
         },
         {
           headers: {
@@ -195,7 +238,9 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     setTelegramUsername(user?.telegramHandle || '');
     setIsTelegramActive(!!user?.isTelegramNotifications);
     setEmail(user?.email || '');
-    setIsEmailActive(!!user?.isEmailNotifications);
+    setIsEmailActive(
+      isSubscribedToD1Notifications(user?.subscriptions) === true,
+    );
   };
 
   return (
