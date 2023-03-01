@@ -101,7 +101,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
         const foundSubscription = subscriptions.findIndex(
           sub => sub.notification === item,
         );
-        if (foundSubscription) {
+        if (foundSubscription >= 0) {
           subscriptions[foundSubscription].isSubscribed = isEmailActive;
         } else {
           const newSubscription: Subscription = {
