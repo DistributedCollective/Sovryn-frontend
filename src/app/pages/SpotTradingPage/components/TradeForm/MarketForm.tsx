@@ -52,7 +52,6 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  // const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
