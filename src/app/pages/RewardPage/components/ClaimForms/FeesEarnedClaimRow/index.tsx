@@ -63,7 +63,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const onSubmit = useCallback(() => {
     if (asset === Asset.RBTC) {
       withdrawRBTC(
-        [maxCheckpoints, address],
+        [0, address],
         { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
         { type: TxType.STAKING_REWARDS_CLAIM },
       );
