@@ -149,11 +149,6 @@ export const SwapFormContainer: React.FC = () => {
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const { sourceTokenValue, targeTokenValue } = useGetMaximumAssetPrice(
-    sourceToken,
-    targetToken,
-    slippage,
-  );
 
   const { value: path } = useSwapNetwork_conversionPath(
     AssetsDictionary.get(sourceToken).getTokenContractAddress(),
@@ -201,6 +196,14 @@ export const SwapFormContainer: React.FC = () => {
       setFavList(list);
     },
     [favList],
+  );
+
+  const { sourceTokenValue, targetTokenValue } = useGetMaximumAssetPrice(
+    weiAmount,
+    minReturn,
+    sourceToken,
+    targetToken,
+    slippage,
   );
 
   return (
@@ -329,7 +332,7 @@ export const SwapFormContainer: React.FC = () => {
                 <Tooltip
                   content={
                     <AssetValue
-                      value={targeTokenValue}
+                      value={sourceTokenValue}
                       assetString={sourceToken}
                       mode={AssetValueMode.auto}
                       maxDecimals={6}
@@ -337,7 +340,7 @@ export const SwapFormContainer: React.FC = () => {
                   }
                 >
                   <AssetValue
-                    value={sourceTokenValue}
+                    value={targetTokenValue}
                     assetString={targetToken}
                     mode={AssetValueMode.auto}
                     maxDecimals={6}

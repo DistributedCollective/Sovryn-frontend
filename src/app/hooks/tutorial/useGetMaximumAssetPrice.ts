@@ -1,3 +1,4 @@
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { bignumber } from 'mathjs';
 import { useMemo } from 'react';
@@ -5,25 +6,14 @@ import { Asset } from 'types';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../swap-network/useSwapsExternal_getSwapExpectedReturn';
 
-const oneToken = toWei(1);
-
-const getMaximumPrice = (rate: string, slippage: number) =>
-  bignumber(rate).mul(slippage).toString();
-
 export const useGetMaximumAssetPrice = (
+  sourceAmount: string,
+  minimumReceived: string,
   sourceToken: Asset,
   targetToken: Asset,
   slippage: number,
   tradeType?: TradingTypes,
 ) => {
-  const baseToken = useMemo(() => {
-    if (!tradeType) {
-      return sourceToken;
-    }
-
-    return tradeType === TradingTypes.BUY ? targetToken : sourceToken;
-  }, [sourceToken, targetToken, tradeType]);
-
   const quoteToken = useMemo(() => {
     if (!tradeType) {
       return targetToken;
@@ -32,32 +22,39 @@ export const useGetMaximumAssetPrice = (
     return tradeType === TradingTypes.BUY ? sourceToken : targetToken;
   }, [sourceToken, targetToken, tradeType]);
 
-  const slippageMultiplier = useMemo(() => 1 + slippage / 100, [slippage]);
-
-  // Used on Spot page
-  const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
-    baseToken,
-    quoteToken,
-    oneToken,
+  const sourceTokenValue = useMemo(
+    () => toWei(bignumber(sourceAmount).div(minimumReceived)),
+    [minimumReceived, sourceAmount],
   );
 
-  // Used on Swap page
-  const { value: rateByPathSource } = useSwapsExternal_getSwapExpectedReturn(
-    sourceToken,
-    targetToken,
-    oneToken,
+  const maximumSpotPrice = useMemo(
+    () =>
+      tradeType === TradingTypes.BUY
+        ? sourceTokenValue
+        : toWei(bignumber(minimumReceived).div(sourceAmount)),
+    [minimumReceived, sourceAmount, sourceTokenValue, tradeType],
   );
 
-  const { value: rateByPathTarget } = useSwapsExternal_getSwapExpectedReturn(
+  const { value: targetTokenRate } = useSwapsExternal_getSwapExpectedReturn(
     targetToken,
     sourceToken,
-    oneToken,
+    minimumReceived,
+  );
+
+  const { minReturn: targetTokenRateWithSlippage } = useSlippage(
+    targetTokenRate,
+    slippage,
+  );
+
+  const targetTokenValue = useMemo(
+    () => toWei(bignumber(minimumReceived).div(targetTokenRateWithSlippage)),
+    [minimumReceived, targetTokenRateWithSlippage],
   );
 
   return {
-    value: getMaximumPrice(rateByPath, slippageMultiplier),
+    maximumSpotPrice,
     token: quoteToken,
-    sourceTokenValue: getMaximumPrice(rateByPathSource, slippageMultiplier),
-    targeTokenValue: getMaximumPrice(rateByPathTarget, slippageMultiplier),
+    sourceTokenValue,
+    targetTokenValue,
   };
 };
