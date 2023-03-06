@@ -332,16 +332,16 @@ export const SwapFormContainer: React.FC = () => {
                 <Tooltip
                   content={
                     <AssetValue
-                      value={sourceTokenValue}
-                      assetString={sourceToken}
+                      value={targetTokenValue}
+                      assetString={targetToken}
                       mode={AssetValueMode.auto}
                       maxDecimals={6}
                     />
                   }
                 >
                   <AssetValue
-                    value={targetTokenValue}
-                    assetString={targetToken}
+                    value={sourceTokenValue}
+                    assetString={sourceToken}
                     mode={AssetValueMode.auto}
                     maxDecimals={6}
                   />
