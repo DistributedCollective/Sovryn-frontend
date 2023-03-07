@@ -26,7 +26,7 @@ const parsePairData = (
   let highPrice = 0;
   let lowPrice = 0;
 
-  /** Special case for RBTC/XUSD pair */
+  /** Special case for RBTC/XUSD pair - underlying AMM pool is XUSD/RBTC but we need to display the reverse */
   if (
     pairData[0].trading_pairs === pairData[1].trading_pairs &&
     pairData[1].base_symbol === Asset.XUSD
