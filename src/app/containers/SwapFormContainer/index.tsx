@@ -42,6 +42,10 @@ import { IPairsData } from 'types/trading-pairs';
 import { useInterval } from 'app/hooks/useInterval';
 import { getFavoriteList } from 'utils/helpers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
+import { useGetMaximumAssetPrice } from 'app/hooks/tutorial/useGetMaximumAssetPrice';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
+import { Tooltip } from '@blueprintjs/core';
 
 const refreshInterval = 300000;
 
@@ -194,6 +198,14 @@ export const SwapFormContainer: React.FC = () => {
     [favList],
   );
 
+  const { sourceTokenValue, targetTokenValue } = useGetMaximumAssetPrice(
+    weiAmount,
+    minReturn,
+    sourceToken,
+    targetToken,
+    slippage,
+  );
+
   return (
     <>
       <SlippageDialog
@@ -311,6 +323,29 @@ export const SwapFormContainer: React.FC = () => {
               <div>
                 {weiToNumberFormat(minReturn, 6)}{' '}
                 <AssetRenderer asset={targetToken} />
+              </div>
+            </div>
+
+            <div className={styles.swapBtnHelper}>
+              <div>{t(translations.swap.maximumPrice)}</div>
+              <div>
+                <Tooltip
+                  content={
+                    <AssetValue
+                      value={targetTokenValue}
+                      assetString={targetToken}
+                      mode={AssetValueMode.auto}
+                      maxDecimals={6}
+                    />
+                  }
+                >
+                  <AssetValue
+                    value={sourceTokenValue}
+                    assetString={sourceToken}
+                    mode={AssetValueMode.auto}
+                    maxDecimals={6}
+                  />
+                </Tooltip>
               </div>
             </div>
           </FormGroup>
