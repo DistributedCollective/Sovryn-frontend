@@ -98,7 +98,7 @@ export function App() {
                   path="/yield-farm"
                   component={LiquidityMiningPage}
                 />
-                <Route exact path="/reward" component={RewardPage} />
+                <Route exact path="/rewards" component={RewardPage} />
                 <Redirect exact path="/wallet" to="/portfolio" />
                 <Route exact path="/portfolio" component={PortfolioPage} />
                 <Route exact path="/origins" component={OriginsLaunchpadPage} />
