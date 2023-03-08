@@ -1,4 +1,16 @@
+import { bignumber } from 'mathjs';
 import { IPairData } from 'types/trading-pairs';
+
+export const getPercentageChange = (
+  currentPrice: number,
+  prevPrice: number,
+) => {
+  const diff = currentPrice - prevPrice;
+  if (diff === 0) {
+    return 0;
+  }
+  return (diff / prevPrice) * 100;
+};
 
 export const getLastPrice = (
   pair0: IPairData,
@@ -22,56 +34,31 @@ export const getLastPrice = (
   return lastPrice;
 };
 
-export const getDayPrice = (
-  pair0: IPairData,
-  pair1: IPairData,
-  RBTC_source: string,
-) => {
-  //generating dayPrice for all pairs
-  let dayPrice = 0;
-  //for pairs without RBTC
-  if (pair1 !== pair0) {
-    dayPrice = pair0.day_price / pair1.day_price;
-  }
-  //for pairs with RBTC as source
-  if (RBTC_source) {
-    dayPrice = 1 / pair0.day_price;
-  }
-  //for pairs with RBTC as target
-  if (pair0.base_symbol === pair1.base_symbol && !RBTC_source) {
-    dayPrice = pair0.day_price;
-  }
-  return dayPrice;
-};
-
 export const getPercent = (
   pair0: IPairData,
   pair1: IPairData,
   RBTC_source: string,
 ) => {
-  const lastPrice = getLastPrice(pair0, pair1, RBTC_source);
-  const dayPrice = getDayPrice(pair0, pair1, RBTC_source);
-
-  //generating dayPrice for all pairs
-  let percent = 0;
-  //for pairs without RBTC
-  if (pair1 !== pair0) {
-    if (lastPrice > dayPrice) {
-      percent = ((lastPrice - dayPrice) / dayPrice) * 100;
-    } else if (lastPrice < dayPrice) {
-      percent = ((lastPrice - dayPrice) / lastPrice) * 100;
-    }
-  }
-  //for pairs with RBTC as source
+  // //for pairs with RBTC as source
   if (RBTC_source) {
-    percent =
-      pair0.price_change_percent_24h !== 0
-        ? -pair0.price_change_percent_24h
-        : pair0.price_change_percent_24h;
+    const percent = bignumber(0).minus(pair0.price_change_percent_24h);
+    return percent.toFixed(18);
   }
-  //for pairs with RBTC as target
+
+  // for pairs with RBTC as target
   if (pair0.base_symbol === pair1.base_symbol && !RBTC_source) {
-    percent = pair0.price_change_percent_24h;
+    const percent = pair0.price_change_percent_24h;
+    return percent;
   }
-  return percent;
+
+  if (pair1 !== pair0) {
+    const lastPrice = bignumber(pair0.last_price).div(
+      bignumber(pair1.last_price),
+    );
+    const dayPrice = bignumber(pair0.day_price).div(bignumber(pair1.day_price));
+    const percent = getPercentageChange(Number(lastPrice), Number(dayPrice));
+    return parseFloat(percent.toFixed(18));
+  }
+
+  return 0;
 };
