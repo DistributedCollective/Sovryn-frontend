@@ -6,18 +6,12 @@ import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { watchPrice } from 'utils/pair-price-tracker';
 import { Asset } from 'types';
+import { getPercentageChange } from '../PairNavbar/utils';
+import { bignumber } from 'mathjs';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
 }
-
-const getPercentageChange = (currentPrice: number, prevPrice: number) => {
-  const diff = currentPrice - prevPrice;
-  if (diff === 0) {
-    return 0;
-  }
-  return (diff / prevPrice) * 100;
-};
 
 const parsePairData = (
   pairData: ITradingPairs,
@@ -31,30 +25,42 @@ const parsePairData = (
   let percentageChange = 0;
   let highPrice = 0;
   let lowPrice = 0;
+
+  /** Special case for RBTC/XUSD pair - underlying AMM pool is XUSD/RBTC but we need to display the reverse */
+  if (
+    pairData[0].trading_pairs === pairData[1].trading_pairs &&
+    pairData[1].base_symbol === Asset.XUSD
+  ) {
+    lastPrice = pairData[0].last_price;
+    percentageChange = -pairData[0].price_change_percent_24h;
+    lowPrice = Number(bignumber(1).div(pairData[0].high_price_24h).toFixed(18));
+    highPrice = Number(bignumber(1).div(pairData[0].lowest_price_24h));
+    return { highPrice, lowPrice, percentageChange, lastPrice };
+  }
+
   /** BTC is quote symbol */
   if (pairData[0].trading_pairs === pairData[1].trading_pairs) {
     lastPrice = pairData[0].last_price;
     percentageChange = pairData[0].price_change_percent_24h;
     highPrice = pairData[0].high_price_24h;
     lowPrice = pairData[0].lowest_price_24h;
-  } else {
-    lastPrice = pairData[0].last_price * (1 / pairData[1].last_price);
-    percentageChange = getPercentageChange(
-      lastPrice,
-      pairData[0].day_price * (1 / pairData[1].day_price),
-    );
-    if (pairData[1].base_symbol === Asset.XUSD) {
-      highPrice = pairData[0].high_price_24h_usd;
-      lowPrice = pairData[0].lowest_price_24h_usd;
-    }
+    return { highPrice, lowPrice, percentageChange, lastPrice };
   }
 
-  return {
+  lastPrice = pairData[0].last_price * (1 / pairData[1].last_price);
+  percentageChange = getPercentageChange(
     lastPrice,
-    percentageChange,
-    highPrice,
-    lowPrice,
-  };
+    pairData[0].day_price * (1 / pairData[1].day_price),
+  );
+
+  /** XUSD is quote symbol */
+  if (pairData[1].base_symbol === Asset.XUSD) {
+    highPrice = pairData[0].high_price_24h_usd;
+    lowPrice = pairData[0].lowest_price_24h_usd;
+    return { highPrice, lowPrice, percentageChange, lastPrice };
+  }
+
+  return { highPrice, lowPrice, percentageChange, lastPrice };
 };
 
 export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {

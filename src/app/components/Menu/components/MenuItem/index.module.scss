@@ -9,9 +9,9 @@
     }
 
     &.disabled {
-      @apply tw-opacity-50 tw-cursor-not-allowed;
+      @apply tw-opacity-50 tw-cursor-not-allowed tw-pointer-events-none;
     }
-    
+
     &.active {
       @apply tw-text-sov-white tw-bg-gray-3 tw-font-bold tw-opacity-100;
     }
