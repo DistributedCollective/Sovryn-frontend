@@ -132,7 +132,7 @@ export function LiquidityMining() {
 
           <PromotionCard
             appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Green}
+            backgroundColor={PromotionColor.Orange}
             title={t(translations.promotions.card6.title)}
             text={t(translations.promotions.card6.text)}
             duration={t(translations.liquidityMining.recalibration, {
