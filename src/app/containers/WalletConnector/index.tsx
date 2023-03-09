@@ -125,7 +125,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     />
                     <MenuSeparator />
                     <CopyToClipboard
-                      text={address}
+                      text={address.toLowerCase()}
                       onCopy={() =>
                         toastSuccess(
                           <>{t(translations.onCopy.address)}</>,
