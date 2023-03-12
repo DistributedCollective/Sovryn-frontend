@@ -1,8 +1,17 @@
-directive @derivedFrom(field: String) on FIELD_DEFINITION
+"""
+creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API.
+"""
+directive @derivedFrom(field: String!) on FIELD_DEFINITION
 
+"""
+Marks the GraphQL type as indexable entity.  Each type that should be an entity is required to be annotated with this directive.
+"""
 directive @entity on OBJECT
 
-directive @subgraphId(id: String) on OBJECT
+"""
+Defined a Subgraph ID for an object type
+"""
+directive @subgraphId(id: String!) on OBJECT
 
 scalar BigDecimal
 
@@ -10,14 +19,15 @@ scalar BigInt
 
 type BitcoinTransfer {
   amountBTC: BigDecimal!
-  bitcoinTxHash: Bytes!
-  btcAddress: String!
+  bitcoinTxHash: String
+  btcAddress: String
   createdAtBlockNumber: Int!
   createdAtTimestamp: Int!
   createdAtTx: Transaction!
+  direction: BitcoinTransferDirection!
   feeBTC: BigDecimal!
   id: ID!
-  nonce: Int!
+  nonce: Int
   status: BitcoinTransferStatus!
   totalAmountBTC: BigDecimal!
   updatedAtBlockNumber: Int!
@@ -36,6 +46,10 @@ type BitcoinTransferBatchSending {
 }
 
 input BitcoinTransferBatchSending_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   bitcoinTxHash: Bytes
   bitcoinTxHash_contains: Bytes
   bitcoinTxHash_in: [Bytes!]
@@ -65,8 +79,11 @@ input BitcoinTransferBatchSending_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -74,10 +91,14 @@ input BitcoinTransferBatchSending_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   transferBatchSize: Int
   transferBatchSize_gt: Int
   transferBatchSize_gte: Int
@@ -95,6 +116,11 @@ enum BitcoinTransferBatchSending_orderBy {
   timestamp
   transaction
   transferBatchSize
+}
+
+enum BitcoinTransferDirection {
+  INCOMING
+  OUTGOING
 }
 
 enum BitcoinTransferStatus {
@@ -130,6 +156,10 @@ enum BitcoinTransferStatus {
 }
 
 input BitcoinTransfer_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amountBTC: BigDecimal
   amountBTC_gt: BigDecimal
   amountBTC_gte: BigDecimal
@@ -138,15 +168,31 @@ input BitcoinTransfer_filter {
   amountBTC_lte: BigDecimal
   amountBTC_not: BigDecimal
   amountBTC_not_in: [BigDecimal!]
-  bitcoinTxHash: Bytes
-  bitcoinTxHash_contains: Bytes
-  bitcoinTxHash_in: [Bytes!]
-  bitcoinTxHash_not: Bytes
-  bitcoinTxHash_not_contains: Bytes
-  bitcoinTxHash_not_in: [Bytes!]
+  bitcoinTxHash: String
+  bitcoinTxHash_contains: String
+  bitcoinTxHash_contains_nocase: String
+  bitcoinTxHash_ends_with: String
+  bitcoinTxHash_ends_with_nocase: String
+  bitcoinTxHash_gt: String
+  bitcoinTxHash_gte: String
+  bitcoinTxHash_in: [String!]
+  bitcoinTxHash_lt: String
+  bitcoinTxHash_lte: String
+  bitcoinTxHash_not: String
+  bitcoinTxHash_not_contains: String
+  bitcoinTxHash_not_contains_nocase: String
+  bitcoinTxHash_not_ends_with: String
+  bitcoinTxHash_not_ends_with_nocase: String
+  bitcoinTxHash_not_in: [String!]
+  bitcoinTxHash_not_starts_with: String
+  bitcoinTxHash_not_starts_with_nocase: String
+  bitcoinTxHash_starts_with: String
+  bitcoinTxHash_starts_with_nocase: String
   btcAddress: String
   btcAddress_contains: String
+  btcAddress_contains_nocase: String
   btcAddress_ends_with: String
+  btcAddress_ends_with_nocase: String
   btcAddress_gt: String
   btcAddress_gte: String
   btcAddress_in: [String!]
@@ -154,10 +200,14 @@ input BitcoinTransfer_filter {
   btcAddress_lte: String
   btcAddress_not: String
   btcAddress_not_contains: String
+  btcAddress_not_contains_nocase: String
   btcAddress_not_ends_with: String
+  btcAddress_not_ends_with_nocase: String
   btcAddress_not_in: [String!]
   btcAddress_not_starts_with: String
+  btcAddress_not_starts_with_nocase: String
   btcAddress_starts_with: String
+  btcAddress_starts_with_nocase: String
   createdAtBlockNumber: Int
   createdAtBlockNumber_gt: Int
   createdAtBlockNumber_gte: Int
@@ -175,8 +225,11 @@ input BitcoinTransfer_filter {
   createdAtTimestamp_not: Int
   createdAtTimestamp_not_in: [Int!]
   createdAtTx: String
+  createdAtTx_: Transaction_filter
   createdAtTx_contains: String
+  createdAtTx_contains_nocase: String
   createdAtTx_ends_with: String
+  createdAtTx_ends_with_nocase: String
   createdAtTx_gt: String
   createdAtTx_gte: String
   createdAtTx_in: [String!]
@@ -184,10 +237,18 @@ input BitcoinTransfer_filter {
   createdAtTx_lte: String
   createdAtTx_not: String
   createdAtTx_not_contains: String
+  createdAtTx_not_contains_nocase: String
   createdAtTx_not_ends_with: String
+  createdAtTx_not_ends_with_nocase: String
   createdAtTx_not_in: [String!]
   createdAtTx_not_starts_with: String
+  createdAtTx_not_starts_with_nocase: String
   createdAtTx_starts_with: String
+  createdAtTx_starts_with_nocase: String
+  direction: BitcoinTransferDirection
+  direction_in: [BitcoinTransferDirection!]
+  direction_not: BitcoinTransferDirection
+  direction_not_in: [BitcoinTransferDirection!]
   feeBTC: BigDecimal
   feeBTC_gt: BigDecimal
   feeBTC_gte: BigDecimal
@@ -241,8 +302,11 @@ input BitcoinTransfer_filter {
   updatedAtTimestamp_not: Int
   updatedAtTimestamp_not_in: [Int!]
   updatedAtTx: String
+  updatedAtTx_: Transaction_filter
   updatedAtTx_contains: String
+  updatedAtTx_contains_nocase: String
   updatedAtTx_ends_with: String
+  updatedAtTx_ends_with_nocase: String
   updatedAtTx_gt: String
   updatedAtTx_gte: String
   updatedAtTx_in: [String!]
@@ -250,13 +314,20 @@ input BitcoinTransfer_filter {
   updatedAtTx_lte: String
   updatedAtTx_not: String
   updatedAtTx_not_contains: String
+  updatedAtTx_not_contains_nocase: String
   updatedAtTx_not_ends_with: String
+  updatedAtTx_not_ends_with_nocase: String
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
+  updatedAtTx_not_starts_with_nocase: String
   updatedAtTx_starts_with: String
+  updatedAtTx_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -264,10 +335,14 @@ input BitcoinTransfer_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum BitcoinTransfer_orderBy {
@@ -277,6 +352,7 @@ enum BitcoinTransfer_orderBy {
   createdAtBlockNumber
   createdAtTimestamp
   createdAtTx
+  direction
   feeBTC
   id
   nonce
@@ -286,6 +362,10 @@ enum BitcoinTransfer_orderBy {
   updatedAtTimestamp
   updatedAtTx
   user
+}
+
+input BlockChangedFilter {
+  number_gte: Int!
 }
 
 input Block_height {
@@ -316,6 +396,10 @@ type Borrow {
 }
 
 input Borrow_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   collateralToLoanRate: BigDecimal
   collateralToLoanRate_gt: BigDecimal
   collateralToLoanRate_gte: BigDecimal
@@ -375,8 +459,11 @@ input Borrow_filter {
   lender_not_contains: Bytes
   lender_not_in: [Bytes!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -384,10 +471,14 @@ input Borrow_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   loanToken: Bytes
   loanToken_contains: Bytes
   loanToken_in: [Bytes!]
@@ -419,8 +510,11 @@ input Borrow_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -428,13 +522,20 @@ input Borrow_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -442,10 +543,14 @@ input Borrow_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum Borrow_orderBy {
@@ -536,9 +641,16 @@ enum BridgeType {
 }
 
 input Bridge_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   createdAtTx: String
+  createdAtTx_: Transaction_filter
   createdAtTx_contains: String
+  createdAtTx_contains_nocase: String
   createdAtTx_ends_with: String
+  createdAtTx_ends_with_nocase: String
   createdAtTx_gt: String
   createdAtTx_gte: String
   createdAtTx_in: [String!]
@@ -546,13 +658,20 @@ input Bridge_filter {
   createdAtTx_lte: String
   createdAtTx_not: String
   createdAtTx_not_contains: String
+  createdAtTx_not_contains_nocase: String
   createdAtTx_not_ends_with: String
+  createdAtTx_not_ends_with_nocase: String
   createdAtTx_not_in: [String!]
   createdAtTx_not_starts_with: String
+  createdAtTx_not_starts_with_nocase: String
   createdAtTx_starts_with: String
+  createdAtTx_starts_with_nocase: String
   federation: String
+  federation_: Federation_filter
   federation_contains: String
+  federation_contains_nocase: String
   federation_ends_with: String
+  federation_ends_with_nocase: String
   federation_gt: String
   federation_gte: String
   federation_in: [String!]
@@ -560,10 +679,14 @@ input Bridge_filter {
   federation_lte: String
   federation_not: String
   federation_not_contains: String
+  federation_not_contains_nocase: String
   federation_not_ends_with: String
+  federation_not_ends_with_nocase: String
   federation_not_in: [String!]
   federation_not_starts_with: String
+  federation_not_starts_with_nocase: String
   federation_starts_with: String
+  federation_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -586,11 +709,15 @@ input Bridge_filter {
   isUpgrading_not_in: [Boolean!]
   pausers: [Bytes!]
   pausers_contains: [Bytes!]
+  pausers_contains_nocase: [Bytes!]
   pausers_not: [Bytes!]
   pausers_not_contains: [Bytes!]
+  pausers_not_contains_nocase: [Bytes!]
   prefix: String
   prefix_contains: String
+  prefix_contains_nocase: String
   prefix_ends_with: String
+  prefix_ends_with_nocase: String
   prefix_gt: String
   prefix_gte: String
   prefix_in: [String!]
@@ -598,17 +725,24 @@ input Bridge_filter {
   prefix_lte: String
   prefix_not: String
   prefix_not_contains: String
+  prefix_not_contains_nocase: String
   prefix_not_ends_with: String
+  prefix_not_ends_with_nocase: String
   prefix_not_in: [String!]
   prefix_not_starts_with: String
+  prefix_not_starts_with_nocase: String
   prefix_starts_with: String
+  prefix_starts_with_nocase: String
   type: BridgeType
   type_in: [BridgeType!]
   type_not: BridgeType
   type_not_in: [BridgeType!]
   updatedAtTx: String
+  updatedAtTx_: Transaction_filter
   updatedAtTx_contains: String
+  updatedAtTx_contains_nocase: String
   updatedAtTx_ends_with: String
+  updatedAtTx_ends_with_nocase: String
   updatedAtTx_gt: String
   updatedAtTx_gte: String
   updatedAtTx_in: [String!]
@@ -616,10 +750,14 @@ input Bridge_filter {
   updatedAtTx_lte: String
   updatedAtTx_not: String
   updatedAtTx_not_contains: String
+  updatedAtTx_not_contains_nocase: String
   updatedAtTx_not_ends_with: String
+  updatedAtTx_not_ends_with_nocase: String
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
+  updatedAtTx_not_starts_with_nocase: String
   updatedAtTx_starts_with: String
+  updatedAtTx_starts_with_nocase: String
 }
 
 enum Bridge_orderBy {
@@ -651,9 +789,16 @@ type CandleStickDay implements ICandleStick {
 }
 
 input CandleStickDay_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   baseToken: String
+  baseToken_: Token_filter
   baseToken_contains: String
+  baseToken_contains_nocase: String
   baseToken_ends_with: String
+  baseToken_ends_with_nocase: String
   baseToken_gt: String
   baseToken_gte: String
   baseToken_in: [String!]
@@ -661,10 +806,14 @@ input CandleStickDay_filter {
   baseToken_lte: String
   baseToken_not: String
   baseToken_not_contains: String
+  baseToken_not_contains_nocase: String
   baseToken_not_ends_with: String
+  baseToken_not_ends_with_nocase: String
   baseToken_not_in: [String!]
   baseToken_not_starts_with: String
+  baseToken_not_starts_with_nocase: String
   baseToken_starts_with: String
+  baseToken_starts_with_nocase: String
   close: BigDecimal
   close_gt: BigDecimal
   close_gte: BigDecimal
@@ -714,8 +863,11 @@ input CandleStickDay_filter {
   periodStartUnix_not: Int
   periodStartUnix_not_in: [Int!]
   quoteToken: String
+  quoteToken_: Token_filter
   quoteToken_contains: String
+  quoteToken_contains_nocase: String
   quoteToken_ends_with: String
+  quoteToken_ends_with_nocase: String
   quoteToken_gt: String
   quoteToken_gte: String
   quoteToken_in: [String!]
@@ -723,10 +875,14 @@ input CandleStickDay_filter {
   quoteToken_lte: String
   quoteToken_not: String
   quoteToken_not_contains: String
+  quoteToken_not_contains_nocase: String
   quoteToken_not_ends_with: String
+  quoteToken_not_ends_with_nocase: String
   quoteToken_not_in: [String!]
   quoteToken_not_starts_with: String
+  quoteToken_not_starts_with_nocase: String
   quoteToken_starts_with: String
+  quoteToken_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -772,9 +928,16 @@ type CandleStickFifteenMinute implements ICandleStick {
 }
 
 input CandleStickFifteenMinute_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   baseToken: String
+  baseToken_: Token_filter
   baseToken_contains: String
+  baseToken_contains_nocase: String
   baseToken_ends_with: String
+  baseToken_ends_with_nocase: String
   baseToken_gt: String
   baseToken_gte: String
   baseToken_in: [String!]
@@ -782,10 +945,14 @@ input CandleStickFifteenMinute_filter {
   baseToken_lte: String
   baseToken_not: String
   baseToken_not_contains: String
+  baseToken_not_contains_nocase: String
   baseToken_not_ends_with: String
+  baseToken_not_ends_with_nocase: String
   baseToken_not_in: [String!]
   baseToken_not_starts_with: String
+  baseToken_not_starts_with_nocase: String
   baseToken_starts_with: String
+  baseToken_starts_with_nocase: String
   close: BigDecimal
   close_gt: BigDecimal
   close_gte: BigDecimal
@@ -835,8 +1002,11 @@ input CandleStickFifteenMinute_filter {
   periodStartUnix_not: Int
   periodStartUnix_not_in: [Int!]
   quoteToken: String
+  quoteToken_: Token_filter
   quoteToken_contains: String
+  quoteToken_contains_nocase: String
   quoteToken_ends_with: String
+  quoteToken_ends_with_nocase: String
   quoteToken_gt: String
   quoteToken_gte: String
   quoteToken_in: [String!]
@@ -844,10 +1014,14 @@ input CandleStickFifteenMinute_filter {
   quoteToken_lte: String
   quoteToken_not: String
   quoteToken_not_contains: String
+  quoteToken_not_contains_nocase: String
   quoteToken_not_ends_with: String
+  quoteToken_not_ends_with_nocase: String
   quoteToken_not_in: [String!]
   quoteToken_not_starts_with: String
+  quoteToken_not_starts_with_nocase: String
   quoteToken_starts_with: String
+  quoteToken_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -893,9 +1067,16 @@ type CandleStickFourHour implements ICandleStick {
 }
 
 input CandleStickFourHour_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   baseToken: String
+  baseToken_: Token_filter
   baseToken_contains: String
+  baseToken_contains_nocase: String
   baseToken_ends_with: String
+  baseToken_ends_with_nocase: String
   baseToken_gt: String
   baseToken_gte: String
   baseToken_in: [String!]
@@ -903,10 +1084,14 @@ input CandleStickFourHour_filter {
   baseToken_lte: String
   baseToken_not: String
   baseToken_not_contains: String
+  baseToken_not_contains_nocase: String
   baseToken_not_ends_with: String
+  baseToken_not_ends_with_nocase: String
   baseToken_not_in: [String!]
   baseToken_not_starts_with: String
+  baseToken_not_starts_with_nocase: String
   baseToken_starts_with: String
+  baseToken_starts_with_nocase: String
   close: BigDecimal
   close_gt: BigDecimal
   close_gte: BigDecimal
@@ -956,8 +1141,11 @@ input CandleStickFourHour_filter {
   periodStartUnix_not: Int
   periodStartUnix_not_in: [Int!]
   quoteToken: String
+  quoteToken_: Token_filter
   quoteToken_contains: String
+  quoteToken_contains_nocase: String
   quoteToken_ends_with: String
+  quoteToken_ends_with_nocase: String
   quoteToken_gt: String
   quoteToken_gte: String
   quoteToken_in: [String!]
@@ -965,10 +1153,14 @@ input CandleStickFourHour_filter {
   quoteToken_lte: String
   quoteToken_not: String
   quoteToken_not_contains: String
+  quoteToken_not_contains_nocase: String
   quoteToken_not_ends_with: String
+  quoteToken_not_ends_with_nocase: String
   quoteToken_not_in: [String!]
   quoteToken_not_starts_with: String
+  quoteToken_not_starts_with_nocase: String
   quoteToken_starts_with: String
+  quoteToken_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -1014,9 +1206,16 @@ type CandleStickHour implements ICandleStick {
 }
 
 input CandleStickHour_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   baseToken: String
+  baseToken_: Token_filter
   baseToken_contains: String
+  baseToken_contains_nocase: String
   baseToken_ends_with: String
+  baseToken_ends_with_nocase: String
   baseToken_gt: String
   baseToken_gte: String
   baseToken_in: [String!]
@@ -1024,10 +1223,14 @@ input CandleStickHour_filter {
   baseToken_lte: String
   baseToken_not: String
   baseToken_not_contains: String
+  baseToken_not_contains_nocase: String
   baseToken_not_ends_with: String
+  baseToken_not_ends_with_nocase: String
   baseToken_not_in: [String!]
   baseToken_not_starts_with: String
+  baseToken_not_starts_with_nocase: String
   baseToken_starts_with: String
+  baseToken_starts_with_nocase: String
   close: BigDecimal
   close_gt: BigDecimal
   close_gte: BigDecimal
@@ -1077,8 +1280,11 @@ input CandleStickHour_filter {
   periodStartUnix_not: Int
   periodStartUnix_not_in: [Int!]
   quoteToken: String
+  quoteToken_: Token_filter
   quoteToken_contains: String
+  quoteToken_contains_nocase: String
   quoteToken_ends_with: String
+  quoteToken_ends_with_nocase: String
   quoteToken_gt: String
   quoteToken_gte: String
   quoteToken_in: [String!]
@@ -1086,10 +1292,14 @@ input CandleStickHour_filter {
   quoteToken_lte: String
   quoteToken_not: String
   quoteToken_not_contains: String
+  quoteToken_not_contains_nocase: String
   quoteToken_not_ends_with: String
+  quoteToken_not_ends_with_nocase: String
   quoteToken_not_in: [String!]
   quoteToken_not_starts_with: String
+  quoteToken_not_starts_with_nocase: String
   quoteToken_starts_with: String
+  quoteToken_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -1135,9 +1345,16 @@ type CandleStickMinute implements ICandleStick {
 }
 
 input CandleStickMinute_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   baseToken: String
+  baseToken_: Token_filter
   baseToken_contains: String
+  baseToken_contains_nocase: String
   baseToken_ends_with: String
+  baseToken_ends_with_nocase: String
   baseToken_gt: String
   baseToken_gte: String
   baseToken_in: [String!]
@@ -1145,10 +1362,14 @@ input CandleStickMinute_filter {
   baseToken_lte: String
   baseToken_not: String
   baseToken_not_contains: String
+  baseToken_not_contains_nocase: String
   baseToken_not_ends_with: String
+  baseToken_not_ends_with_nocase: String
   baseToken_not_in: [String!]
   baseToken_not_starts_with: String
+  baseToken_not_starts_with_nocase: String
   baseToken_starts_with: String
+  baseToken_starts_with_nocase: String
   close: BigDecimal
   close_gt: BigDecimal
   close_gte: BigDecimal
@@ -1198,8 +1419,11 @@ input CandleStickMinute_filter {
   periodStartUnix_not: Int
   periodStartUnix_not_in: [Int!]
   quoteToken: String
+  quoteToken_: Token_filter
   quoteToken_contains: String
+  quoteToken_contains_nocase: String
   quoteToken_ends_with: String
+  quoteToken_ends_with_nocase: String
   quoteToken_gt: String
   quoteToken_gte: String
   quoteToken_in: [String!]
@@ -1207,10 +1431,14 @@ input CandleStickMinute_filter {
   quoteToken_lte: String
   quoteToken_not: String
   quoteToken_not_contains: String
+  quoteToken_not_contains_nocase: String
   quoteToken_not_ends_with: String
+  quoteToken_not_ends_with_nocase: String
   quoteToken_not_in: [String!]
   quoteToken_not_starts_with: String
+  quoteToken_not_starts_with_nocase: String
   quoteToken_starts_with: String
+  quoteToken_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -1271,6 +1499,10 @@ type CloseWithDeposit {
 }
 
 input CloseWithDeposit_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   closer: Bytes
   closer_contains: Bytes
   closer_in: [Bytes!]
@@ -1328,8 +1560,11 @@ input CloseWithDeposit_filter {
   lender_not_contains: Bytes
   lender_not_in: [Bytes!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -1337,10 +1572,14 @@ input CloseWithDeposit_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   loanToken: Bytes
   loanToken_contains: Bytes
   loanToken_in: [Bytes!]
@@ -1364,8 +1603,11 @@ input CloseWithDeposit_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -1373,10 +1615,14 @@ input CloseWithDeposit_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: Bytes
   user_contains: Bytes
   user_in: [Bytes!]
@@ -1428,6 +1674,10 @@ type CloseWithSwap {
 }
 
 input CloseWithSwap_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   closer: Bytes
   closer_contains: Bytes
   closer_in: [Bytes!]
@@ -1485,8 +1735,11 @@ input CloseWithSwap_filter {
   loanCloseAmount_not: BigDecimal
   loanCloseAmount_not_in: [BigDecimal!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -1494,10 +1747,14 @@ input CloseWithSwap_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   loanToken: Bytes
   loanToken_contains: Bytes
   loanToken_in: [Bytes!]
@@ -1521,8 +1778,11 @@ input CloseWithSwap_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -1530,10 +1790,14 @@ input CloseWithSwap_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: Bytes
   user_contains: Bytes
   user_in: [Bytes!]
@@ -1587,6 +1851,11 @@ input Conversion_filter {
   _amount_lte: BigDecimal
   _amount_not: BigDecimal
   _amount_not_in: [BigDecimal!]
+
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   _conversionFee: BigDecimal
   _conversionFee_gt: BigDecimal
   _conversionFee_gte: BigDecimal
@@ -1596,8 +1865,11 @@ input Conversion_filter {
   _conversionFee_not: BigDecimal
   _conversionFee_not_in: [BigDecimal!]
   _fromToken: String
+  _fromToken_: Token_filter
   _fromToken_contains: String
+  _fromToken_contains_nocase: String
   _fromToken_ends_with: String
+  _fromToken_ends_with_nocase: String
   _fromToken_gt: String
   _fromToken_gte: String
   _fromToken_in: [String!]
@@ -1605,10 +1877,14 @@ input Conversion_filter {
   _fromToken_lte: String
   _fromToken_not: String
   _fromToken_not_contains: String
+  _fromToken_not_contains_nocase: String
   _fromToken_not_ends_with: String
+  _fromToken_not_ends_with_nocase: String
   _fromToken_not_in: [String!]
   _fromToken_not_starts_with: String
+  _fromToken_not_starts_with_nocase: String
   _fromToken_starts_with: String
+  _fromToken_starts_with_nocase: String
   _protocolFee: BigDecimal
   _protocolFee_gt: BigDecimal
   _protocolFee_gte: BigDecimal
@@ -1626,8 +1902,11 @@ input Conversion_filter {
   _return_not: BigDecimal
   _return_not_in: [BigDecimal!]
   _toToken: String
+  _toToken_: Token_filter
   _toToken_contains: String
+  _toToken_contains_nocase: String
   _toToken_ends_with: String
+  _toToken_ends_with_nocase: String
   _toToken_gt: String
   _toToken_gte: String
   _toToken_in: [String!]
@@ -1635,10 +1914,14 @@ input Conversion_filter {
   _toToken_lte: String
   _toToken_not: String
   _toToken_not_contains: String
+  _toToken_not_contains_nocase: String
   _toToken_not_ends_with: String
+  _toToken_not_ends_with_nocase: String
   _toToken_not_in: [String!]
   _toToken_not_starts_with: String
+  _toToken_not_starts_with_nocase: String
   _toToken_starts_with: String
+  _toToken_starts_with_nocase: String
   _trader: Bytes
   _trader_contains: Bytes
   _trader_in: [Bytes!]
@@ -1654,8 +1937,11 @@ input Conversion_filter {
   blockNumber_not: Int
   blockNumber_not_in: [Int!]
   emittedBy: String
+  emittedBy_: LiquidityPool_filter
   emittedBy_contains: String
+  emittedBy_contains_nocase: String
   emittedBy_ends_with: String
+  emittedBy_ends_with_nocase: String
   emittedBy_gt: String
   emittedBy_gte: String
   emittedBy_in: [String!]
@@ -1663,10 +1949,14 @@ input Conversion_filter {
   emittedBy_lte: String
   emittedBy_not: String
   emittedBy_not_contains: String
+  emittedBy_not_contains_nocase: String
   emittedBy_not_ends_with: String
+  emittedBy_not_ends_with_nocase: String
   emittedBy_not_in: [String!]
   emittedBy_not_starts_with: String
+  emittedBy_not_starts_with_nocase: String
   emittedBy_starts_with: String
+  emittedBy_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -1684,8 +1974,11 @@ input Conversion_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -1693,10 +1986,14 @@ input Conversion_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum Conversion_orderBy {
@@ -1763,6 +2060,12 @@ type ConverterRegistry {
 }
 
 input ConverterRegistry_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  connectorTokens_: Token_filter
+  converters_: LiquidityPool_filter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -1779,6 +2082,7 @@ input ConverterRegistry_filter {
   numConverters_lte: Int
   numConverters_not: Int
   numConverters_not_in: [Int!]
+  smartTokens_: SmartToken_filter
 }
 
 enum ConverterRegistry_orderBy {
@@ -1817,14 +2121,14 @@ type CrossTransfer {
   createdAtTx: Transaction!
 
   """
-  DestinationChain - the destination chain - for outgoing it is BSC/ETH and for incoming it is RSK
-  """
-  destinationChain: BridgeChain!
-
-  """
   Direction - the direction of the cross transfer (Incoming or Outgoing)
   """
   direction: CrossDirection!
+
+  """
+  sourceChain - the source chain - for outgoing it is RSK and for incoming it is BSC/ETH
+  """
+  externalChain: BridgeChain!
 
   """
   Address of the user on the external chain (eg Ethereum, BSC etc.)
@@ -1837,6 +2141,11 @@ type CrossTransfer {
   id: ID!
 
   """
+  IsSigned - is this transfer signed by the federation contract (only relevant for the new federation contracts)
+  """
+  isSigned: Boolean!
+
+  """
   originalTokenAddress - the original token address for the transfer (for outgoing it is just the RSK token address)
   """
   originalTokenAddress: Bytes!
@@ -1845,11 +2154,6 @@ type CrossTransfer {
   sideToken - the SideToken entity if exist of original token address
   """
   sideToken: SideToken
-
-  """
-  sourceChain - the source chain - for outgoing it is RSK and for incoming it is BSC/ETH
-  """
-  sourceChain: BridgeChain!
 
   """
   SourceChainBlockHash - the source chain block hash of the transfer, for outgoing transfers this is just the RSK block hash
@@ -1903,6 +2207,10 @@ type CrossTransfer {
 }
 
 input CrossTransfer_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -1920,8 +2228,11 @@ input CrossTransfer_filter {
   createdAtTimestamp_not: Int
   createdAtTimestamp_not_in: [Int!]
   createdAtTx: String
+  createdAtTx_: Transaction_filter
   createdAtTx_contains: String
+  createdAtTx_contains_nocase: String
   createdAtTx_ends_with: String
+  createdAtTx_ends_with_nocase: String
   createdAtTx_gt: String
   createdAtTx_gte: String
   createdAtTx_in: [String!]
@@ -1929,18 +2240,22 @@ input CrossTransfer_filter {
   createdAtTx_lte: String
   createdAtTx_not: String
   createdAtTx_not_contains: String
+  createdAtTx_not_contains_nocase: String
   createdAtTx_not_ends_with: String
+  createdAtTx_not_ends_with_nocase: String
   createdAtTx_not_in: [String!]
   createdAtTx_not_starts_with: String
+  createdAtTx_not_starts_with_nocase: String
   createdAtTx_starts_with: String
-  destinationChain: BridgeChain
-  destinationChain_in: [BridgeChain!]
-  destinationChain_not: BridgeChain
-  destinationChain_not_in: [BridgeChain!]
+  createdAtTx_starts_with_nocase: String
   direction: CrossDirection
   direction_in: [CrossDirection!]
   direction_not: CrossDirection
   direction_not_in: [CrossDirection!]
+  externalChain: BridgeChain
+  externalChain_in: [BridgeChain!]
+  externalChain_not: BridgeChain
+  externalChain_not_in: [BridgeChain!]
   externalUser: Bytes
   externalUser_contains: Bytes
   externalUser_in: [Bytes!]
@@ -1955,6 +2270,10 @@ input CrossTransfer_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  isSigned: Boolean
+  isSigned_in: [Boolean!]
+  isSigned_not: Boolean
+  isSigned_not_in: [Boolean!]
   originalTokenAddress: Bytes
   originalTokenAddress_contains: Bytes
   originalTokenAddress_in: [Bytes!]
@@ -1962,8 +2281,11 @@ input CrossTransfer_filter {
   originalTokenAddress_not_contains: Bytes
   originalTokenAddress_not_in: [Bytes!]
   sideToken: String
+  sideToken_: SideToken_filter
   sideToken_contains: String
+  sideToken_contains_nocase: String
   sideToken_ends_with: String
+  sideToken_ends_with_nocase: String
   sideToken_gt: String
   sideToken_gte: String
   sideToken_in: [String!]
@@ -1971,11 +2293,14 @@ input CrossTransfer_filter {
   sideToken_lte: String
   sideToken_not: String
   sideToken_not_contains: String
+  sideToken_not_contains_nocase: String
   sideToken_not_ends_with: String
+  sideToken_not_ends_with_nocase: String
   sideToken_not_in: [String!]
   sideToken_not_starts_with: String
+  sideToken_not_starts_with_nocase: String
   sideToken_starts_with: String
-  sourceChain: BridgeChain
+  sideToken_starts_with_nocase: String
   sourceChainBlockHash: Bytes
   sourceChainBlockHash_contains: Bytes
   sourceChainBlockHash_in: [Bytes!]
@@ -1988,16 +2313,15 @@ input CrossTransfer_filter {
   sourceChainTransactionHash_not: Bytes
   sourceChainTransactionHash_not_contains: Bytes
   sourceChainTransactionHash_not_in: [Bytes!]
-  sourceChain_in: [BridgeChain!]
-  sourceChain_not: BridgeChain
-  sourceChain_not_in: [BridgeChain!]
   status: CrossStatus
   status_in: [CrossStatus!]
   status_not: CrossStatus
   status_not_in: [CrossStatus!]
   symbol: String
   symbol_contains: String
+  symbol_contains_nocase: String
   symbol_ends_with: String
+  symbol_ends_with_nocase: String
   symbol_gt: String
   symbol_gte: String
   symbol_in: [String!]
@@ -2005,10 +2329,14 @@ input CrossTransfer_filter {
   symbol_lte: String
   symbol_not: String
   symbol_not_contains: String
+  symbol_not_contains_nocase: String
   symbol_not_ends_with: String
+  symbol_not_ends_with_nocase: String
   symbol_not_in: [String!]
   symbol_not_starts_with: String
+  symbol_not_starts_with_nocase: String
   symbol_starts_with: String
+  symbol_starts_with_nocase: String
   token: String
   tokenAddress: Bytes
   tokenAddress_contains: Bytes
@@ -2016,8 +2344,11 @@ input CrossTransfer_filter {
   tokenAddress_not: Bytes
   tokenAddress_not_contains: Bytes
   tokenAddress_not_in: [Bytes!]
+  token_: Token_filter
   token_contains: String
+  token_contains_nocase: String
   token_ends_with: String
+  token_ends_with_nocase: String
   token_gt: String
   token_gte: String
   token_in: [String!]
@@ -2025,10 +2356,14 @@ input CrossTransfer_filter {
   token_lte: String
   token_not: String
   token_not_contains: String
+  token_not_contains_nocase: String
   token_not_ends_with: String
+  token_not_ends_with_nocase: String
   token_not_in: [String!]
   token_not_starts_with: String
+  token_not_starts_with_nocase: String
   token_starts_with: String
+  token_starts_with_nocase: String
   updatedAtTimestamp: Int
   updatedAtTimestamp_gt: Int
   updatedAtTimestamp_gte: Int
@@ -2038,8 +2373,11 @@ input CrossTransfer_filter {
   updatedAtTimestamp_not: Int
   updatedAtTimestamp_not_in: [Int!]
   updatedAtTx: String
+  updatedAtTx_: Transaction_filter
   updatedAtTx_contains: String
+  updatedAtTx_contains_nocase: String
   updatedAtTx_ends_with: String
+  updatedAtTx_ends_with_nocase: String
   updatedAtTx_gt: String
   updatedAtTx_gte: String
   updatedAtTx_in: [String!]
@@ -2047,13 +2385,20 @@ input CrossTransfer_filter {
   updatedAtTx_lte: String
   updatedAtTx_not: String
   updatedAtTx_not_contains: String
+  updatedAtTx_not_contains_nocase: String
   updatedAtTx_not_ends_with: String
+  updatedAtTx_not_ends_with_nocase: String
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
+  updatedAtTx_not_starts_with_nocase: String
   updatedAtTx_starts_with: String
+  updatedAtTx_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -2061,10 +2406,14 @@ input CrossTransfer_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
   votes: Int
   votes_gt: Int
   votes_gte: Int
@@ -2079,13 +2428,13 @@ enum CrossTransfer_orderBy {
   amount
   createdAtTimestamp
   createdAtTx
-  destinationChain
   direction
+  externalChain
   externalUser
   id
+  isSigned
   originalTokenAddress
   sideToken
-  sourceChain
   sourceChainBlockHash
   sourceChainTransactionHash
   status
@@ -2125,6 +2474,10 @@ type DepositCollateral {
 }
 
 input DepositCollateral_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   depositAmount: BigDecimal
   depositAmount_gt: BigDecimal
   depositAmount_gte: BigDecimal
@@ -2148,8 +2501,11 @@ input DepositCollateral_filter {
   id_not: ID
   id_not_in: [ID!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -2157,10 +2513,14 @@ input DepositCollateral_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   rate: BigDecimal
   rate_gt: BigDecimal
   rate_gte: BigDecimal
@@ -2178,8 +2538,11 @@ input DepositCollateral_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -2187,10 +2550,14 @@ input DepositCollateral_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum DepositCollateral_orderBy {
@@ -2204,6 +2571,10 @@ enum DepositCollateral_orderBy {
 }
 
 input Deposit_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -2241,8 +2612,11 @@ input Deposit_filter {
   to_not_contains: Bytes
   to_not_in: [Bytes!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -2250,10 +2624,14 @@ input Deposit_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum Deposit_orderBy {
@@ -2278,9 +2656,16 @@ type FastBTCBridgeStat {
 }
 
 input FastBTCBridgeStat_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   createdAtTx: String
+  createdAtTx_: Transaction_filter
   createdAtTx_contains: String
+  createdAtTx_contains_nocase: String
   createdAtTx_ends_with: String
+  createdAtTx_ends_with_nocase: String
   createdAtTx_gt: String
   createdAtTx_gte: String
   createdAtTx_in: [String!]
@@ -2288,10 +2673,14 @@ input FastBTCBridgeStat_filter {
   createdAtTx_lte: String
   createdAtTx_not: String
   createdAtTx_not_contains: String
+  createdAtTx_not_contains_nocase: String
   createdAtTx_not_ends_with: String
+  createdAtTx_not_ends_with_nocase: String
   createdAtTx_not_in: [String!]
   createdAtTx_not_starts_with: String
+  createdAtTx_not_starts_with_nocase: String
   createdAtTx_starts_with: String
+  createdAtTx_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -2341,8 +2730,11 @@ input FastBTCBridgeStat_filter {
   totalFeesBTC_not: BigDecimal
   totalFeesBTC_not_in: [BigDecimal!]
   updatedAtTx: String
+  updatedAtTx_: Transaction_filter
   updatedAtTx_contains: String
+  updatedAtTx_contains_nocase: String
   updatedAtTx_ends_with: String
+  updatedAtTx_ends_with_nocase: String
   updatedAtTx_gt: String
   updatedAtTx_gte: String
   updatedAtTx_in: [String!]
@@ -2350,13 +2742,20 @@ input FastBTCBridgeStat_filter {
   updatedAtTx_lte: String
   updatedAtTx_not: String
   updatedAtTx_not_contains: String
+  updatedAtTx_not_contains_nocase: String
   updatedAtTx_not_ends_with: String
+  updatedAtTx_not_ends_with_nocase: String
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
+  updatedAtTx_not_starts_with_nocase: String
   updatedAtTx_starts_with: String
+  updatedAtTx_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -2364,10 +2763,14 @@ input FastBTCBridgeStat_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum FastBTCBridgeStat_orderBy {
@@ -2428,9 +2831,16 @@ type Federation {
 }
 
 input Federation_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   bridge: String
+  bridge_: Bridge_filter
   bridge_contains: String
+  bridge_contains_nocase: String
   bridge_ends_with: String
+  bridge_ends_with_nocase: String
   bridge_gt: String
   bridge_gte: String
   bridge_in: [String!]
@@ -2438,13 +2848,20 @@ input Federation_filter {
   bridge_lte: String
   bridge_not: String
   bridge_not_contains: String
+  bridge_not_contains_nocase: String
   bridge_not_ends_with: String
+  bridge_not_ends_with_nocase: String
   bridge_not_in: [String!]
   bridge_not_starts_with: String
+  bridge_not_starts_with_nocase: String
   bridge_starts_with: String
+  bridge_starts_with_nocase: String
   createdAtTx: String
+  createdAtTx_: Transaction_filter
   createdAtTx_contains: String
+  createdAtTx_contains_nocase: String
   createdAtTx_ends_with: String
+  createdAtTx_ends_with_nocase: String
   createdAtTx_gt: String
   createdAtTx_gte: String
   createdAtTx_in: [String!]
@@ -2452,10 +2869,14 @@ input Federation_filter {
   createdAtTx_lte: String
   createdAtTx_not: String
   createdAtTx_not_contains: String
+  createdAtTx_not_contains_nocase: String
   createdAtTx_not_ends_with: String
+  createdAtTx_not_ends_with_nocase: String
   createdAtTx_not_in: [String!]
   createdAtTx_not_starts_with: String
+  createdAtTx_not_starts_with_nocase: String
   createdAtTx_starts_with: String
+  createdAtTx_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -2470,8 +2891,10 @@ input Federation_filter {
   isActive_not_in: [Boolean!]
   members: [Bytes!]
   members_contains: [Bytes!]
+  members_contains_nocase: [Bytes!]
   members_not: [Bytes!]
   members_not_contains: [Bytes!]
+  members_not_contains_nocase: [Bytes!]
   totalExecuted: Int
   totalExecuted_gt: Int
   totalExecuted_gte: Int
@@ -2489,8 +2912,11 @@ input Federation_filter {
   totalVotes_not: Int
   totalVotes_not_in: [Int!]
   updatedAtTx: String
+  updatedAtTx_: Transaction_filter
   updatedAtTx_contains: String
+  updatedAtTx_contains_nocase: String
   updatedAtTx_ends_with: String
+  updatedAtTx_ends_with_nocase: String
   updatedAtTx_gt: String
   updatedAtTx_gte: String
   updatedAtTx_in: [String!]
@@ -2498,10 +2924,14 @@ input Federation_filter {
   updatedAtTx_lte: String
   updatedAtTx_not: String
   updatedAtTx_not_contains: String
+  updatedAtTx_not_contains_nocase: String
   updatedAtTx_not_ends_with: String
+  updatedAtTx_not_ends_with_nocase: String
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
+  updatedAtTx_not_starts_with_nocase: String
   updatedAtTx_starts_with: String
+  updatedAtTx_starts_with_nocase: String
 }
 
 enum Federation_orderBy {
@@ -2523,6 +2953,10 @@ type FeeSharingTokensTransferred {
 }
 
 input FeeSharingTokensTransferred_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -2558,6 +2992,13 @@ enum FeeSharingTokensTransferred_orderBy {
   id
   sender
   token
+}
+
+enum FeeType {
+  AMM
+  Borrowing
+  Lending
+  Trading
 }
 
 """
@@ -2598,9 +3039,16 @@ interface ICandleStick {
 }
 
 input ICandleStick_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   baseToken: String
+  baseToken_: Token_filter
   baseToken_contains: String
+  baseToken_contains_nocase: String
   baseToken_ends_with: String
+  baseToken_ends_with_nocase: String
   baseToken_gt: String
   baseToken_gte: String
   baseToken_in: [String!]
@@ -2608,10 +3056,14 @@ input ICandleStick_filter {
   baseToken_lte: String
   baseToken_not: String
   baseToken_not_contains: String
+  baseToken_not_contains_nocase: String
   baseToken_not_ends_with: String
+  baseToken_not_ends_with_nocase: String
   baseToken_not_in: [String!]
   baseToken_not_starts_with: String
+  baseToken_not_starts_with_nocase: String
   baseToken_starts_with: String
+  baseToken_starts_with_nocase: String
   close: BigDecimal
   close_gt: BigDecimal
   close_gte: BigDecimal
@@ -2661,8 +3113,11 @@ input ICandleStick_filter {
   periodStartUnix_not: Int
   periodStartUnix_not_in: [Int!]
   quoteToken: String
+  quoteToken_: Token_filter
   quoteToken_contains: String
+  quoteToken_contains_nocase: String
   quoteToken_ends_with: String
+  quoteToken_ends_with_nocase: String
   quoteToken_gt: String
   quoteToken_gte: String
   quoteToken_in: [String!]
@@ -2670,10 +3125,14 @@ input ICandleStick_filter {
   quoteToken_lte: String
   quoteToken_not: String
   quoteToken_not_contains: String
+  quoteToken_not_contains_nocase: String
   quoteToken_not_ends_with: String
+  quoteToken_not_ends_with_nocase: String
   quoteToken_not_in: [String!]
   quoteToken_not_starts_with: String
+  quoteToken_not_starts_with_nocase: String
   quoteToken_starts_with: String
+  quoteToken_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -2746,6 +3205,10 @@ type LendingHistoryItem {
 }
 
 input LendingHistoryItem_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -2755,8 +3218,11 @@ input LendingHistoryItem_filter {
   amount_not: BigDecimal
   amount_not_in: [BigDecimal!]
   asset: String
+  asset_: Token_filter
   asset_contains: String
+  asset_contains_nocase: String
   asset_ends_with: String
+  asset_ends_with_nocase: String
   asset_gt: String
   asset_gte: String
   asset_in: [String!]
@@ -2764,13 +3230,19 @@ input LendingHistoryItem_filter {
   asset_lte: String
   asset_not: String
   asset_not_contains: String
+  asset_not_contains_nocase: String
   asset_not_ends_with: String
+  asset_not_ends_with_nocase: String
   asset_not_in: [String!]
   asset_not_starts_with: String
+  asset_not_starts_with_nocase: String
   asset_starts_with: String
+  asset_starts_with_nocase: String
   emittedBy: String
   emittedBy_contains: String
+  emittedBy_contains_nocase: String
   emittedBy_ends_with: String
+  emittedBy_ends_with_nocase: String
   emittedBy_gt: String
   emittedBy_gte: String
   emittedBy_in: [String!]
@@ -2778,10 +3250,14 @@ input LendingHistoryItem_filter {
   emittedBy_lte: String
   emittedBy_not: String
   emittedBy_not_contains: String
+  emittedBy_not_contains_nocase: String
   emittedBy_not_ends_with: String
+  emittedBy_not_ends_with_nocase: String
   emittedBy_not_in: [String!]
   emittedBy_not_starts_with: String
+  emittedBy_not_starts_with_nocase: String
   emittedBy_starts_with: String
+  emittedBy_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -2791,8 +3267,11 @@ input LendingHistoryItem_filter {
   id_not: ID
   id_not_in: [ID!]
   lender: String
+  lender_: User_filter
   lender_contains: String
+  lender_contains_nocase: String
   lender_ends_with: String
+  lender_ends_with_nocase: String
   lender_gt: String
   lender_gte: String
   lender_in: [String!]
@@ -2800,13 +3279,20 @@ input LendingHistoryItem_filter {
   lender_lte: String
   lender_not: String
   lender_not_contains: String
+  lender_not_contains_nocase: String
   lender_not_ends_with: String
+  lender_not_ends_with_nocase: String
   lender_not_in: [String!]
   lender_not_starts_with: String
+  lender_not_starts_with_nocase: String
   lender_starts_with: String
+  lender_starts_with_nocase: String
   lendingPool: String
+  lendingPool_: LendingPool_filter
   lendingPool_contains: String
+  lendingPool_contains_nocase: String
   lendingPool_ends_with: String
+  lendingPool_ends_with_nocase: String
   lendingPool_gt: String
   lendingPool_gte: String
   lendingPool_in: [String!]
@@ -2814,10 +3300,14 @@ input LendingHistoryItem_filter {
   lendingPool_lte: String
   lendingPool_not: String
   lendingPool_not_contains: String
+  lendingPool_not_contains_nocase: String
   lendingPool_not_ends_with: String
+  lendingPool_not_ends_with_nocase: String
   lendingPool_not_in: [String!]
   lendingPool_not_starts_with: String
+  lendingPool_not_starts_with_nocase: String
   lendingPool_starts_with: String
+  lendingPool_starts_with_nocase: String
   loanTokenAmount: BigDecimal
   loanTokenAmount_gt: BigDecimal
   loanTokenAmount_gte: BigDecimal
@@ -2835,8 +3325,11 @@ input LendingHistoryItem_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -2844,17 +3337,24 @@ input LendingHistoryItem_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   type: LendingHistoryType
   type_in: [LendingHistoryType!]
   type_not: LendingHistoryType
   type_not_in: [LendingHistoryType!]
   userLendingHistory: String
+  userLendingHistory_: UserLendingHistory_filter
   userLendingHistory_contains: String
+  userLendingHistory_contains_nocase: String
   userLendingHistory_ends_with: String
+  userLendingHistory_ends_with_nocase: String
   userLendingHistory_gt: String
   userLendingHistory_gte: String
   userLendingHistory_in: [String!]
@@ -2862,10 +3362,14 @@ input LendingHistoryItem_filter {
   userLendingHistory_lte: String
   userLendingHistory_not: String
   userLendingHistory_not_contains: String
+  userLendingHistory_not_contains_nocase: String
   userLendingHistory_not_ends_with: String
+  userLendingHistory_not_ends_with_nocase: String
   userLendingHistory_not_in: [String!]
   userLendingHistory_not_starts_with: String
+  userLendingHistory_not_starts_with_nocase: String
   userLendingHistory_starts_with: String
+  userLendingHistory_starts_with_nocase: String
 }
 
 enum LendingHistoryItem_orderBy {
@@ -2928,6 +3432,10 @@ type LendingPool {
 }
 
 input LendingPool_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   assetBalance: BigDecimal
   assetBalance_gt: BigDecimal
   assetBalance_gte: BigDecimal
@@ -2961,8 +3469,11 @@ input LendingPool_filter {
   totalAssetLent_not: BigDecimal
   totalAssetLent_not_in: [BigDecimal!]
   underlyingAsset: String
+  underlyingAsset_: Token_filter
   underlyingAsset_contains: String
+  underlyingAsset_contains_nocase: String
   underlyingAsset_ends_with: String
+  underlyingAsset_ends_with_nocase: String
   underlyingAsset_gt: String
   underlyingAsset_gte: String
   underlyingAsset_in: [String!]
@@ -2970,10 +3481,14 @@ input LendingPool_filter {
   underlyingAsset_lte: String
   underlyingAsset_not: String
   underlyingAsset_not_contains: String
+  underlyingAsset_not_contains_nocase: String
   underlyingAsset_not_ends_with: String
+  underlyingAsset_not_ends_with_nocase: String
   underlyingAsset_not_in: [String!]
   underlyingAsset_not_starts_with: String
+  underlyingAsset_not_starts_with_nocase: String
   underlyingAsset_starts_with: String
+  underlyingAsset_starts_with_nocase: String
 }
 
 enum LendingPool_orderBy {
@@ -3005,6 +3520,10 @@ type Liquidate {
 }
 
 input Liquidate_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   collateralToLoanRate: BigDecimal
   collateralToLoanRate_gt: BigDecimal
   collateralToLoanRate_gte: BigDecimal
@@ -3062,8 +3581,11 @@ input Liquidate_filter {
   liquidator_not_contains: Bytes
   liquidator_not_in: [Bytes!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -3071,10 +3593,14 @@ input Liquidate_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   loanToken: Bytes
   loanToken_contains: Bytes
   loanToken_in: [Bytes!]
@@ -3098,8 +3624,11 @@ input Liquidate_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -3107,13 +3636,20 @@ input Liquidate_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -3121,10 +3657,14 @@ input Liquidate_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum Liquidate_orderBy {
@@ -3200,6 +3740,10 @@ type LiquidityHistoryItem {
 }
 
 input LiquidityHistoryItem_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -3210,7 +3754,9 @@ input LiquidityHistoryItem_filter {
   amount_not_in: [BigDecimal!]
   emittedBy: String
   emittedBy_contains: String
+  emittedBy_contains_nocase: String
   emittedBy_ends_with: String
+  emittedBy_ends_with_nocase: String
   emittedBy_gt: String
   emittedBy_gte: String
   emittedBy_in: [String!]
@@ -3218,10 +3764,14 @@ input LiquidityHistoryItem_filter {
   emittedBy_lte: String
   emittedBy_not: String
   emittedBy_not_contains: String
+  emittedBy_not_contains_nocase: String
   emittedBy_not_ends_with: String
+  emittedBy_not_ends_with_nocase: String
   emittedBy_not_in: [String!]
   emittedBy_not_starts_with: String
+  emittedBy_not_starts_with_nocase: String
   emittedBy_starts_with: String
+  emittedBy_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -3231,8 +3781,11 @@ input LiquidityHistoryItem_filter {
   id_not: ID
   id_not_in: [ID!]
   liquidityPool: String
+  liquidityPool_: LiquidityPool_filter
   liquidityPool_contains: String
+  liquidityPool_contains_nocase: String
   liquidityPool_ends_with: String
+  liquidityPool_ends_with_nocase: String
   liquidityPool_gt: String
   liquidityPool_gte: String
   liquidityPool_in: [String!]
@@ -3240,10 +3793,14 @@ input LiquidityHistoryItem_filter {
   liquidityPool_lte: String
   liquidityPool_not: String
   liquidityPool_not_contains: String
+  liquidityPool_not_contains_nocase: String
   liquidityPool_not_ends_with: String
+  liquidityPool_not_ends_with_nocase: String
   liquidityPool_not_in: [String!]
   liquidityPool_not_starts_with: String
+  liquidityPool_not_starts_with_nocase: String
   liquidityPool_starts_with: String
+  liquidityPool_starts_with_nocase: String
   newBalance: BigDecimal
   newBalance_gt: BigDecimal
   newBalance_gte: BigDecimal
@@ -3262,7 +3819,9 @@ input LiquidityHistoryItem_filter {
   newSupply_not_in: [BigDecimal!]
   provider: String
   provider_contains: String
+  provider_contains_nocase: String
   provider_ends_with: String
+  provider_ends_with_nocase: String
   provider_gt: String
   provider_gte: String
   provider_in: [String!]
@@ -3270,13 +3829,20 @@ input LiquidityHistoryItem_filter {
   provider_lte: String
   provider_not: String
   provider_not_contains: String
+  provider_not_contains_nocase: String
   provider_not_ends_with: String
+  provider_not_ends_with_nocase: String
   provider_not_in: [String!]
   provider_not_starts_with: String
+  provider_not_starts_with_nocase: String
   provider_starts_with: String
+  provider_starts_with_nocase: String
   reserveToken: String
+  reserveToken_: Token_filter
   reserveToken_contains: String
+  reserveToken_contains_nocase: String
   reserveToken_ends_with: String
+  reserveToken_ends_with_nocase: String
   reserveToken_gt: String
   reserveToken_gte: String
   reserveToken_in: [String!]
@@ -3284,10 +3850,14 @@ input LiquidityHistoryItem_filter {
   reserveToken_lte: String
   reserveToken_not: String
   reserveToken_not_contains: String
+  reserveToken_not_contains_nocase: String
   reserveToken_not_ends_with: String
+  reserveToken_not_ends_with_nocase: String
   reserveToken_not_in: [String!]
   reserveToken_not_starts_with: String
+  reserveToken_not_starts_with_nocase: String
   reserveToken_starts_with: String
+  reserveToken_starts_with_nocase: String
   timestamp: Int
   timestamp_gt: Int
   timestamp_gte: Int
@@ -3297,8 +3867,11 @@ input LiquidityHistoryItem_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -3306,18 +3879,25 @@ input LiquidityHistoryItem_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   type: LiquidityHistoryType
   type_in: [LiquidityHistoryType!]
   type_not: LiquidityHistoryType
   type_not_in: [LiquidityHistoryType!]
   user: String
   userLiquidityHistory: String
+  userLiquidityHistory_: UserLiquidityHistory_filter
   userLiquidityHistory_contains: String
+  userLiquidityHistory_contains_nocase: String
   userLiquidityHistory_ends_with: String
+  userLiquidityHistory_ends_with_nocase: String
   userLiquidityHistory_gt: String
   userLiquidityHistory_gte: String
   userLiquidityHistory_in: [String!]
@@ -3325,12 +3905,19 @@ input LiquidityHistoryItem_filter {
   userLiquidityHistory_lte: String
   userLiquidityHistory_not: String
   userLiquidityHistory_not_contains: String
+  userLiquidityHistory_not_contains_nocase: String
   userLiquidityHistory_not_ends_with: String
+  userLiquidityHistory_not_ends_with_nocase: String
   userLiquidityHistory_not_in: [String!]
   userLiquidityHistory_not_starts_with: String
+  userLiquidityHistory_not_starts_with_nocase: String
   userLiquidityHistory_starts_with: String
+  userLiquidityHistory_starts_with_nocase: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -3338,10 +3925,14 @@ input LiquidityHistoryItem_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum LiquidityHistoryItem_orderBy {
@@ -3401,6 +3992,10 @@ type LiquidityMiningAllocationPoint {
 }
 
 input LiquidityMiningAllocationPoint_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   allocationPoint: BigInt
   allocationPoint_gt: BigInt
   allocationPoint_gte: BigInt
@@ -3410,8 +4005,11 @@ input LiquidityMiningAllocationPoint_filter {
   allocationPoint_not: BigInt
   allocationPoint_not_in: [BigInt!]
   ammPoolToken: String
+  ammPoolToken_: SmartToken_filter
   ammPoolToken_contains: String
+  ammPoolToken_contains_nocase: String
   ammPoolToken_ends_with: String
+  ammPoolToken_ends_with_nocase: String
   ammPoolToken_gt: String
   ammPoolToken_gte: String
   ammPoolToken_in: [String!]
@@ -3419,10 +4017,14 @@ input LiquidityMiningAllocationPoint_filter {
   ammPoolToken_lte: String
   ammPoolToken_not: String
   ammPoolToken_not_contains: String
+  ammPoolToken_not_contains_nocase: String
   ammPoolToken_not_ends_with: String
+  ammPoolToken_not_ends_with_nocase: String
   ammPoolToken_not_in: [String!]
   ammPoolToken_not_starts_with: String
+  ammPoolToken_not_starts_with_nocase: String
   ammPoolToken_starts_with: String
+  ammPoolToken_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -3432,8 +4034,11 @@ input LiquidityMiningAllocationPoint_filter {
   id_not: ID
   id_not_in: [ID!]
   lendingPoolToken: String
+  lendingPoolToken_: LendingPool_filter
   lendingPoolToken_contains: String
+  lendingPoolToken_contains_nocase: String
   lendingPoolToken_ends_with: String
+  lendingPoolToken_ends_with_nocase: String
   lendingPoolToken_gt: String
   lendingPoolToken_gte: String
   lendingPoolToken_in: [String!]
@@ -3441,10 +4046,14 @@ input LiquidityMiningAllocationPoint_filter {
   lendingPoolToken_lte: String
   lendingPoolToken_not: String
   lendingPoolToken_not_contains: String
+  lendingPoolToken_not_contains_nocase: String
   lendingPoolToken_not_ends_with: String
+  lendingPoolToken_not_ends_with_nocase: String
   lendingPoolToken_not_in: [String!]
   lendingPoolToken_not_starts_with: String
+  lendingPoolToken_not_starts_with_nocase: String
   lendingPoolToken_starts_with: String
+  lendingPoolToken_starts_with_nocase: String
   poolTokenAddedBlock: Int
   poolTokenAddedBlock_gt: Int
   poolTokenAddedBlock_gte: Int
@@ -3520,6 +4129,10 @@ type LiquidityMiningGlobal {
 }
 
 input LiquidityMiningGlobal_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -3646,6 +4259,10 @@ type LiquidityPoolToken {
 }
 
 input LiquidityPoolToken_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -3655,8 +4272,11 @@ input LiquidityPoolToken_filter {
   id_not: ID
   id_not_in: [ID!]
   liquidityPool: String
+  liquidityPool_: LiquidityPool_filter
   liquidityPool_contains: String
+  liquidityPool_contains_nocase: String
   liquidityPool_ends_with: String
+  liquidityPool_ends_with_nocase: String
   liquidityPool_gt: String
   liquidityPool_gte: String
   liquidityPool_in: [String!]
@@ -3664,13 +4284,20 @@ input LiquidityPoolToken_filter {
   liquidityPool_lte: String
   liquidityPool_not: String
   liquidityPool_not_contains: String
+  liquidityPool_not_contains_nocase: String
   liquidityPool_not_ends_with: String
+  liquidityPool_not_ends_with_nocase: String
   liquidityPool_not_in: [String!]
   liquidityPool_not_starts_with: String
+  liquidityPool_not_starts_with_nocase: String
   liquidityPool_starts_with: String
+  liquidityPool_starts_with_nocase: String
   poolToken: String
+  poolToken_: PoolToken_filter
   poolToken_contains: String
+  poolToken_contains_nocase: String
   poolToken_ends_with: String
+  poolToken_ends_with_nocase: String
   poolToken_gt: String
   poolToken_gte: String
   poolToken_in: [String!]
@@ -3678,13 +4305,20 @@ input LiquidityPoolToken_filter {
   poolToken_lte: String
   poolToken_not: String
   poolToken_not_contains: String
+  poolToken_not_contains_nocase: String
   poolToken_not_ends_with: String
+  poolToken_not_ends_with_nocase: String
   poolToken_not_in: [String!]
   poolToken_not_starts_with: String
+  poolToken_not_starts_with_nocase: String
   poolToken_starts_with: String
+  poolToken_starts_with_nocase: String
   token: String
+  token_: Token_filter
   token_contains: String
+  token_contains_nocase: String
   token_ends_with: String
+  token_ends_with_nocase: String
   token_gt: String
   token_gte: String
   token_in: [String!]
@@ -3692,10 +4326,14 @@ input LiquidityPoolToken_filter {
   token_lte: String
   token_not: String
   token_not_contains: String
+  token_not_contains_nocase: String
   token_not_ends_with: String
+  token_not_ends_with_nocase: String
   token_not_in: [String!]
   token_not_starts_with: String
+  token_not_starts_with_nocase: String
   token_starts_with: String
+  token_starts_with_nocase: String
   totalVolume: BigDecimal
   totalVolume_gt: BigDecimal
   totalVolume_gte: BigDecimal
@@ -3733,10 +4371,15 @@ enum LiquidityPoolToken_orderBy {
 }
 
 input LiquidityPool_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   activated: Boolean
   activated_in: [Boolean!]
   activated_not: Boolean
   activated_not_in: [Boolean!]
+  connectorTokens_: LiquidityPoolToken_filter
   conversionFee: BigInt
   conversionFee_gt: BigInt
   conversionFee_gte: BigInt
@@ -3762,8 +4405,11 @@ input LiquidityPool_filter {
   createdAtTimestamp_not: Int
   createdAtTimestamp_not_in: [Int!]
   createdAtTransaction: String
+  createdAtTransaction_: Transaction_filter
   createdAtTransaction_contains: String
+  createdAtTransaction_contains_nocase: String
   createdAtTransaction_ends_with: String
+  createdAtTransaction_ends_with_nocase: String
   createdAtTransaction_gt: String
   createdAtTransaction_gte: String
   createdAtTransaction_in: [String!]
@@ -3771,13 +4417,20 @@ input LiquidityPool_filter {
   createdAtTransaction_lte: String
   createdAtTransaction_not: String
   createdAtTransaction_not_contains: String
+  createdAtTransaction_not_contains_nocase: String
   createdAtTransaction_not_ends_with: String
+  createdAtTransaction_not_ends_with_nocase: String
   createdAtTransaction_not_in: [String!]
   createdAtTransaction_not_starts_with: String
+  createdAtTransaction_not_starts_with_nocase: String
   createdAtTransaction_starts_with: String
+  createdAtTransaction_starts_with_nocase: String
   currentConverterRegistry: String
+  currentConverterRegistry_: ConverterRegistry_filter
   currentConverterRegistry_contains: String
+  currentConverterRegistry_contains_nocase: String
   currentConverterRegistry_ends_with: String
+  currentConverterRegistry_ends_with_nocase: String
   currentConverterRegistry_gt: String
   currentConverterRegistry_gte: String
   currentConverterRegistry_in: [String!]
@@ -3785,10 +4438,14 @@ input LiquidityPool_filter {
   currentConverterRegistry_lte: String
   currentConverterRegistry_not: String
   currentConverterRegistry_not_contains: String
+  currentConverterRegistry_not_contains_nocase: String
   currentConverterRegistry_not_ends_with: String
+  currentConverterRegistry_not_ends_with_nocase: String
   currentConverterRegistry_not_in: [String!]
   currentConverterRegistry_not_starts_with: String
+  currentConverterRegistry_not_starts_with_nocase: String
   currentConverterRegistry_starts_with: String
+  currentConverterRegistry_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -3807,7 +4464,9 @@ input LiquidityPool_filter {
   maxConversionFee_not_in: [BigInt!]
   owner: String
   owner_contains: String
+  owner_contains_nocase: String
   owner_ends_with: String
+  owner_ends_with_nocase: String
   owner_gt: String
   owner_gte: String
   owner_in: [String!]
@@ -3815,13 +4474,21 @@ input LiquidityPool_filter {
   owner_lte: String
   owner_not: String
   owner_not_contains: String
+  owner_not_contains_nocase: String
   owner_not_ends_with: String
+  owner_not_ends_with_nocase: String
   owner_not_in: [String!]
   owner_not_starts_with: String
+  owner_not_starts_with_nocase: String
   owner_starts_with: String
+  owner_starts_with_nocase: String
+  poolTokens_: PoolToken_filter
   smartToken: String
+  smartToken_: SmartToken_filter
   smartToken_contains: String
+  smartToken_contains_nocase: String
   smartToken_ends_with: String
+  smartToken_ends_with_nocase: String
   smartToken_gt: String
   smartToken_gte: String
   smartToken_in: [String!]
@@ -3829,10 +4496,14 @@ input LiquidityPool_filter {
   smartToken_lte: String
   smartToken_not: String
   smartToken_not_contains: String
+  smartToken_not_contains_nocase: String
   smartToken_not_ends_with: String
+  smartToken_not_ends_with_nocase: String
   smartToken_not_in: [String!]
   smartToken_not_starts_with: String
+  smartToken_not_starts_with_nocase: String
   smartToken_starts_with: String
+  smartToken_starts_with_nocase: String
   token0: String
   token0Balance: BigDecimal
   token0Balance_gt: BigDecimal
@@ -3842,8 +4513,11 @@ input LiquidityPool_filter {
   token0Balance_lte: BigDecimal
   token0Balance_not: BigDecimal
   token0Balance_not_in: [BigDecimal!]
+  token0_: Token_filter
   token0_contains: String
+  token0_contains_nocase: String
   token0_ends_with: String
+  token0_ends_with_nocase: String
   token0_gt: String
   token0_gte: String
   token0_in: [String!]
@@ -3851,10 +4525,14 @@ input LiquidityPool_filter {
   token0_lte: String
   token0_not: String
   token0_not_contains: String
+  token0_not_contains_nocase: String
   token0_not_ends_with: String
+  token0_not_ends_with_nocase: String
   token0_not_in: [String!]
   token0_not_starts_with: String
+  token0_not_starts_with_nocase: String
   token0_starts_with: String
+  token0_starts_with_nocase: String
   token1: String
   token1Balance: BigDecimal
   token1Balance_gt: BigDecimal
@@ -3864,8 +4542,11 @@ input LiquidityPool_filter {
   token1Balance_lte: BigDecimal
   token1Balance_not: BigDecimal
   token1Balance_not_in: [BigDecimal!]
+  token1_: Token_filter
   token1_contains: String
+  token1_contains_nocase: String
   token1_ends_with: String
+  token1_ends_with_nocase: String
   token1_gt: String
   token1_gte: String
   token1_in: [String!]
@@ -3873,10 +4554,14 @@ input LiquidityPool_filter {
   token1_lte: String
   token1_not: String
   token1_not_contains: String
+  token1_not_contains_nocase: String
   token1_not_ends_with: String
+  token1_not_ends_with_nocase: String
   token1_not_in: [String!]
   token1_not_starts_with: String
+  token1_not_starts_with_nocase: String
   token1_starts_with: String
+  token1_starts_with_nocase: String
   type: Int
   type_gt: Int
   type_gte: Int
@@ -4125,6 +4810,10 @@ enum LoanType {
 }
 
 input Loan_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   averageBuyPrice: BigDecimal
   averageBuyPrice_gt: BigDecimal
   averageBuyPrice_gte: BigDecimal
@@ -4141,6 +4830,7 @@ input Loan_filter {
   averageSellPrice_lte: BigDecimal
   averageSellPrice_not: BigDecimal
   averageSellPrice_not_in: [BigDecimal!]
+  borrow_: Borrow_filter
   borrowedAmount: BigDecimal
   borrowedAmount_gt: BigDecimal
   borrowedAmount_gte: BigDecimal
@@ -4149,9 +4839,14 @@ input Loan_filter {
   borrowedAmount_lte: BigDecimal
   borrowedAmount_not: BigDecimal
   borrowedAmount_not_in: [BigDecimal!]
+  closeWithDeposits_: CloseWithDeposit_filter
+  closeWithSwaps_: CloseWithSwap_filter
   collateralToken: String
+  collateralToken_: Token_filter
   collateralToken_contains: String
+  collateralToken_contains_nocase: String
   collateralToken_ends_with: String
+  collateralToken_ends_with_nocase: String
   collateralToken_gt: String
   collateralToken_gte: String
   collateralToken_in: [String!]
@@ -4159,10 +4854,15 @@ input Loan_filter {
   collateralToken_lte: String
   collateralToken_not: String
   collateralToken_not_contains: String
+  collateralToken_not_contains_nocase: String
   collateralToken_not_ends_with: String
+  collateralToken_not_ends_with_nocase: String
   collateralToken_not_in: [String!]
   collateralToken_not_starts_with: String
+  collateralToken_not_starts_with_nocase: String
   collateralToken_starts_with: String
+  collateralToken_starts_with_nocase: String
+  depositCollateral_: DepositCollateral_filter
   endTimestamp: Int
   endTimestamp_gt: Int
   endTimestamp_gte: Int
@@ -4183,9 +4883,13 @@ input Loan_filter {
   isOpen_in: [Boolean!]
   isOpen_not: Boolean
   isOpen_not_in: [Boolean!]
+  liquidates_: Liquidate_filter
   loanToken: String
+  loanToken_: Token_filter
   loanToken_contains: String
+  loanToken_contains_nocase: String
   loanToken_ends_with: String
+  loanToken_ends_with_nocase: String
   loanToken_gt: String
   loanToken_gte: String
   loanToken_in: [String!]
@@ -4193,10 +4897,14 @@ input Loan_filter {
   loanToken_lte: String
   loanToken_not: String
   loanToken_not_contains: String
+  loanToken_not_contains_nocase: String
   loanToken_not_ends_with: String
+  loanToken_not_ends_with_nocase: String
   loanToken_not_in: [String!]
   loanToken_not_starts_with: String
+  loanToken_not_starts_with_nocase: String
   loanToken_starts_with: String
+  loanToken_starts_with_nocase: String
   maxBorrowedAmount: BigDecimal
   maxBorrowedAmount_gt: BigDecimal
   maxBorrowedAmount_gte: BigDecimal
@@ -4245,6 +4953,7 @@ input Loan_filter {
   realizedPnL_lte: BigDecimal
   realizedPnL_not: BigDecimal
   realizedPnL_not_in: [BigDecimal!]
+  rollovers_: Rollover_filter
   startBorrowedAmount: BigDecimal
   startBorrowedAmount_gt: BigDecimal
   startBorrowedAmount_gte: BigDecimal
@@ -4293,13 +5002,17 @@ input Loan_filter {
   totalSold_lte: BigDecimal
   totalSold_not: BigDecimal
   totalSold_not_in: [BigDecimal!]
+  trade_: Trade_filter
   type: LoanType
   type_in: [LoanType!]
   type_not: LoanType
   type_not_in: [LoanType!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -4307,10 +5020,14 @@ input Loan_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum Loan_orderBy {
@@ -4355,6 +5072,10 @@ type MarginOrderCanceled {
 }
 
 input MarginOrderCanceled_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   emittedBy: Bytes
   emittedBy_contains: Bytes
   emittedBy_in: [Bytes!]
@@ -4390,8 +5111,11 @@ input MarginOrderCanceled_filter {
   trader_not_contains: Bytes
   trader_not_in: [Bytes!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -4399,10 +5123,14 @@ input MarginOrderCanceled_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum MarginOrderCanceled_orderBy {
@@ -4432,6 +5160,10 @@ type MarginOrderFilled {
 }
 
 input MarginOrderFilled_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   collateral: BigDecimal
   collateralTokenAddress: Bytes
   collateralTokenAddress_contains: Bytes
@@ -4521,8 +5253,11 @@ input MarginOrderFilled_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   trader: String
+  trader_: User_filter
   trader_contains: String
+  trader_contains_nocase: String
   trader_ends_with: String
+  trader_ends_with_nocase: String
   trader_gt: String
   trader_gte: String
   trader_in: [String!]
@@ -4530,13 +5265,20 @@ input MarginOrderFilled_filter {
   trader_lte: String
   trader_not: String
   trader_not_contains: String
+  trader_not_contains_nocase: String
   trader_not_ends_with: String
+  trader_not_ends_with_nocase: String
   trader_not_in: [String!]
   trader_not_starts_with: String
+  trader_not_starts_with_nocase: String
   trader_starts_with: String
+  trader_starts_with_nocase: String
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -4544,10 +5286,14 @@ input MarginOrderFilled_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum MarginOrderFilled_orderBy {
@@ -4572,6 +5318,144 @@ enum Network {
   Testnet
 }
 
+type NewBitcoinTransferIncoming {
+  amountWei: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  btcTxHash: Bytes!
+  btcTxVout: BigInt!
+  emittedBy: Bytes!
+  feeWei: BigInt!
+  id: ID!
+  rskAddress: Bytes!
+  timestamp: BigInt!
+  transaction: Transaction!
+  transactionHash: Bytes!
+}
+
+input NewBitcoinTransferIncoming_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  amountWei: BigInt
+  amountWei_gt: BigInt
+  amountWei_gte: BigInt
+  amountWei_in: [BigInt!]
+  amountWei_lt: BigInt
+  amountWei_lte: BigInt
+  amountWei_not: BigInt
+  amountWei_not_in: [BigInt!]
+  blockNumber: BigInt
+  blockNumber_gt: BigInt
+  blockNumber_gte: BigInt
+  blockNumber_in: [BigInt!]
+  blockNumber_lt: BigInt
+  blockNumber_lte: BigInt
+  blockNumber_not: BigInt
+  blockNumber_not_in: [BigInt!]
+  blockTimestamp: BigInt
+  blockTimestamp_gt: BigInt
+  blockTimestamp_gte: BigInt
+  blockTimestamp_in: [BigInt!]
+  blockTimestamp_lt: BigInt
+  blockTimestamp_lte: BigInt
+  blockTimestamp_not: BigInt
+  blockTimestamp_not_in: [BigInt!]
+  btcTxHash: Bytes
+  btcTxHash_contains: Bytes
+  btcTxHash_in: [Bytes!]
+  btcTxHash_not: Bytes
+  btcTxHash_not_contains: Bytes
+  btcTxHash_not_in: [Bytes!]
+  btcTxVout: BigInt
+  btcTxVout_gt: BigInt
+  btcTxVout_gte: BigInt
+  btcTxVout_in: [BigInt!]
+  btcTxVout_lt: BigInt
+  btcTxVout_lte: BigInt
+  btcTxVout_not: BigInt
+  btcTxVout_not_in: [BigInt!]
+  emittedBy: Bytes
+  emittedBy_contains: Bytes
+  emittedBy_in: [Bytes!]
+  emittedBy_not: Bytes
+  emittedBy_not_contains: Bytes
+  emittedBy_not_in: [Bytes!]
+  feeWei: BigInt
+  feeWei_gt: BigInt
+  feeWei_gte: BigInt
+  feeWei_in: [BigInt!]
+  feeWei_lt: BigInt
+  feeWei_lte: BigInt
+  feeWei_not: BigInt
+  feeWei_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  rskAddress: Bytes
+  rskAddress_contains: Bytes
+  rskAddress_in: [Bytes!]
+  rskAddress_not: Bytes
+  rskAddress_not_contains: Bytes
+  rskAddress_not_in: [Bytes!]
+  timestamp: BigInt
+  timestamp_gt: BigInt
+  timestamp_gte: BigInt
+  timestamp_in: [BigInt!]
+  timestamp_lt: BigInt
+  timestamp_lte: BigInt
+  timestamp_not: BigInt
+  timestamp_not_in: [BigInt!]
+  transaction: String
+  transactionHash: Bytes
+  transactionHash_contains: Bytes
+  transactionHash_in: [Bytes!]
+  transactionHash_not: Bytes
+  transactionHash_not_contains: Bytes
+  transactionHash_not_in: [Bytes!]
+  transaction_: Transaction_filter
+  transaction_contains: String
+  transaction_contains_nocase: String
+  transaction_ends_with: String
+  transaction_ends_with_nocase: String
+  transaction_gt: String
+  transaction_gte: String
+  transaction_in: [String!]
+  transaction_lt: String
+  transaction_lte: String
+  transaction_not: String
+  transaction_not_contains: String
+  transaction_not_contains_nocase: String
+  transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
+  transaction_not_in: [String!]
+  transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
+  transaction_starts_with: String
+  transaction_starts_with_nocase: String
+}
+
+enum NewBitcoinTransferIncoming_orderBy {
+  amountWei
+  blockNumber
+  blockTimestamp
+  btcTxHash
+  btcTxVout
+  emittedBy
+  feeWei
+  id
+  rskAddress
+  timestamp
+  transaction
+  transactionHash
+}
+
 type OrderCanceled {
   emittedBy: Bytes!
   hash: Bytes!
@@ -4582,6 +5466,10 @@ type OrderCanceled {
 }
 
 input OrderCanceled_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   emittedBy: Bytes
   emittedBy_contains: Bytes
   emittedBy_in: [Bytes!]
@@ -4617,8 +5505,11 @@ input OrderCanceled_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -4626,10 +5517,14 @@ input OrderCanceled_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum OrderCanceled_orderBy {
@@ -4686,6 +5581,10 @@ type OrderCreated {
 }
 
 input OrderCreated_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   emittedBy: Bytes
   emittedBy_contains: Bytes
   emittedBy_in: [Bytes!]
@@ -4783,8 +5682,11 @@ input OrderCreated_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -4792,10 +5694,14 @@ input OrderCreated_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum OrderCreated_orderBy {
@@ -4816,6 +5722,9 @@ enum OrderCreated_orderBy {
   transaction
 }
 
+"""
+Defines the order direction, either ascending or descending
+"""
 enum OrderDirection {
   asc
   desc
@@ -4835,6 +5744,10 @@ type OrderFilled {
 }
 
 input OrderFilled_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amountIn: BigDecimal
   amountIn_gt: BigDecimal
   amountIn_gte: BigDecimal
@@ -4880,8 +5793,11 @@ input OrderFilled_filter {
   id_not: ID
   id_not_in: [ID!]
   maker: String
+  maker_: User_filter
   maker_contains: String
+  maker_contains_nocase: String
   maker_ends_with: String
+  maker_ends_with_nocase: String
   maker_gt: String
   maker_gte: String
   maker_in: [String!]
@@ -4889,14 +5805,20 @@ input OrderFilled_filter {
   maker_lte: String
   maker_not: String
   maker_not_contains: String
+  maker_not_contains_nocase: String
   maker_not_ends_with: String
+  maker_not_ends_with_nocase: String
   maker_not_in: [String!]
   maker_not_starts_with: String
+  maker_not_starts_with_nocase: String
   maker_starts_with: String
+  maker_starts_with_nocase: String
   path: [String!]
   path_contains: [String!]
+  path_contains_nocase: [String!]
   path_not: [String!]
   path_not_contains: [String!]
+  path_not_contains_nocase: [String!]
   timestamp: Int
   timestamp_gt: Int
   timestamp_gte: Int
@@ -4906,8 +5828,11 @@ input OrderFilled_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -4915,10 +5840,14 @@ input OrderFilled_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum OrderFilled_orderBy {
@@ -4943,9 +5872,15 @@ type OwnerUpdate {
 }
 
 input OwnerUpdate_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   emittedBy: String
   emittedBy_contains: String
+  emittedBy_contains_nocase: String
   emittedBy_ends_with: String
+  emittedBy_ends_with_nocase: String
   emittedBy_gt: String
   emittedBy_gte: String
   emittedBy_in: [String!]
@@ -4953,10 +5888,14 @@ input OwnerUpdate_filter {
   emittedBy_lte: String
   emittedBy_not: String
   emittedBy_not_contains: String
+  emittedBy_not_contains_nocase: String
   emittedBy_not_ends_with: String
+  emittedBy_not_ends_with_nocase: String
   emittedBy_not_in: [String!]
   emittedBy_not_starts_with: String
+  emittedBy_not_starts_with_nocase: String
   emittedBy_starts_with: String
+  emittedBy_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -4967,7 +5906,9 @@ input OwnerUpdate_filter {
   id_not_in: [ID!]
   newOwner: String
   newOwner_contains: String
+  newOwner_contains_nocase: String
   newOwner_ends_with: String
+  newOwner_ends_with_nocase: String
   newOwner_gt: String
   newOwner_gte: String
   newOwner_in: [String!]
@@ -4975,13 +5916,19 @@ input OwnerUpdate_filter {
   newOwner_lte: String
   newOwner_not: String
   newOwner_not_contains: String
+  newOwner_not_contains_nocase: String
   newOwner_not_ends_with: String
+  newOwner_not_ends_with_nocase: String
   newOwner_not_in: [String!]
   newOwner_not_starts_with: String
+  newOwner_not_starts_with_nocase: String
   newOwner_starts_with: String
+  newOwner_starts_with_nocase: String
   prevOwner: String
   prevOwner_contains: String
+  prevOwner_contains_nocase: String
   prevOwner_ends_with: String
+  prevOwner_ends_with_nocase: String
   prevOwner_gt: String
   prevOwner_gte: String
   prevOwner_in: [String!]
@@ -4989,10 +5936,14 @@ input OwnerUpdate_filter {
   prevOwner_lte: String
   prevOwner_not: String
   prevOwner_not_contains: String
+  prevOwner_not_contains_nocase: String
   prevOwner_not_ends_with: String
+  prevOwner_not_ends_with_nocase: String
   prevOwner_not_in: [String!]
   prevOwner_not_starts_with: String
+  prevOwner_not_starts_with_nocase: String
   prevOwner_starts_with: String
+  prevOwner_starts_with_nocase: String
   timestamp: BigInt
   timestamp_gt: BigInt
   timestamp_gte: BigInt
@@ -5026,6 +5977,10 @@ type PayBorrowingFee {
 }
 
 input PayBorrowingFee_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -5049,8 +6004,11 @@ input PayBorrowingFee_filter {
   id_not: ID
   id_not_in: [ID!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -5058,10 +6016,14 @@ input PayBorrowingFee_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   payer: Bytes
   payer_contains: Bytes
   payer_in: [Bytes!]
@@ -5083,8 +6045,11 @@ input PayBorrowingFee_filter {
   token_not_contains: Bytes
   token_not_in: [Bytes!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -5092,10 +6057,14 @@ input PayBorrowingFee_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum PayBorrowingFee_orderBy {
@@ -5106,6 +6075,140 @@ enum PayBorrowingFee_orderBy {
   payer
   timestamp
   token
+  transaction
+}
+
+type PayInterestTransfer {
+  effectiveInterest: BigDecimal!
+  emittedBy: String!
+  id: ID!
+  interestToken: Token!
+  lender: LendingPool!
+  timestamp: Int!
+  transaction: Transaction!
+}
+
+input PayInterestTransfer_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  effectiveInterest: BigDecimal
+  effectiveInterest_gt: BigDecimal
+  effectiveInterest_gte: BigDecimal
+  effectiveInterest_in: [BigDecimal!]
+  effectiveInterest_lt: BigDecimal
+  effectiveInterest_lte: BigDecimal
+  effectiveInterest_not: BigDecimal
+  effectiveInterest_not_in: [BigDecimal!]
+  emittedBy: String
+  emittedBy_contains: String
+  emittedBy_contains_nocase: String
+  emittedBy_ends_with: String
+  emittedBy_ends_with_nocase: String
+  emittedBy_gt: String
+  emittedBy_gte: String
+  emittedBy_in: [String!]
+  emittedBy_lt: String
+  emittedBy_lte: String
+  emittedBy_not: String
+  emittedBy_not_contains: String
+  emittedBy_not_contains_nocase: String
+  emittedBy_not_ends_with: String
+  emittedBy_not_ends_with_nocase: String
+  emittedBy_not_in: [String!]
+  emittedBy_not_starts_with: String
+  emittedBy_not_starts_with_nocase: String
+  emittedBy_starts_with: String
+  emittedBy_starts_with_nocase: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  interestToken: String
+  interestToken_: Token_filter
+  interestToken_contains: String
+  interestToken_contains_nocase: String
+  interestToken_ends_with: String
+  interestToken_ends_with_nocase: String
+  interestToken_gt: String
+  interestToken_gte: String
+  interestToken_in: [String!]
+  interestToken_lt: String
+  interestToken_lte: String
+  interestToken_not: String
+  interestToken_not_contains: String
+  interestToken_not_contains_nocase: String
+  interestToken_not_ends_with: String
+  interestToken_not_ends_with_nocase: String
+  interestToken_not_in: [String!]
+  interestToken_not_starts_with: String
+  interestToken_not_starts_with_nocase: String
+  interestToken_starts_with: String
+  interestToken_starts_with_nocase: String
+  lender: String
+  lender_: LendingPool_filter
+  lender_contains: String
+  lender_contains_nocase: String
+  lender_ends_with: String
+  lender_ends_with_nocase: String
+  lender_gt: String
+  lender_gte: String
+  lender_in: [String!]
+  lender_lt: String
+  lender_lte: String
+  lender_not: String
+  lender_not_contains: String
+  lender_not_contains_nocase: String
+  lender_not_ends_with: String
+  lender_not_ends_with_nocase: String
+  lender_not_in: [String!]
+  lender_not_starts_with: String
+  lender_not_starts_with_nocase: String
+  lender_starts_with: String
+  lender_starts_with_nocase: String
+  timestamp: Int
+  timestamp_gt: Int
+  timestamp_gte: Int
+  timestamp_in: [Int!]
+  timestamp_lt: Int
+  timestamp_lte: Int
+  timestamp_not: Int
+  timestamp_not_in: [Int!]
+  transaction: String
+  transaction_: Transaction_filter
+  transaction_contains: String
+  transaction_contains_nocase: String
+  transaction_ends_with: String
+  transaction_ends_with_nocase: String
+  transaction_gt: String
+  transaction_gte: String
+  transaction_in: [String!]
+  transaction_lt: String
+  transaction_lte: String
+  transaction_not: String
+  transaction_not_contains: String
+  transaction_not_contains_nocase: String
+  transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
+  transaction_not_in: [String!]
+  transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
+  transaction_starts_with: String
+  transaction_starts_with_nocase: String
+}
+
+enum PayInterestTransfer_orderBy {
+  effectiveInterest
+  emittedBy
+  id
+  interestToken
+  lender
+  timestamp
   transaction
 }
 
@@ -5123,6 +6226,10 @@ type PayLendingFee {
 }
 
 input PayLendingFee_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -5166,8 +6273,11 @@ input PayLendingFee_filter {
   token_not_contains: Bytes
   token_not_in: [Bytes!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -5175,10 +6285,14 @@ input PayLendingFee_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum PayLendingFee_orderBy {
@@ -5198,7 +6312,7 @@ type PayTradingFee {
   amount: BigDecimal!
   emittedBy: Bytes!
   id: ID!
-  loanId: Loan!
+  loanId: String!
   payer: Bytes!
   timestamp: Int!
   token: Bytes!
@@ -5206,6 +6320,10 @@ type PayTradingFee {
 }
 
 input PayTradingFee_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -5230,7 +6348,9 @@ input PayTradingFee_filter {
   id_not_in: [ID!]
   loanId: String
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -5238,10 +6358,14 @@ input PayTradingFee_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   payer: Bytes
   payer_contains: Bytes
   payer_in: [Bytes!]
@@ -5263,8 +6387,11 @@ input PayTradingFee_filter {
   token_not_contains: Bytes
   token_not_in: [Bytes!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -5272,10 +6399,14 @@ input PayTradingFee_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum PayTradingFee_orderBy {
@@ -5312,6 +6443,10 @@ type PoolToken {
 }
 
 input PoolToken_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   decimals: Int
   decimals_gt: Int
   decimals_gte: Int
@@ -5329,8 +6464,11 @@ input PoolToken_filter {
   id_not: ID
   id_not_in: [ID!]
   liquidityPool: String
+  liquidityPool_: LiquidityPool_filter
   liquidityPool_contains: String
+  liquidityPool_contains_nocase: String
   liquidityPool_ends_with: String
+  liquidityPool_ends_with_nocase: String
   liquidityPool_gt: String
   liquidityPool_gte: String
   liquidityPool_in: [String!]
@@ -5338,13 +6476,19 @@ input PoolToken_filter {
   liquidityPool_lte: String
   liquidityPool_not: String
   liquidityPool_not_contains: String
+  liquidityPool_not_contains_nocase: String
   liquidityPool_not_ends_with: String
+  liquidityPool_not_ends_with_nocase: String
   liquidityPool_not_in: [String!]
   liquidityPool_not_starts_with: String
+  liquidityPool_not_starts_with_nocase: String
   liquidityPool_starts_with: String
+  liquidityPool_starts_with_nocase: String
   name: String
   name_contains: String
+  name_contains_nocase: String
   name_ends_with: String
+  name_ends_with_nocase: String
   name_gt: String
   name_gte: String
   name_in: [String!]
@@ -5352,13 +6496,19 @@ input PoolToken_filter {
   name_lte: String
   name_not: String
   name_not_contains: String
+  name_not_contains_nocase: String
   name_not_ends_with: String
+  name_not_ends_with_nocase: String
   name_not_in: [String!]
   name_not_starts_with: String
+  name_not_starts_with_nocase: String
   name_starts_with: String
+  name_starts_with_nocase: String
   symbol: String
   symbol_contains: String
+  symbol_contains_nocase: String
   symbol_ends_with: String
+  symbol_ends_with_nocase: String
   symbol_gt: String
   symbol_gte: String
   symbol_in: [String!]
@@ -5366,14 +6516,21 @@ input PoolToken_filter {
   symbol_lte: String
   symbol_not: String
   symbol_not_contains: String
+  symbol_not_contains_nocase: String
   symbol_not_ends_with: String
+  symbol_not_ends_with_nocase: String
   symbol_not_in: [String!]
   symbol_not_starts_with: String
+  symbol_not_starts_with_nocase: String
   symbol_starts_with: String
+  symbol_starts_with_nocase: String
   underlyingAssets: [String!]
+  underlyingAssets_: Token_filter
   underlyingAssets_contains: [String!]
+  underlyingAssets_contains_nocase: [String!]
   underlyingAssets_not: [String!]
   underlyingAssets_not_contains: [String!]
+  underlyingAssets_not_contains_nocase: [String!]
 }
 
 enum PoolToken_orderBy {
@@ -5491,9 +6648,16 @@ type Proposal {
 }
 
 input Proposal_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   canceled: String
+  canceled_: Transaction_filter
   canceled_contains: String
+  canceled_contains_nocase: String
   canceled_ends_with: String
+  canceled_ends_with_nocase: String
   canceled_gt: String
   canceled_gte: String
   canceled_in: [String!]
@@ -5501,10 +6665,14 @@ input Proposal_filter {
   canceled_lte: String
   canceled_not: String
   canceled_not_contains: String
+  canceled_not_contains_nocase: String
   canceled_not_ends_with: String
+  canceled_not_ends_with_nocase: String
   canceled_not_in: [String!]
   canceled_not_starts_with: String
+  canceled_not_starts_with_nocase: String
   canceled_starts_with: String
+  canceled_starts_with_nocase: String
   countVotersAgainst: Int
   countVotersAgainst_gt: Int
   countVotersAgainst_gte: Int
@@ -5522,8 +6690,11 @@ input Proposal_filter {
   countVotersFor_not: Int
   countVotersFor_not_in: [Int!]
   created: String
+  created_: Transaction_filter
   created_contains: String
+  created_contains_nocase: String
   created_ends_with: String
+  created_ends_with_nocase: String
   created_gt: String
   created_gte: String
   created_in: [String!]
@@ -5531,13 +6702,19 @@ input Proposal_filter {
   created_lte: String
   created_not: String
   created_not_contains: String
+  created_not_contains_nocase: String
   created_not_ends_with: String
+  created_not_ends_with_nocase: String
   created_not_in: [String!]
   created_not_starts_with: String
+  created_not_starts_with_nocase: String
   created_starts_with: String
+  created_starts_with_nocase: String
   description: String
   description_contains: String
+  description_contains_nocase: String
   description_ends_with: String
+  description_ends_with_nocase: String
   description_gt: String
   description_gte: String
   description_in: [String!]
@@ -5545,10 +6722,14 @@ input Proposal_filter {
   description_lte: String
   description_not: String
   description_not_contains: String
+  description_not_contains_nocase: String
   description_not_ends_with: String
+  description_not_ends_with_nocase: String
   description_not_in: [String!]
   description_not_starts_with: String
+  description_not_starts_with_nocase: String
   description_starts_with: String
+  description_starts_with_nocase: String
   emittedBy: Bytes
   emittedBy_contains: Bytes
   emittedBy_in: [Bytes!]
@@ -5564,8 +6745,11 @@ input Proposal_filter {
   endBlock_not: Int
   endBlock_not_in: [Int!]
   executed: String
+  executed_: Transaction_filter
   executed_contains: String
+  executed_contains_nocase: String
   executed_ends_with: String
+  executed_ends_with_nocase: String
   executed_gt: String
   executed_gte: String
   executed_in: [String!]
@@ -5573,10 +6757,14 @@ input Proposal_filter {
   executed_lte: String
   executed_not: String
   executed_not_contains: String
+  executed_not_contains_nocase: String
   executed_not_ends_with: String
+  executed_not_ends_with_nocase: String
   executed_not_in: [String!]
   executed_not_starts_with: String
+  executed_not_starts_with_nocase: String
   executed_starts_with: String
+  executed_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -5600,8 +6788,11 @@ input Proposal_filter {
   proposer_not_contains: Bytes
   proposer_not_in: [Bytes!]
   queued: String
+  queued_: Transaction_filter
   queued_contains: String
+  queued_contains_nocase: String
   queued_ends_with: String
+  queued_ends_with_nocase: String
   queued_gt: String
   queued_gte: String
   queued_in: [String!]
@@ -5609,14 +6800,20 @@ input Proposal_filter {
   queued_lte: String
   queued_not: String
   queued_not_contains: String
+  queued_not_contains_nocase: String
   queued_not_ends_with: String
+  queued_not_ends_with_nocase: String
   queued_not_in: [String!]
   queued_not_starts_with: String
+  queued_not_starts_with_nocase: String
   queued_starts_with: String
+  queued_starts_with_nocase: String
   signatures: [String!]
   signatures_contains: [String!]
+  signatures_contains_nocase: [String!]
   signatures_not: [String!]
   signatures_not_contains: [String!]
+  signatures_not_contains_nocase: [String!]
   startBlock: Int
   startBlock_gt: Int
   startBlock_gte: Int
@@ -5627,8 +6824,10 @@ input Proposal_filter {
   startBlock_not_in: [Int!]
   targets: [String!]
   targets_contains: [String!]
+  targets_contains_nocase: [String!]
   targets_not: [String!]
   targets_not_contains: [String!]
+  targets_not_contains_nocase: [String!]
   timestamp: Int
   timestamp_gt: Int
   timestamp_gte: Int
@@ -5639,8 +6838,10 @@ input Proposal_filter {
   timestamp_not_in: [Int!]
   values: [BigInt!]
   values_contains: [BigInt!]
+  values_contains_nocase: [BigInt!]
   values_not: [BigInt!]
   values_not_contains: [BigInt!]
+  values_not_contains_nocase: [BigInt!]
   votesAgainst: BigInt
   votesAgainst_gt: BigInt
   votesAgainst_gte: BigInt
@@ -5657,6 +6858,7 @@ input Proposal_filter {
   votesFor_lte: BigInt
   votesFor_not: BigInt
   votesFor_not_in: [BigInt!]
+  votes_: VoteCast_filter
 }
 
 enum Proposal_orderBy {
@@ -5802,6 +7004,10 @@ type ProtocolStats {
 }
 
 input ProtocolStats_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   btcUsdPrice: BigDecimal
   btcUsdPrice_gt: BigDecimal
   btcUsdPrice_gte: BigDecimal
@@ -5835,9 +7041,12 @@ input ProtocolStats_filter {
   id_not: ID
   id_not_in: [ID!]
   tokens: [String!]
+  tokens_: Token_filter
   tokens_contains: [String!]
+  tokens_contains_nocase: [String!]
   tokens_not: [String!]
   tokens_not_contains: [String!]
+  tokens_not_contains_nocase: [String!]
   totalAmmLpFeesUsd: BigDecimal
   totalAmmLpFeesUsd_gt: BigDecimal
   totalAmmLpFeesUsd_gte: BigDecimal
@@ -5959,8 +7168,11 @@ input ProtocolStats_filter {
   totalUsers_not: Int
   totalUsers_not_in: [Int!]
   usdStablecoin: String
+  usdStablecoin_: Token_filter
   usdStablecoin_contains: String
+  usdStablecoin_contains_nocase: String
   usdStablecoin_ends_with: String
+  usdStablecoin_ends_with_nocase: String
   usdStablecoin_gt: String
   usdStablecoin_gte: String
   usdStablecoin_in: [String!]
@@ -5968,10 +7180,14 @@ input ProtocolStats_filter {
   usdStablecoin_lte: String
   usdStablecoin_not: String
   usdStablecoin_not_contains: String
+  usdStablecoin_not_contains_nocase: String
   usdStablecoin_not_ends_with: String
+  usdStablecoin_not_ends_with_nocase: String
   usdStablecoin_not_in: [String!]
   usdStablecoin_not_starts_with: String
+  usdStablecoin_not_starts_with_nocase: String
   usdStablecoin_starts_with: String
+  usdStablecoin_starts_with_nocase: String
 }
 
 enum ProtocolStats_orderBy {
@@ -5996,6 +7212,137 @@ enum ProtocolStats_orderBy {
   totalUnlendVolumeUsd
   totalUsers
   usdStablecoin
+}
+
+type ProtocolWithdrawFee {
+  amount: BigDecimal!
+  amountUsd: BigDecimal!
+  emittedBy: String!
+  feeType: FeeType!
+
+  """
+  ID is txHash-logIndex-tokenSymbol
+  """
+  id: ID!
+  timestamp: Int!
+  token: Token!
+  transaction: Transaction!
+}
+
+input ProtocolWithdrawFee_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  amount: BigDecimal
+  amountUsd: BigDecimal
+  amountUsd_gt: BigDecimal
+  amountUsd_gte: BigDecimal
+  amountUsd_in: [BigDecimal!]
+  amountUsd_lt: BigDecimal
+  amountUsd_lte: BigDecimal
+  amountUsd_not: BigDecimal
+  amountUsd_not_in: [BigDecimal!]
+  amount_gt: BigDecimal
+  amount_gte: BigDecimal
+  amount_in: [BigDecimal!]
+  amount_lt: BigDecimal
+  amount_lte: BigDecimal
+  amount_not: BigDecimal
+  amount_not_in: [BigDecimal!]
+  emittedBy: String
+  emittedBy_contains: String
+  emittedBy_contains_nocase: String
+  emittedBy_ends_with: String
+  emittedBy_ends_with_nocase: String
+  emittedBy_gt: String
+  emittedBy_gte: String
+  emittedBy_in: [String!]
+  emittedBy_lt: String
+  emittedBy_lte: String
+  emittedBy_not: String
+  emittedBy_not_contains: String
+  emittedBy_not_contains_nocase: String
+  emittedBy_not_ends_with: String
+  emittedBy_not_ends_with_nocase: String
+  emittedBy_not_in: [String!]
+  emittedBy_not_starts_with: String
+  emittedBy_not_starts_with_nocase: String
+  emittedBy_starts_with: String
+  emittedBy_starts_with_nocase: String
+  feeType: FeeType
+  feeType_in: [FeeType!]
+  feeType_not: FeeType
+  feeType_not_in: [FeeType!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  timestamp: Int
+  timestamp_gt: Int
+  timestamp_gte: Int
+  timestamp_in: [Int!]
+  timestamp_lt: Int
+  timestamp_lte: Int
+  timestamp_not: Int
+  timestamp_not_in: [Int!]
+  token: String
+  token_: Token_filter
+  token_contains: String
+  token_contains_nocase: String
+  token_ends_with: String
+  token_ends_with_nocase: String
+  token_gt: String
+  token_gte: String
+  token_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_not: String
+  token_not_contains: String
+  token_not_contains_nocase: String
+  token_not_ends_with: String
+  token_not_ends_with_nocase: String
+  token_not_in: [String!]
+  token_not_starts_with: String
+  token_not_starts_with_nocase: String
+  token_starts_with: String
+  token_starts_with_nocase: String
+  transaction: String
+  transaction_: Transaction_filter
+  transaction_contains: String
+  transaction_contains_nocase: String
+  transaction_ends_with: String
+  transaction_ends_with_nocase: String
+  transaction_gt: String
+  transaction_gte: String
+  transaction_in: [String!]
+  transaction_lt: String
+  transaction_lte: String
+  transaction_not: String
+  transaction_not_contains: String
+  transaction_not_contains_nocase: String
+  transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
+  transaction_not_in: [String!]
+  transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
+  transaction_starts_with: String
+  transaction_starts_with_nocase: String
+}
+
+enum ProtocolWithdrawFee_orderBy {
+  amount
+  amountUsd
+  emittedBy
+  feeType
+  id
+  timestamp
+  token
+  transaction
 }
 
 type Query {
@@ -6871,6 +8218,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: MarginOrderFilled_filter
   ): [MarginOrderFilled!]!
+  newBitcoinTransferIncoming(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): NewBitcoinTransferIncoming
+  newBitcoinTransferIncomings(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewBitcoinTransferIncoming_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: NewBitcoinTransferIncoming_filter
+  ): [NewBitcoinTransferIncoming!]!
   orderCanceled(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7011,6 +8386,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: PayBorrowingFee_filter
   ): [PayBorrowingFee!]!
+  payInterestTransfer(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PayInterestTransfer
+  payInterestTransfers(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: PayInterestTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: PayInterestTransfer_filter
+  ): [PayInterestTransfer!]!
   payLendingFee(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7139,6 +8542,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: ProtocolStats_filter
   ): [ProtocolStats!]!
+  protocolWithdrawFee(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ProtocolWithdrawFee
+  protocolWithdrawFees(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ProtocolWithdrawFee_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ProtocolWithdrawFee_filter
+  ): [ProtocolWithdrawFee!]!
   rewardsEarnedHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7796,6 +9227,10 @@ type RewardsEarnedHistoryItem {
 }
 
 input RewardsEarnedHistoryItem_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   action: RewardsEarnedAction
   action_in: [RewardsEarnedAction!]
   action_not: RewardsEarnedAction
@@ -7826,7 +9261,9 @@ input RewardsEarnedHistoryItem_filter {
   timestamp_not_in: [Int!]
   token: String
   token_contains: String
+  token_contains_nocase: String
   token_ends_with: String
+  token_ends_with_nocase: String
   token_gt: String
   token_gte: String
   token_in: [String!]
@@ -7834,13 +9271,20 @@ input RewardsEarnedHistoryItem_filter {
   token_lte: String
   token_not: String
   token_not_contains: String
+  token_not_contains_nocase: String
   token_not_ends_with: String
+  token_not_ends_with_nocase: String
   token_not_in: [String!]
   token_not_starts_with: String
+  token_not_starts_with_nocase: String
   token_starts_with: String
+  token_starts_with_nocase: String
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -7848,13 +9292,20 @@ input RewardsEarnedHistoryItem_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: UserRewardsEarnedHistory_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -7862,10 +9313,14 @@ input RewardsEarnedHistoryItem_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum RewardsEarnedHistoryItem_orderBy {
@@ -7907,6 +9362,10 @@ type Rollover {
 }
 
 input Rollover_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   collateral: BigDecimal
   collateral_gt: BigDecimal
   collateral_gte: BigDecimal
@@ -7944,8 +9403,11 @@ input Rollover_filter {
   lender_not_contains: Bytes
   lender_not_in: [Bytes!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -7953,10 +9415,14 @@ input Rollover_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   principal: BigDecimal
   principal_gt: BigDecimal
   principal_gte: BigDecimal
@@ -7967,8 +9433,11 @@ input Rollover_filter {
   principal_not_in: [BigDecimal!]
   reward: BigDecimal
   rewardReceiver: String
+  rewardReceiver_: User_filter
   rewardReceiver_contains: String
+  rewardReceiver_contains_nocase: String
   rewardReceiver_ends_with: String
+  rewardReceiver_ends_with_nocase: String
   rewardReceiver_gt: String
   rewardReceiver_gte: String
   rewardReceiver_in: [String!]
@@ -7976,10 +9445,14 @@ input Rollover_filter {
   rewardReceiver_lte: String
   rewardReceiver_not: String
   rewardReceiver_not_contains: String
+  rewardReceiver_not_contains_nocase: String
   rewardReceiver_not_ends_with: String
+  rewardReceiver_not_ends_with_nocase: String
   rewardReceiver_not_in: [String!]
   rewardReceiver_not_starts_with: String
+  rewardReceiver_not_starts_with_nocase: String
   rewardReceiver_starts_with: String
+  rewardReceiver_starts_with_nocase: String
   reward_gt: BigDecimal
   reward_gte: BigDecimal
   reward_in: [BigDecimal!]
@@ -7996,8 +9469,11 @@ input Rollover_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -8005,13 +9481,20 @@ input Rollover_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -8019,10 +9502,14 @@ input Rollover_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum Rollover_orderBy {
@@ -8081,9 +9568,16 @@ type SideToken {
 }
 
 input SideToken_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   createdAtTx: String
+  createdAtTx_: Transaction_filter
   createdAtTx_contains: String
+  createdAtTx_contains_nocase: String
   createdAtTx_ends_with: String
+  createdAtTx_ends_with_nocase: String
   createdAtTx_gt: String
   createdAtTx_gte: String
   createdAtTx_in: [String!]
@@ -8091,10 +9585,14 @@ input SideToken_filter {
   createdAtTx_lte: String
   createdAtTx_not: String
   createdAtTx_not_contains: String
+  createdAtTx_not_contains_nocase: String
   createdAtTx_not_ends_with: String
+  createdAtTx_not_ends_with_nocase: String
   createdAtTx_not_in: [String!]
   createdAtTx_not_starts_with: String
+  createdAtTx_not_starts_with_nocase: String
   createdAtTx_starts_with: String
+  createdAtTx_starts_with_nocase: String
   granularity: BigInt
   granularity_gt: BigInt
   granularity_gte: BigInt
@@ -8113,7 +9611,9 @@ input SideToken_filter {
   id_not_in: [ID!]
   newSymbol: String
   newSymbol_contains: String
+  newSymbol_contains_nocase: String
   newSymbol_ends_with: String
+  newSymbol_ends_with_nocase: String
   newSymbol_gt: String
   newSymbol_gte: String
   newSymbol_in: [String!]
@@ -8121,10 +9621,14 @@ input SideToken_filter {
   newSymbol_lte: String
   newSymbol_not: String
   newSymbol_not_contains: String
+  newSymbol_not_contains_nocase: String
   newSymbol_not_ends_with: String
+  newSymbol_not_ends_with_nocase: String
   newSymbol_not_in: [String!]
   newSymbol_not_starts_with: String
+  newSymbol_not_starts_with_nocase: String
   newSymbol_starts_with: String
+  newSymbol_starts_with_nocase: String
   originalTokenAddress: Bytes
   originalTokenAddress_contains: Bytes
   originalTokenAddress_in: [Bytes!]
@@ -8138,8 +9642,11 @@ input SideToken_filter {
   sideTokenAddress_not_contains: Bytes
   sideTokenAddress_not_in: [Bytes!]
   updatedAtTx: String
+  updatedAtTx_: Transaction_filter
   updatedAtTx_contains: String
+  updatedAtTx_contains_nocase: String
   updatedAtTx_ends_with: String
+  updatedAtTx_ends_with_nocase: String
   updatedAtTx_gt: String
   updatedAtTx_gte: String
   updatedAtTx_in: [String!]
@@ -8147,10 +9654,14 @@ input SideToken_filter {
   updatedAtTx_lte: String
   updatedAtTx_not: String
   updatedAtTx_not_contains: String
+  updatedAtTx_not_contains_nocase: String
   updatedAtTx_not_ends_with: String
+  updatedAtTx_not_ends_with_nocase: String
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
+  updatedAtTx_not_starts_with_nocase: String
   updatedAtTx_starts_with: String
+  updatedAtTx_starts_with_nocase: String
 }
 
 enum SideToken_orderBy {
@@ -8224,6 +9735,10 @@ type SmartToken {
 }
 
 input SmartToken_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   addedToRegistryBlockNumber: Int
   addedToRegistryBlockNumber_gt: Int
   addedToRegistryBlockNumber_gte: Int
@@ -8238,9 +9753,13 @@ input SmartToken_filter {
   addedToRegistryTransactionHash_not: Bytes
   addedToRegistryTransactionHash_not_contains: Bytes
   addedToRegistryTransactionHash_not_in: [Bytes!]
+  connectorTokens_: TokenSmartToken_filter
   currentConverterRegistry: String
+  currentConverterRegistry_: ConverterRegistry_filter
   currentConverterRegistry_contains: String
+  currentConverterRegistry_contains_nocase: String
   currentConverterRegistry_ends_with: String
+  currentConverterRegistry_ends_with_nocase: String
   currentConverterRegistry_gt: String
   currentConverterRegistry_gte: String
   currentConverterRegistry_in: [String!]
@@ -8248,10 +9767,14 @@ input SmartToken_filter {
   currentConverterRegistry_lte: String
   currentConverterRegistry_not: String
   currentConverterRegistry_not_contains: String
+  currentConverterRegistry_not_contains_nocase: String
   currentConverterRegistry_not_ends_with: String
+  currentConverterRegistry_not_ends_with_nocase: String
   currentConverterRegistry_not_in: [String!]
   currentConverterRegistry_not_starts_with: String
+  currentConverterRegistry_not_starts_with_nocase: String
   currentConverterRegistry_starts_with: String
+  currentConverterRegistry_starts_with_nocase: String
   decimals: Int
   decimals_gt: Int
   decimals_gte: Int
@@ -8268,9 +9791,12 @@ input SmartToken_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  liquidityPool_: LiquidityPool_filter
   name: String
   name_contains: String
+  name_contains_nocase: String
   name_ends_with: String
+  name_ends_with_nocase: String
   name_gt: String
   name_gte: String
   name_in: [String!]
@@ -8278,13 +9804,19 @@ input SmartToken_filter {
   name_lte: String
   name_not: String
   name_not_contains: String
+  name_not_contains_nocase: String
   name_not_ends_with: String
+  name_not_ends_with_nocase: String
   name_not_in: [String!]
   name_not_starts_with: String
+  name_not_starts_with_nocase: String
   name_starts_with: String
+  name_starts_with_nocase: String
   owner: String
   owner_contains: String
+  owner_contains_nocase: String
   owner_ends_with: String
+  owner_ends_with_nocase: String
   owner_gt: String
   owner_gte: String
   owner_in: [String!]
@@ -8292,13 +9824,19 @@ input SmartToken_filter {
   owner_lte: String
   owner_not: String
   owner_not_contains: String
+  owner_not_contains_nocase: String
   owner_not_ends_with: String
+  owner_not_ends_with_nocase: String
   owner_not_in: [String!]
   owner_not_starts_with: String
+  owner_not_starts_with_nocase: String
   owner_starts_with: String
+  owner_starts_with_nocase: String
   smartTokenType: String
   smartTokenType_contains: String
+  smartTokenType_contains_nocase: String
   smartTokenType_ends_with: String
+  smartTokenType_ends_with_nocase: String
   smartTokenType_gt: String
   smartTokenType_gte: String
   smartTokenType_in: [String!]
@@ -8306,13 +9844,19 @@ input SmartToken_filter {
   smartTokenType_lte: String
   smartTokenType_not: String
   smartTokenType_not_contains: String
+  smartTokenType_not_contains_nocase: String
   smartTokenType_not_ends_with: String
+  smartTokenType_not_ends_with_nocase: String
   smartTokenType_not_in: [String!]
   smartTokenType_not_starts_with: String
+  smartTokenType_not_starts_with_nocase: String
   smartTokenType_starts_with: String
+  smartTokenType_starts_with_nocase: String
   symbol: String
   symbol_contains: String
+  symbol_contains_nocase: String
   symbol_ends_with: String
+  symbol_ends_with_nocase: String
   symbol_gt: String
   symbol_gte: String
   symbol_in: [String!]
@@ -8320,10 +9864,14 @@ input SmartToken_filter {
   symbol_lte: String
   symbol_not: String
   symbol_not_contains: String
+  symbol_not_contains_nocase: String
   symbol_not_ends_with: String
+  symbol_not_ends_with_nocase: String
   symbol_not_in: [String!]
   symbol_not_starts_with: String
+  symbol_not_starts_with_nocase: String
   symbol_starts_with: String
+  symbol_starts_with_nocase: String
 }
 
 enum SmartToken_orderBy {
@@ -8401,6 +9949,10 @@ type StakeHistoryItem {
 }
 
 input StakeHistoryItem_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   action: StakeHistoryAction
   action_in: [StakeHistoryAction!]
   action_not: StakeHistoryAction
@@ -8439,7 +9991,9 @@ input StakeHistoryItem_filter {
   timestamp_not_in: [Int!]
   token: String
   token_contains: String
+  token_contains_nocase: String
   token_ends_with: String
+  token_ends_with_nocase: String
   token_gt: String
   token_gte: String
   token_in: [String!]
@@ -8447,13 +10001,20 @@ input StakeHistoryItem_filter {
   token_lte: String
   token_not: String
   token_not_contains: String
+  token_not_contains_nocase: String
   token_not_ends_with: String
+  token_not_ends_with_nocase: String
   token_not_in: [String!]
   token_not_starts_with: String
+  token_not_starts_with_nocase: String
   token_starts_with: String
+  token_starts_with_nocase: String
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -8461,13 +10022,20 @@ input StakeHistoryItem_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: UserStakeHistory_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -8475,10 +10043,14 @@ input StakeHistoryItem_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum StakeHistoryItem_orderBy {
@@ -8493,6 +10065,10 @@ enum StakeHistoryItem_orderBy {
 }
 
 input Stake_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -8526,8 +10102,11 @@ input Stake_filter {
   lockedUntil_not: Int
   lockedUntil_not_in: [Int!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -8535,10 +10114,14 @@ input Stake_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
   vestingAmount: BigDecimal
   vestingAmount_gt: BigDecimal
   vestingAmount_gte: BigDecimal
@@ -9431,6 +11014,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: MarginOrderFilled_filter
   ): [MarginOrderFilled!]!
+  newBitcoinTransferIncoming(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): NewBitcoinTransferIncoming
+  newBitcoinTransferIncomings(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: NewBitcoinTransferIncoming_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: NewBitcoinTransferIncoming_filter
+  ): [NewBitcoinTransferIncoming!]!
   orderCanceled(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -9571,6 +11182,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: PayBorrowingFee_filter
   ): [PayBorrowingFee!]!
+  payInterestTransfer(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): PayInterestTransfer
+  payInterestTransfers(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: PayInterestTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: PayInterestTransfer_filter
+  ): [PayInterestTransfer!]!
   payLendingFee(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -9699,6 +11338,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: ProtocolStats_filter
   ): [ProtocolStats!]!
+  protocolWithdrawFee(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ProtocolWithdrawFee
+  protocolWithdrawFees(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ProtocolWithdrawFee_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ProtocolWithdrawFee_filter
+  ): [ProtocolWithdrawFee!]!
   rewardsEarnedHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -10333,17 +12000,11 @@ type Swap {
   Transaction hash of this swap
   """
   id: ID!
-  isBorrow: Boolean!
 
   """
-  Was this swap a limit order?
+  Not in use - this property is always false. It is kept for backwards compatibility and will be deprecated
   """
   isLimit: Boolean!
-
-  """
-  Was this swap part of a margin trade?
-  """
-  isMarginTrade: Boolean!
 
   """
   The number of AMM Conversions involved in this swap (this is primarily for debugging purposes)
@@ -10354,6 +12015,7 @@ type Swap {
   Rate is calculated as toAmount / fromAmount
   """
   rate: BigDecimal!
+  swapType: SwapType
   timestamp: Int!
   toAmount: BigDecimal!
 
@@ -10370,7 +12032,17 @@ type Swap {
   user: User
 }
 
+enum SwapType {
+  Limit
+  Market
+  Other
+}
+
 input Swap_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   fromAmount: BigDecimal
   fromAmount_gt: BigDecimal
   fromAmount_gte: BigDecimal
@@ -10380,8 +12052,11 @@ input Swap_filter {
   fromAmount_not: BigDecimal
   fromAmount_not_in: [BigDecimal!]
   fromToken: String
+  fromToken_: Token_filter
   fromToken_contains: String
+  fromToken_contains_nocase: String
   fromToken_ends_with: String
+  fromToken_ends_with_nocase: String
   fromToken_gt: String
   fromToken_gte: String
   fromToken_in: [String!]
@@ -10389,10 +12064,14 @@ input Swap_filter {
   fromToken_lte: String
   fromToken_not: String
   fromToken_not_contains: String
+  fromToken_not_contains_nocase: String
   fromToken_not_ends_with: String
+  fromToken_not_ends_with_nocase: String
   fromToken_not_in: [String!]
   fromToken_not_starts_with: String
+  fromToken_not_starts_with_nocase: String
   fromToken_starts_with: String
+  fromToken_starts_with_nocase: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -10401,18 +12080,10 @@ input Swap_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
-  isBorrow: Boolean
-  isBorrow_in: [Boolean!]
-  isBorrow_not: Boolean
-  isBorrow_not_in: [Boolean!]
   isLimit: Boolean
   isLimit_in: [Boolean!]
   isLimit_not: Boolean
   isLimit_not_in: [Boolean!]
-  isMarginTrade: Boolean
-  isMarginTrade_in: [Boolean!]
-  isMarginTrade_not: Boolean
-  isMarginTrade_not_in: [Boolean!]
   numConversions: Int
   numConversions_gt: Int
   numConversions_gte: Int
@@ -10429,6 +12100,10 @@ input Swap_filter {
   rate_lte: BigDecimal
   rate_not: BigDecimal
   rate_not_in: [BigDecimal!]
+  swapType: SwapType
+  swapType_in: [SwapType!]
+  swapType_not: SwapType
+  swapType_not_in: [SwapType!]
   timestamp: Int
   timestamp_gt: Int
   timestamp_gte: Int
@@ -10446,8 +12121,11 @@ input Swap_filter {
   toAmount_not: BigDecimal
   toAmount_not_in: [BigDecimal!]
   toToken: String
+  toToken_: Token_filter
   toToken_contains: String
+  toToken_contains_nocase: String
   toToken_ends_with: String
+  toToken_ends_with_nocase: String
   toToken_gt: String
   toToken_gte: String
   toToken_in: [String!]
@@ -10455,13 +12133,20 @@ input Swap_filter {
   toToken_lte: String
   toToken_not: String
   toToken_not_contains: String
+  toToken_not_contains_nocase: String
   toToken_not_ends_with: String
+  toToken_not_ends_with_nocase: String
   toToken_not_in: [String!]
   toToken_not_starts_with: String
+  toToken_not_starts_with_nocase: String
   toToken_starts_with: String
+  toToken_starts_with_nocase: String
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -10469,13 +12154,20 @@ input Swap_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -10483,21 +12175,24 @@ input Swap_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum Swap_orderBy {
   fromAmount
   fromToken
   id
-  isBorrow
   isLimit
-  isMarginTrade
   numConversions
   rate
+  swapType
   timestamp
   toAmount
   toToken
@@ -10619,6 +12314,10 @@ type TokenSmartToken {
 }
 
 input TokenSmartToken_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -10628,8 +12327,11 @@ input TokenSmartToken_filter {
   id_not: ID
   id_not_in: [ID!]
   smartToken: String
+  smartToken_: SmartToken_filter
   smartToken_contains: String
+  smartToken_contains_nocase: String
   smartToken_ends_with: String
+  smartToken_ends_with_nocase: String
   smartToken_gt: String
   smartToken_gte: String
   smartToken_in: [String!]
@@ -10637,13 +12339,20 @@ input TokenSmartToken_filter {
   smartToken_lte: String
   smartToken_not: String
   smartToken_not_contains: String
+  smartToken_not_contains_nocase: String
   smartToken_not_ends_with: String
+  smartToken_not_ends_with_nocase: String
   smartToken_not_in: [String!]
   smartToken_not_starts_with: String
+  smartToken_not_starts_with_nocase: String
   smartToken_starts_with: String
+  smartToken_starts_with_nocase: String
   token: String
+  token_: Token_filter
   token_contains: String
+  token_contains_nocase: String
   token_ends_with: String
+  token_ends_with_nocase: String
   token_gt: String
   token_gte: String
   token_in: [String!]
@@ -10651,10 +12360,14 @@ input TokenSmartToken_filter {
   token_lte: String
   token_not: String
   token_not_contains: String
+  token_not_contains_nocase: String
   token_not_ends_with: String
+  token_not_ends_with_nocase: String
   token_not_in: [String!]
   token_not_starts_with: String
+  token_not_starts_with_nocase: String
   token_starts_with: String
+  token_starts_with_nocase: String
 }
 
 enum TokenSmartToken_orderBy {
@@ -10664,6 +12377,10 @@ enum TokenSmartToken_orderBy {
 }
 
 input Token_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   btcVolume: BigDecimal
   btcVolume_gt: BigDecimal
   btcVolume_gte: BigDecimal
@@ -10672,9 +12389,13 @@ input Token_filter {
   btcVolume_lte: BigDecimal
   btcVolume_not: BigDecimal
   btcVolume_not_in: [BigDecimal!]
+  crossTransfers_: CrossTransfer_filter
   currentConverterRegistry: String
+  currentConverterRegistry_: ConverterRegistry_filter
   currentConverterRegistry_contains: String
+  currentConverterRegistry_contains_nocase: String
   currentConverterRegistry_ends_with: String
+  currentConverterRegistry_ends_with_nocase: String
   currentConverterRegistry_gt: String
   currentConverterRegistry_gte: String
   currentConverterRegistry_in: [String!]
@@ -10682,10 +12403,14 @@ input Token_filter {
   currentConverterRegistry_lte: String
   currentConverterRegistry_not: String
   currentConverterRegistry_not_contains: String
+  currentConverterRegistry_not_contains_nocase: String
   currentConverterRegistry_not_ends_with: String
+  currentConverterRegistry_not_ends_with_nocase: String
   currentConverterRegistry_not_in: [String!]
   currentConverterRegistry_not_starts_with: String
+  currentConverterRegistry_not_starts_with_nocase: String
   currentConverterRegistry_starts_with: String
+  currentConverterRegistry_starts_with_nocase: String
   decimals: Int
   decimals_gt: Int
   decimals_gte: Int
@@ -10726,9 +12451,12 @@ input Token_filter {
   lastPriceUsd_lte: BigDecimal
   lastPriceUsd_not: BigDecimal
   lastPriceUsd_not_in: [BigDecimal!]
+  liquidityPools_: LiquidityPoolToken_filter
   name: String
   name_contains: String
+  name_contains_nocase: String
   name_ends_with: String
+  name_ends_with_nocase: String
   name_gt: String
   name_gte: String
   name_in: [String!]
@@ -10736,10 +12464,14 @@ input Token_filter {
   name_lte: String
   name_not: String
   name_not_contains: String
+  name_not_contains_nocase: String
   name_not_ends_with: String
+  name_not_ends_with_nocase: String
   name_not_in: [String!]
   name_not_starts_with: String
+  name_not_starts_with_nocase: String
   name_starts_with: String
+  name_starts_with_nocase: String
   prevPriceBtc: BigDecimal
   prevPriceBtc_gt: BigDecimal
   prevPriceBtc_gte: BigDecimal
@@ -10756,9 +12488,12 @@ input Token_filter {
   prevPriceUsd_lte: BigDecimal
   prevPriceUsd_not: BigDecimal
   prevPriceUsd_not_in: [BigDecimal!]
+  smartTokens_: TokenSmartToken_filter
   symbol: String
   symbol_contains: String
+  symbol_contains_nocase: String
   symbol_ends_with: String
+  symbol_ends_with_nocase: String
   symbol_gt: String
   symbol_gte: String
   symbol_in: [String!]
@@ -10766,10 +12501,14 @@ input Token_filter {
   symbol_lte: String
   symbol_not: String
   symbol_not_contains: String
+  symbol_not_contains_nocase: String
   symbol_not_ends_with: String
+  symbol_not_ends_with_nocase: String
   symbol_not_in: [String!]
   symbol_not_starts_with: String
+  symbol_not_starts_with_nocase: String
   symbol_starts_with: String
+  symbol_starts_with_nocase: String
   tokenVolume: BigDecimal
   tokenVolume_gt: BigDecimal
   tokenVolume_gte: BigDecimal
@@ -10864,6 +12603,10 @@ type TokensStaked {
 }
 
 input TokensStaked_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -10921,8 +12664,11 @@ input TokensStaked_filter {
   totalStaked_not: BigDecimal
   totalStaked_not_in: [BigDecimal!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -10930,13 +12676,20 @@ input TokensStaked_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -10944,10 +12697,14 @@ input TokensStaked_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum TokensStaked_orderBy {
@@ -10986,6 +12743,10 @@ type Trade {
 }
 
 input Trade_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   borrowedAmount: BigDecimal
   borrowedAmount_gt: BigDecimal
   borrowedAmount_gte: BigDecimal
@@ -10995,8 +12756,11 @@ input Trade_filter {
   borrowedAmount_not: BigDecimal
   borrowedAmount_not_in: [BigDecimal!]
   collateralToken: String
+  collateralToken_: Token_filter
   collateralToken_contains: String
+  collateralToken_contains_nocase: String
   collateralToken_ends_with: String
+  collateralToken_ends_with_nocase: String
   collateralToken_gt: String
   collateralToken_gte: String
   collateralToken_in: [String!]
@@ -11004,10 +12768,14 @@ input Trade_filter {
   collateralToken_lte: String
   collateralToken_not: String
   collateralToken_not_contains: String
+  collateralToken_not_contains_nocase: String
   collateralToken_not_ends_with: String
+  collateralToken_not_ends_with_nocase: String
   collateralToken_not_in: [String!]
   collateralToken_not_starts_with: String
+  collateralToken_not_starts_with_nocase: String
   collateralToken_starts_with: String
+  collateralToken_starts_with_nocase: String
   currentLeverage: BigDecimal
   currentLeverage_gt: BigDecimal
   currentLeverage_gte: BigDecimal
@@ -11061,8 +12829,11 @@ input Trade_filter {
   lender_not_contains: Bytes
   lender_not_in: [Bytes!]
   loanId: String
+  loanId_: Loan_filter
   loanId_contains: String
+  loanId_contains_nocase: String
   loanId_ends_with: String
+  loanId_ends_with_nocase: String
   loanId_gt: String
   loanId_gte: String
   loanId_in: [String!]
@@ -11070,13 +12841,20 @@ input Trade_filter {
   loanId_lte: String
   loanId_not: String
   loanId_not_contains: String
+  loanId_not_contains_nocase: String
   loanId_not_ends_with: String
+  loanId_not_ends_with_nocase: String
   loanId_not_in: [String!]
   loanId_not_starts_with: String
+  loanId_not_starts_with_nocase: String
   loanId_starts_with: String
+  loanId_starts_with_nocase: String
   loanToken: String
+  loanToken_: Token_filter
   loanToken_contains: String
+  loanToken_contains_nocase: String
   loanToken_ends_with: String
+  loanToken_ends_with_nocase: String
   loanToken_gt: String
   loanToken_gte: String
   loanToken_in: [String!]
@@ -11084,10 +12862,14 @@ input Trade_filter {
   loanToken_lte: String
   loanToken_not: String
   loanToken_not_contains: String
+  loanToken_not_contains_nocase: String
   loanToken_not_ends_with: String
+  loanToken_not_ends_with_nocase: String
   loanToken_not_in: [String!]
   loanToken_not_starts_with: String
+  loanToken_not_starts_with_nocase: String
   loanToken_starts_with: String
+  loanToken_starts_with_nocase: String
   positionSize: BigDecimal
   positionSize_gt: BigDecimal
   positionSize_gte: BigDecimal
@@ -11113,8 +12895,11 @@ input Trade_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -11122,13 +12907,20 @@ input Trade_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -11136,10 +12928,14 @@ input Trade_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum Trade_orderBy {
@@ -11171,6 +12967,7 @@ type Transaction {
   The account that initiated this transaction. This must be an Account and not a Contract.
   """
   from: User!
+  functionSignature: String!
   gasLimit: BigInt!
   gasPrice: BigInt!
 
@@ -11197,6 +12994,10 @@ type Transaction {
 }
 
 input Transaction_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   blockNumber: Int
   blockNumber_gt: Int
   blockNumber_gte: Int
@@ -11206,8 +13007,11 @@ input Transaction_filter {
   blockNumber_not: Int
   blockNumber_not_in: [Int!]
   from: String
+  from_: User_filter
   from_contains: String
+  from_contains_nocase: String
   from_ends_with: String
+  from_ends_with_nocase: String
   from_gt: String
   from_gte: String
   from_in: [String!]
@@ -11215,10 +13019,34 @@ input Transaction_filter {
   from_lte: String
   from_not: String
   from_not_contains: String
+  from_not_contains_nocase: String
   from_not_ends_with: String
+  from_not_ends_with_nocase: String
   from_not_in: [String!]
   from_not_starts_with: String
+  from_not_starts_with_nocase: String
   from_starts_with: String
+  from_starts_with_nocase: String
+  functionSignature: String
+  functionSignature_contains: String
+  functionSignature_contains_nocase: String
+  functionSignature_ends_with: String
+  functionSignature_ends_with_nocase: String
+  functionSignature_gt: String
+  functionSignature_gte: String
+  functionSignature_in: [String!]
+  functionSignature_lt: String
+  functionSignature_lte: String
+  functionSignature_not: String
+  functionSignature_not_contains: String
+  functionSignature_not_contains_nocase: String
+  functionSignature_not_ends_with: String
+  functionSignature_not_ends_with_nocase: String
+  functionSignature_not_in: [String!]
+  functionSignature_not_starts_with: String
+  functionSignature_not_starts_with_nocase: String
+  functionSignature_starts_with: String
+  functionSignature_starts_with_nocase: String
   gasLimit: BigInt
   gasLimit_gt: BigInt
   gasLimit_gte: BigInt
@@ -11278,6 +13106,7 @@ input Transaction_filter {
 enum Transaction_orderBy {
   blockNumber
   from
+  functionSignature
   gasLimit
   gasPrice
   id
@@ -11515,6 +13344,10 @@ type UserLendingHistory {
 }
 
 input UserLendingHistory_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -11523,9 +13356,13 @@ input UserLendingHistory_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  lendingHistory_: LendingHistoryItem_filter
   lendingPool: String
+  lendingPool_: LendingPool_filter
   lendingPool_contains: String
+  lendingPool_contains_nocase: String
   lendingPool_ends_with: String
+  lendingPool_ends_with_nocase: String
   lendingPool_gt: String
   lendingPool_gte: String
   lendingPool_in: [String!]
@@ -11533,10 +13370,14 @@ input UserLendingHistory_filter {
   lendingPool_lte: String
   lendingPool_not: String
   lendingPool_not_contains: String
+  lendingPool_not_contains_nocase: String
   lendingPool_not_ends_with: String
+  lendingPool_not_ends_with_nocase: String
   lendingPool_not_in: [String!]
   lendingPool_not_starts_with: String
+  lendingPool_not_starts_with_nocase: String
   lendingPool_starts_with: String
+  lendingPool_starts_with_nocase: String
   totalLendVolume: BigDecimal
   totalLendVolume_gt: BigDecimal
   totalLendVolume_gte: BigDecimal
@@ -11554,8 +13395,11 @@ input UserLendingHistory_filter {
   totalUnlendVolume_not: BigDecimal
   totalUnlendVolume_not_in: [BigDecimal!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -11563,10 +13407,14 @@ input UserLendingHistory_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum UserLendingHistory_orderBy {
@@ -11621,6 +13469,10 @@ type UserLiquidityHistory {
 }
 
 input UserLiquidityHistory_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -11629,9 +13481,13 @@ input UserLiquidityHistory_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  liquidityHistory_: LiquidityHistoryItem_filter
   poolToken: String
+  poolToken_: PoolToken_filter
   poolToken_contains: String
+  poolToken_contains_nocase: String
   poolToken_ends_with: String
+  poolToken_ends_with_nocase: String
   poolToken_gt: String
   poolToken_gte: String
   poolToken_in: [String!]
@@ -11639,10 +13495,14 @@ input UserLiquidityHistory_filter {
   poolToken_lte: String
   poolToken_not: String
   poolToken_not_contains: String
+  poolToken_not_contains_nocase: String
   poolToken_not_ends_with: String
+  poolToken_not_ends_with_nocase: String
   poolToken_not_in: [String!]
   poolToken_not_starts_with: String
+  poolToken_not_starts_with_nocase: String
   poolToken_starts_with: String
+  poolToken_starts_with_nocase: String
   totalAsset0LiquidityAdded: BigDecimal
   totalAsset0LiquidityAdded_gt: BigDecimal
   totalAsset0LiquidityAdded_gte: BigDecimal
@@ -11676,8 +13536,11 @@ input UserLiquidityHistory_filter {
   totalAsset1LiquidityRemoved_not: BigDecimal
   totalAsset1LiquidityRemoved_not_in: [BigDecimal!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -11685,10 +13548,14 @@ input UserLiquidityHistory_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum UserLiquidityHistory_orderBy {
@@ -11764,6 +13631,10 @@ type UserRewardsEarnedHistory {
 }
 
 input UserRewardsEarnedHistory_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   availableTradingRewards: BigDecimal
   availableTradingRewards_gt: BigDecimal
   availableTradingRewards_gte: BigDecimal
@@ -11780,6 +13651,7 @@ input UserRewardsEarnedHistory_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  rewardsEarnedHistory_: RewardsEarnedHistoryItem_filter
   totalFeeWithdrawn: BigDecimal
   totalFeeWithdrawn_gt: BigDecimal
   totalFeeWithdrawn_gte: BigDecimal
@@ -11829,8 +13701,11 @@ input UserRewardsEarnedHistory_filter {
   totalTradingRewards_not: BigDecimal
   totalTradingRewards_not_in: [BigDecimal!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -11838,10 +13713,14 @@ input UserRewardsEarnedHistory_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum UserRewardsEarnedHistory_orderBy {
@@ -11897,6 +13776,10 @@ type UserStakeHistory {
 }
 
 input UserStakeHistory_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -11905,6 +13788,7 @@ input UserStakeHistory_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  stakeHistory_: StakeHistoryItem_filter
   totalRemaining: BigDecimal
   totalRemaining_gt: BigDecimal
   totalRemaining_gte: BigDecimal
@@ -11930,8 +13814,11 @@ input UserStakeHistory_filter {
   totalWithdrawn_not: BigDecimal
   totalWithdrawn_not_in: [BigDecimal!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -11939,10 +13826,14 @@ input UserStakeHistory_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum UserStakeHistory_orderBy {
@@ -11977,6 +13868,10 @@ type UserTotal {
 }
 
 input UserTotal_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -12098,8 +13993,11 @@ input UserTotal_filter {
   totalUnlendVolumeUsd_not: BigDecimal
   totalUnlendVolumeUsd_not_in: [BigDecimal!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -12107,10 +14005,14 @@ input UserTotal_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum UserTotal_orderBy {
@@ -12133,6 +14035,12 @@ enum UserTotal_orderBy {
 }
 
 input User_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
+  bitcoinTransfers_: BitcoinTransfer_filter
+  borrows_: Borrow_filter
   createdAtTimestamp: Int
   createdAtTimestamp_gt: Int
   createdAtTimestamp_gte: Int
@@ -12141,6 +14049,9 @@ input User_filter {
   createdAtTimestamp_lte: Int
   createdAtTimestamp_not: Int
   createdAtTimestamp_not_in: [Int!]
+  crossChainTransfer_: CrossTransfer_filter
+  currentStakes_: Stake_filter
+  fastBTCBridgeStats_: FastBTCBridgeStat_filter
   id: ID
   id_gt: ID
   id_gte: ID
@@ -12149,6 +14060,18 @@ input User_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  lendingHistory_: UserLendingHistory_filter
+  liquidations_: Liquidate_filter
+  liquidityHistory_: UserLiquidityHistory_filter
+  loans_: Loan_filter
+  rewardsEarnedHistory_: UserRewardsEarnedHistory_filter
+  stakeHistory_: UserStakeHistory_filter
+  swaps_: Swap_filter
+  trades_: Trade_filter
+  transactions_: Transaction_filter
+  userTotals_: UserTotal_filter
+  vestingContracts_: VestingContract_filter
+  votes_: VoteCast_filter
 }
 
 enum User_orderBy {
@@ -12277,6 +14200,10 @@ enum VestingContractType {
 }
 
 input VestingContract_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   cliff: Int
   cliff_gt: Int
   cliff_gte: Int
@@ -12294,8 +14221,11 @@ input VestingContract_filter {
   createdAtTimestamp_not: Int
   createdAtTimestamp_not_in: [Int!]
   createdAtTransaction: String
+  createdAtTransaction_: Transaction_filter
   createdAtTransaction_contains: String
+  createdAtTransaction_contains_nocase: String
   createdAtTransaction_ends_with: String
+  createdAtTransaction_ends_with_nocase: String
   createdAtTransaction_gt: String
   createdAtTransaction_gte: String
   createdAtTransaction_in: [String!]
@@ -12303,10 +14233,14 @@ input VestingContract_filter {
   createdAtTransaction_lte: String
   createdAtTransaction_not: String
   createdAtTransaction_not_contains: String
+  createdAtTransaction_not_contains_nocase: String
   createdAtTransaction_not_ends_with: String
+  createdAtTransaction_not_ends_with_nocase: String
   createdAtTransaction_not_in: [String!]
   createdAtTransaction_not_starts_with: String
+  createdAtTransaction_not_starts_with_nocase: String
   createdAtTransaction_starts_with: String
+  createdAtTransaction_starts_with_nocase: String
   currentBalance: BigDecimal
   currentBalance_gt: BigDecimal
   currentBalance_gte: BigDecimal
@@ -12337,6 +14271,7 @@ input VestingContract_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  stakeHistory_: VestingHistoryItem_filter
   startingBalance: BigDecimal
   startingBalance_gt: BigDecimal
   startingBalance_gte: BigDecimal
@@ -12350,8 +14285,11 @@ input VestingContract_filter {
   type_not: VestingContractType
   type_not_in: [VestingContractType!]
   user: String
+  user_: User_filter
   user_contains: String
+  user_contains_nocase: String
   user_ends_with: String
+  user_ends_with_nocase: String
   user_gt: String
   user_gte: String
   user_in: [String!]
@@ -12359,10 +14297,14 @@ input VestingContract_filter {
   user_lte: String
   user_not: String
   user_not_contains: String
+  user_not_contains_nocase: String
   user_not_ends_with: String
+  user_not_ends_with_nocase: String
   user_not_in: [String!]
   user_not_starts_with: String
+  user_not_starts_with_nocase: String
   user_starts_with: String
+  user_starts_with_nocase: String
 }
 
 enum VestingContract_orderBy {
@@ -12400,7 +14342,7 @@ type VestingHistoryItem {
   """
   The date when the tokens become unlocked
   """
-  lockedUntil: Int!
+  lockedUntil: Int
 
   """
   The staker here will always be the vesting contract
@@ -12435,6 +14377,10 @@ enum VestingHistoryItemAction {
 }
 
 input VestingHistoryItem_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   action: VestingHistoryItemAction
   action_in: [VestingHistoryItemAction!]
   action_not: VestingHistoryItemAction
@@ -12470,8 +14416,11 @@ input VestingHistoryItem_filter {
   lockedUntil_not: Int
   lockedUntil_not_in: [Int!]
   staker: String
+  staker_: VestingContract_filter
   staker_contains: String
+  staker_contains_nocase: String
   staker_ends_with: String
+  staker_ends_with_nocase: String
   staker_gt: String
   staker_gte: String
   staker_in: [String!]
@@ -12479,10 +14428,14 @@ input VestingHistoryItem_filter {
   staker_lte: String
   staker_not: String
   staker_not_contains: String
+  staker_not_contains_nocase: String
   staker_not_ends_with: String
+  staker_not_ends_with_nocase: String
   staker_not_in: [String!]
   staker_not_starts_with: String
+  staker_not_starts_with_nocase: String
   staker_starts_with: String
+  staker_starts_with_nocase: String
   timestamp: Int
   timestamp_gt: Int
   timestamp_gte: Int
@@ -12500,8 +14453,11 @@ input VestingHistoryItem_filter {
   totalStaked_not: BigDecimal
   totalStaked_not_in: [BigDecimal!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -12509,10 +14465,14 @@ input VestingHistoryItem_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum VestingHistoryItem_orderBy {
@@ -12563,6 +14523,10 @@ type VoteCast {
 }
 
 input VoteCast_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   emittedBy: Bytes
   emittedBy_contains: Bytes
   emittedBy_in: [Bytes!]
@@ -12586,8 +14550,11 @@ input VoteCast_filter {
   proposalId_lte: Int
   proposalId_not: Int
   proposalId_not_in: [Int!]
+  proposal_: Proposal_filter
   proposal_contains: String
+  proposal_contains_nocase: String
   proposal_ends_with: String
+  proposal_ends_with_nocase: String
   proposal_gt: String
   proposal_gte: String
   proposal_in: [String!]
@@ -12595,10 +14562,14 @@ input VoteCast_filter {
   proposal_lte: String
   proposal_not: String
   proposal_not_contains: String
+  proposal_not_contains_nocase: String
   proposal_not_ends_with: String
+  proposal_not_ends_with_nocase: String
   proposal_not_in: [String!]
   proposal_not_starts_with: String
+  proposal_not_starts_with_nocase: String
   proposal_starts_with: String
+  proposal_starts_with_nocase: String
   support: Boolean
   support_in: [Boolean!]
   support_not: Boolean
@@ -12612,8 +14583,11 @@ input VoteCast_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -12621,13 +14595,20 @@ input VoteCast_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
   voter: String
+  voter_: User_filter
   voter_contains: String
+  voter_contains_nocase: String
   voter_ends_with: String
+  voter_ends_with_nocase: String
   voter_gt: String
   voter_gte: String
   voter_in: [String!]
@@ -12635,10 +14616,14 @@ input VoteCast_filter {
   voter_lte: String
   voter_not: String
   voter_not_contains: String
+  voter_not_contains_nocase: String
   voter_not_ends_with: String
+  voter_not_ends_with_nocase: String
   voter_not_in: [String!]
   voter_not_starts_with: String
+  voter_not_starts_with_nocase: String
   voter_starts_with: String
+  voter_starts_with_nocase: String
   votes: BigInt
   votes_gt: BigInt
   votes_gte: BigInt
@@ -12671,6 +14656,10 @@ type Withdrawal {
 }
 
 input Withdrawal_filter {
+  """
+  Filter for the block changed event.
+  """
+  _change_block: BlockChangedFilter
   amount: BigDecimal
   amount_gt: BigDecimal
   amount_gte: BigDecimal
@@ -12708,8 +14697,11 @@ input Withdrawal_filter {
   timestamp_not: Int
   timestamp_not_in: [Int!]
   transaction: String
+  transaction_: Transaction_filter
   transaction_contains: String
+  transaction_contains_nocase: String
   transaction_ends_with: String
+  transaction_ends_with_nocase: String
   transaction_gt: String
   transaction_gte: String
   transaction_in: [String!]
@@ -12717,10 +14709,14 @@ input Withdrawal_filter {
   transaction_lte: String
   transaction_not: String
   transaction_not_contains: String
+  transaction_not_contains_nocase: String
   transaction_not_ends_with: String
+  transaction_not_ends_with_nocase: String
   transaction_not_in: [String!]
   transaction_not_starts_with: String
+  transaction_not_starts_with_nocase: String
   transaction_starts_with: String
+  transaction_starts_with_nocase: String
 }
 
 enum Withdrawal_orderBy {

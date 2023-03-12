@@ -22,7 +22,9 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
-  const { step, depositTx, transferTx } = useContext(DepositContext);
+  const { step, depositTx, transferTx, depositRskTransactionHash } = useContext(
+    DepositContext,
+  );
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -163,14 +165,14 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
                 </tr>
               )}
 
-              {transferTx && (
+              {depositRskTransactionHash && (
                 <tr>
                   <td className="tw-py-0.5">
                     {t(translations.fastBtcPage.deposit.statusScreen.txHash)}:
                   </td>
                   <td className="tw-text-right tw-py-0.5">
                     <LinkToExplorer
-                      txHash={transferTx.txHash}
+                      txHash={depositRskTransactionHash}
                       className="tw-text-primary tw-underline"
                     />
                   </td>

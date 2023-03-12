@@ -1,0 +1,7 @@
+query getFastBtcDepositRskTransaction($bitcoinTxHash: String, $user: String) {
+  bitcoinTransfers(where: { bitcoinTxHash: $bitcoinTxHash, user: $user }) {
+    updatedAtTx {
+      id
+    }
+  }
+}
