@@ -54,15 +54,9 @@ export type NotificationUser = {
   walletAddress: string;
   email?: string;
   emailNotificationLastSent?: string;
-  discordHandle?: string;
-  discordNotificationLastSent?: string;
-  telegramHandle?: string;
-  telegramNotificationLastSent?: string;
-  isDiscordNotifications: boolean;
-  isEmailNotifications: boolean;
-  isTelegramNotifications: boolean;
-  subscriptions: Subscription[];
   role: string;
+  isEmailConfirmed?: boolean;
+  subscriptions: Subscription[];
 };
 
 export enum Notification {
