@@ -24,9 +24,6 @@ export interface IMarginTradePageState {
   amount: string;
   leverage: number;
   position: TradingPosition;
-  notificationWallet?: string;
-  notificationToken?: string;
-  notificationUser?: NotificationUser;
   pendingLimitOrders: MarginLimitOrder[];
 }
 
@@ -55,38 +52,6 @@ export type MarginLimitOrder = {
 export type NotificationPayload = {
   token: string;
   wallet: string;
-};
-
-export type NotificationUser = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  walletAddress: string;
-  email?: string;
-  emailNotificationLastSent?: string;
-  discordHandle?: string;
-  discordNotificationLastSent?: string;
-  telegramHandle?: string;
-  telegramNotificationLastSent?: string;
-  isDiscordNotifications: boolean;
-  isEmailNotifications: boolean;
-  isTelegramNotifications: boolean;
-  subscriptions: Subscription[];
-  role: string;
-};
-
-export enum Notification {
-  MarginCall = 'Margin_Call',
-  Liquidation = 'Liquidation',
-  SpotOrderFilled = 'SpotOrderFilled',
-  MarginOrderFilled = 'MarginOrderFilled',
-  MarginUndercollateralized = 'MarginUndercollateralized',
-}
-
-export type Subscription = {
-  notification: Notification;
-  isSubscribed: boolean;
-  userId: string;
 };
 
 export enum EventType {
