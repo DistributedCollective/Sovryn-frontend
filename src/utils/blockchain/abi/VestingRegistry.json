@@ -169,6 +169,42 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "vesting",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "isSet",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint32",
+            "name": "vestingType",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint128",
+            "name": "vestingCreationType",
+            "type": "uint128"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct VestingRegistryStorage.VestingCreationAndTypeDetails",
+        "name": "vestingCreationAndType",
+        "type": "tuple"
+      }
+    ],
+    "name": "VestingCreationAndTypesSet",
+    "type": "event"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "SOV",
@@ -362,7 +398,7 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "feeSharingProxy",
+    "name": "feeSharingCollector",
     "outputs": [
       {
         "internalType": "address",
@@ -551,7 +587,7 @@
       },
       {
         "internalType": "address",
-        "name": "_feeSharingProxy",
+        "name": "_feeSharingCollector",
         "type": "address"
       },
       {
@@ -596,6 +632,27 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_vestingAddress",
+        "type": "address"
+      }
+    ],
+    "name": "isTeamVesting",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -605,6 +662,27 @@
       {
         "internalType": "bool",
         "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_vestingAddress",
+        "type": "address"
+      }
+    ],
+    "name": "isVestingAddress",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isVestingAddr",
         "type": "bool"
       }
     ],
@@ -639,7 +717,7 @@
     "name": "lockedSOV",
     "outputs": [
       {
-        "internalType": "contract LockedSOV",
+        "internalType": "contract ILockedSOV",
         "name": "",
         "type": "address"
       }
@@ -661,6 +739,43 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_vestingAddresses",
+        "type": "address[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "isSet",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint32",
+            "name": "vestingType",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint128",
+            "name": "vestingCreationType",
+            "type": "uint128"
+          }
+        ],
+        "internalType": "struct VestingRegistryStorage.VestingCreationAndTypeDetails[]",
+        "name": "_vestingCreationAndTypes",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "registerVestingToVestingCreationAndTypes",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -761,6 +876,37 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "vestingCreationAndTypes",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isSet",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint32",
+        "name": "vestingType",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint128",
+        "name": "vestingCreationType",
+        "type": "uint128"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
