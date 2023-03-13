@@ -105,7 +105,8 @@
       "4": "Clique em adicionar rede",
       "5": "Insira as configurações de rede",
       "6": "Clique em adicionar",
-      "7": "Leia o código QR para conectar!"
+      "7": "Leia o código QR para conectar!",
+      "1": "Vá ao menu da carteira"
     },
     "mobile_wallet_alert_line2": "A MetaMask tem problemas com o cálculo das taxas de transação quando usada com a rede RSK - sempre revise se não está a pagar muito antes de aprovar a transação!",
     "speech_qr_code": "Leia o código QR com uma carteira compatível com a função wallet-connect",
@@ -122,7 +123,8 @@
         "title": "Conecte a sua carteira"
       },
       "11": {
-        "title": "Conecte à rede RSK"
+        "title": "Conecte à rede RSK",
+        "banner": "Para obter ajuda, entre em contato com a comunidade"
       },
       "2": {
         "title": "Como se conectar à rede RSK",
@@ -151,7 +153,8 @@
     },
     "emptyVestTable": "You don’t have any vesting contracts",
     "meta": {
-      "description": "Gira os ativos da sua carteira"
+      "description": "Gira os ativos da sua carteira",
+      "title": "Portfólio"
     },
     "tableHeaders": {
       "asset": "Ativo",
@@ -188,7 +191,16 @@
       }
     },
     "unwrapDialog": {
-      "to": "To"
+      "to": "To",
+      "from": "De",
+      "txDialog": {
+        "titleInProgress": "Transação em andamento",
+        "titleCompleted": "Transação concluída",
+        "titleFailed": "Falha na transação",
+        "statusInProgress": "O processo de conversão pode demorar alguns minutos",
+        "amountSent": "Quantidade enviada",
+        "amountReceived": "Quantidade recebida"
+      }
     }
   },
   "closeTradingPositionHandler": {
@@ -273,7 +285,8 @@
         "title": "Não possui Dividendos/Comissão a receber",
         "recommendationsTitle": "Ganhe Dividendos/Comissão das seguintes formas:",
         "recommendation2": "Quando utilizadores indicados por si realizam transações na Sovryn",
-        "recommendation3": "Também pode reivindicar aqui os tokens lançados e distribuídos gratuitamente"
+        "recommendation3": "Também pode reivindicar aqui os tokens lançados e distribuídos gratuitamente",
+        "recommendation1": "Rentabilizar SOV"
       },
       "liquidSovTab": {
         "title": "Não possui SOV Líquido",
@@ -656,7 +669,8 @@
       "cta": "Abrir transação",
       "processing": "{{action}} em processamento...",
       "complete": "{{action}} concluída",
-      "submit": "{{action}} inserida"
+      "submit": "{{action}} inserida",
+      "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu app Ledger"
     }
   },
   "BridgeDepositPage": {
@@ -700,7 +714,8 @@
       "depositComplete": "Transação concluída",
       "depositFailed": "Falha na transação",
       "transactionDenied": "Transação negada",
-      "rejectedByUser": "Rejeitada pelo utilizador"
+      "rejectedByUser": "Rejeitada pelo utilizador",
+      "to": "Para"
     },
     "chainSelector": {
       "wrongNetwork": {
@@ -731,7 +746,8 @@
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
       "fee": "Taxa de serviço",
-      "aggregatorBalance": "Disponível"
+      "aggregatorBalance": "Disponível",
+      "depositAmount": "Quantidade"
     }
   },
   "BridgeWithdrawPage": {
@@ -837,15 +853,39 @@
       },
       "labels": {
         "pair": "Symbol:",
-        "maxTradeSize": "Max:"
+        "maxTradeSize": "Max:",
+        "asset": "Ativo:",
+        "tradingFee": "Taxa de negociação:",
+        "slippage": "Diferença máxima no preço:",
+        "balance": "Saldo disponível: <0/> <1/>"
+      },
+      "titles": {
+        "slippage": "Configurações avançadas"
       }
     },
     "reviewTrade": {
-      "stop": "Stop"
+      "stop": "Stop",
+      "cancel": "Cancelar",
+      "deposit": "Depositar",
+      "leverage": "Alavancagem",
+      "margin": "Operar margem",
+      "positionDetailsTitle": "Detalhes",
+      "labels": {
+        "positionSize": "Tamanho da posição:",
+        "margin": "Margem:",
+        "limitPrice": "Preço limite:"
+      },
+      "titles": {
+        "newOrder": "Revisar ordem"
+      },
+      "buy": "Comprar",
+      "sell": "Venda"
     },
     "closedPositionsTable": {
       "noData": "No data",
-      "symbol": "Symbol"
+      "symbol": "Symbol",
+      "positionSize": "Tamanho da posição",
+      "realizedPnl": "L&P realizado"
     },
     "orderHistoryTable": {
       "symbol": "Symbol",
@@ -853,9 +893,14 @@
       "tableData": {
         "stop": "Stop",
         "buy": "BUY",
-        "sell": "SELL"
+        "sell": "SELL",
+        "liquidation": "Liquidação",
+        "limit": "Limitada",
+        "market": "Mercado"
       },
-      "orderId": "ID"
+      "orderId": "ID",
+      "orderSize": "Tamanho",
+      "limitPrice": "Preço limite"
     },
     "meta": {
       "title": "Operar perpétuos",
@@ -876,7 +921,10 @@
       "total": "Total Balance:",
       "status": "Estado",
       "viewAccount": "View Account",
-      "action": "Action"
+      "action": "Action",
+      "unrealized": "L&P não realizado",
+      "time": "Data e hora",
+      "amount": "Quantidade"
     },
     "contractDetails": {
       "volume24h": "24hr Volume:"
@@ -890,20 +938,45 @@
     "processTrade": {
       "labels": {
         "tx": "Tx ID:"
+      },
+      "buttons": {
+        "close": "Fechar",
+        "retry": "Tentar novamente"
       }
     },
     "fundingPaymentsTable": {
       "symbol": "Symbol",
-      "rate": "Rate"
+      "rate": "Rate",
+      "collateral": "Colateral"
+    },
+    "btcbConversionDialog": {
+      "transfer": "Transferir"
+    },
+    "toasts": {
+      "orderFailed": "Falha na transação"
+    },
+    "ammDepth": {
+      "price": "Preço (<0/>)"
+    },
+    "editMargin": {
+      "increase": "Aumentar"
+    },
+    "closePosition": {
+      "title": "Fechar posição"
+    },
+    "currentTrade": {
+      "available": "Saldo disponível:"
     }
   },
   "escrowPage": {
     "table": {
       "labels": {
         "pool": "Pool",
-        "action": "Action"
+        "action": "Action",
+        "unlockDate": "Data de desloqueio"
       },
-      "addButton": "Add"
+      "addButton": "Add",
+      "withdrawButton": "Sacar"
     }
   },
   "landingPage": {
@@ -1032,7 +1105,15 @@
     },
     "lootDropLink": "Saiba mais",
     "chartOverlayText": "Juros anual% Em breve!",
-    "recalibration": "Próximo ajuste em {{date}}"
+    "recalibration": "Próximo ajuste em {{date}}",
+    "explainer": {
+      "rewardPoolUSDT": "Bônus se depositar USDT: 25,000 SOVs",
+      "rewardPoolRBTC": "Bônus se depositar RBTC: 25,000 SOVs",
+      "yourShare": "A sua participação no pool é calculada pela:",
+      "yourShare_N": "liquidez adicionada por si * quantidade de blocos mantidos",
+      "yourShare_D": "liquidez total adicionada * quantidade de blocos mantidos",
+      "comingSoon": "Em breve"
+    }
   },
   "addToMargin": {
     "title": "Adicionar margem",
@@ -1059,10 +1140,20 @@
       "title": "Trading Competition"
     },
     "cta": {
-      "compete": "Compete"
+      "compete": "Compete",
+      "connect": "Conectar carteira"
     },
     "table": {
       "total": "Total P/L"
+    },
+    "nav": {
+      "perpetualSwap": "Operar perpétuo"
+    },
+    "join": {
+      "cta": "Confirmar"
+    },
+    "countdown": {
+      "days": "dias"
     }
   },
   "common": {
@@ -1252,7 +1343,8 @@
       "selectDelegate": "Escolha o período:"
     },
     "loading": "Carregando, por favor aguarde...",
-    "nostake": "Ainda não fez investimentos."
+    "nostake": "Ainda não fez investimentos.",
+    "txId": "Tx ID:"
   },
   "SOVConnectTutorial": {
     "step": "Passo",
@@ -1342,7 +1434,8 @@
     },
     "tabs": {
       "userAssets": "Ativos",
-      "userNFTS": "Galeria"
+      "userNFTS": "Galeria",
+      "vestedAssets": "SOV reservado"
     },
     "claimDialog": {
       "txHash": "Tx Hash:",
@@ -1422,11 +1515,30 @@
     "saleDay": {
       "buyStep": {
         "buyDialog": {
-          "balance": "Balance"
+          "balance": "Balance",
+          "transactionFee": "Taxa de transação",
+          "enterAmount": "Insira a quantidade"
+        },
+        "buyInformationLabels": {
+          "price": "Preço"
         }
       },
       "txDialog": {
         "txHash": "Tx Hash"
+      },
+      "accessCodeVerificationStep": {
+        "cta": "Continuar"
+      },
+      "engageWalletScreen": {
+        "dialogFooter1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>"
+      },
+      "importantInformationStep": {
+        "privateSale": {
+          "checkboxText": "Li e compreendi que somente eu tenho responsabilidade pelos meus atos"
+        },
+        "publicSale": {
+          "submitButtonText": "Entendo"
+        }
       }
     }
   },
@@ -1498,7 +1610,8 @@
       "amount": "Quantidade",
       "fee": "Taxa",
       "depositTx": "ID depósito BTC",
-      "txHash": "Transação"
+      "txHash": "Transação",
+      "transferTx": "ID transação"
     },
     "emptyState": "Histórico vázio.",
     "walletHistory": "A carteira precisa estar conectada.",
@@ -1832,6 +1945,9 @@
       "cta": "Reivindicar",
       "note": "Disponível para resgate em {{date}}.",
       "unlockedNote": "Receberá imediatamente {{amount}} FISH tokens na sua carteira."
+    },
+    "vestForm": {
+      "learn": "Saiba mais"
     }
   },
   "trandingPositionSelector": {
@@ -1890,7 +2006,9 @@
     "totalAssetBorrowed": "Emprestado",
     "totalAvailable": "Disponível",
     "supplyAPR": "Juros anual (credor)",
-    "borrowAPR": "Juros anual (devedor)"
+    "borrowAPR": "Juros anual (devedor)",
+    "tradingVolume": "Volume de operações",
+    "lending": "Dados de empréstimos"
   },
   "pageNotFound": {
     "text": "Página não encontrada.",
@@ -1996,7 +2114,14 @@
     "metamask": {
       "step1": "Open up Metamask in your browser",
       "step6": "Click Add Network",
-      "connectButton": "Configurar {{network}} na MetaMask"
+      "connectButton": "Configurar {{network}} na MetaMask",
+      "step5": "Clique em gravar"
+    },
+    "nifty": {
+      "step3": "Selecione configurações"
+    },
+    "liquality": {
+      "step4": "Vá ao menu rede"
     }
   },
   "mobileNotReady": {
