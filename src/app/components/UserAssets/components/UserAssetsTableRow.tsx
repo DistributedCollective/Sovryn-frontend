@@ -58,7 +58,8 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
   }, [item.asset]);
 
   const { checkMaintenance, States } = useMaintenance();
-  const fastBtcLocked = checkMaintenance(States.FASTBTC);
+  const fastBtcSendLocked = checkMaintenance(States.FASTBTC_SEND);
+  const fastBtcReceiveLocked = checkMaintenance(States.FASTBTC_RECEIVE);
 
   useEffect(() => {
     const get = async () => {
@@ -147,13 +148,13 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 interactionKind="hover"
                 content={
                   <>
-                    {fastBtcLocked
+                    {fastBtcSendLocked
                       ? t(translations.maintenance.fastBTCPortfolio)
                       : t(translations.userAssets.sendMessage, { asset })}
                   </>
                 }
               >
-                {fastBtcLocked ? (
+                {fastBtcSendLocked ? (
                   <div className="tw-cursor-not-allowed tw-opacity-25">
                     {t(translations.common.send)}
                   </div>
@@ -175,13 +176,13 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 interactionKind="hover"
                 content={
                   <>
-                    {fastBtcLocked
+                    {fastBtcReceiveLocked
                       ? t(translations.maintenance.fastBTCPortfolio)
                       : t(translations.userAssets.receiveMessage, { asset })}
                   </>
                 }
               >
-                {fastBtcLocked ? (
+                {fastBtcReceiveLocked ? (
                   <div className="tw-cursor-not-allowed tw-opacity-25">
                     {t(translations.common.receive)}
                   </div>

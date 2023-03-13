@@ -21,8 +21,9 @@ enum States {
   STOP_BORROW = 'stopBorrow',
   ADD_LIQUIDITY = 'addLiquidity',
   REMOVE_LIQUIDITY = 'removeLiquidity',
-  FASTBTC = 'fastBTC',
-  TRANSACK = 'transack',
+  FASTBTC_SEND = 'fastBTCSend',
+  FASTBTC_RECEIVE = 'fastBTCReceive',
+  TRANSAK = 'transak',
 
   BRIDGE = 'bridge',
   ETH_BRIDGE = 'ethBridge',

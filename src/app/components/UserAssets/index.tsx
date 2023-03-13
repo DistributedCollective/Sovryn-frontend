@@ -20,8 +20,9 @@ export const UserAssets: React.FC = () => {
   const account = useAccount();
   const { checkMaintenances, States } = useMaintenance();
   const {
-    [States.FASTBTC]: fastBtcLocked,
-    [States.TRANSACK]: transackLocked,
+    [States.FASTBTC_SEND]: fastBtcSendLocked,
+    [States.FASTBTC_RECEIVE]: fastBtcReceiveLocked,
+    [States.TRANSAK]: transackLocked,
   } = checkMaintenances();
 
   const assets = useMemo(
@@ -105,7 +106,10 @@ export const UserAssets: React.FC = () => {
         onClose={() => setUnwrapDialog(false)}
       />
       <Dialog
-        isOpen={(fastBtcLocked && transack) || (transackLocked && transack)}
+        isOpen={
+          (fastBtcSendLocked && fastBtcReceiveLocked && transack) ||
+          (transackLocked && transack)
+        }
         onClose={() => setTransack(false)}
       >
         <div className="tw-mw-340 tw-mx-auto">
