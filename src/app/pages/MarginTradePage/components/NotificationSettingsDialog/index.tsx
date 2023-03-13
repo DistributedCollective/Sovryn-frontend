@@ -10,13 +10,13 @@ import imgEmail from 'assets/images/marginTrade/email.png';
 import axios from 'axios';
 import { useAccount } from 'app/hooks/useAccount';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../../slice';
-import { selectMarginTradePage } from '../../selectors';
 import { parseJwt, validateEmail } from 'utils/helpers';
 import { walletService } from '@sovryn/react-wallet';
 import { Toast } from 'app/components/Toast';
 import { currentChainId, notificationServiceUrl } from 'utils/classifiers';
-import { Notification, Subscription } from '../../types';
+import { Subscription } from 'app/containers/WalletProvider/types';
+import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
+import { actions } from 'app/containers/WalletProvider/slice';
 
 interface INotificationSettingsDialogProps {
   isOpen: boolean;
@@ -50,7 +50,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     notificationToken,
     notificationUser,
     notificationWallet,
-  } = useSelector(selectMarginTradePage);
+  } = useSelector(selectWalletProvider);
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState('');

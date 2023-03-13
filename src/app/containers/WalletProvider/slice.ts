@@ -1,8 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { currentChainId } from 'utils/classifiers';
-import { CachedAssetRate, ContainerState } from './types';
+import { CachedAssetRate, ContainerState, NotificationUser } from './types';
 import { Nullable } from 'types';
+import { NotificationPayload } from 'app/pages/MarginTradePage/types';
 
 // The initial state of the WalletConnector container
 export const initialState: ContainerState = {
@@ -29,6 +30,10 @@ export const initialState: ContainerState = {
   assetRatesLoading: true,
   assetRatesLoaded: false,
   processedBlocks: [],
+  //notifications
+  notificationWallet: '',
+  notificationToken: '',
+  notificationUser: undefined,
 };
 
 const walletProviderSlice = createSlice({
@@ -147,6 +152,24 @@ const walletProviderSlice = createSlice({
     testTransactions() {},
     sovrynNetworkReady() {},
     sovrynNetworkError() {},
+    setNotificationToken(
+      state,
+      { payload }: PayloadAction<NotificationPayload>,
+    ) {
+      state.notificationToken = payload.token;
+      state.notificationWallet = payload.wallet;
+    },
+    setNotificationUser(
+      state,
+      { payload }: PayloadAction<NotificationUser | undefined>,
+    ) {
+      state.notificationUser = payload;
+    },
+    resetNotification(state) {
+      state.notificationToken = '';
+      state.notificationWallet = '';
+      state.notificationUser = undefined;
+    },
   },
 });
 
