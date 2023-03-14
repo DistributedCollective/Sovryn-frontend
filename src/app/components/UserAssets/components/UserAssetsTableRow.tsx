@@ -153,6 +153,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                       : t(translations.userAssets.sendMessage, { asset })}
                   </>
                 }
+                className="tw-flex tw-items-center"
               >
                 {fastBtcSendLocked ? (
                   <div className="tw-cursor-not-allowed tw-opacity-25">
@@ -181,6 +182,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                       : t(translations.userAssets.receiveMessage, { asset })}
                   </>
                 }
+                className="tw-flex tw-items-center"
               >
                 {fastBtcReceiveLocked ? (
                   <div className="tw-cursor-not-allowed tw-opacity-25">
