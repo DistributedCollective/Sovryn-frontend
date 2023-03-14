@@ -48,11 +48,11 @@ export function AddressBadge(props: Props) {
   return (
     <a
       className={props.className}
-      href={`${url}/address/${props.txHash.toLocaleLowerCase()}`}
+      href={`${url}/address/${props.txHash}`}
       target="_blank"
       rel="noreferrer noopener"
     >
-      {props.text ? props.text.toLocaleLowerCase() : txHash.toLocaleLowerCase()}
+      {props.text ? props.text : txHash}
     </a>
   );
 }
