@@ -64,6 +64,20 @@ export const Promotions: React.FC<PromotionsProps> = ({
             className={cardClassName}
             imageClassName={cardImageClassName}
           />
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Orange}
+            title={t(translations.promotions.card6.title)}
+            text={t(translations.promotions.card6.text)}
+            duration={t(translations.promotions.card6.duration)}
+            learnMoreLink={learnMoreYieldFarming}
+            logoAsset1={Asset.DLLR}
+            logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
+            linkDataActionId={`landing-promo-learnmore-${Asset.DLLR}`}
+            className={cardClassName}
+            imageClassName={cardImageClassName}
+          />
         </PromotionsCarousel>
       </div>
     </div>
