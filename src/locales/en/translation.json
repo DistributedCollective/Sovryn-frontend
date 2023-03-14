@@ -2714,7 +2714,7 @@
     "card1": {
       "title": "5K SOV rewards",
       "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+      "text": "Provide a 1:1 ratio of MYNT and RBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
     },
     "card2": {
       "title": "2.5K SOV rewards",
@@ -2722,19 +2722,24 @@
       "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 2,500 SOV rewards."
     },
     "card3": {
-      "title": "25K SOV rewards",
+      "title": "TBD SOV rewards",
       "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
+      "text": "Provide a 1:1 ratio of XUSD and RBTC to the XUSD/RBTC AMM liquidity pool and instantly start accruing your share of TBD SOV rewards."
     },
     "card4": {
-      "title": "25K SOV rewards",
+      "title": "TBD SOV rewards",
       "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
+      "text": "Provide a 1:1 ratio of SOV and RBTC to the SOV/RBTC AMM liquidity pool and instantly start accruing your share of TBD SOV rewards."
     },
     "card5": {
       "title": "5K SOV rewards",
       "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+      "text": "Provide a 1:1 ratio of ETH and RBTC to the ETH/RBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+    },
+    "card6": {
+      "title": "TBD SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of DLLR and RBTC to the DLLR/RBTC AMM liquidity pool and instantly start accruing your share of TBD SOV rewards."
     }
   },
   "liquidityMining": {
