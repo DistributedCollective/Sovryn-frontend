@@ -22,6 +22,10 @@ export interface WalletProviderState {
   processedBlocks: number[];
   // whitelisting
   whitelist: IWhitelist;
+  // notifications
+  notificationWallet?: string;
+  notificationToken?: string;
+  notificationUser?: NotificationUser;
 }
 
 export type ContainerState = WalletProviderState;
@@ -42,3 +46,29 @@ export interface CachedAssetRate {
     rate: string;
   };
 }
+
+export type NotificationUser = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  walletAddress: string;
+  email?: string;
+  emailNotificationLastSent?: string;
+  role: string;
+  isEmailConfirmed?: boolean;
+  subscriptions: Subscription[];
+};
+
+export enum Notification {
+  MarginCall = 'Margin_Call',
+  Liquidation = 'Liquidation',
+  SpotOrderFilled = 'SpotOrderFilled',
+  MarginOrderFilled = 'MarginOrderFilled',
+  MarginUndercollateralized = 'MarginUndercollateralized',
+}
+
+export type Subscription = {
+  notification: Notification;
+  isSubscribed: boolean;
+  userId: string;
+};

@@ -23,6 +23,7 @@ export const AssetDecimals: { [key in Asset]: number } = {
   ZUSD: 2,
   /** @deprecated */
   XUSD_legacy: 2,
+  DLLR: 2,
 };
 
 export enum AssetValueMode {

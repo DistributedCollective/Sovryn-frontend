@@ -114,7 +114,7 @@ export const ReviewStep: React.FC = () => {
         label: t(trans.token),
         value: (
           <>
-            {sourceAsset} -&gt; {asset?.symbol}
+            {sourceAsset} -&gt; {targetAsset}
           </>
         ),
       },
@@ -147,6 +147,7 @@ export const ReviewStep: React.FC = () => {
       network?.name,
       sourceAsset,
       t,
+      targetAsset,
       targetNetwork?.name,
       trans.amount,
       trans.bridgeFee,

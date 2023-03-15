@@ -7,7 +7,6 @@ import { IPairData } from 'types/trading-pairs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
-import { ReactComponent as ArrowUp } from 'assets/images/trend-arrow-up.svg';
 import { ReactComponent as ArrowDown } from 'assets/images/trend-arrow-down.svg';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { bignumber } from 'mathjs';
@@ -69,6 +68,17 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             priceWeek: -Number(pair.price_change_week),
             lastPrice: Number(1 / pair.last_price),
             assetData: assetData && assetData[pair?.quote_id],
+          });
+        }
+
+        if (assetDetails.asset === Asset.DLLR) {
+          const zusdDetails = AssetsDictionary.get(Asset.ZUSD);
+          result.push({
+            assetDetails: zusdDetails,
+            price24h: Number(pair.price_change_percent_24h_usd),
+            priceWeek: Number(pair.price_change_week_usd),
+            lastPrice: Number(pair.last_price_usd),
+            assetData: assetData && assetData[pair?.base_id],
           });
         }
 
@@ -292,11 +302,13 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
       })}
     >
       {numberString}%
-      {value > 0 && !noChange && (
-        <ArrowUp color="tw-text-trade-long" className="tw-w-3 tw-ml-2" />
-      )}
-      {value < 0 && !noChange && (
-        <ArrowDown color="tw-text-trade-short" className="tw-w-3 tw-ml-2" />
+      {!noChange && (
+        <ArrowDown
+          color={value > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short'}
+          className={classNames('tw-w-3 tw-ml-2', {
+            'tw-transform tw-rotate-180': value > 0,
+          })}
+        />
       )}
     </div>
   );

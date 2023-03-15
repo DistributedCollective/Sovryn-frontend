@@ -104,4 +104,12 @@ export const testnetAmm = [
     '0x84953dAF0E7a9fFb8B4fDf7F948185e1cF85852e',
     '0xB12FA09a50c56e9a0C826b98e76DA7645017AB4D',
   ),
+  new AmmLiquidityPool(
+    Asset.DLLR,
+    Asset.RBTC,
+    1,
+    AppMode.TESTNET,
+    '0x5fc0b3ac4683bd8af8e244e646d897a2c3f2a6ac',
+    '0x64B1aC8301f64c92721804ed78f2ee6025aaf7cE',
+  ).setPromotionColor(PromotionColor.Orange),
 ];

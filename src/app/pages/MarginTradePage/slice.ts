@@ -1,11 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import {
-  IMarginTradePageState,
-  MarginLimitOrder,
-  NotificationPayload,
-  NotificationUser,
-} from './types';
+import { IMarginTradePageState, MarginLimitOrder } from './types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
@@ -16,9 +11,6 @@ export const initialState: IMarginTradePageState = {
   amount: '0',
   leverage: 2,
   position: TradingPosition.LONG,
-  notificationWallet: '',
-  notificationToken: '',
-  notificationUser: undefined,
   pendingLimitOrders: [],
 };
 
@@ -43,24 +35,6 @@ const marginTradePageSlice = createSlice({
     },
     closeTradingModal(state, { payload }: PayloadAction<TradingPosition>) {
       state.position = payload;
-    },
-    setNotificationToken(
-      state,
-      { payload }: PayloadAction<NotificationPayload>,
-    ) {
-      state.notificationToken = payload.token;
-      state.notificationWallet = payload.wallet;
-    },
-    setNotificationUser(
-      state,
-      { payload }: PayloadAction<NotificationUser | undefined>,
-    ) {
-      state.notificationUser = payload;
-    },
-    resetNotification(state) {
-      state.notificationToken = '';
-      state.notificationWallet = '';
-      state.notificationUser = undefined;
     },
     addPendingLimitOrders(state, { payload }: PayloadAction<MarginLimitOrder>) {
       state.pendingLimitOrders = [...state.pendingLimitOrders, payload];

@@ -114,7 +114,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     />
                     <MenuItem
                       text={t(translations.mainMenu.rewards)}
-                      href="/reward"
+                      href="/rewards"
                       icon={faCoins}
                       className="bp3-popover-dismiss"
                     />
@@ -125,7 +125,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     />
                     <MenuSeparator />
                     <CopyToClipboard
-                      text={address}
+                      text={address.toLowerCase()}
                       onCopy={() =>
                         toastSuccess(
                           <>{t(translations.onCopy.address)}</>,

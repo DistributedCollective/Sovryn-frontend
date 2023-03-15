@@ -48,6 +48,7 @@ type PagesProps = {
   title: string;
   dataActionId: string;
   hrefExternal?: boolean;
+  disabled?: boolean;
 };
 
 const showZero = isMainnet || isStaging;
@@ -117,6 +118,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       to: myntUrl,
       title: t(translations.mainMenu.myntToken),
       dataActionId: 'header-mobile-lab-link-mynt-token',
+      disabled: true,
     },
   ];
 
@@ -209,7 +211,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: '',
     },
     {
-      to: '/reward',
+      to: '/rewards',
       title: t(translations.mainMenu.reward),
       dataActionId: 'header-mobile-link-rewards',
     },
@@ -232,7 +234,6 @@ export const DefaultHeaderComponent: React.FC = () => {
     if (link.to === '') {
       return <MenuSeparator key={index} text={link.title} />;
     }
-
     return (
       <MenuItem
         key={index}
@@ -244,6 +245,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         }}
         hrefExternal={link.hrefExternal}
         data-action-id={link.dataActionId}
+        disabled={link.disabled || false}
         className="tw-leading-snug"
       />
     );
@@ -444,6 +446,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                       label={t(translations.mainMenu.labels.myntToken)}
                       href={myntUrl}
                       hrefExternal
+                      disabled
                       dataActionId="header-lab-link-mynt-token"
                     />
                     {showZero && (

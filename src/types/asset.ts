@@ -22,4 +22,5 @@ export enum Asset {
   RIF = 'RIF',
   MYNT = 'MYNT',
   ZUSD = 'ZUSD',
+  DLLR = 'DLLR',
 }

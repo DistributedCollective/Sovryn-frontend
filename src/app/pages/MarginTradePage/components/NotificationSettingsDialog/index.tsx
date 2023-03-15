@@ -10,17 +10,37 @@ import imgEmail from 'assets/images/marginTrade/email.png';
 import axios from 'axios';
 import { useAccount } from 'app/hooks/useAccount';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../../slice';
-import { selectMarginTradePage } from '../../selectors';
 import { parseJwt, validateEmail } from 'utils/helpers';
 import { walletService } from '@sovryn/react-wallet';
 import { Toast } from 'app/components/Toast';
 import { currentChainId, notificationServiceUrl } from 'utils/classifiers';
+import {
+  Subscription,
+  Notification,
+} from 'app/containers/WalletProvider/types';
+import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
+import { actions } from 'app/containers/WalletProvider/slice';
 
 interface INotificationSettingsDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const isSubscribedToD1Notifications = (
+  subscriptions: Subscription[] | undefined,
+) => {
+  if (subscriptions === undefined) {
+    return false;
+  } else {
+    const subscribed = subscriptions
+      .filter(item => item.isSubscribed === true)
+      .map(item => item.notification);
+    const d1Notifications = Object.values(Notification);
+    const output = d1Notifications.every(item => subscribed.includes(item));
+
+    return output;
+  }
+};
 
 export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogProps> = ({
   isOpen,
@@ -34,18 +54,13 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     notificationToken,
     notificationUser,
     notificationWallet,
-  } = useSelector(selectMarginTradePage);
+  } = useSelector(selectWalletProvider);
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState('');
-  const [telegramUsername, setTelegramUsername] = useState('');
-  const [discordUsername, setDiscordUsername] = useState('');
   const [isEmailActive, setIsEmailActive] = useState(false);
-  const [isTelegramActive, setIsTelegramActive] = useState(false);
-  const [isDiscordActive, setIsDiscordActive] = useState(false);
 
   const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
-
   const onChangeEmailSwitch = useCallback(
     () => setIsEmailActive(prevValue => !prevValue),
     [],
@@ -75,6 +90,36 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     resetForm(notificationUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationUser]);
+
+  const updateSubscriptions = useCallback(() => {
+    if (notificationUser) {
+      const subscriptions: Subscription[] = JSON.parse(
+        JSON.stringify(notificationUser?.subscriptions),
+      );
+
+      const d1Notifications = Object.values(Notification);
+
+      d1Notifications.forEach(item => {
+        const foundSubscription = subscriptions.findIndex(
+          sub => sub.notification === item,
+        );
+        if (foundSubscription >= 0) {
+          subscriptions[foundSubscription].isSubscribed = isEmailActive;
+        } else {
+          const newSubscription: Subscription = {
+            notification: item,
+            userId: notificationUser.id,
+            isSubscribed: isEmailActive,
+          };
+          subscriptions.push(newSubscription);
+        }
+      });
+
+      return subscriptions;
+    } else {
+      return [];
+    }
+  }, [notificationUser, isEmailActive]);
 
   const getToken = async () => {
     if (!account) return;
@@ -144,17 +189,14 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     const userId = parseJwt(notificationToken)?.sub;
     if (!userId) return;
     setLoading(true);
+
     axios
       .put(
         url + 'user/' + account,
         {
           walletAddress: account,
           email: email || undefined,
-          telegramHandle: telegramUsername || undefined,
-          discordHandle: discordUsername || undefined,
-          isEmailNotifications: isEmailActive,
-          isDiscordNotifications: isDiscordActive,
-          isTelegramNotifications: isTelegramActive,
+          subscriptions: updateSubscriptions(),
         },
         {
           headers: {
@@ -190,12 +232,10 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   };
 
   const resetForm = user => {
-    setDiscordUsername(user?.discordHandle || '');
-    setIsDiscordActive(!!user?.isDiscordNotifications);
-    setTelegramUsername(user?.telegramHandle || '');
-    setIsTelegramActive(!!user?.isTelegramNotifications);
     setEmail(user?.email || '');
-    setIsEmailActive(!!user?.isEmailNotifications);
+    setIsEmailActive(
+      isSubscribedToD1Notifications(user?.subscriptions) === true,
+    );
   };
 
   return (
@@ -267,93 +307,6 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
             />
           </FormGroup>
         </div>
-
-        {/* This part is commented for now until the backend supports sending telegram and discord notification */}
-        {/* <div className="tw-mb-8">
-          <div className="tw-flex tw-justify-between tw-mb-2">
-            <div className="tw-flex tw-items-center">
-              <img
-                src={imgTelegram}
-                alt="Telegram logo"
-                className="tw-mr-1.5"
-              />
-              Telegram
-            </div>
-            <Switch
-              checked={isTelegramActive}
-              onChange={onChangeTelegramSwitch}
-              large
-              className="tw-mb-0"
-              disabled={loading || !notificationToken}
-            />
-          </div>
-
-          <FormGroup
-            label={`${t(
-              translations.marginTradePage.notificationSettingsDialog
-                .telegramHandle,
-            )}:`}
-            className={
-              !isTelegramActive
-                ? 'tw-pointer-events-none tw-opacity-30 tw-cursor-not-allowed'
-                : ''
-            }
-            labelClassName="tw-text-sm tw-font-normal tw-mb-2"
-          >
-            <Input
-              value={telegramUsername}
-              onChange={setTelegramUsername}
-              placeholder={t(
-                translations.marginTradePage.notificationSettingsDialog
-                  .usernamePlaceholder,
-              )}
-              className="tw-rounded-lg tw-h-8"
-              inputClassName="tw-font-medium"
-              disabled={loading || !notificationToken}
-            />
-          </FormGroup>
-        </div>
-
-        <div className="tw-mb-6">
-          <div className="tw-flex tw-justify-between tw-mb-2">
-            <div className="tw-flex tw-items-center">
-              <img src={imgDiscord} alt="Discord logo" className="tw-mr-1.5" />
-              Discord
-            </div>
-            <Switch
-              checked={isDiscordActive}
-              onChange={onChangeDiscordSwitch}
-              large
-              className="tw-mb-0"
-              disabled={loading || !notificationToken}
-            />
-          </div>
-
-          <FormGroup
-            label={`${t(
-              translations.marginTradePage.notificationSettingsDialog
-                .discordHandle,
-            )}:`}
-            className={
-              !isDiscordActive
-                ? 'tw-pointer-events-none tw-opacity-30 tw-cursor-not-allowed'
-                : ''
-            }
-            labelClassName="tw-text-sm tw-font-normal tw-mb-2"
-          >
-            <Input
-              value={discordUsername}
-              onChange={setDiscordUsername}
-              placeholder={t(
-                translations.marginTradePage.notificationSettingsDialog
-                  .usernamePlaceholder,
-              )}
-              className="tw-rounded-lg tw-h-8"
-              inputClassName="tw-font-medium"
-              disabled={loading || !notificationToken}
-            />
-          </FormGroup>
-        </div> */}
 
         <DialogButton
           confirmLabel={t(

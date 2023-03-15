@@ -74,6 +74,16 @@ export enum SpotPairType {
   MYNT_BNB = 'MYNT_BNB',
   MYNT_FISH = 'MYNT_FISH',
   MYNT_RIF = 'MYNT_RIF',
+  //DLLR
+  RBTC_DLLR = 'RBTC_DLLR',
+  SOV_DLLR = 'SOV_DLLR',
+  XUSD_DLLR = 'XUSD_DLLR',
+  USDT_DLLR = 'USDT_DLLR',
+  DOC_DLLR = 'DOC_DLLR',
+  ETH_DLLR = 'ETH_DLLR',
+  BNB_DLLR = 'BNB_DLLR',
+  FISH_DLLR = 'FISH_DLLR',
+  RIF_DLLR = 'RIF_DLLR',
 }
 
 export const pairs = {
@@ -137,6 +147,16 @@ export const pairs = {
   [SpotPairType.MYNT_BNB]: [Asset.MYNT, Asset.BNB],
   [SpotPairType.MYNT_FISH]: [Asset.MYNT, Asset.FISH],
   [SpotPairType.MYNT_RIF]: [Asset.MYNT, Asset.RIF],
+  // DLLR
+  [SpotPairType.RBTC_DLLR]: [Asset.RBTC, Asset.DLLR],
+  [SpotPairType.SOV_DLLR]: [Asset.SOV, Asset.DLLR],
+  [SpotPairType.XUSD_DLLR]: [Asset.XUSD, Asset.DLLR],
+  [SpotPairType.USDT_DLLR]: [Asset.USDT, Asset.DLLR],
+  [SpotPairType.DOC_DLLR]: [Asset.DOC, Asset.DLLR],
+  [SpotPairType.ETH_DLLR]: [Asset.ETH, Asset.DLLR],
+  [SpotPairType.BNB_DLLR]: [Asset.BNB, Asset.DLLR],
+  [SpotPairType.FISH_DLLR]: [Asset.FISH, Asset.DLLR],
+  [SpotPairType.RIF_DLLR]: [Asset.RIF, Asset.DLLR],
 };
 
 export const pairList = Object.keys(pairs);

@@ -89,8 +89,12 @@ const useGetFeesEarned = () => {
     const callData = earnedFees.map(fee => ({
       address: feeSharingProxyContract.address,
       abi: feeSharingProxyContract.abi,
-      fnName: 'getAccumulatedFees',
-      args: [address, fee.contractAddress],
+      fnName:
+        fee.asset === Asset.RBTC
+          ? 'getAccumulatedRBTCFeeBalances'
+          : 'getAccumulatedFees',
+      args:
+        fee.asset === Asset.RBTC ? [address] : [address, fee.contractAddress],
       key: fee.asset,
       parser: value => value[0].toString(),
     }));
