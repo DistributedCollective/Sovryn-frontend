@@ -21,7 +21,6 @@ export enum SpotPairType {
   RBTC_MOC = 'RBTC_MOC',
   RBTC_BPRO = 'RBTC_BPRO',
   //USDT
-  USDT_DOC = 'USDT_DOC',
   USDT_MOC = 'USDT_MOC',
   //MOC
   MOC_RBTC = 'MOC_RBTC',
@@ -77,13 +76,14 @@ export enum SpotPairType {
   //DLLR
   RBTC_DLLR = 'RBTC_DLLR',
   SOV_DLLR = 'SOV_DLLR',
-  XUSD_DLLR = 'XUSD_DLLR',
-  USDT_DLLR = 'USDT_DLLR',
-  DOC_DLLR = 'DOC_DLLR',
   ETH_DLLR = 'ETH_DLLR',
   BNB_DLLR = 'BNB_DLLR',
   FISH_DLLR = 'FISH_DLLR',
   RIF_DLLR = 'RIF_DLLR',
+  BPRO_DLLR = 'BPRO_DLLR',
+  BNBS_DLLR = 'BNBS_DLLR',
+  MYNT_DLLR = 'MYNT_DLLR',
+  MOC_DLLR = 'MOC_DLLR',
 }
 
 export const pairs = {
@@ -103,7 +103,6 @@ export const pairs = {
   [SpotPairType.BPRO_USDT]: [Asset.BPRO, Asset.USDT],
   [SpotPairType.BPRO_DOC]: [Asset.BPRO, Asset.DOC],
   [SpotPairType.BPRO_MOC]: [Asset.BPRO, Asset.MOC],
-  [SpotPairType.USDT_DOC]: [Asset.USDT, Asset.DOC],
   [SpotPairType.MOC_RBTC]: [Asset.MOC, Asset.RBTC],
   [SpotPairType.MOC_XUSD]: [Asset.MOC, Asset.XUSD],
   [SpotPairType.BPRO_XUSD]: [Asset.BPRO, Asset.XUSD],
@@ -150,13 +149,14 @@ export const pairs = {
   // DLLR
   [SpotPairType.RBTC_DLLR]: [Asset.RBTC, Asset.DLLR],
   [SpotPairType.SOV_DLLR]: [Asset.SOV, Asset.DLLR],
-  [SpotPairType.XUSD_DLLR]: [Asset.XUSD, Asset.DLLR],
-  [SpotPairType.USDT_DLLR]: [Asset.USDT, Asset.DLLR],
-  [SpotPairType.DOC_DLLR]: [Asset.DOC, Asset.DLLR],
   [SpotPairType.ETH_DLLR]: [Asset.ETH, Asset.DLLR],
   [SpotPairType.BNB_DLLR]: [Asset.BNB, Asset.DLLR],
   [SpotPairType.FISH_DLLR]: [Asset.FISH, Asset.DLLR],
   [SpotPairType.RIF_DLLR]: [Asset.RIF, Asset.DLLR],
+  [SpotPairType.BPRO_DLLR]: [Asset.BPRO, Asset.DLLR],
+  [SpotPairType.BNBS_DLLR]: [Asset.BNBS, Asset.DLLR],
+  [SpotPairType.MYNT_DLLR]: [Asset.MYNT, Asset.DLLR],
+  [SpotPairType.MOC_DLLR]: [Asset.MOC, Asset.DLLR],
 };
 
 export const pairList = Object.keys(pairs);
