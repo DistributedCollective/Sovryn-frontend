@@ -118,12 +118,25 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
     [invertPrice],
   );
 
+  const low = useMemo(() => normalize(invertPrice ? highPrice : lowPrice), [
+    highPrice,
+    invertPrice,
+    lowPrice,
+    normalize,
+  ]);
+  const high = useMemo(() => normalize(invertPrice ? lowPrice : highPrice), [
+    highPrice,
+    invertPrice,
+    lowPrice,
+    normalize,
+  ]);
+
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
       <div className="tw-hidden sm:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
-          {toNumberFormat(normalize(_lastPrice), 8)}
+          {toNumberFormat(_lastPrice, 8)}
         </span>
       </div>
       <div className="tw-hidden md:tw-flex tw-items-center tw-text-center tw-flex-row">
@@ -146,7 +159,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           <div>
             {t(translations.pairNavbar.dayLow)}
             <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
-              {toNumberFormat(normalize(lowPrice), 8)}
+              {toNumberFormat(low, 8)}
             </span>
           </div>
         )}{' '}
@@ -156,7 +169,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           <div>
             {t(translations.pairNavbar.dayHigh)}{' '}
             <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
-              {toNumberFormat(normalize(highPrice), 8)}
+              {toNumberFormat(high, 8)}
             </span>
           </div>
         )}

@@ -38,10 +38,7 @@ export const shouldInvertPair = (symbolName: string) =>
   pairstoInvert.includes(symbolName);
 
 export const hasDirectFeed = (symbolName: string) => {
-  const [base, quote] = symbolName.split('/') as [Asset, Asset];
-  if (base === Asset.RBTC && quote === Asset.DLLR) {
-    return true;
-  }
+  const [, quote] = symbolName.split('/') as [Asset, Asset];
   return [Asset.RBTC, Asset.XUSD].includes(quote);
 };
 
@@ -459,9 +456,6 @@ const getTokenAddress = (asset: Asset) =>
 
 export const getTokensFromSymbol = (symbol: string) => {
   let [base, quote] = symbol.split('/');
-  if (shouldInvertPair(symbol)) {
-    [base, quote] = [quote, base];
-  }
   return {
     baseToken: getTokenAddress(base as Asset),
     quoteToken: getTokenAddress(quote as Asset),
