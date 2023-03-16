@@ -32,8 +32,16 @@ type TimestampChunk = {
   to: number;
 };
 
+const pairstoInvert = ['RBTC/DLLR'];
+
+export const shouldInvertPair = (symbolName: string) =>
+  pairstoInvert.includes(symbolName);
+
 export const hasDirectFeed = (symbolName: string) => {
-  const [, quote] = symbolName.split('/') as [Asset, Asset];
+  const [base, quote] = symbolName.split('/') as [Asset, Asset];
+  if (base === Asset.RBTC && quote === Asset.DLLR) {
+    return true;
+  }
   return [Asset.RBTC, Asset.XUSD].includes(quote);
 };
 
@@ -450,7 +458,10 @@ const getTokenAddress = (asset: Asset) =>
   getTokenContract(asset).address.toLowerCase();
 
 export const getTokensFromSymbol = (symbol: string) => {
-  const [base, quote] = symbol.split('/');
+  let [base, quote] = symbol.split('/');
+  if (shouldInvertPair(symbol)) {
+    [base, quote] = [quote, base];
+  }
   return {
     baseToken: getTokenAddress(base as Asset),
     quoteToken: getTokenAddress(quote as Asset),

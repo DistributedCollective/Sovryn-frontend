@@ -8,6 +8,8 @@ import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { actions } from 'app/containers/WalletProvider/slice';
 
+const DEFAULT_PRECISION = '1000000000000000000';
+
 export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
   const { value: item, loading, error } = useCachedAssetRate(
     sourceAsset,
@@ -48,7 +50,7 @@ export const useCachedAssetRate = (sourceAsset: Asset, destAsset: Asset) => {
     );
     const price = typeof rate == 'string' ? parseInt(rate) * 100 : '0';
     return {
-      precision: '1000000000000000000',
+      precision: DEFAULT_PRECISION,
       rate: price.toString(),
     };
   }, []);
@@ -62,7 +64,7 @@ export const useCachedAssetRate = (sourceAsset: Asset, destAsset: Asset) => {
   );
 
   useEffect(() => {
-    if (!item && assetRatesLoaded) {
+    if ((!item || !item.value.precision) && assetRatesLoaded) {
       setLoading(true);
       getRate(sourceAsset, destAsset)
         .then(result =>
