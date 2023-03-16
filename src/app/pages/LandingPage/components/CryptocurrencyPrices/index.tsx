@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
@@ -16,6 +16,8 @@ import { Icon, Popover } from '@blueprintjs/core';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Trans } from 'react-i18next';
 import { usePairList } from 'app/hooks/trading/usePairList';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { fromWei } from 'utils/blockchain/math-helpers';
 
 interface ICryptocurrencyPricesProps {
   pairs: IPairData[];
@@ -33,6 +35,23 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
   const { t } = useTranslation();
 
   const list = usePairList(pairs);
+
+  const [zusdTotalSupply, setZusdTotalSupply] = React.useState('');
+
+  useEffect(() => {
+    const getTotalZusdSupply = async () => {
+      const totalSupply = contractReader.call<string>(
+        'ZUSD_token',
+        'totalSupply',
+        [],
+      );
+      return totalSupply;
+    };
+
+    if (!zusdTotalSupply) {
+      getTotalZusdSupply().then(setZusdTotalSupply);
+    }
+  }, [zusdTotalSupply]);
 
   const rows = useMemo(() => {
     if (!isLoading && !list.length) {
@@ -78,7 +97,12 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             price24h: Number(pair.price_change_percent_24h_usd),
             priceWeek: Number(pair.price_change_week_usd),
             lastPrice: Number(pair.last_price_usd),
-            assetData: assetData && assetData[pair?.base_id],
+            assetData: assetData && {
+              ...assetData[pair?.base_id],
+              circulating_supply:
+                Number(fromWei(zusdTotalSupply)) ||
+                assetData[pair?.base_id]?.circulating_supply,
+            },
           });
         }
 
@@ -97,7 +121,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
       .sort((pairA, pairB) =>
         pairA.marketCap.greaterThan(pairB.marketCap) ? -1 : 1,
       );
-  }, [assetData, isLoading, list]);
+  }, [assetData, isLoading, list, zusdTotalSupply]);
 
   if (!isLoading && !list.length) {
     return null;
