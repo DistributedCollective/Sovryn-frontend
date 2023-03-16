@@ -23,13 +23,7 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import {
-  bitocracyUrl,
-  zeroUrl,
-  myntUrl,
-  isMainnet,
-  isStaging,
-} from 'utils/classifiers';
+import { bitocracyUrl, myntUrl } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
@@ -50,8 +44,6 @@ type PagesProps = {
   hrefExternal?: boolean;
   disabled?: boolean;
 };
-
-const showZero = isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -121,15 +113,6 @@ export const DefaultHeaderComponent: React.FC = () => {
       disabled: true,
     },
   ];
-
-  if (showZero) {
-    labPages.push({
-      to: zeroUrl,
-      title: t(translations.mainMenu.zero),
-      dataActionId: 'header-mobile-lab-link-zero',
-      hrefExternal: true,
-    });
-  }
 
   const pages: PagesProps[] = [
     {
@@ -449,15 +432,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                       disabled
                       dataActionId="header-lab-link-mynt-token"
                     />
-                    {showZero && (
-                      <MenuItem
-                        text={t(translations.mainMenu.zero)}
-                        label={t(translations.mainMenu.labels.zero)}
-                        href={zeroUrl}
-                        hrefExternal
-                        dataActionId="header-lab-link-zero"
-                      />
-                    )}
                   </>
                 }
               >
