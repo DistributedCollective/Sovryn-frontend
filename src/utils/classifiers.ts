@@ -45,9 +45,9 @@ export const bitocracyUrl =
 export const zeroUrl =
   currentNetwork === AppMode.MAINNET
     ? isStaging
-      ? 'https://alpha-staging.sovryn.app/zero'
-      : 'https://alpha.sovryn.app/zero'
-    : 'https://alpha-test.sovryn.app/zero';
+      ? 'https://staging.sovryn.app'
+      : 'https://sovryn.app'
+    : 'https://test.sovryn.app';
 
 export const myntUrl =
   currentNetwork === AppMode.MAINNET
