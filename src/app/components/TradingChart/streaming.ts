@@ -20,6 +20,7 @@ import {
   getTokensFromSymbol,
   hasDirectFeed,
   queryPairByChunks,
+  shouldInvertPair,
 } from './helpers';
 
 type SubItem = {
@@ -92,6 +93,16 @@ export class Streaming {
           } else {
             // do not update
             return;
+          }
+
+          if (shouldInvertPair(subscriptionItem.symbolInfo.name) && bar) {
+            bar = {
+              ...bar,
+              open: 1 / bar.open,
+              high: 1 / bar.high,
+              low: 1 / bar.low,
+              close: 1 / bar.close,
+            };
           }
 
           // update last bar cache and execute chart callback
