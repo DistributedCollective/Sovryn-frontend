@@ -15,8 +15,10 @@ export type IPairsData = {
 export interface IPairData {
   trading_pairs: string;
   base_symbol: string;
+  base_symbol_legacy: string;
   base_id: string;
   quote_symbol: string;
+  quote_symbol_legacy: string;
   quote_id: string;
   last_price: number;
   last_price_usd: number;

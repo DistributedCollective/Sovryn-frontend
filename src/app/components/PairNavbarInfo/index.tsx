@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
@@ -8,6 +8,7 @@ import { watchPrice } from 'utils/pair-price-tracker';
 import { Asset } from 'types';
 import { getPercentageChange } from '../PairNavbar/utils';
 import { bignumber } from 'mathjs';
+import { shouldInvertPair } from '../TradingChart/helpers';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
@@ -91,17 +92,38 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
     return () => unsubscribe();
   }, [pair]);
 
+  const invertPrice = useMemo(
+    () =>
+      shouldInvertPair(
+        `${pair[0].base_symbol_legacy}/${pair[0].quote_symbol_legacy}`,
+      ) ||
+      shouldInvertPair(
+        `${pair[0].quote_symbol_legacy}/${pair[0].base_symbol_legacy}`,
+      ),
+    [pair],
+  );
+
   const _lastPrice = useMemo(() => lastPriceEvent || lastPrice, [
     lastPrice,
     lastPriceEvent,
   ]);
+
+  const normalize = useCallback(
+    (value: number) => {
+      if (value && invertPrice) {
+        return 1 / value;
+      }
+      return value;
+    },
+    [invertPrice],
+  );
 
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
       <div className="tw-hidden sm:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
-          {toNumberFormat(_lastPrice, 8)}
+          {toNumberFormat(normalize(_lastPrice), 8)}
         </span>
       </div>
       <div className="tw-hidden md:tw-flex tw-items-center tw-text-center tw-flex-row">
@@ -124,7 +146,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           <div>
             {t(translations.pairNavbar.dayLow)}
             <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
-              {toNumberFormat(lowPrice, 8)}
+              {toNumberFormat(normalize(lowPrice), 8)}
             </span>
           </div>
         )}{' '}
@@ -134,7 +156,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           <div>
             {t(translations.pairNavbar.dayHigh)}{' '}
             <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
-              {toNumberFormat(highPrice, 8)}
+              {toNumberFormat(normalize(highPrice), 8)}
             </span>
           </div>
         )}
