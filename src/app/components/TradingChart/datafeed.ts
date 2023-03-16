@@ -27,6 +27,7 @@ import {
   getTokensFromSymbol,
   hasDirectFeed,
   queryPairByChunks,
+  shouldInvertPair,
 } from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { TradingCandleDictionary } from './dictionary';
@@ -124,6 +125,16 @@ const tradingChartDataFeeds = (
         ),
         hasDirectFeed(symbolInfo.name),
       );
+
+      if (shouldInvertPair(symbolInfo.name) && items) {
+        items = items.map(item => ({
+          ...item,
+          open: 1 / item.open,
+          high: 1 / item.high,
+          low: 1 / item.low,
+          close: 1 / item.close,
+        }));
+      }
 
       if (!items || items.length === 0) {
         onHistoryCallback([], {

@@ -24,12 +24,20 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
   const marginType = useMemo(() => {
     return type === TradingType.MARGIN;
   }, [type]);
+
   const localStoreObject = !marginType
     ? 'selectedSpotPair'
     : 'selectedMarginPair';
-  const selectedPair = reactLocalStorage.getObject(localStoreObject);
+
   const tradingType =
     type === TradingType.SPOT ? SpotPairType : TradingPairType;
+  const selectedPair = useMemo(() => {
+    const retrieved = reactLocalStorage.getObject(localStoreObject);
+    if (tradingType[`${retrieved[0]}_${retrieved[1]}`]) {
+      return retrieved;
+    }
+    return [Asset.SOV, Asset.RBTC];
+  }, [localStoreObject, tradingType]);
 
   const [isOpen, setIsOpen] = useState(false);
 
