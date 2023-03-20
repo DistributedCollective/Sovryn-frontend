@@ -81,7 +81,7 @@ export const getExitTransactionHash = (
   }
 };
 
-export const calculateMinimumReturn = (
+export const calculateSlippagePrice = (
   amount: string,
   slippage: number = 0.1,
 ) => ({

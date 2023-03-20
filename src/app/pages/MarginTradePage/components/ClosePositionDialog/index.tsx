@@ -26,7 +26,7 @@ import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { calculateMinimumReturn } from '../../utils/marginUtils';
+import { calculateSlippagePrice } from '../../utils/marginUtils';
 import { SlippageForm } from '../SlippageForm';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -151,7 +151,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     ...args,
   );
 
-  const { minimumPrice } = calculateMinimumReturn(
+  const { minimumPrice } = calculateSlippagePrice(
     value.withdrawAmount,
     slippage,
   );

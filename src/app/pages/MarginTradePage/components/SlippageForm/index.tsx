@@ -7,7 +7,7 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Slider } from 'app/components/Form/Slider';
 import { DummyInput } from 'app/components/Form/Input';
-import { calculateMinimumReturn } from '../../utils/marginUtils';
+import { calculateSlippagePrice } from '../../utils/marginUtils';
 import styles from './dialog.module.scss';
 import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
@@ -36,7 +36,7 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const { position } = useSelector(selectMarginTradePage);
-  const { minimumPrice, maximumPrice } = calculateMinimumReturn(amount, value);
+  const { minimumPrice, maximumPrice } = calculateSlippagePrice(amount, value);
 
   const isLongPosition = useMemo(() => position === TradingPosition.LONG, [
     position,
