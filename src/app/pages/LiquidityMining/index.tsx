@@ -86,17 +86,17 @@ export function LiquidityMining() {
           /> */}
           <PromotionCard
             appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Yellow}
-            title={t(translations.promotions.card3.title)}
-            text={t(translations.promotions.card3.text)}
+            backgroundColor={PromotionColor.Orange}
+            title={t(translations.promotions.card6.title)}
+            text={t(translations.promotions.card6.text)}
             duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
             learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.XUSD}
+            logoAsset1={Asset.DLLR}
             logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
+            linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.DLLR}`}
             imageClassName="tw-transform tw-scale-85"
           />
           <PromotionCard
@@ -114,6 +114,21 @@ export function LiquidityMining() {
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
             imageClassName="tw-transform tw-scale-85"
           />
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Yellow}
+            title={t(translations.promotions.card3.title)}
+            text={t(translations.promotions.card3.text)}
+            duration={t(translations.liquidityMining.recalibration, {
+              date,
+            })}
+            learnMoreLink={learnMoreYieldFarming}
+            logoAsset1={Asset.XUSD}
+            logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
+            imageClassName="tw-transform tw-scale-85"
+          />
           {/* <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Green}
@@ -129,22 +144,6 @@ export function LiquidityMining() {
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
             imageClassName="tw-transform tw-scale-85"
           /> */}
-
-          <PromotionCard
-            appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Orange}
-            title={t(translations.promotions.card6.title)}
-            text={t(translations.promotions.card6.text)}
-            duration={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.DLLR}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.DLLR}`}
-            imageClassName="tw-transform tw-scale-85"
-          />
         </PromotionsCarousel>
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />

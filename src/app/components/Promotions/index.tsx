@@ -38,15 +38,15 @@ export const Promotions: React.FC<PromotionsProps> = ({
         <PromotionsCarousel className="tw-w-full">
           <PromotionCard
             appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Yellow}
-            title={t(translations.promotions.card3.title)}
-            duration={t(translations.promotions.card3.duration)}
-            text={t(translations.promotions.card3.text)}
+            backgroundColor={PromotionColor.Orange}
+            title={t(translations.promotions.card6.title)}
+            text={t(translations.promotions.card6.text)}
+            duration={t(translations.promotions.card6.duration)}
             learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.XUSD}
+            logoAsset1={Asset.DLLR}
             logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
-            linkDataActionId={`landing-promo-learnmore-${Asset.XUSD}`}
+            linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
+            linkDataActionId={`landing-promo-learnmore-${Asset.DLLR}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
           />
@@ -66,15 +66,15 @@ export const Promotions: React.FC<PromotionsProps> = ({
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Orange}
-            title={t(translations.promotions.card6.title)}
-            text={t(translations.promotions.card6.text)}
-            duration={t(translations.promotions.card6.duration)}
+            backgroundColor={PromotionColor.Yellow}
+            title={t(translations.promotions.card3.title)}
+            duration={t(translations.promotions.card3.duration)}
+            text={t(translations.promotions.card3.text)}
             learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.DLLR}
+            logoAsset1={Asset.XUSD}
             logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
-            linkDataActionId={`landing-promo-learnmore-${Asset.DLLR}`}
+            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
+            linkDataActionId={`landing-promo-learnmore-${Asset.XUSD}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
           />
