@@ -26,7 +26,6 @@ import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.s
 
 interface IUserAssetsTableRow {
   item: AssetDetails;
-  onTransack: () => void;
   onConvert: (asset: Asset) => void;
   onUnWrap: () => void;
 }
@@ -44,7 +43,6 @@ const XUSD_ASSETS: {
 export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
   item,
   onConvert,
-  onTransack,
   onUnWrap,
 }) => {
   const { t } = useTranslation();

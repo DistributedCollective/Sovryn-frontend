@@ -8,15 +8,17 @@ import { DepositInstructions } from './DepositInstructions';
 import { FastBtcButton } from '../FastBtcButton';
 import { useAccount } from 'app/hooks/useAccount';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { NetworkAwareComponentProps } from '../../types';
+import { FastBtcDirectionType, NetworkAwareComponentProps } from '../../types';
 import { currentNetwork } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { WalletContext } from '@sovryn/react-wallet';
 
-export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
-  network,
-}) => {
+type MainScreenProps = NetworkAwareComponentProps & {
+  type: FastBtcDirectionType;
+};
+
+export const MainScreen: React.FC<MainScreenProps> = ({ network, type }) => {
   const account = useAccount();
   const {
     ready,
@@ -27,7 +29,9 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   const { t } = useTranslation();
 
   const { checkMaintenance, States } = useMaintenance();
-  const fastBtcLocked = checkMaintenance(States.FASTBTC_RECEIVE);
+
+  const fastBtcReceiveLocked = checkMaintenance(States.FASTBTC_RECEIVE);
+  const transakLocked = checkMaintenance(States.TRANSAK);
 
   const { connect, connected, connecting } = useContext(WalletContext);
 
@@ -43,6 +47,13 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
     [requestDepositAddress, account, prefix],
   );
 
+  const isDisabled = useMemo(() => {
+    if (fastBtcReceiveLocked || !ready || addressLoading) {
+      return true;
+    }
+    return transakLocked && type === FastBtcDirectionType.TRANSAK;
+  }, [addressLoading, fastBtcReceiveLocked, ready, transakLocked, type]);
+
   return (
     <>
       <div className="tw-w-full tw-mt-2.5 tw-px-2.5 tw-pb-8">
@@ -56,7 +67,7 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
           {connected ? (
             <FastBtcButton
               text={t(translations.fastBtcPage.deposit.mainScreen.cta)}
-              disabled={!ready || addressLoading || fastBtcLocked}
+              disabled={isDisabled}
               loading={addressLoading}
               onClick={onContinueClick}
             />
@@ -69,11 +80,16 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
             />
           )}
 
-          {fastBtcLocked && (
+          {(fastBtcReceiveLocked ||
+            (type === FastBtcDirectionType.TRANSAK && transakLocked)) && (
             <ErrorBadge
               content={
                 <Trans
-                  i18nKey={translations.maintenance.fastBTC}
+                  i18nKey={
+                    fastBtcReceiveLocked
+                      ? translations.maintenance.fastBTC
+                      : translations.maintenance.transack
+                  }
                   components={[
                     <a
                       href={discordInvite}
