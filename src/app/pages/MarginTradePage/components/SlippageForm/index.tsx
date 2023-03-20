@@ -43,8 +43,8 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
   ]);
 
   const slippagePrice = useMemo(
-    () => (isLongPosition ? maximumPrice : minimumPrice),
-    [isLongPosition, maximumPrice, minimumPrice],
+    () => (isLongPosition && isTrade ? maximumPrice : minimumPrice),
+    [isLongPosition, isTrade, maximumPrice, minimumPrice],
   );
 
   return (
