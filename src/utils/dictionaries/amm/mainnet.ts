@@ -5,6 +5,14 @@ import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 export const mainnetAmm = [
   new AmmLiquidityPool(
+    Asset.DLLR,
+    Asset.RBTC,
+    1,
+    AppMode.MAINNET,
+    '0xe81373285eb8cdee2e0108e98c5aa022948da9d2',
+    '0x3D5eDF3201876BF6935090C319FE3Ff36ED3D494',
+  ).setPromotionColor(PromotionColor.Orange),
+  new AmmLiquidityPool(
     Asset.SOV,
     Asset.RBTC,
     1,
@@ -17,14 +25,6 @@ export const mainnetAmm = [
       '0x3fd679b01ddab34da8f72b7ec301aa75ea25f338',
       '0x88a67a0e79e311fe93c6e2101d55d6d2ae3a7e94',
     ]),
-  new AmmLiquidityPool(
-    Asset.DLLR,
-    Asset.RBTC,
-    1,
-    AppMode.MAINNET,
-    '0xe81373285eb8cdee2e0108e98c5aa022948da9d2',
-    '0x3D5eDF3201876BF6935090C319FE3Ff36ED3D494',
-  ).setPromotionColor(PromotionColor.Orange),
   new AmmLiquidityPool(
     Asset.XUSD,
     Asset.RBTC,

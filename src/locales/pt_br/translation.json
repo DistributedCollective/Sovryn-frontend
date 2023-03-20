@@ -2690,19 +2690,24 @@
       "text": "Deposite qualquer quantia de XUSD neste pool de empréstimo e comece agora mesmo a acumular sua parte nos 2,500 SOVs."
     },
     "card3": {
-      "title": "25K SOVs bônus",
+      "title": "15K SOVs bônus",
       "duration": "Toda semana",
-      "text": "Deposite XUSD e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 25,000 SOVs."
+      "text": "Deposite XUSD e RBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 15,000 SOVs."
     },
     "card4": {
-      "title": "25K SOVs bônus",
+      "title": "15K SOVs bônus",
       "duration": "Toda semana",
-      "text": "Deposite SOV e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 25,000 SOVs."
+      "text": "Deposite SOV e RBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 15,000 SOVs."
     },
     "card5": {
       "title": "5K SOVs bônus",
       "duration": "Toda semana",
-      "text": "Deposite ETH e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 5,000 SOVs."
+      "text": "Deposite ETH e RBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 5,000 SOVs."
+    },
+    "card6": {
+      "title": "30K SOVs bônus",
+      "duration": "Toda semana",
+      "text": "Deposite DLLR e RBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 30,000 SOVs."
     }
   },
   "liquidityMining": {
