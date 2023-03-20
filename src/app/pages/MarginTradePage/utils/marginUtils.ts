@@ -84,12 +84,13 @@ export const getExitTransactionHash = (
 export const calculateMinimumReturn = (
   amount: string,
   slippage: number = 0.1,
-) => {
-  return {
-    amount,
-    slippage,
-    minReturn: bignumber(amount)
-      .sub(bignumber(amount).mul(slippage / 100))
-      .toFixed(0),
-  };
-};
+) => ({
+  amount,
+  slippage,
+  minimumPrice: bignumber(amount)
+    .sub(bignumber(amount).mul(slippage / 100))
+    .toFixed(0),
+  maximumPrice: bignumber(amount)
+    .add(bignumber(amount).mul(slippage / 100))
+    .toFixed(0),
+});

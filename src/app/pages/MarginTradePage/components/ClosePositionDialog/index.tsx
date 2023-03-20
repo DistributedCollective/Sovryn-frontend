@@ -151,7 +151,10 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     ...args,
   );
 
-  const { minReturn } = calculateMinimumReturn(value.withdrawAmount, slippage);
+  const { minimumPrice } = calculateMinimumReturn(
+    value.withdrawAmount,
+    slippage,
+  );
 
   const token = useMemo(
     () => assetByTokenAddress(value.withdrawToken) || collateral,
@@ -268,8 +271,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
                 <div className="tw-font-semibold">
                   <LoadableValue
                     loading={loadingValue}
-                    value={weiToAssetNumberFormat(minReturn, token)}
-                    tooltip={weiToNumberFormat(minReturn, 18)}
+                    value={weiToAssetNumberFormat(minimumPrice, token)}
+                    tooltip={weiToNumberFormat(minimumPrice, 18)}
                   />{' '}
                   <AssetRenderer asset={token} />
                 </div>

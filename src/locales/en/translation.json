@@ -1740,6 +1740,7 @@
       "liquidationPrice": "Est. Liquidation price:",
       "entryPrice": "Position Entry Price:",
       "minEntry": "Minimum Entry Price: ",
+      "maxEntry": "Maximum Entry Price: ",
       "minLiq": "Minimum Liquidation Price: ",
       "interestAPR": "Interest APY",
       "renewalDate": "Renewal Date:",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
@@ -11,6 +11,11 @@ import { calculateMinimumReturn } from '../../utils/marginUtils';
 import styles from './dialog.module.scss';
 import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
+import { useSelector } from 'react-redux';
+import { selectMarginTradePage } from '../../selectors';
+import { TradingPosition } from 'types/trading-position';
+
+const DEFAULT_ASSET = Asset.SOV;
 
 interface ISlippageFormProps {
   onClose: () => void;
@@ -30,7 +35,17 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
   isTrade,
 }) => {
   const { t } = useTranslation();
-  const { minReturn } = calculateMinimumReturn(amount, value);
+  const { position } = useSelector(selectMarginTradePage);
+  const { minimumPrice, maximumPrice } = calculateMinimumReturn(amount, value);
+
+  const isLongPosition = useMemo(() => position === TradingPosition.LONG, [
+    position,
+  ]);
+
+  const slippagePrice = useMemo(
+    () => (isLongPosition ? maximumPrice : minimumPrice),
+    [isLongPosition, maximumPrice, minimumPrice],
+  );
 
   return (
     <div className="tw-rounded-3xl tw-absolute tw-inset-0 tw-bg-black tw-p-4">
@@ -61,11 +76,15 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
 
         {isTrade ? (
           <LabelValuePair
-            label={t(translations.marginTradePage.tradeDialog.minEntry)}
+            label={t(
+              translations.marginTradePage.tradeDialog[
+                isLongPosition ? 'maxEntry' : 'minEntry'
+              ],
+            )}
             value={
               <>
-                {weiToAssetNumberFormat(minReturn, asset || Asset.SOV)}{' '}
-                <AssetRenderer asset={asset || Asset.SOV} />
+                {weiToAssetNumberFormat(slippagePrice, asset || DEFAULT_ASSET)}{' '}
+                <AssetRenderer asset={asset || DEFAULT_ASSET} />
               </>
             }
             className="tw-mt-5"
@@ -78,9 +97,14 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
           >
             <DummyInput
               value={
-                <>{weiToAssetNumberFormat(minReturn, asset || Asset.SOV)}</>
+                <>
+                  {weiToAssetNumberFormat(
+                    slippagePrice,
+                    asset || DEFAULT_ASSET,
+                  )}
+                </>
               }
-              appendElem={<AssetRenderer asset={asset || Asset.SOV} />}
+              appendElem={<AssetRenderer asset={asset || DEFAULT_ASSET} />}
               className="tw-h-10 tw-truncate"
               data-action-id="margin-reviewTransaction-minimumEntryPrice"
             />
