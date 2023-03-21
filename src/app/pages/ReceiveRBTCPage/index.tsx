@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
@@ -20,6 +20,56 @@ export const ReceiveRBTCPage: React.FC = () => {
   const { checkMaintenance, States } = useMaintenance();
   const fastBtcReceiveLocked = checkMaintenance(States.FASTBTC_RECEIVE);
   const transakLocked = checkMaintenance(States.TRANSAK);
+
+  const onBtcClicked = useCallback(
+    e => {
+      if (fastBtcReceiveLocked) {
+        e.preventDefault();
+      }
+    },
+    [fastBtcReceiveLocked],
+  );
+
+  const btcButton = useMemo(
+    () => (
+      <Link onClick={onBtcClicked} to="/fast-btc/deposit">
+        <SelectBox disabled={fastBtcReceiveLocked}>
+          <img src={btcIcon} alt="btc" />
+        </SelectBox>
+      </Link>
+    ),
+    [fastBtcReceiveLocked, onBtcClicked],
+  );
+
+  const onBankClicked = useCallback(
+    e => {
+      if (fastBtcReceiveLocked || transakLocked) {
+        e.preventDefault();
+      }
+    },
+    [fastBtcReceiveLocked, transakLocked],
+  );
+
+  const bankButton = useMemo(
+    () => (
+      <Link to="/fast-btc/transak" onClick={onBankClicked}>
+        <SelectBox disabled={fastBtcReceiveLocked || transakLocked}>
+          <div className="tw-flex">
+            <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+              <img src={dollarIcon} alt="dollar" />
+            </div>
+            <div className="tw-z-10 tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+              <img src={poundIcon} alt="pound" />
+            </div>
+            <div className="tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+              <img src={eruoIcon} alt="euro" />
+            </div>
+          </div>
+        </SelectBox>
+      </Link>
+    ),
+    [fastBtcReceiveLocked, transakLocked, onBankClicked],
+  );
 
   return (
     <>
@@ -48,36 +98,16 @@ export const ReceiveRBTCPage: React.FC = () => {
           </div>
           <div className="tw-flex tw-items-center tw-justify-center">
             <div className="tw-text-center">
-              <Link
-                onClick={e => {
-                  if (fastBtcReceiveLocked) {
-                    e.preventDefault();
-                  }
-                }}
-                to="/fast-btc/deposit"
-              >
-                <SelectBox disabled={fastBtcReceiveLocked}>
-                  <img src={btcIcon} alt="btc" />
-                </SelectBox>
-              </Link>
-              <p className="tw-mt-3 tw-font-medium">
-                {t(translations.receiveRBTCPage.bitcoinNetwork)}
-              </p>
-            </div>
-
-            <div className="tw-text-center">
-              <Tooltip
-                position="top"
-                hoverOpenDelay={0}
-                hoverCloseDelay={0}
-                interactionKind="hover"
-                content={
-                  <>
-                    {fastBtcReceiveLocked ? (
-                      t(translations.maintenance.fastBTCPortfolio)
-                    ) : (
+              {fastBtcReceiveLocked ? (
+                <Tooltip
+                  position="top"
+                  hoverOpenDelay={0}
+                  hoverCloseDelay={0}
+                  interactionKind="hover"
+                  content={
+                    <>
                       <Trans
-                        i18nKey={translations.maintenance.transack}
+                        i18nKey={translations.maintenance.fastBTC}
                         components={[
                           <a
                             href={discordInvite}
@@ -89,33 +119,66 @@ export const ReceiveRBTCPage: React.FC = () => {
                           </a>,
                         ]}
                       />
-                    )}
-                  </>
-                }
-              >
-                <Link
-                  to="/fast-btc/transak"
-                  onClick={e => {
-                    if (fastBtcReceiveLocked || transakLocked) {
-                      e.preventDefault();
-                    }
-                  }}
+                    </>
+                  }
                 >
-                  <SelectBox disabled={fastBtcReceiveLocked || transakLocked}>
-                    <div className="tw-flex">
-                      <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-                        <img src={dollarIcon} alt="dollar" />
-                      </div>
-                      <div className="tw-z-10 tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-                        <img src={poundIcon} alt="pound" />
-                      </div>
-                      <div className="tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-                        <img src={eruoIcon} alt="euro" />
-                      </div>
-                    </div>
-                  </SelectBox>
-                </Link>
-              </Tooltip>
+                  {btcButton}
+                </Tooltip>
+              ) : (
+                btcButton
+              )}
+              <p className="tw-mt-3 tw-font-medium">
+                {t(translations.receiveRBTCPage.bitcoinNetwork)}
+              </p>
+            </div>
+
+            <div className="tw-text-center">
+              {fastBtcReceiveLocked || transakLocked ? (
+                <Tooltip
+                  position="top"
+                  hoverOpenDelay={0}
+                  hoverCloseDelay={0}
+                  interactionKind="hover"
+                  content={
+                    <>
+                      {fastBtcReceiveLocked ? (
+                        <Trans
+                          i18nKey={translations.maintenance.fastBTC}
+                          components={[
+                            <a
+                              href={discordInvite}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="tw-underline hover:tw-no-underline"
+                            >
+                              x
+                            </a>,
+                          ]}
+                        />
+                      ) : (
+                        <Trans
+                          i18nKey={translations.maintenance.transack}
+                          components={[
+                            <a
+                              href={discordInvite}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="tw-underline hover:tw-no-underline"
+                            >
+                              x
+                            </a>,
+                          ]}
+                        />
+                      )}
+                    </>
+                  }
+                >
+                  {bankButton}
+                </Tooltip>
+              ) : (
+                bankButton
+              )}
+
               <Tooltip
                 position="bottom"
                 hoverOpenDelay={0}
