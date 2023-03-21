@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
-import { Trans } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface ErrorMessageProps {
   emailIsValid?: boolean;
@@ -15,36 +14,21 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   hasUnconfirmedEmail,
   authError,
 }) => {
-  const renderMessage = useMemo(
-    () =>
-      authError
-        ? translations.emailNotificationsDialog.authErrorMessage
-        : !emailIsValid
-        ? translations.emailNotificationsDialog.invalidEmailWarning
-        : hasUnconfirmedEmail
-        ? translations.emailNotificationsDialog.unconfirmedEmailWarning
-        : '',
-    [authError, emailIsValid, hasUnconfirmedEmail],
-  );
+  const { t } = useTranslation();
+  const renderMessage = useMemo(() => {
+    if (authError) {
+      return t(translations.emailNotificationsDialog.authErrorMessage);
+    }
+    if (!emailIsValid) {
+      return t(translations.emailNotificationsDialog.invalidEmailWarning);
+    }
+    if (hasUnconfirmedEmail) {
+      return t(translations.emailNotificationsDialog.unconfirmedEmailWarning);
+    }
+    return '';
+  }, [t, authError, emailIsValid, hasUnconfirmedEmail]);
 
-  return (
-    <ErrorBadge
-      className="tw-mt-0"
-      content={
-        <Trans
-          i18nKey={renderMessage}
-          components={[
-            <a
-              href={discordInvite}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-            >
-              x
-            </a>,
-          ]}
-        />
-      }
-    />
-  );
+  return !emailIsValid || hasUnconfirmedEmail || authError ? (
+    <ErrorBadge className="tw-mt-0" content={renderMessage} />
+  ) : null;
 };

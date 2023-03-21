@@ -22,36 +22,38 @@ export const Subscriptions: FC<SubscriptionsProps> = ({ isDisabled }) => {
     spotCallsToggleHandler,
   } = useHandleSubscriptions();
 
+  const switches = [
+    {
+      label:
+        translations.emailNotificationsDialog.alertGroups.marginTradingToggle,
+      checked: marginCallsToggle,
+      onChange: marginCallsToggleHandler,
+    },
+    {
+      label:
+        translations.emailNotificationsDialog.alertGroups.spotTradingToggle,
+      checked: spotCallsToggle,
+      onChange: spotCallsToggleHandler,
+    },
+  ];
+
   return (
     <div className="tw-my-6">
-      <Switch
-        checked={marginCallsToggle}
-        onChange={marginCallsToggleHandler}
-        className={classNames(
-          'tw-mb-2 tw-p-0 tw-flex tw-justify-between tw-items-center tw-flex-row-reverse tw-text-sm tw-font-normal',
-          {
-            'tw-text-sov-white tw-opacity-50': isDisabled,
-          },
-        )}
-        label={t(
-          translations.emailNotificationsDialog.alertGroups.marginTradingToggle,
-        )}
-        disabled={isDisabled}
-      />
-      <Switch
-        checked={spotCallsToggle}
-        onChange={spotCallsToggleHandler}
-        className={classNames(
-          'tw-p-0 tw-flex tw-justify-between tw-items-center tw-flex-row-reverse tw-text-sm tw-font-normal',
-          {
-            'tw-text-sov-white tw-opacity-50': isDisabled,
-          },
-        )}
-        label={t(
-          translations.emailNotificationsDialog.alertGroups.spotTradingToggle,
-        )}
-        disabled={isDisabled}
-      />
+      {switches.map((subscription, index) => (
+        <Switch
+          key={index}
+          checked={subscription.checked}
+          onChange={subscription.onChange}
+          className={classNames(
+            'tw-mb-2 tw-p-0 tw-flex tw-justify-between tw-items-center tw-flex-row-reverse tw-text-sm tw-font-normal',
+            {
+              'tw-text-sov-white tw-opacity-50': isDisabled,
+            },
+          )}
+          label={t(subscription.label)}
+          disabled={isDisabled}
+        />
+      ))}
     </div>
   );
 };

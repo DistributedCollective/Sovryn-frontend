@@ -8,11 +8,6 @@ export const isSubscribedToGroup = (
   group: AlertGroup,
   subscriptions: Notification[],
 ) => {
-  if (subscriptions.length === 0) {
-    // default value for notification settings - see SOV-1762 for more details
-    return true;
-  }
-
   const groupNotifications = subscriptions
     .map(item =>
       AlertGroupToNotificationsMapping[group].includes(item.notification)
