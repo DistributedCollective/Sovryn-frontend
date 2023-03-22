@@ -30,7 +30,10 @@ export const MainScreen: React.FC<MainScreenProps> = ({ network, type }) => {
   const { checkMaintenance, States } = useMaintenance();
   const fastBtcReceiveLocked = checkMaintenance(States.FASTBTC_RECEIVE);
   const transakLocked = checkMaintenance(States.TRANSAK);
-  const disableTransak = type === FastBtcDirectionType.TRANSAK && transakLocked;
+  const shouldDisableTransak = useMemo(
+    () => type === FastBtcDirectionType.TRANSAK && transakLocked,
+    [type, transakLocked],
+  );
 
   const { connect, connected, connecting } = useContext(WalletContext);
 
@@ -50,8 +53,8 @@ export const MainScreen: React.FC<MainScreenProps> = ({ network, type }) => {
     if (fastBtcReceiveLocked || !ready || addressLoading) {
       return true;
     }
-    return disableTransak;
-  }, [addressLoading, fastBtcReceiveLocked, ready, disableTransak]);
+    return shouldDisableTransak;
+  }, [addressLoading, fastBtcReceiveLocked, ready, shouldDisableTransak]);
 
   return (
     <>
@@ -79,7 +82,7 @@ export const MainScreen: React.FC<MainScreenProps> = ({ network, type }) => {
             />
           )}
 
-          {(fastBtcReceiveLocked || disableTransak) && (
+          {(fastBtcReceiveLocked || shouldDisableTransak) && (
             <ErrorBadge
               content={
                 <Trans
