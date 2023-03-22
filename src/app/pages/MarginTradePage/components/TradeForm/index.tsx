@@ -85,6 +85,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     loanToken,
     collateralToken,
     useLoanTokens,
+    quoteToken,
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const {
     value: estimations,
@@ -485,7 +486,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             onClose={() => setOpenSlippage(false)}
             amount={toWei(price)}
             value={slippage}
-            asset={collateralToken}
+            asset={quoteToken}
             onChange={setSlippage}
             isTrade={true}
           />

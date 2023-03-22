@@ -26,7 +26,7 @@ import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { calculateMinimumReturn } from '../../utils/marginUtils';
+import { calculateSlippagePrice } from '../../utils/marginUtils';
 import { SlippageForm } from '../SlippageForm';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -151,7 +151,10 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     ...args,
   );
 
-  const { minReturn } = calculateMinimumReturn(value.withdrawAmount, slippage);
+  const { minimumPrice } = calculateSlippagePrice(
+    value.withdrawAmount,
+    slippage,
+  );
 
   const token = useMemo(
     () => assetByTokenAddress(value.withdrawToken) || collateral,
@@ -268,8 +271,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
                 <div className="tw-font-semibold">
                   <LoadableValue
                     loading={loadingValue}
-                    value={weiToAssetNumberFormat(minReturn, token)}
-                    tooltip={weiToNumberFormat(minReturn, 18)}
+                    value={weiToAssetNumberFormat(minimumPrice, token)}
+                    tooltip={weiToNumberFormat(minimumPrice, 18)}
                   />{' '}
                   <AssetRenderer asset={token} />
                 </div>

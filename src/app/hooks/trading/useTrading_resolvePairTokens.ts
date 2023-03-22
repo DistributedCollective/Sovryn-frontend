@@ -8,6 +8,7 @@ interface PairTokensResponse {
   collateralToken: Asset;
   useLoanTokens: boolean;
   useCollateralTokens: boolean;
+  quoteToken: Asset;
 }
 
 export function useTrading_resolvePairTokens(
@@ -33,5 +34,6 @@ export function useTrading_resolvePairTokens(
     collateralToken,
     useLoanTokens: loanToken === collateral,
     useCollateralTokens: loanToken !== collateral,
+    quoteToken: pair.longAsset,
   };
 }
