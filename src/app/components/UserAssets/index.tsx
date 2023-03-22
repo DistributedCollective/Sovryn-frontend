@@ -1,28 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { Asset } from 'types';
 import { Skeleton } from '../PageSkeleton';
 import { useAccount, useIsConnected } from 'app/hooks/useAccount';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { Dialog } from 'app/containers/Dialog';
-import { Button, ButtonSize, ButtonStyle } from '../Button';
-import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './components/ConversionDialog';
 import { UnWrapDialog } from './components/UnWrapDialog';
-import { TransakDialog } from '../TransakDialog/TransakDialog';
 import { UserAssetsTableRow } from './components/UserAssetsTableRow';
 
 export const UserAssets: React.FC = () => {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
-  const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.FASTBTC]: fastBtcLocked,
-    [States.TRANSACK]: transackLocked,
-  } = checkMaintenances();
 
   const assets = useMemo(
     () =>
@@ -32,7 +22,6 @@ export const UserAssets: React.FC = () => {
     [],
   );
 
-  const [transack, setTransack] = useState(false);
   const [conversionDialog, setConversionDialog] = useState(false);
   const [unwrapDialog, setUnwrapDialog] = useState(false);
   const [conversionToken, setConversionToken] = useState<Asset>(null!);
@@ -86,7 +75,6 @@ export const UserAssets: React.FC = () => {
                 <UserAssetsTableRow
                   key={item.asset}
                   item={item}
-                  onTransack={() => setTransack(true)}
                   onConvert={onConvertOpen}
                   onUnWrap={() => setUnwrapDialog(true)}
                 />
@@ -94,7 +82,6 @@ export const UserAssets: React.FC = () => {
           </tbody>
         </table>
       </div>
-      <TransakDialog isOpen={transack} onClose={() => setTransack(false)} />
       <ConversionDialog
         isOpen={conversionDialog}
         asset={conversionToken}
@@ -104,39 +91,6 @@ export const UserAssets: React.FC = () => {
         isOpen={unwrapDialog}
         onClose={() => setUnwrapDialog(false)}
       />
-      <Dialog
-        isOpen={(fastBtcLocked && transack) || (transackLocked && transack)}
-        onClose={() => setTransack(false)}
-      >
-        <div className="tw-mw-340 tw-mx-auto">
-          <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
-            {t(translations.common.maintenance)}
-          </h1>
-          <div className="tw-text-sm tw-font-normal tw-tracking-normal tw-text-center">
-            <Trans
-              i18nKey={translations.maintenance.transack}
-              components={[
-                <a
-                  href={discordInvite}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="tw-underline hover:tw-no-underline"
-                >
-                  x
-                </a>,
-              ]}
-            />
-          </div>
-          <div className="tw-text-center tw-mt-5">
-            <Button
-              text={t(translations.modal.close)}
-              size={ButtonSize.lg}
-              style={ButtonStyle.inverted}
-              onClick={() => setTransack(false)}
-            />
-          </div>
-        </div>
-      </Dialog>
     </>
   );
 };

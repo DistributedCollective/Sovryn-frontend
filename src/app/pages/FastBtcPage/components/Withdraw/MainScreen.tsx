@@ -17,7 +17,7 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   const { set } = useContext(WithdrawContext);
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
-  const fastBtcLocked = checkMaintenance(States.FASTBTC);
+  const fastBtcLocked = checkMaintenance(States.FASTBTC_SEND);
 
   const { connect, connected, connecting } = useContext(WalletContext);
 
