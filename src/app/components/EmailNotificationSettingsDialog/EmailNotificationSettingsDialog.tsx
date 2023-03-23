@@ -67,9 +67,9 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     parseSubscriptionsResponse,
   } = useHandleSubscriptions();
 
-  const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
+  const isValidEmail = useMemo(() => !email || validateEmail(email), [email]);
 
-  const isEmailDisabled = useMemo(
+  const isEmailInputDisabled = useMemo(
     () =>
       (!notificationToken && !isUnsubscribed) ||
       !account ||
@@ -81,12 +81,12 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   const hasUnconfirmedEmail = useMemo(
     () =>
       account &&
-      emailIsValid &&
+      isValidEmail &&
       !!notificationUser &&
       !!email &&
       email === notificationUser.email &&
       !notificationUser.isEmailConfirmed,
-    [account, email, emailIsValid, notificationUser],
+    [account, email, isValidEmail, notificationUser],
   );
 
   const hasUnsavedChanges = useMemo(() => {
@@ -95,25 +95,33 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     return (
       isEmailConfirmed &&
       !isUnsubscribed &&
-      ((emailIsValid && email !== emailNotification) ||
-        (haveSubscriptionsBeenUpdated && emailIsValid))
+      ((isValidEmail && email !== emailNotification) ||
+        (haveSubscriptionsBeenUpdated && isValidEmail))
     );
   }, [
-    emailIsValid,
+    isValidEmail,
     haveSubscriptionsBeenUpdated,
     notificationUser,
     email,
     isUnsubscribed,
   ]);
 
-  const isSubscriptionDisabled = useMemo(
+  const areSubscriptionsDisabled = useMemo(
     () =>
       !notificationToken ||
       loading ||
-      !emailIsValid ||
-      email.length === 0 ||
+      !isValidEmail ||
+      email?.length === 0 ||
+      isUnsubscribed ||
       !notificationUser?.isEmailConfirmed,
-    [email, emailIsValid, loading, notificationToken, notificationUser],
+    [
+      loading,
+      notificationToken,
+      isUnsubscribed,
+      isValidEmail,
+      email,
+      notificationUser,
+    ],
   );
 
   const isSubmitDisabled = useMemo(
@@ -122,12 +130,12 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       isUnsubscribed ||
       authError ||
       !notificationToken ||
-      !emailIsValid ||
+      !isValidEmail ||
       (!email && !notificationUser?.isEmailConfirmed) ||
       (email === notificationUser?.email && !haveSubscriptionsBeenUpdated),
     [
       email,
-      emailIsValid,
+      isValidEmail,
       loading,
       authError,
       isUnsubscribed,
@@ -318,10 +326,10 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   ]);
 
   useEffect(() => {
-    if (!emailIsValid && !notificationUser) {
+    if (!isValidEmail && !notificationUser) {
       setIsUnsubscribed(false);
     }
-  }, [emailIsValid, notificationUser]);
+  }, [isValidEmail, notificationUser]);
 
   useEffect(() => {
     if (
@@ -329,7 +337,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       shouldFetchToken ||
       shouldFetchUser ||
       hasUnsavedChanges ||
-      !emailIsValid
+      !isValidEmail
     ) {
       setAreChangesSaved(false);
       setAuthError(false);
@@ -339,7 +347,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     shouldFetchToken,
     shouldFetchUser,
     hasUnsavedChanges,
-    emailIsValid,
+    isValidEmail,
   ]);
 
   useEffect(() => {
@@ -399,9 +407,9 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
                 translations.emailNotificationsDialog.emailInputPlaceholder,
               )}
               inputClassName="tw-font-medium"
-              disabled={isEmailDisabled}
+              disabled={isEmailInputDisabled}
               className={classNames('tw-rounded-lg tw-h-8', {
-                'tw-pointer-events-none tw-opacity-50 tw-cursor-not-allowed': isEmailDisabled,
+                'tw-pointer-events-none tw-opacity-50 tw-cursor-not-allowed': isEmailInputDisabled,
               })}
             />
 
@@ -413,12 +421,12 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
 
             <ErrorMessage
               authError={authError}
-              emailIsValid={emailIsValid}
+              emailIsValid={isValidEmail}
               hasUnconfirmedEmail={hasUnconfirmedEmail}
             />
           </FormGroup>
 
-          <Subscriptions isDisabled={isSubscriptionDisabled} />
+          <Subscriptions isDisabled={areSubscriptionsDisabled} />
         </div>
 
         {hasUnsavedChanges && (
