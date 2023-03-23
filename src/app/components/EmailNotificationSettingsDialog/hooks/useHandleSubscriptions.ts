@@ -5,6 +5,7 @@ import {
   AlertGroupToNotificationsMapping,
   defaultSubscriptionsArray,
   Notification,
+  NotificationMessageType,
 } from '../EmailNotificationSettingsDialog.types';
 import { isSubscribedToGroup } from '../EmailNotificationSettingsDialog.utils';
 import { useEmailNotificationSettingsContext } from '../contexts/EmailNotificationSettingsContext';
@@ -27,10 +28,14 @@ export const useHandleSubscriptions = () => {
 
   const parseSubscriptionsResponse = useCallback(
     (subscriptions: Notification[]) => {
-      const parsedSubscriptions: Notification[] = subscriptions.map(item => ({
-        notification: item.notification,
-        isSubscribed: item.isSubscribed,
-      }));
+      const parsedSubscriptions: Notification[] = subscriptions
+        .filter(item =>
+          Object.values(NotificationMessageType).includes(item.notification),
+        )
+        .map(item => ({
+          notification: item.notification,
+          isSubscribed: item.isSubscribed,
+        }));
 
       setSubscriptions(parsedSubscriptions);
       setServerSubscriptionsState(parsedSubscriptions);
