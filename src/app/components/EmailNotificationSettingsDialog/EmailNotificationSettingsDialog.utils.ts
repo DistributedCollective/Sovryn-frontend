@@ -21,5 +21,9 @@ export const isSubscribedToGroup = (
     )
     .filter(item => item !== null);
 
+  if (groupNotifications.length === 0) {
+    return false;
+  }
+
   return groupNotifications.every(item => item?.isSubscribed);
 };
