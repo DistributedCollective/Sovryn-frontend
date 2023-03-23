@@ -27,7 +27,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   const { amount, limits, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
-  const fastBtcLocked = checkMaintenance(States.FASTBTC);
+  const fastBtcLocked = checkMaintenance(States.FASTBTC_SEND);
 
   const balance = useBalance();
 

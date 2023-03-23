@@ -40,7 +40,7 @@ export function useCacheCall<T = any>(
   // @dev: generating id from contractName, methodName and args
   // @dev: ignoring account because contract response is the same for all accounts unless account is part of the args
   const hashedArgs = useMemo(
-    () => idHash([getContract(contractName).address, methodName, args]),
+    () => idHash([getContract(contractName)?.address, methodName, args]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [contractName, methodName, JSON.stringify(args)],
   );

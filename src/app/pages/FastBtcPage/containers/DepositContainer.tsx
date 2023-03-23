@@ -237,7 +237,9 @@ export const DepositContainer: React.FC<DepositContainerProps> = ({
           )}
         >
           <div className={styles.container}>
-            {step === DepositStep.MAIN && <MainScreen network={network} />}
+            {step === DepositStep.MAIN && (
+              <MainScreen network={network} type={type} />
+            )}
             {step === DepositStep.VALIDATION && (
               <SignatureValidation onClick={handleValidation} type={type} />
             )}

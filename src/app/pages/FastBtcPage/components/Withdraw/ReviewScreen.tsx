@@ -30,7 +30,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
   const { amount, address, aggregatorLimits } = useContext(WithdrawContext);
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
-  const fastBtcLocked = checkMaintenance(States.FASTBTC);
+  const fastBtcLocked = checkMaintenance(States.FASTBTC_SEND);
 
   const weiAmount = useWeiAmount(amount);
   const { value: calculateCurrentFeeWei, loading } = useCacheCallWithValue(
