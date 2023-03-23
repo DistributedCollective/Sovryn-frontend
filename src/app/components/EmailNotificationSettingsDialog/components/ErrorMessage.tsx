@@ -4,13 +4,13 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
 interface ErrorMessageProps {
-  emailIsValid?: boolean;
+  isValidEmail?: boolean;
   hasUnconfirmedEmail?: boolean;
   authError?: boolean;
 }
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({
-  emailIsValid,
+  isValidEmail,
   hasUnconfirmedEmail,
   authError,
 }) => {
@@ -19,16 +19,16 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
     if (authError) {
       return t(translations.emailNotificationsDialog.authErrorMessage);
     }
-    if (!emailIsValid) {
+    if (!isValidEmail) {
       return t(translations.emailNotificationsDialog.invalidEmailWarning);
     }
     if (hasUnconfirmedEmail) {
       return t(translations.emailNotificationsDialog.unconfirmedEmailWarning);
     }
     return '';
-  }, [t, authError, emailIsValid, hasUnconfirmedEmail]);
+  }, [t, authError, isValidEmail, hasUnconfirmedEmail]);
 
-  return !emailIsValid || hasUnconfirmedEmail || authError ? (
+  return !isValidEmail || hasUnconfirmedEmail || authError ? (
     <ErrorBadge className="tw-mt-0" content={renderMessage} />
   ) : null;
 };

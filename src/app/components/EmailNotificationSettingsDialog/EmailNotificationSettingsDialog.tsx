@@ -27,6 +27,7 @@ import {
 import { Subscriptions } from './components/Subscriptions';
 import classNames from 'classnames';
 import { ErrorMessage } from './components/ErrorMessage';
+import { Toast } from '../Toast';
 
 const userEndpoint = `${notificationServiceUrl[currentChainId]}user/`;
 
@@ -54,7 +55,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState(false);
-  const [areChangesSaved, setAreChangesSaved] = useState(false);
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   const {
@@ -68,6 +68,11 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   } = useHandleSubscriptions();
 
   const isValidEmail = useMemo(() => !email || validateEmail(email), [email]);
+
+  const onCloseHandler = useCallback(() => {
+    setEmail(notificationUser?.email || '');
+    onClose();
+  }, [notificationUser?.email, onClose]);
 
   const isEmailInputDisabled = useMemo(
     () =>
@@ -90,38 +95,25 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   );
 
   const hasUnsavedChanges = useMemo(() => {
-    const { email: emailNotification, isEmailConfirmed } =
-      notificationUser || {};
+    const { email: serverEmail } = notificationUser || {};
     return (
-      isEmailConfirmed &&
-      !isUnsubscribed &&
-      ((isValidEmail && email !== emailNotification) ||
-        (haveSubscriptionsBeenUpdated && isValidEmail))
+      !!notificationToken &&
+      isValidEmail &&
+      (email !== '' || subscriptions.length > 0) &&
+      (email !== serverEmail || haveSubscriptionsBeenUpdated)
     );
   }, [
     isValidEmail,
     haveSubscriptionsBeenUpdated,
     notificationUser,
     email,
-    isUnsubscribed,
+    notificationToken,
+    subscriptions,
   ]);
 
   const areSubscriptionsDisabled = useMemo(
-    () =>
-      !notificationToken ||
-      loading ||
-      !isValidEmail ||
-      email?.length === 0 ||
-      isUnsubscribed ||
-      !notificationUser?.isEmailConfirmed,
-    [
-      loading,
-      notificationToken,
-      isUnsubscribed,
-      isValidEmail,
-      email,
-      notificationUser,
-    ],
+    () => !notificationToken || loading,
+    [loading, notificationToken],
   );
 
   const isSubmitDisabled = useMemo(
@@ -130,12 +122,10 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       isUnsubscribed ||
       authError ||
       !notificationToken ||
-      !isValidEmail ||
       (!email && !notificationUser?.isEmailConfirmed) ||
       (email === notificationUser?.email && !haveSubscriptionsBeenUpdated),
     [
       email,
-      isValidEmail,
       loading,
       authError,
       isUnsubscribed,
@@ -163,12 +153,32 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   );
 
   const resetNotification = useCallback(() => {
-    setEmail('');
     resetSubscriptions();
     setNotificationUser(null);
     setNotificationToken(null);
     setNotificationWallet(null);
+    setEmail('');
   }, [resetSubscriptions]);
+
+  const handleAuthenticationError = useCallback(
+    error => {
+      if (error?.response?.status === 401) {
+        setAuthError(true);
+      } else {
+        Toast(
+          'error',
+          <div className="tw-flex">
+            <Trans
+              i18nKey={translations.emailNotificationsDialog.authErrorMessage}
+            />
+          </div>,
+        );
+        setAuthError(false);
+        onClose();
+      }
+    },
+    [onClose],
+  );
 
   const getToken = useCallback(async () => {
     if (!account) {
@@ -202,59 +212,73 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
             }
           }),
       )
-      .catch(error => {
-        console.error(error);
-        onClose();
-      });
-  }, [account, onClose]);
+      .catch(handleAuthenticationError);
+  }, [account, handleAuthenticationError]);
 
   const handleEmailDelete = useCallback(() => {
-    setIsUnsubscribed(true);
     setEmail('');
     resetSubscriptions();
     setNotificationUser(null);
-  }, [resetSubscriptions]);
+    onClose();
+
+    Toast(
+      'success',
+      <div className="tw-flex">
+        <Trans i18nKey={translations.emailNotificationsDialog.unsubscribed} />
+      </div>,
+    );
+  }, [resetSubscriptions, onClose]);
 
   const handleUserDataResponse = useCallback(
-    (response: Promise<any>, isUserUpdated = false) => {
+    (response: Promise<any>, showNotifications: boolean = false) => {
       response
         .then(({ data }) => {
-          const { email, subscriptions, isEmailConfirmed } = data ?? {};
+          const { email, subscriptions } = data ?? {};
+          console.log('data', data);
+
           setNotificationUser(data);
           setEmail(email ?? '');
+          parseSubscriptionsResponse(subscriptions);
 
-          if (isEmailConfirmed && subscriptions?.length) {
-            parseSubscriptionsResponse(subscriptions);
+          if (showNotifications) {
+            Toast(
+              'success',
+              <div className="tw-flex">
+                <Trans
+                  i18nKey={
+                    translations.emailNotificationsDialog.savedChangesMessage
+                  }
+                />
+              </div>,
+            );
           }
-
-          setAreChangesSaved(isEmailConfirmed && isUserUpdated);
         })
         .catch(error => {
-          console.error(error);
-          if (error?.response?.status === 401) {
-            setAuthError(true);
-            getToken();
+          if (showNotifications) {
+            Toast(
+              'error',
+              <div className="tw-flex">
+                <Trans
+                  i18nKey={translations.emailNotificationsDialog.errorMessage}
+                />
+              </div>,
+            );
           }
+          handleAuthenticationError(error);
         })
         .finally(() => setLoading(false));
     },
-    [getToken, parseSubscriptionsResponse],
+    [parseSubscriptionsResponse, handleAuthenticationError],
   );
 
   const handleUserDelete = useCallback(
     (response: Promise<any>) => {
       response
-        .then(() => handleEmailDelete())
-        .catch(error => {
-          console.error(error);
-          if (error?.response?.status === 401) {
-            setAuthError(true);
-            getToken();
-          }
-        })
+        .then(handleEmailDelete)
+        .catch(handleAuthenticationError)
         .finally(() => setLoading(false));
     },
-    [getToken, handleEmailDelete],
+    [handleEmailDelete, handleAuthenticationError],
   );
 
   const getUser = useCallback(() => {
@@ -339,7 +363,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       hasUnsavedChanges ||
       !isValidEmail
     ) {
-      setAreChangesSaved(false);
       setAuthError(false);
     }
   }, [
@@ -372,7 +395,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   }, [shouldFetchUser]);
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
+    <Dialog isOpen={isOpen} onClose={onCloseHandler}>
       <div className="tw-mx-auto tw-w-full tw-mw-340">
         <div className="tw-mb-6 tw-text-center tw-font-semibold tw-text-lg">
           {t(translations.emailNotificationsDialog.dialogTitle)}
@@ -413,15 +436,9 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
               })}
             />
 
-            {isUnsubscribed && (
-              <p className="tw-mt-0 tw-mb-3 tw-py-4 tw-text-xs tw-text-primary-75">
-                {t(translations.emailNotificationsDialog.unsubscribed)}
-              </p>
-            )}
-
             <ErrorMessage
               authError={authError}
-              emailIsValid={isValidEmail}
+              isValidEmail={isValidEmail}
               hasUnconfirmedEmail={hasUnconfirmedEmail}
             />
           </FormGroup>
@@ -436,12 +453,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
               translations.emailNotificationsDialog.unsavedChangesMessage,
             )}
           />
-        )}
-
-        {areChangesSaved && !hasUnconfirmedEmail && (
-          <p className="tw-py-4 tw-mb-3 tw-text-center tw-text-xs tw-text-primary-75">
-            {t(translations.emailNotificationsDialog.savedChangesMessage)}
-          </p>
         )}
 
         <DialogButton
