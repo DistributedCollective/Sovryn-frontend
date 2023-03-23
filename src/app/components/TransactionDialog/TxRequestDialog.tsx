@@ -28,6 +28,19 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
+
+  const normalizedError = useMemo(() => {
+    if (error) {
+      if (
+        error.includes('User denied transaction signature') ||
+        error.includes('UserDeclinedError')
+      ) {
+        return 'User denied transaction signature';
+      }
+    }
+    return error;
+  }, [error]);
+
   return (
     <>
       <Dialog
@@ -50,12 +63,14 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
                   alt="failed"
                   className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
                 />
-                <p className="tw-text-center tw-px-3 tw-text-warning">
+                <div className="tw-text-center tw-px-3 tw-text-warning">
                   <Trans
                     i18nKey={translations.transactionDialog.txStatus.aborted}
                   />
-                  <div>{error}</div>
-                </p>
+                  {normalizedError && (
+                    <div className="tw-mb-8">{normalizedError}</div>
+                  )}
+                </div>
                 <ActionButton
                   onClick={() =>
                     dispatch(actions.closeTransactionRequestDialog())
