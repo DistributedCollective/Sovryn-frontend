@@ -52,6 +52,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   const [notificationWallet, setNotificationWallet] = useState<string | null>(
     null,
   );
+
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
