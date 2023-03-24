@@ -6,19 +6,14 @@ import { useTranslation } from 'react-i18next';
 interface ErrorMessageProps {
   isValidEmail?: boolean;
   hasUnconfirmedEmail?: boolean;
-  authError?: boolean;
 }
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   isValidEmail,
   hasUnconfirmedEmail,
-  authError,
 }) => {
   const { t } = useTranslation();
   const renderMessage = useMemo(() => {
-    if (authError) {
-      return t(translations.emailNotificationsDialog.authErrorMessage);
-    }
     if (!isValidEmail) {
       return t(translations.emailNotificationsDialog.invalidEmailWarning);
     }
@@ -26,9 +21,9 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       return t(translations.emailNotificationsDialog.unconfirmedEmailWarning);
     }
     return '';
-  }, [t, authError, isValidEmail, hasUnconfirmedEmail]);
+  }, [t, isValidEmail, hasUnconfirmedEmail]);
 
-  return !isValidEmail || hasUnconfirmedEmail || authError ? (
+  return !isValidEmail || hasUnconfirmedEmail ? (
     <ErrorBadge className="tw-mt-0" content={renderMessage} />
   ) : null;
 };

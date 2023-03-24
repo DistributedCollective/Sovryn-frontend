@@ -30,7 +30,6 @@ import { ErrorMessage } from './components/ErrorMessage';
 import { Toast } from '../Toast';
 
 const userEndpoint = `${notificationServiceUrl[currentChainId]}user/`;
-const NOTIFICATION_SERVICE_ERROR_CODES = [400, 403]; // 400 - signing with incorrect wallet, 403 - signing a different message
 
 interface IEmailNotificationSettingsDialogProps {
   isOpen: boolean;
@@ -55,7 +54,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   );
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [authError, setAuthError] = useState(false);
   const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   const {
@@ -76,12 +74,8 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   }, [notificationUser?.email, onClose]);
 
   const isEmailInputDisabled = useMemo(
-    () =>
-      (!notificationToken && !isUnsubscribed) ||
-      !account ||
-      loading ||
-      authError,
-    [notificationToken, account, loading, authError, isUnsubscribed],
+    () => (!notificationToken && !isUnsubscribed) || !account || loading,
+    [notificationToken, account, loading, isUnsubscribed],
   );
 
   const hasUnconfirmedEmail = useMemo(
@@ -114,14 +108,12 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     () =>
       loading ||
       isUnsubscribed ||
-      authError ||
       !notificationToken ||
       (!email && !notificationUser?.isEmailConfirmed) ||
       (email === notificationUser?.email && !haveSubscriptionsBeenUpdated),
     [
       email,
       loading,
-      authError,
       isUnsubscribed,
       notificationToken,
       notificationUser,
@@ -154,29 +146,18 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     setEmail('');
   }, [resetSubscriptions]);
 
-  const handleAuthenticationError = useCallback(
-    error => {
-      if (
-        NOTIFICATION_SERVICE_ERROR_CODES.includes(
-          error?.response?.data?.error?.statusCode,
-        )
-      ) {
-        setAuthError(true);
-      } else {
-        Toast(
-          'error',
-          <div className="tw-flex">
-            <Trans
-              i18nKey={translations.emailNotificationsDialog.authErrorMessage}
-            />
-          </div>,
-        );
-        setAuthError(false);
-        onClose();
-      }
-    },
-    [onClose],
-  );
+  const handleAuthenticationError = useCallback(() => {
+    Toast(
+      'error',
+      <div className="tw-flex">
+        <Trans
+          i18nKey={translations.emailNotificationsDialog.authErrorMessage}
+        />
+      </div>,
+    );
+
+    onClose();
+  }, [onClose]);
 
   const getToken = useCallback(async () => {
     if (!account) {
@@ -206,7 +187,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
             if (res.data?.token) {
               setNotificationToken(res.data.token);
               setNotificationWallet(account);
-              setAuthError(false);
             }
           }),
       )
@@ -258,7 +238,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
               </div>,
             );
           }
-          handleAuthenticationError(error);
+          handleAuthenticationError();
         })
         .finally(() => setLoading(false));
     },
@@ -350,24 +330,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   }, [isValidEmail, notificationUser]);
 
   useEffect(() => {
-    if (
-      wasAccountDisconnected ||
-      shouldFetchToken ||
-      shouldFetchUser ||
-      hasUnsavedChanges ||
-      !isValidEmail
-    ) {
-      setAuthError(false);
-    }
-  }, [
-    wasAccountDisconnected,
-    shouldFetchToken,
-    shouldFetchUser,
-    hasUnsavedChanges,
-    isValidEmail,
-  ]);
-
-  useEffect(() => {
     if (wasAccountDisconnected) {
       resetNotification();
     }
@@ -431,7 +393,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
             />
 
             <ErrorMessage
-              authError={authError}
               isValidEmail={isValidEmail}
               hasUnconfirmedEmail={hasUnconfirmedEmail}
             />
