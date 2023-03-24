@@ -35,11 +35,11 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
         error.includes('User denied transaction signature') ||
         error.includes('UserDeclinedError')
       ) {
-        return 'User denied transaction signature';
+        return t(translations.walletProvider.userDenied);
       }
     }
     return error;
-  }, [error]);
+  }, [error, t]);
 
   return (
     <>
