@@ -30,6 +30,7 @@ import { ErrorMessage } from './components/ErrorMessage';
 import { Toast } from '../Toast';
 
 const userEndpoint = `${notificationServiceUrl[currentChainId]}user/`;
+const NOTIFICATION_SERVICE_ERROR_CODES = [400, 403]; // 400 - signing with incorrect wallet, 403 - signing a different message
 
 interface IEmailNotificationSettingsDialogProps {
   isOpen: boolean;
@@ -95,21 +96,14 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   );
 
   const hasUnsavedChanges = useMemo(() => {
-    const { email: serverEmail } = notificationUser || {};
+    const { email: serverEmail, isEmailConfirmed } = notificationUser || {};
     return (
-      !!notificationToken &&
-      isValidEmail &&
-      (email !== '' || subscriptions.length > 0) &&
-      (email !== serverEmail || haveSubscriptionsBeenUpdated)
+      haveSubscriptionsBeenUpdated ||
+      (isValidEmail &&
+        email !== serverEmail &&
+        (email !== '' || isEmailConfirmed))
     );
-  }, [
-    isValidEmail,
-    haveSubscriptionsBeenUpdated,
-    notificationUser,
-    email,
-    notificationToken,
-    subscriptions,
-  ]);
+  }, [isValidEmail, haveSubscriptionsBeenUpdated, notificationUser, email]);
 
   const areSubscriptionsDisabled = useMemo(
     () => !notificationToken || loading,
@@ -162,7 +156,11 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
 
   const handleAuthenticationError = useCallback(
     error => {
-      if (error?.response?.status === 401) {
+      if (
+        NOTIFICATION_SERVICE_ERROR_CODES.includes(
+          error?.response?.data?.error?.statusCode,
+        )
+      ) {
         setAuthError(true);
       } else {
         Toast(
@@ -216,10 +214,8 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   }, [account, handleAuthenticationError]);
 
   const handleEmailDelete = useCallback(() => {
-    setEmail('');
-    resetSubscriptions();
-    setNotificationUser(null);
     onClose();
+    resetNotification();
 
     Toast(
       'success',
@@ -227,15 +223,13 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
         <Trans i18nKey={translations.emailNotificationsDialog.unsubscribed} />
       </div>,
     );
-  }, [resetSubscriptions, onClose]);
+  }, [onClose, resetNotification]);
 
   const handleUserDataResponse = useCallback(
     (response: Promise<any>, showNotifications: boolean = false) => {
       response
         .then(({ data }) => {
           const { email, subscriptions } = data ?? {};
-          console.log('data', data);
-
           setNotificationUser(data);
           setEmail(email ?? '');
           parseSubscriptionsResponse(subscriptions);
