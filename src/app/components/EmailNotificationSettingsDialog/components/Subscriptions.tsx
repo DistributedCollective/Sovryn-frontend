@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
 type SubscriptionsProps = {
-  isDisabled?: boolean;
+  disabled?: boolean;
 };
 
-export const Subscriptions: FC<SubscriptionsProps> = ({ isDisabled }) => {
+export const Subscriptions: FC<SubscriptionsProps> = ({ disabled }) => {
   const { t } = useTranslation();
   const {
     marginCallsToggle,
@@ -47,11 +47,11 @@ export const Subscriptions: FC<SubscriptionsProps> = ({ isDisabled }) => {
           className={classNames(
             'tw-mb-2 tw-p-0 tw-flex tw-justify-between tw-items-center tw-flex-row-reverse tw-text-sm tw-font-normal',
             {
-              'tw-text-sov-white tw-opacity-50': isDisabled,
+              'tw-text-sov-white tw-opacity-50': disabled,
             },
           )}
           label={t(subscription.label)}
-          disabled={isDisabled}
+          disabled={disabled}
         />
       ))}
     </div>

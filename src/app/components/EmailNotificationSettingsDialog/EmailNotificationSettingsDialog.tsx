@@ -399,7 +399,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
             />
           </FormGroup>
 
-          <Subscriptions isDisabled={areSubscriptionsDisabled} />
+          <Subscriptions disabled={areSubscriptionsDisabled} />
         </div>
 
         {hasUnsavedChanges && (
