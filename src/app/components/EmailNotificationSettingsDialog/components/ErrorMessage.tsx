@@ -3,10 +3,10 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
-interface ErrorMessageProps {
+type ErrorMessageProps = {
   isValidEmail?: boolean;
   hasUnconfirmedEmail?: boolean;
-}
+};
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   isValidEmail,

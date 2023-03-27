@@ -55,7 +55,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
 
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isUnsubscribed, setIsUnsubscribed] = useState(false);
 
   const {
     subscriptions,
@@ -75,8 +74,8 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   }, [notificationUser?.email, onClose]);
 
   const isEmailInputDisabled = useMemo(
-    () => (!notificationToken && !isUnsubscribed) || !account || loading,
-    [notificationToken, account, loading, isUnsubscribed],
+    () => !notificationToken || !account || loading,
+    [notificationToken, account, loading],
   );
 
   const hasUnconfirmedEmail = useMemo(
@@ -108,14 +107,12 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   const isSubmitDisabled = useMemo(
     () =>
       loading ||
-      isUnsubscribed ||
       !notificationToken ||
       (!email && !notificationUser?.isEmailConfirmed) ||
       (email === notificationUser?.email && !haveSubscriptionsBeenUpdated),
     [
       email,
       loading,
-      isUnsubscribed,
       notificationToken,
       notificationUser,
       haveSubscriptionsBeenUpdated,
@@ -228,7 +225,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
             );
           }
         })
-        .catch(error => {
+        .catch(() => {
           if (showNotifications) {
             Toast(
               'error',
@@ -325,12 +322,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   ]);
 
   useEffect(() => {
-    if (!isValidEmail && !notificationUser) {
-      setIsUnsubscribed(false);
-    }
-  }, [isValidEmail, notificationUser]);
-
-  useEffect(() => {
     if (wasAccountDisconnected) {
       resetNotification();
     }
@@ -346,7 +337,6 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
   useEffect(() => {
     if (shouldFetchUser) {
       getUser();
-      setIsUnsubscribed(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldFetchUser]);

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { translations } from '../../../../locales/i18n';
 import { useEmailNotificationSettingsContext } from '../contexts/EmailNotificationSettingsContext';
@@ -22,20 +22,28 @@ export const Subscriptions: FC<SubscriptionsProps> = ({ disabled }) => {
     spotCallsToggleHandler,
   } = useHandleSubscriptions();
 
-  const switches = [
-    {
-      label:
-        translations.emailNotificationsDialog.alertGroups.marginTradingToggle,
-      checked: marginCallsToggle,
-      onChange: marginCallsToggleHandler,
-    },
-    {
-      label:
-        translations.emailNotificationsDialog.alertGroups.spotTradingToggle,
-      checked: spotCallsToggle,
-      onChange: spotCallsToggleHandler,
-    },
-  ];
+  const switches = useMemo(
+    () => [
+      {
+        label:
+          translations.emailNotificationsDialog.alertGroups.marginTradingToggle,
+        checked: marginCallsToggle,
+        onChange: marginCallsToggleHandler,
+      },
+      {
+        label:
+          translations.emailNotificationsDialog.alertGroups.spotTradingToggle,
+        checked: spotCallsToggle,
+        onChange: spotCallsToggleHandler,
+      },
+    ],
+    [
+      marginCallsToggle,
+      marginCallsToggleHandler,
+      spotCallsToggle,
+      spotCallsToggleHandler,
+    ],
+  );
 
   return (
     <div className="tw-my-6">
