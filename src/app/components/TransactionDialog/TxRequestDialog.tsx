@@ -30,13 +30,11 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
   const normalizedError = useMemo(() => {
-    if (error) {
-      if (
-        error.includes('User denied transaction signature') ||
-        error.includes('UserDeclinedError')
-      ) {
-        return t(translations.walletProvider.userDenied);
-      }
+    if (
+      error?.includes('User denied transaction signature') ||
+      error?.includes('UserDeclinedError')
+    ) {
+      return t(translations.walletProvider.userDenied);
     }
     return error;
   }, [error, t]);
