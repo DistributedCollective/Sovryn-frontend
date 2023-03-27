@@ -29,15 +29,19 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
-  const normalizedError = useMemo(() => {
-    if (
+  const userDeclinedTx = useMemo(
+    () =>
       error?.includes('User denied transaction signature') ||
-      error?.includes('UserDeclinedError')
-    ) {
+      error?.includes('UserDeclinedError'),
+    [error],
+  );
+
+  const normalizedError = useMemo(() => {
+    if (userDeclinedTx) {
       return t(translations.walletProvider.userDenied);
     }
     return error;
-  }, [error, t]);
+  }, [userDeclinedTx, error, t]);
 
   return (
     <>
@@ -62,9 +66,11 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
                   className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
                 />
                 <div className="tw-text-center tw-px-3 tw-text-warning">
-                  <Trans
-                    i18nKey={translations.transactionDialog.txStatus.aborted}
-                  />
+                  {!userDeclinedTx && (
+                    <Trans
+                      i18nKey={translations.transactionDialog.txStatus.aborted}
+                    />
+                  )}
                   {normalizedError && (
                     <div className="tw-mb-8">{normalizedError}</div>
                   )}
