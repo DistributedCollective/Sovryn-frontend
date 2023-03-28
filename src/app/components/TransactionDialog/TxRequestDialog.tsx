@@ -16,6 +16,7 @@ import {
   TxType,
 } from 'store/global/transactions-store/types';
 import { Dialog } from 'app/containers/Dialog';
+import { useGetNormalizedError } from './hooks/useGetNormalizedError';
 
 export const TxRequestDialog: React.FC<RequestDialogState> = ({
   open,
@@ -29,19 +30,7 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
 
-  const userDeclinedTx = useMemo(
-    () =>
-      error?.includes('User denied transaction signature') ||
-      error?.includes('UserDeclinedError'),
-    [error],
-  );
-
-  const normalizedError = useMemo(() => {
-    if (userDeclinedTx) {
-      return t(translations.walletProvider.userDenied);
-    }
-    return error;
-  }, [userDeclinedTx, error, t]);
+  const { hasUserDeclinedTx, normalizedError } = useGetNormalizedError();
 
   return (
     <>
@@ -66,7 +55,7 @@ export const TxRequestDialog: React.FC<RequestDialogState> = ({
                   className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
                 />
                 <div className="tw-text-center tw-px-3 tw-text-warning">
-                  {!userDeclinedTx && (
+                  {!hasUserDeclinedTx && (
                     <Trans
                       i18nKey={translations.transactionDialog.txStatus.aborted}
                     />
