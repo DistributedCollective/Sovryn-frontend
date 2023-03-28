@@ -64,8 +64,8 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     if (asset === Asset.RBTC) {
       withdrawRBTC(
         [0, address],
-        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
-        { type: TxType.STAKING_REWARDS_CLAIM },
+        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
+        { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
       );
     } else {
       send(

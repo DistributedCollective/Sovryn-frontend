@@ -19,6 +19,7 @@ export enum TxType {
   VESTING_DELEGATE = 'vesting-delegate',
   STAKING_INCREASE_STAKE = 'staking',
   STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
+  STAKING_REWARDS_CLAIM_RBTC = 'staking_rewards_claim_rbtc',
   STAKING_LIQUID_SOV_CLAIM = 'staking_liquid_sov_claim',
   NONE = 'none',
   APPROVE = 'approve',

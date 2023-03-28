@@ -123,6 +123,7 @@ export const gasLimit = {
   [TxType.STAKING_EXTEND]: 450000,
   [TxType.STAKING_WITHDRAW]: 650000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
+  [TxType.STAKING_REWARDS_CLAIM_RBTC]: 6500000, //temporary high limit to cover all checkpoints
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 3500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
