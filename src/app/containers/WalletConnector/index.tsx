@@ -22,7 +22,7 @@ import {
   faCoins,
   faBell,
 } from '@fortawesome/free-solid-svg-icons';
-import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
+import { EmailNotificationSettingsDialog } from 'app/components/EmailNotificationSettingsDialog/EmailNotificationSettingsDialog';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
 
 type Props = {
@@ -178,7 +178,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
         )}
       </div>
 
-      <NotificationSettingsDialog
+      <EmailNotificationSettingsDialog
         isOpen={showNotificationSettingsModal}
         onClose={() => setShowNotificationSettingsModal(false)}
       />

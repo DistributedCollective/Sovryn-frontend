@@ -1744,30 +1744,6 @@
       "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
       "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
     },
-    "notificationSettingsDialog": {
-      "title": "Configurações de notificação de margem",
-      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
-      "marginCalls": "Chamadas de margem",
-      "liquidations": "Liquidações",
-      "here": "aqui",
-      "filledLimitOrders": "Ordens a limite preenchidas",
-      "enterEmail": "Insira o endereço de e-mail",
-      "email": "E-mail",
-      "useRisk": "Use por sua conta e risco",
-      "riskDesc": "Esteja ciente de que este serviço de notificação por e-mail está hospedado em um servidor centralizado da AWS nos EUA.",
-      "telegramHandle": "Insira seu nome de usuário do Telegram",
-      "emailHandle": "Insira seu endereço de e-mail",
-      "discordHandle": "Insira seu nome de usuário do Discord",
-      "usernamePlaceholder": "@usuário",
-      "updateSuccess": "Configurações de notificação atualizadas",
-      "emailPlaceholder": "exemplo@domínio.com",
-      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer",
-      "notificationEvents": {
-        "1": "25% margem",
-        "2": "Liquidação"
-      },
-      "submit": "Confirmar"
-    },
     "notificationsButton": {
       "enable": "Ativar notificações",
       "enabled": "Notificações habilitadas"
