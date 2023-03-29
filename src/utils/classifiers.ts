@@ -123,11 +123,12 @@ export const gasLimit = {
   [TxType.STAKING_EXTEND]: 450000,
   [TxType.STAKING_WITHDRAW]: 650000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
+  [TxType.STAKING_REWARDS_CLAIM_RBTC]: 6500000, //temporary high limit to cover all checkpoints
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 3500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
-  [TxType.SOV_WITHDRAW_VESTING]: 3000000,
+  [TxType.SOV_WITHDRAW_VESTING]: 4000000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
@@ -164,6 +165,8 @@ export const WIKI_LIMIT_ORDER_WALLETS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#wallet-compatibility';
 export const WIKI_PERPETUAL_FUTURES_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures';
+export const WIKI_TRADE_NOTIFICATIONS_LINK =
+  'https://wiki.sovryn.app/en/sovryn-dapp/trade-notifications';
 
 export const MILLION = 1000000;
 

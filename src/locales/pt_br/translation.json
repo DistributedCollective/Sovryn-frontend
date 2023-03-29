@@ -71,7 +71,6 @@
     "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "fastBTCPortfolio": "Sorry, FastBTC transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
-
     "bridge": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "bridgeSteps": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, Por favor verifique o nosso <0>discord</0> para atualizações.",
     "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -94,7 +93,6 @@
     "withdrawVestsModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
-
     "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -385,8 +383,8 @@
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
       "interestAPY": "Interest APY:",
-      "slippageSettings": "Configurações avançadas",
-      "interestAPR": "Taxa anual:"
+      "interestAPR": "Taxa anual:",
+      "advancedSettings": "Configurações Avançadas"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -504,7 +502,8 @@
       "zero": "Empréstimos sem juros garantidos por seus bitcoins",
       "voting": "Participe das decisões de governança",
       "forum": "Junte-se à comunidade"
-    }
+    },
+    "bridge": "ponte"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -1743,30 +1742,6 @@
     "limitOrderHistory": {
       "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
       "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
-    },
-    "notificationSettingsDialog": {
-      "title": "Configurações de notificação de margem",
-      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
-      "marginCalls": "Chamadas de margem",
-      "liquidations": "Liquidações",
-      "here": "aqui",
-      "filledLimitOrders": "Ordens a limite preenchidas",
-      "enterEmail": "Insira o endereço de e-mail",
-      "email": "E-mail",
-      "useRisk": "Use por sua conta e risco",
-      "riskDesc": "Esteja ciente de que este serviço de notificação por e-mail está hospedado em um servidor centralizado da AWS nos EUA.",
-      "telegramHandle": "Insira seu nome de usuário do Telegram",
-      "emailHandle": "Insira seu endereço de e-mail",
-      "discordHandle": "Insira seu nome de usuário do Discord",
-      "usernamePlaceholder": "@usuário",
-      "updateSuccess": "Configurações de notificação atualizadas",
-      "emailPlaceholder": "exemplo@domínio.com",
-      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer",
-      "notificationEvents": {
-        "1": "25% margem",
-        "2": "Liquidação"
-      },
-      "submit": "Confirmar"
     },
     "notificationsButton": {
       "enable": "Ativar notificações",

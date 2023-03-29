@@ -36,7 +36,8 @@
     "txHash": "Tx Hash",
     "walletCompatibility": "Wallet Compatibility",
     "send": "Send",
-    "receive": "Receive"
+    "receive": "Receive",
+    "save": "Save"
   },
   "tradeEvents": {
     "CloseWithSwap": "Withdraw",
@@ -1757,35 +1758,25 @@
     "limitOrderHistory": {
       "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
       "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
-    },
-    "notificationSettingsDialog": {
-      "title": "Notification Settings",
-      "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
-      "marginCalls": "Margin Calls",
-      "liquidations": "Liquidations",
-      "here": "here",
-      "filledLimitOrders": "Filled limit orders",
-      "enterEmail": "Enter Email Address",
-      "email": "Email",
-      "useRisk": "Use at your own risk",
-      "riskDesc": "Please be aware that this opt-in email notification service is hosted on a centralized AWS instance in the USA.",
-      "telegramHandle": "Enter Telegram handle",
-      "emailHandle": "Enter Email Address",
-      "discordHandle": "Enter Discord handle",
-      "usernamePlaceholder": "username",
-      "updateSuccess": "Notification settings updated",
-      "emailPlaceholder": "example@domain.com",
-      "receiveNotificationTitle": "You will receive a notification at",
-      "notificationEvents": {
-        "1": "25% margin",
-        "2": "Liquidation"
-      },
-      "submit": "Confirm"
-    },
-    "notificationsButton": {
-      "enable": "Enable notifications",
-      "enabled": "Notifications enabled"
     }
+  },
+  "emailNotificationsDialog": {
+    "dialogTitle": "Notification Settings",
+    "title": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
+    "emailInputLabel": "Email address",
+    "emailInputPlaceholder": "Enter Email",
+    "alertGroups": {
+      "marginTradingToggle": "Margin trading",
+      "spotTradingToggle": "Spot trading"
+    },
+    "successMessage": "Your preferences have been saved.",
+    "errorMessage": "Something went wrong, please try again.",
+    "authErrorMessage": "Authentication failed",
+    "unconfirmedEmailWarning": "Unconfirmed - check inbox for confirmation email",
+    "invalidEmailWarning": "Invalid email address",
+    "savedChangesMessage": "Changes saved",
+    "unsavedChangesMessage": "Your changes have not been saved yet",
+    "unsubscribed": "Unsubscribed"
   },
   "form": {
     "select": {
