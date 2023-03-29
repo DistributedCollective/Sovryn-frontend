@@ -42,6 +42,11 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
         btcValue: data?.tvlSubprotocols?.totalBtc || 0,
         usdValue: data?.tvlSubprotocols?.totalUsd || 0,
       },
+      {
+        contract: t(translations.landingPage.tvl.myntAggregator),
+        btcValue: data?.tvlMynt?.totalBtc || 0,
+        usdValue: data?.tvlMynt?.totalUsd || 0,
+      },
     ],
     [data, t],
   );
