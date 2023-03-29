@@ -19,6 +19,21 @@ export const useGetNormalizedError = () => {
     if (hasUserDeclinedTx) {
       return t(translations.walletProvider.userDenied);
     }
+    if (error?.includes('LIQUALITY_ERROR_FROM_ERROR_PARSER_PACKAGE')) {
+      const searchReason = error.match(
+        /(?<=\\"reason\\":\\")([A-Za-z0-9 ]+)(?=\\")/g,
+      );
+      if (searchReason?.length) {
+        return searchReason[0];
+      }
+
+      const searchErrorName = error.match(
+        /(?<=\\"name\\":\\")([A-Za-z0-9 ]+)(?=\\")/g,
+      );
+      if (searchErrorName?.length) {
+        return searchErrorName[0];
+      }
+    }
     return error;
   }, [hasUserDeclinedTx, error, t]);
 
