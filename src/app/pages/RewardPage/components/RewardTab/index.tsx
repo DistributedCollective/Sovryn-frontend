@@ -15,14 +15,16 @@ import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface IRewardTabProps {
   availableTradingRewards: string;
-  availableLiquidityRewards: string;
+  availableLiquidityRewardsVested: string;
+  availableLiquidityRewardsLiquid: string;
   availableLendingRewards: string;
   amountToClaim: string;
 }
 
 export const RewardTab: React.FC<IRewardTabProps> = ({
   availableTradingRewards,
-  availableLiquidityRewards,
+  availableLiquidityRewardsVested,
+  availableLiquidityRewardsLiquid,
   availableLendingRewards,
   amountToClaim,
 }) => {
@@ -54,11 +56,14 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
       calculatePercentageDistribution(
         availableLendingRewards,
         availableTradingRewards,
-        availableLiquidityRewards,
+        bignumber(availableLiquidityRewardsVested)
+          .add(availableLiquidityRewardsLiquid)
+          .toString(),
       ),
     [
       availableLendingRewards,
-      availableLiquidityRewards,
+      availableLiquidityRewardsLiquid,
+      availableLiquidityRewardsVested,
       availableTradingRewards,
     ],
   );
@@ -107,28 +112,33 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.tradingRewards)}
-          availableAmount={weiTo18(availableTradingRewards)}
+          availableAmountVested={weiTo18(availableTradingRewards)}
           totalEarnedAmount={bignumber(totalTradingRewards)
             .add(weiTo18(availableTradingRewards))
             .toString()}
+          isLiquidityMining
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Green}
           title={t(translations.rewardPage.lendingRewards)}
-          availableAmount={weiTo18(availableLendingRewards)}
+          availableAmountVested={weiTo18(availableLendingRewards)}
           totalEarnedAmount={bignumber(totalLendingRewards)
             .add(weiTo18(availableLendingRewards))
             .toString()}
+          isLiquidityMining
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.liquidityRewards)}
-          availableAmount={weiTo18(availableLiquidityRewards)}
+          availableAmountVested={weiTo18(availableLiquidityRewardsVested)}
+          availableAmountLiquid={weiTo18(availableLiquidityRewardsLiquid)}
           totalEarnedAmount={bignumber(totalLiquidityRewards)
-            .add(weiTo18(availableLiquidityRewards))
+            .add(weiTo18(availableLiquidityRewardsVested))
+            .add(weiTo18(availableLiquidityRewardsLiquid))
             .toString()}
+          isLiquidityMining
         />
       </div>
     </div>

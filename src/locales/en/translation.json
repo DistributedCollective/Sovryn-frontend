@@ -1601,6 +1601,8 @@
     "claimableRewards": "Claimable Rewards",
     "stakingReward": "Staking Rewards",
     "referralReward": "Referral Rewards",
+    "vested": "Vested",
+    "liquid": "Liquid",
     "comingSoon": "Coming Soon",
     "noRewardInfoText": {
       "rewardSovTab": {

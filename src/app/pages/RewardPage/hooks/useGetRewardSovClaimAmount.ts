@@ -7,14 +7,18 @@ import { useGetTradingRewards } from '../components/RewardTab/hooks/useGetTradin
 type RewardSovClaimData = {
   availableLendingRewards: string;
   availableTradingRewards: string;
-  availableLiquidityRewards: string;
+  availableLiquidityRewardsVested: string;
+  availableLiquidityRewardsLiquid: string;
   amountToClaim: string;
 };
 
 export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
   const availableLendingRewards = useGetAvailableLendingRewards();
   const { data: availableTradingRewardsData } = useGetTradingRewards();
-  const availableLiquidityRewards = useGetAvailableLiquidityRewards();
+  const {
+    availableLiquidityRewardsVested,
+    availableLiquidityRewardsLiquid,
+  } = useGetAvailableLiquidityRewards();
 
   const availableTradingRewards = useMemo(
     () =>
@@ -29,12 +33,14 @@ export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
     () =>
       (
         Number(availableLendingRewards) +
-        Number(availableLiquidityRewards) +
+        Number(availableLiquidityRewardsVested) +
+        Number(availableLiquidityRewardsLiquid) +
         Number(availableTradingRewards)
       ).toString(),
     [
       availableLendingRewards,
-      availableLiquidityRewards,
+      availableLiquidityRewardsLiquid,
+      availableLiquidityRewardsVested,
       availableTradingRewards,
     ],
   );
@@ -42,7 +48,8 @@ export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
   return {
     availableLendingRewards: availableLendingRewards,
     availableTradingRewards: availableTradingRewards,
-    availableLiquidityRewards: availableLiquidityRewards,
+    availableLiquidityRewardsVested,
+    availableLiquidityRewardsLiquid,
     amountToClaim: amountToClaim,
   };
 };

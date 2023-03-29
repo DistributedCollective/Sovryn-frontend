@@ -1,6 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { bignumber } from 'mathjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 
 type UserInfo = {
@@ -9,7 +9,12 @@ type UserInfo = {
   accumulatedReward: string;
 };
 
-export const useGetAvailableLiquidityRewards = (): string => {
+type LiquidityRewardsData = {
+  availableLiquidityRewardsVested: string;
+  availableLiquidityRewardsLiquid: string;
+};
+
+export const useGetAvailableLiquidityRewards = (): LiquidityRewardsData => {
   const [liquidityRewards, setLiquidityRewards] = useState({
     accumulatedRewards: '0',
     userRewards: '0',
@@ -31,10 +36,7 @@ export const useGetAvailableLiquidityRewards = (): string => {
     address,
   );
 
-  const {
-    value: accumulatedRewardsLiquid,
-    loading: accumulatedRewardsLiquidLoading,
-  } = useCacheCallWithValue(
+  const { value: accumulatedRewardsLiquid } = useCacheCallWithValue(
     'liquidityMiningProxy',
     'getUserAccumulatedRewardToBePaidLiquid',
     '',
@@ -55,25 +57,13 @@ export const useGetAvailableLiquidityRewards = (): string => {
   }, [lockedBalance, lockedBalanceLoading]);
 
   useEffect(() => {
-    if (
-      !accumulatedRewardsLiquidLoading &&
-      !accumulatedRewardsVestedLoading &&
-      accumulatedRewardsLiquid &&
-      accumulatedRewardsVested
-    ) {
+    if (!accumulatedRewardsVestedLoading && accumulatedRewardsVested) {
       setLiquidityRewards(value => ({
         ...value,
-        accumulatedRewards: bignumber(accumulatedRewardsLiquid)
-          .add(accumulatedRewardsVested)
-          .toString(),
+        accumulatedRewards: accumulatedRewardsVested.toString() || '0',
       }));
     }
-  }, [
-    accumulatedRewardsLiquid,
-    accumulatedRewardsLiquidLoading,
-    accumulatedRewardsVested,
-    accumulatedRewardsVestedLoading,
-  ]);
+  }, [accumulatedRewardsVested, accumulatedRewardsVestedLoading]);
 
   useEffect(() => {
     if (!infoListLoading) {
@@ -91,8 +81,29 @@ export const useGetAvailableLiquidityRewards = (): string => {
     }
   }, [infoList, infoListLoading, lockedBalance]);
 
-  return bignumber(liquidityRewards.accumulatedRewards)
-    .add(liquidityRewards.userRewards)
-    .add(liquidityRewards.lockedRewards)
-    .toString();
+  const availableLiquidityRewardsVested = useMemo(
+    () =>
+      bignumber(liquidityRewards.accumulatedRewards)
+        .add(liquidityRewards.userRewards)
+        .add(liquidityRewards.lockedRewards)
+        .toString(),
+    [
+      liquidityRewards.accumulatedRewards,
+      liquidityRewards.lockedRewards,
+      liquidityRewards.userRewards,
+    ],
+  );
+
+  const availableLiquidityRewardsLiquid = useMemo(
+    () =>
+      !accumulatedRewardsVestedLoading && accumulatedRewardsLiquid
+        ? accumulatedRewardsLiquid.toString()
+        : '0',
+    [accumulatedRewardsLiquid, accumulatedRewardsVestedLoading],
+  );
+
+  return {
+    availableLiquidityRewardsVested,
+    availableLiquidityRewardsLiquid,
+  };
 };
