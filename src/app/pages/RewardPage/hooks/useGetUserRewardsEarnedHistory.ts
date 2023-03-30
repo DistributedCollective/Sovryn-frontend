@@ -8,7 +8,7 @@ import {
 
 export const useGetUserRewardsEarnedHistory = (
   page: number,
-  action: RewardsEarnedAction,
+  actions: RewardsEarnedAction[],
   pageSize: number,
 ) => {
   const account = useAccount();
@@ -25,7 +25,7 @@ export const useGetUserRewardsEarnedHistory = (
       user: account.toLowerCase(),
       skip: skip,
       pageSize: pageSize,
-      action: action,
+      actions,
     },
     pollInterval: APOLLO_POLL_INTERVAL,
   });

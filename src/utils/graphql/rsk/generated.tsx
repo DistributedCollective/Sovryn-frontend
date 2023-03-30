@@ -13222,7 +13222,7 @@ export type GetUserRewardsEarnedHistoryQueryVariables = Exact<{
   user?: InputMaybe<Scalars['String']>;
   skip: Scalars['Int'];
   pageSize: Scalars['Int'];
-  action: RewardsEarnedAction;
+  actions?: InputMaybe<Array<RewardsEarnedAction> | RewardsEarnedAction>;
 }>;
 
 export type GetUserRewardsEarnedHistoryQuery = {
@@ -14736,12 +14736,12 @@ export const GetUserRewardsEarnedHistoryDocument = gql`
     $user: String
     $skip: Int!
     $pageSize: Int!
-    $action: RewardsEarnedAction!
+    $actions: [RewardsEarnedAction!]
   ) {
     rewardsEarnedHistoryItems(
       first: $pageSize
       skip: $skip
-      where: { user: $user, amount_gt: 0, action: $action }
+      where: { user: $user, amount_gt: 0, action_in: $actions }
       orderBy: timestamp
       orderDirection: desc
     ) {
@@ -14766,7 +14766,7 @@ export const GetUserRewardsEarnedHistoryDocument = gql`
  *      user: // value for 'user'
  *      skip: // value for 'skip'
  *      pageSize: // value for 'pageSize'
- *      action: // value for 'action'
+ *      actions: // value for 'actions'
  *   },
  * });
  */
