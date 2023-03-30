@@ -17,13 +17,19 @@ export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
   const getActiveTabType = useCallback(item => {
     switch (item) {
       case RewardTabType.FEES_EARNED:
-        return RewardsEarnedAction.UserFeeWithdrawn;
+        return [RewardsEarnedAction.UserFeeWithdrawn];
       case RewardTabType.LIQUID_SOV:
-        return RewardsEarnedAction.StakingRewardWithdrawn;
+        return [RewardsEarnedAction.StakingRewardWithdrawn];
       case RewardTabType.REWARD_SOV:
-        return RewardsEarnedAction.EarnReward;
+        return [
+          RewardsEarnedAction.EarnReward,
+          RewardsEarnedAction.RewardClaimed,
+        ];
       default:
-        return RewardsEarnedAction.EarnReward;
+        return [
+          RewardsEarnedAction.EarnReward,
+          RewardsEarnedAction.RewardClaimed,
+        ];
     }
   }, []);
 

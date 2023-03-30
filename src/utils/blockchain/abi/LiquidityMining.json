@@ -362,6 +362,27 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_poolToken",
+        "type": "address"
+      }
+    ],
+    "name": "calcUnlockedImmediatelyPercent",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -669,6 +690,48 @@
         "type": "address"
       }
     ],
+    "name": "getUserAccumulatedRewardToBePaidLiquid",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "getUserAccumulatedRewardToBeVested",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
     "name": "getUserBalanceList",
     "outputs": [
       {
@@ -935,6 +998,27 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "poolTokensUnlockedImmediatelyPercent",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -974,6 +1058,26 @@
       }
     ],
     "name": "setLockedSOV",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_poolToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_poolTokenUnlockedImmediatelyPercent",
+        "type": "uint256"
+      }
+    ],
+    "name": "setPoolTokenUnlockedImmediatelyPercent",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

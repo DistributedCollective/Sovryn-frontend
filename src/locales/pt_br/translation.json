@@ -1619,7 +1619,6 @@
       "title": "Quantidade:",
       "availble": "Total de SOVs disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus SOVs Recompensa, eles ficam bloqueados por 10 meses. A cada mês uma quantidade é liberada.",
       "learn": "Saiba mais",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },

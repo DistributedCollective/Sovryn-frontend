@@ -1603,6 +1603,8 @@
     "claimableRewards": "Claimable Rewards",
     "stakingReward": "Staking Rewards",
     "referralReward": "Referral Rewards",
+    "vested": "Vested",
+    "liquid": "Liquid",
     "comingSoon": "Coming Soon",
     "noRewardInfoText": {
       "rewardSovTab": {
@@ -1634,7 +1636,7 @@
       "title": "Amount to claim:",
       "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
-      "note": "Claiming your rewards automatically starts a vesting period of 40 weeks with a maximum 4-week cliff.",
+      "note": "Claiming will simultaneously claim both liquid and vested rewards, and automatically start a vesting period for the vested rewards of 40 weeks with a maximum 4-week cliff.",
       "learn": "Learn more",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },

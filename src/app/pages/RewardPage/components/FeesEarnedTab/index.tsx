@@ -90,7 +90,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.fee.stakingFee)}
-          availableAmount={weiTo18(amountToClaim)}
+          availableAmountVested={weiTo18(amountToClaim)}
           totalEarnedAmount={bignumber(totalStakingFees)
             .add(weiTo18(amountToClaim))
             .toString()}
@@ -100,7 +100,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.referralReward)}
-          availableAmount={0}
+          availableAmountVested={0}
           totalEarnedAmount={0}
           asset={Asset.RBTC}
           isComingSoon

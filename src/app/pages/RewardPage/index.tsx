@@ -28,7 +28,8 @@ export function RewardPage() {
   const {
     availableLendingRewards,
     availableTradingRewards,
-    availableLiquidityRewards,
+    availableLiquidityRewardsVested,
+    availableLiquidityRewardsLiquid,
     amountToClaim: rewardSovClaimAmount,
   } = useGetRewardSovClaimAmount();
 
@@ -106,7 +107,12 @@ export function RewardPage() {
               {activeTab === RewardTabType.REWARD_SOV && (
                 <RewardTab
                   availableLendingRewards={availableLendingRewards}
-                  availableLiquidityRewards={availableLiquidityRewards}
+                  availableLiquidityRewardsVested={
+                    availableLiquidityRewardsVested
+                  }
+                  availableLiquidityRewardsLiquid={
+                    availableLiquidityRewardsLiquid
+                  }
                   availableTradingRewards={availableTradingRewards}
                   amountToClaim={rewardSovClaimAmount}
                 />

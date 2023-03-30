@@ -18,13 +18,15 @@ export enum RewardsDetailColor {
 interface IRewardsDetailProps {
   color: RewardsDetailColor;
   title: string;
-  availableAmount: number | string;
+  availableAmountVested: number | string;
+  availableAmountLiquid?: number | string;
   totalEarnedAmount: number | string;
   isInMainSection?: boolean;
   isComingSoon?: boolean;
   asset?: Asset;
   loading?: boolean;
   showApproximateSign?: boolean;
+  isLiquidityMining?: boolean; // TODO: Temporary fix for liquidity mining rewards, introduced in https://sovryn.atlassian.net/browse/SOV-2001
 }
 
 const getDetailColor = (color: RewardsDetailColor): string => {
@@ -43,13 +45,15 @@ const getDetailColor = (color: RewardsDetailColor): string => {
 export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   color,
   title,
-  availableAmount,
+  availableAmountVested,
+  availableAmountLiquid = '0',
   totalEarnedAmount,
   isInMainSection,
   isComingSoon,
   asset = Asset.SOV,
   loading = false,
   showApproximateSign = false,
+  isLiquidityMining = false,
 }) => {
   const { t } = useTranslation();
 
@@ -79,12 +83,16 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
             {t(translations.rewardPage.availableRewards)}
           </div>
         </div>
-        <div className="tw-ml-7 tw-text-xl tw-font-medium">
+        <div
+          className={`tw-ml-7 ${
+            isLiquidityMining ? 'tw-text-base' : 'tw-text-xl'
+          } tw-font-medium`}
+        >
           <LoadableValue
             value={
-              bignumber(availableAmount).greaterThan(0) ? (
+              bignumber(availableAmountVested).greaterThan(0) ? (
                 <AssetValue
-                  value={Number(availableAmount)}
+                  value={Number(availableAmountVested)}
                   minDecimals={6}
                   maxDecimals={6}
                   asset={asset}
@@ -98,7 +106,34 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
             }
             loading={loading}
           />
+          {isLiquidityMining && (
+            <span className="tw-ml-2">
+              ({t(translations.rewardPage.vested)})
+            </span>
+          )}
         </div>
+
+        {isLiquidityMining && (
+          <div className="tw-ml-7 tw-text-base tw-font-medium">
+            <LoadableValue
+              value={
+                <AssetValue
+                  value={Number(availableAmountLiquid)}
+                  minDecimals={0}
+                  maxDecimals={6}
+                  asset={asset}
+                  mode={AssetValueMode.auto}
+                  isApproximation={showApproximateSign}
+                  useTooltip
+                />
+              }
+              loading={loading}
+            />
+            <span className="tw-ml-2">
+              ({t(translations.rewardPage.liquid)})
+            </span>
+          </div>
+        )}
       </div>
       <div className="tw-ml-7 tw-text-gray-7">
         <div className={styles['secondary-title']}>

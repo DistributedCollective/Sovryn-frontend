@@ -1,14 +1,20 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { bignumber } from 'mathjs';
-import { useEffect, useState } from 'react';
-import { Chain } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { ethGenesisAddress } from 'utils/classifiers';
-import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { useEffect, useMemo, useState } from 'react';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 
-export const useGetAvailableLiquidityRewards = (): string => {
+type UserInfo = {
+  amount: string;
+  rewardDebt: string;
+  accumulatedReward: string;
+};
+
+type LiquidityRewardsData = {
+  availableLiquidityRewardsVested: string;
+  availableLiquidityRewardsLiquid: string;
+};
+
+export const useGetAvailableLiquidityRewards = (): LiquidityRewardsData => {
   const [liquidityRewards, setLiquidityRewards] = useState({
     accumulatedRewards: '0',
     userRewards: '0',
@@ -20,6 +26,27 @@ export const useGetAvailableLiquidityRewards = (): string => {
     loading: lockedBalanceLoading,
   } = useCacheCallWithValue('lockedSov', 'getLockedBalance', '', address);
 
+  const {
+    value: accumulatedRewardsVested,
+    loading: accumulatedRewardsVestedLoading,
+  } = useCacheCallWithValue(
+    'liquidityMiningProxy',
+    'getUserAccumulatedRewardToBeVested',
+    '',
+    address,
+  );
+
+  const { value: accumulatedRewardsLiquid } = useCacheCallWithValue(
+    'liquidityMiningProxy',
+    'getUserAccumulatedRewardToBePaidLiquid',
+    '',
+    address,
+  );
+
+  const { value: infoList, loading: infoListLoading } = useCacheCallWithValue<
+    UserInfo[]
+  >('liquidityMiningProxy', 'getUserInfoList', '', address);
+
   useEffect(() => {
     if (!lockedBalanceLoading) {
       setLiquidityRewards(value => ({
@@ -30,79 +57,53 @@ export const useGetAvailableLiquidityRewards = (): string => {
   }, [lockedBalance, lockedBalanceLoading]);
 
   useEffect(() => {
-    const ammPools = LiquidityPoolDictionary.list().filter(
-      item => item.hasSovRewards,
-    );
-    if (address !== '' && address !== ethGenesisAddress) {
-      const pools = ammPools.flatMap(item =>
-        item.converterVersion === 1
-          ? [item.poolTokenA]
-          : [item.poolTokenA, item.poolTokenB],
-      );
-      bridgeNetwork
-        .multiCall(
-          Chain.RSK,
-          pools.flatMap((item, index) => {
-            return [
-              {
-                address: getContract('liquidityMiningProxy').address,
-                abi: getContract('liquidityMiningProxy').abi,
-                fnName: 'getUserAccumulatedReward',
-                args: [item, address],
-                key: `getUserAccumulatedReward_${item}`,
-                parser: value => value[0].toString(),
-              },
-            ];
-          }),
-        )
-        .then(result => {
-          const total = Object.values(result.returnData).reduce(
-            (previousValue, currentValue) => previousValue.add(currentValue),
-            bignumber(0),
-          );
-          setLiquidityRewards(value => ({
-            ...value,
-            accumulatedRewards: total.toString(),
-          }));
-        })
-        .catch(error => {
-          console.error('e', error);
-        });
-
-      bridgeNetwork
-        .multiCall(
-          Chain.RSK,
-          pools.flatMap(item => {
-            return [
-              {
-                address: getContract('liquidityMiningProxy').address,
-                abi: getContract('liquidityMiningProxy').abi,
-                fnName: 'getUserInfo',
-                args: [item, address],
-                key: `getUserInfo_${item}`,
-                parser: value => value[0].accumulatedReward.toString(),
-              },
-            ];
-          }),
-        )
-        .then(result => {
-          const total = Object.values(result.returnData).reduce(
-            (prevValue, currValue) => prevValue.add(currValue),
-            bignumber(0),
-          );
-          setLiquidityRewards(value => ({
-            ...value,
-            userRewards: total.toString(),
-          }));
-        })
-        .catch(error => {
-          console.error('e', error);
-        });
+    if (!accumulatedRewardsVestedLoading && accumulatedRewardsVested) {
+      setLiquidityRewards(value => ({
+        ...value,
+        accumulatedRewards: accumulatedRewardsVested.toString() || '0',
+      }));
     }
-  }, [address]);
+  }, [accumulatedRewardsVested, accumulatedRewardsVestedLoading]);
 
-  return bignumber(liquidityRewards.accumulatedRewards)
-    .add(liquidityRewards.userRewards)
-    .add(liquidityRewards.lockedRewards)
-    .toString();
+  useEffect(() => {
+    if (!infoListLoading) {
+      const userRewards =
+        infoList && infoList.length > 0
+          ? infoList
+              .map(item => item?.accumulatedReward)
+              .reduce((a, b) => bignumber(a).add(b).toString(), '0')
+          : '0';
+
+      setLiquidityRewards(value => ({
+        ...value,
+        userRewards,
+      }));
+    }
+  }, [infoList, infoListLoading, lockedBalance]);
+
+  const availableLiquidityRewardsVested = useMemo(
+    () =>
+      bignumber(liquidityRewards.accumulatedRewards)
+        .add(liquidityRewards.userRewards)
+        .add(liquidityRewards.lockedRewards)
+        .toString(),
+    [
+      liquidityRewards.accumulatedRewards,
+      liquidityRewards.lockedRewards,
+      liquidityRewards.userRewards,
+    ],
+  );
+
+  const availableLiquidityRewardsLiquid = useMemo(
+    () =>
+      !accumulatedRewardsVestedLoading && accumulatedRewardsLiquid
+        ? accumulatedRewardsLiquid.toString()
+        : '0',
+    [accumulatedRewardsLiquid, accumulatedRewardsVestedLoading],
+  );
+
+  return {
+    availableLiquidityRewardsVested,
+    availableLiquidityRewardsLiquid,
+  };
 };
