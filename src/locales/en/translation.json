@@ -1187,7 +1187,8 @@
         "description": "Confirm transaction in your wallet to approve token spending in this smart-contract.",
         "error": "Approve request failed:"
       }
-    }
+    },
+    "userDenied": "Transaction rejected"
   },
   "sendTxProgress": {
     "pending_for_user": {

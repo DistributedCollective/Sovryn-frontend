@@ -14,6 +14,7 @@ import { getStatusImage } from './utils';
 import { WalletLogo } from './WalletLogo';
 import { getWalletName } from './utils';
 import { WalletContext } from '@sovryn/react-wallet';
+import { useGetNormalizedError } from './hooks/useGetNormalizedError';
 
 interface ITransactionDialogProps {
   tx: ResetTxResponseInterface;
@@ -38,6 +39,9 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
 }) => {
   const { t } = useTranslation();
   const { address } = useContext(WalletContext);
+
+  const { hasUserDeclinedTx, normalizedError } = useGetNormalizedError();
+
   const onCloseHandler = useCallback(() => {
     onClose?.();
     if (tx.status === TxStatus.CONFIRMED) {
@@ -86,9 +90,20 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
             alt="failed"
             className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
           />
-          <p className="tw-text-center tw-text-warning">
-            <Trans i18nKey={translations.transactionDialog.txStatus.aborted} />
-          </p>
+          {!hasUserDeclinedTx && (
+            <p className="tw-text-center tw-text-warning">
+              <Trans
+                i18nKey={translations.transactionDialog.txStatus.aborted}
+              />
+            </p>
+          )}
+
+          {normalizedError && (
+            <div className="tw-text-center tw-text-warning">
+              {normalizedError}
+            </div>
+          )}
+
           {wallet === 'ledger' && (
             <p className="tw-text-center tw-text-warning">
               {t(translations.transactionDialog.txStatus.abortedLedger)}
