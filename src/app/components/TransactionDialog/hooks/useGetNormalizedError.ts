@@ -21,22 +21,18 @@ export const useGetNormalizedError = () => {
     }
 
     if (error?.includes('LIQUALITY_ERROR_FROM_ERROR_PARSER_PACKAGE')) {
-      try {
-        const searchReason = error.match(
-          /(?<=\\"reason\\":\\")([A-Za-z0-9 ]+)(?=\\")/g,
-        );
-        if (searchReason?.length) {
-          return searchReason[0];
-        }
+      const searchReason = error.match(
+        /(?:\\"reason\\":\\")([A-Za-z0-9 ]+)(?=\\")/g,
+      );
+      if (searchReason?.length) {
+        return searchReason[0];
+      }
 
-        const searchErrorName = error.match(
-          /(?<=\\"name\\":\\")([A-Za-z0-9 ]+)(?=\\")/g,
-        );
-        if (searchErrorName?.length) {
-          return searchErrorName[0];
-        }
-      } catch (e) {
-        return error;
+      const searchErrorName = error.match(
+        /(?:\\"name\\":\\")([A-Za-z0-9 ]+)(?=\\")/g,
+      );
+      if (searchErrorName?.length) {
+        return searchErrorName[0];
       }
     }
     return error;
