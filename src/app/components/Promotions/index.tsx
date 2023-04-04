@@ -14,6 +14,7 @@ import {
   learnMoreYieldFarming,
 } from 'utils/classifiers';
 import { useFetch } from 'app/hooks/useFetch';
+import { getAmmHistory } from './components/PromotionCard/utils';
 
 type PromotionsProps = {
   className?: string;
@@ -55,15 +56,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.DLLR}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
-            ammData={
-              ammData &&
-              ammData[
-                LiquidityPoolDictionary.get(
-                  Asset.DLLR,
-                  Asset.RBTC,
-                ).converter.toLowerCase()
-              ]
-            }
+            ammData={getAmmHistory(ammData, Asset.DLLR, Asset.RBTC)}
             poolTokenA={
               LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC).poolTokenA
             }
@@ -81,15 +74,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.SOV}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
-            ammData={
-              ammData &&
-              ammData[
-                LiquidityPoolDictionary.get(
-                  Asset.SOV,
-                  Asset.RBTC,
-                ).converter.toLowerCase()
-              ]
-            }
+            ammData={getAmmHistory(ammData, Asset.SOV, Asset.RBTC)}
             poolTokenA={
               LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC).poolTokenA
             }
@@ -107,15 +92,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.XUSD}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
-            ammData={
-              ammData &&
-              ammData[
-                LiquidityPoolDictionary.get(
-                  Asset.XUSD,
-                  Asset.RBTC,
-                ).converter.toLowerCase()
-              ]
-            }
+            ammData={getAmmHistory(ammData, Asset.XUSD, Asset.RBTC)}
             poolTokenA={
               LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC).poolTokenA
             }
