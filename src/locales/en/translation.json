@@ -2656,6 +2656,7 @@
       "zero": "Zero Contracts",
       "staked": "Bitocracy Staking Contract",
       "subProtocol": "MYNT Bonding Curve Contract",
+      "myntAggregator": "MYNT Aggregator Contract",
       "subtotal": "Sub total",
       "total": "Total"
     },

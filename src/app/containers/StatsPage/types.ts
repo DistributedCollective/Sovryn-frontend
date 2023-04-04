@@ -36,6 +36,10 @@ export type TvlData = {
     totalBtc: number;
     totalUsd: number;
   };
+  tvlMynt: {
+    totalBtc: number;
+    totalUsd: number;
+  };
   total_btc: number;
   total_usd: number;
 };
