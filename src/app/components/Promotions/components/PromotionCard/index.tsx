@@ -1,5 +1,5 @@
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { Asset } from 'types';
@@ -15,6 +15,7 @@ import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import arrowForward from 'assets/images/arrow_forward.svg';
 import styles from './index.module.scss';
+import { AmmHistory } from 'app/pages/LiquidityMining/components/MiningPool/types';
 
 interface IPromotionCardProps {
   appSection: AppSection;
@@ -32,6 +33,8 @@ interface IPromotionCardProps {
   linkSpotTradingPairType?: SpotPairType;
   className?: string;
   imageClassName?: string;
+  ammData?: AmmHistory;
+  poolTokenA?: string;
 }
 
 export const PromotionCard: React.FC<IPromotionCardProps> = ({
@@ -50,10 +53,22 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   linkSpotTradingPairType,
   className,
   imageClassName,
+  ammData,
+  poolTokenA,
 }) => {
   const { t } = useTranslation();
   const sectionTitle = getSectionTitle(appSection);
   const linkPathname = getLinkPathname(appSection);
+
+  const apy = useMemo(() => {
+    if (!poolTokenA || !ammData) {
+      return '';
+    }
+    return ammData?.data[poolTokenA][ammData?.data[poolTokenA].length - 1]
+      .APY_pc;
+  }, [ammData, poolTokenA]);
+
+  console.log('apy:', apy);
 
   return (
     <div className={classNames(styles.cardItem, className)}>
@@ -101,7 +116,9 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
               </div>
             </div>
             <div className="tw-relative">
-              <div className={styles.sectionTitle}>{sectionTitle}</div>
+              <div className={styles.sectionTitle}>
+                {apy ? t(translations.promotions.apy, { apy }) : sectionTitle}
+              </div>
 
               <div className="tw-max-w-56">
                 <div className={styles.cardTextTitle}>{title}</div>

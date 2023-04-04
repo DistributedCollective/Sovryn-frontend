@@ -98,6 +98,18 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.DLLR}`}
             imageClassName="tw-transform tw-scale-85"
+            ammData={
+              ammData &&
+              ammData[
+                LiquidityPoolDictionary.get(
+                  Asset.DLLR,
+                  Asset.RBTC,
+                ).converter.toLowerCase()
+              ]
+            }
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC).poolTokenA
+            }
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -113,6 +125,18 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
             imageClassName="tw-transform tw-scale-85"
+            ammData={
+              ammData &&
+              ammData[
+                LiquidityPoolDictionary.get(
+                  Asset.SOV,
+                  Asset.RBTC,
+                ).converter.toLowerCase()
+              ]
+            }
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC).poolTokenA
+            }
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -128,6 +152,18 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
             imageClassName="tw-transform tw-scale-85"
+            ammData={
+              ammData &&
+              ammData[
+                LiquidityPoolDictionary.get(
+                  Asset.XUSD,
+                  Asset.RBTC,
+                ).converter.toLowerCase()
+              ]
+            }
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC).poolTokenA
+            }
           />
           {/* <PromotionCard
             appSection={AppSection.YieldFarm}
