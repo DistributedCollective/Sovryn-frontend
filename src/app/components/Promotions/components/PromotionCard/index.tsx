@@ -33,8 +33,8 @@ interface IPromotionCardProps {
   linkSpotTradingPairType?: SpotPairType;
   className?: string;
   imageClassName?: string;
-  ammData?: AmmHistory;
-  poolTokenA?: string;
+  ammData: AmmHistory;
+  poolTokenA: string;
 }
 
 export const PromotionCard: React.FC<IPromotionCardProps> = ({
@@ -67,8 +67,6 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
     return ammData?.data[poolTokenA][ammData?.data[poolTokenA].length - 1]
       .APY_pc;
   }, [ammData, poolTokenA]);
-
-  console.log('apy:', apy);
 
   return (
     <div className={classNames(styles.cardItem, className)}>
