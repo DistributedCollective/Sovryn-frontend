@@ -8,7 +8,13 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import styles from './index.module.scss';
-import { learnMoreYieldFarming } from 'utils/classifiers';
+import {
+  ammServiceUrl,
+  currentChainId,
+  learnMoreYieldFarming,
+} from 'utils/classifiers';
+import { useFetch } from 'app/hooks/useFetch';
+import { getAmmHistory } from './components/PromotionCard/utils';
 
 type PromotionsProps = {
   className?: string;
@@ -21,6 +27,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
   cardClassName,
   cardImageClassName,
 }) => {
+  const { value: ammData } = useFetch(`${ammServiceUrl[currentChainId]}/amm`);
   const { t } = useTranslation();
 
   return (
@@ -49,6 +56,10 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.DLLR}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
+            ammData={getAmmHistory(ammData, Asset.DLLR, Asset.RBTC)}
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC).poolTokenA
+            }
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -63,6 +74,10 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.SOV}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
+            ammData={getAmmHistory(ammData, Asset.SOV, Asset.RBTC)}
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC).poolTokenA
+            }
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -77,6 +92,10 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.XUSD}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
+            ammData={getAmmHistory(ammData, Asset.XUSD, Asset.RBTC)}
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC).poolTokenA
+            }
           />
         </PromotionsCarousel>
       </div>

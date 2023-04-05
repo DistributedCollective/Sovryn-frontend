@@ -1806,27 +1806,7 @@
       }
     },
     "promotions": {
-      "title": "Promoções SOV",
-      "p1": {
-        "title": "Mês de Abril - Distribuição de 50k SOVs no pool BTC/USDT",
-        "text": "Disponibilize sua cripto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOVs você ganhará.",
-        "cta": "Sovryn go brrrrrrrrrrrrrrr"
-      },
-      "p2": {
-        "title": "Mês de Abril - Distribuição de 75k SOVs no pool BTC/SOV",
-        "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOVs já realizada até o momento..",
-        "cta": "Veja como participar"
-      },
-      "p3": {
-        "title": "Distribuição de 30K SOVs no pool SOV/RBTC!",
-        "text": "Forneça liquidez no pool SOV/RBTC. Novas promoções semanais serão anunciadas em breve.",
-        "cta": "Ganhe agora"
-      },
-      "p4": {
-        "title": "Distribuição de 35K SOVs no pool ETHs/RBTC",
-        "text": "Na primeira semana, $1.2 milhões de SOVs serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
-        "cta": "Ganhe agora"
-      }
+      "title": "Promoções SOV"
     },
     "features": {
       "title": "Como você pode usar a Sovryn",

@@ -13,6 +13,9 @@ import imgTurquoiseBg from 'assets/images/promoCards/Turquoise.svg';
 import { AppSection, PromotionColor } from './types';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { Asset } from 'types';
+import { AmmHistory } from 'app/pages/LiquidityMining/components/MiningPool/types';
 
 export const getSectionTitle = (section: AppSection): JSX.Element => {
   switch (section) {
@@ -101,3 +104,11 @@ export const getLinkPathname = (section: AppSection): string => {
       return 'swap';
   }
 };
+
+export const getAmmHistory = (
+  ammData: any,
+  asset1: Asset,
+  asset2: Asset,
+): AmmHistory =>
+  ammData &&
+  ammData[LiquidityPoolDictionary.get(asset1, asset2).converter.toLowerCase()];

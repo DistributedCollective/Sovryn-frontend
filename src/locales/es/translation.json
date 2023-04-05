@@ -673,17 +673,7 @@
       }
     },
     "promotions": {
-      "title": "Promociones en SOV",
-      "p1": {
-        "title": "Ganga de 50k SOV a Repartir en Abril en Pro del Tanque BTC/USDT",
-        "text": "Conviértete en un reputado y reverenciado Proveedor de Liquidez de Sovryn al aportar tus criptos al tanque. Entre más tiempo dejes allí tu aporte mayores serán tus ganancias en SOV.",
-        "cta": "Sovryn se vuelve agrrrrrrrr"
-      },
-      "p2": {
-        "title": "Ganga de 75k SOV a Repartir en Abril en Pro del Tanque BTC/SOV",
-        "text": "El tanque de liquidez SOV/BTC ya está abierto al público, dándote la oportunidad de tomar parte en nuestra más grande distribución de liquidez hasta la fecha.",
-        "cta": "He aquí cómo puedes participar"
-      }
+      "title": "Promociones en SOV"
     },
     "features": {
       "title": "Características del protocolo de Sovryn",

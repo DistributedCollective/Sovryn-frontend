@@ -28,6 +28,7 @@ import {
 } from '../../components/Promotions/components/PromotionCard/types';
 import { PromotionCard } from 'app/components/Promotions/components/PromotionCard';
 import { PromotionsCarousel } from 'app/components/Promotions/components/PromotionsCarousel';
+import { getAmmHistory } from 'app/components/Promotions/components/PromotionCard/utils';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -98,6 +99,10 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.DLLR}`}
             imageClassName="tw-transform tw-scale-85"
+            ammData={getAmmHistory(ammData, Asset.DLLR, Asset.RBTC)}
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC).poolTokenA
+            }
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -113,6 +118,10 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
             imageClassName="tw-transform tw-scale-85"
+            ammData={getAmmHistory(ammData, Asset.SOV, Asset.RBTC)}
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC).poolTokenA
+            }
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -128,6 +137,10 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
             imageClassName="tw-transform tw-scale-85"
+            ammData={getAmmHistory(ammData, Asset.XUSD, Asset.RBTC)}
+            poolTokenA={
+              LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC).poolTokenA
+            }
           />
           {/* <PromotionCard
             appSection={AppSection.YieldFarm}

@@ -129,16 +129,6 @@
       "title": "Le trading SOV est maintenant en ligne!"
     },
     "promotions": {
-      "p1": {
-        "cta": "Sovryn va brrrrrrrrrrrrrrr",
-        "text": "Devenez un fournisseur de liquidités Sovryn vénéré et respecté en ajoutant votre crypto à la piscine. Plus vous gardez les fonds dans le pool, plus vous gagnerez de SOV.",
-        "title": "Avril 50k SOV BTC / USDT Pool Loot Drop"
-      },
-      "p2": {
-        "cta": "Voici comment vous entrez",
-        "text": "Le pool de liquidité SOV / BTC est ouvert, vous donnant la chance de participer à notre plus grand concours de liquidité à ce jour.",
-        "title": "Avril 75k SOV BTC / SOV Pool Loot Drop"
-      },
       "title": "Promotions SOV"
     },
     "slippageDialog": {

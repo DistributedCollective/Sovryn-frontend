@@ -2710,35 +2710,36 @@
   },
   "promotions": {
     "card1": {
-      "title": "5K SOV rewards",
+      "title": "5K SOV weekly rewards",
       "duration": "Ongoing weekly rewards",
       "text": "Provide a 1:1 ratio of MYNT and RBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
     },
     "card2": {
-      "title": "2.5K SOV rewards",
+      "title": "2.5K SOV weekly rewards",
       "duration": "Ongoing weekly rewards",
       "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 2,500 SOV rewards."
     },
     "card3": {
-      "title": "15K SOV rewards",
+      "title": "15K SOV weekly rewards",
       "duration": "Ongoing weekly rewards",
       "text": "Provide a 1:1 ratio of XUSD and RBTC to the XUSD/RBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
     },
     "card4": {
-      "title": "15K SOV rewards",
+      "title": "15K SOV weekly rewards",
       "duration": "Ongoing weekly rewards",
       "text": "Provide a 1:1 ratio of SOV and RBTC to the SOV/RBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
     },
     "card5": {
-      "title": "5K SOV rewards",
+      "title": "5K SOV weekly rewards",
       "duration": "Ongoing weekly rewards",
       "text": "Provide a 1:1 ratio of ETH and RBTC to the ETH/RBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
     },
     "card6": {
-      "title": "30K SOV rewards",
+      "title": "30K SOV weekly rewards",
       "duration": "Ongoing weekly rewards",
       "text": "Provide a 1:1 ratio of DLLR and RBTC to the DLLR/RBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
-    }
+    },
+    "apy": "{{apy}}% current APY"
   },
   "liquidityMining": {
     "deposit": "Deposit",
