@@ -16,6 +16,7 @@
     REACT_APP_ESTIMATOR_URI = "https://simulator.sovryn.app"
     REACT_APP_MAILCHIMP = "https://gmail.us17.list-manage.com/subscribe/post?u=e66850f0b51ebbdbe1f2c3e36&id=ef5d452839"
     REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+    REACT_APP_GRAPH_BABELFISH = "https://babelfish-subgraph.test.sovryn.app/subgraphs/name/babelfish/rskTestnet-graph"
 
 [context.production]
   [context.production.environment]
@@ -23,6 +24,7 @@
     REACT_APP_GOOGLE_ANALYTICS = "GTM-KTSX2PL"
     REACT_APP_GOOGLE_ANALYTICS_CLICKTHROUGH = "GTM-5MWCJN3"
     REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+    REACT_APP_GRAPH_BABELFISH = "https://babelfish-subgraph.sovryn.app/subgraphs/name/babelfish/rsk-graph"
     REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
     REACT_APP_TRANSAK_ENV = "PRODUCTION"
     REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
@@ -41,6 +43,7 @@
     REACT_APP_GOOGLE_ANALYTICS = "GTM-KTSX2PL"
     REACT_APP_GOOGLE_ANALYTICS_CLICKTHROUGH = "GTM-5MWCJN3"
     REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+    REACT_APP_GRAPH_BABELFISH = "https://babelfish-subgraph.sovryn.app/subgraphs/name/babelfish/rsk-graph"
     REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
     REACT_APP_TRANSAK_ENV = "PRODUCTION"
     REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
@@ -52,5 +55,6 @@
   [context.development.environment]
     REACT_APP_NETWORK = "testnet"
     REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+    REACT_APP_GRAPH_BABELFISH = "https://babelfish-subgraph.test.sovryn.app/subgraphs/name/babelfish/rskTestnet-graph"
     BUILD_STORYBOOK = "true"
     REACT_APP_STAGING = "false"

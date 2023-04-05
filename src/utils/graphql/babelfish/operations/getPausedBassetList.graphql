@@ -1,0 +1,6 @@
+query getBassetList {
+  bassets(where: { paused: true }) {
+    id
+    symbol
+  }
+}
