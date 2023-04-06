@@ -1208,15 +1208,15 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny',
 }
 
-export type GetBassetListQueryVariables = Exact<{ [key: string]: never }>;
+export type GetPausedBassetListQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetBassetListQuery = {
+export type GetPausedBassetListQuery = {
   __typename?: 'Query';
   bassets: Array<{ __typename?: 'BAsset'; id: string; symbol: string }>;
 };
 
-export const GetBassetListDocument = gql`
-  query getBassetList {
+export const GetPausedBassetListDocument = gql`
+  query getPausedBassetList {
     bassets(where: { paused: true }) {
       id
       symbol
@@ -1225,51 +1225,51 @@ export const GetBassetListDocument = gql`
 `;
 
 /**
- * __useGetBassetListQuery__
+ * __useGetPausedBassetListQuery__
  *
- * To run a query within a React component, call `useGetBassetListQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBassetListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetPausedBassetListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPausedBassetListQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetBassetListQuery({
+ * const { data, loading, error } = useGetPausedBassetListQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetBassetListQuery(
+export function useGetPausedBassetListQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetBassetListQuery,
-    GetBassetListQueryVariables
+    GetPausedBassetListQuery,
+    GetPausedBassetListQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBassetListQuery, GetBassetListQueryVariables>(
-    GetBassetListDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    GetPausedBassetListQuery,
+    GetPausedBassetListQueryVariables
+  >(GetPausedBassetListDocument, options);
 }
-export function useGetBassetListLazyQuery(
+export function useGetPausedBassetListLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetBassetListQuery,
-    GetBassetListQueryVariables
+    GetPausedBassetListQuery,
+    GetPausedBassetListQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetBassetListQuery, GetBassetListQueryVariables>(
-    GetBassetListDocument,
-    options,
-  );
+  return Apollo.useLazyQuery<
+    GetPausedBassetListQuery,
+    GetPausedBassetListQueryVariables
+  >(GetPausedBassetListDocument, options);
 }
-export type GetBassetListQueryHookResult = ReturnType<
-  typeof useGetBassetListQuery
+export type GetPausedBassetListQueryHookResult = ReturnType<
+  typeof useGetPausedBassetListQuery
 >;
-export type GetBassetListLazyQueryHookResult = ReturnType<
-  typeof useGetBassetListLazyQuery
+export type GetPausedBassetListLazyQueryHookResult = ReturnType<
+  typeof useGetPausedBassetListLazyQuery
 >;
-export type GetBassetListQueryResult = Apollo.QueryResult<
-  GetBassetListQuery,
-  GetBassetListQueryVariables
+export type GetPausedBassetListQueryResult = Apollo.QueryResult<
+  GetPausedBassetListQuery,
+  GetPausedBassetListQueryVariables
 >;

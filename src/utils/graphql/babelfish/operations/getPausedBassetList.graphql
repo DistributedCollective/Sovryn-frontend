@@ -1,4 +1,4 @@
-query getBassetList {
+query getPausedBassetList {
   bassets(where: { paused: true }) {
     id
     symbol

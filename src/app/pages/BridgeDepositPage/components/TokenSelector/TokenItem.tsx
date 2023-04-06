@@ -20,6 +20,7 @@ interface ITokenItemProps {
   symbol: string;
   onClick: () => void;
   disabled?: boolean;
+  pausedTokens: string[];
 }
 
 export const TokenItem: React.FC<ITokenItemProps> = ({
@@ -28,6 +29,7 @@ export const TokenItem: React.FC<ITokenItemProps> = ({
   symbol,
   onClick,
   disabled,
+  pausedTokens,
 }) => {
   const { t } = useTranslation();
   const { chain, targetChain } = useSelector(selectBridgeDepositPage);
@@ -40,9 +42,16 @@ export const TokenItem: React.FC<ITokenItemProps> = ({
   );
 
   const balance = useTokenBalance(chain as any, asset);
+  const isPaused = useMemo(
+    () =>
+      pausedTokens.includes(asset.bridgeTokenAddress) ||
+      pausedTokens.includes(asset.tokenContractAddress),
+    [asset.bridgeTokenAddress, asset.tokenContractAddress, pausedTokens],
+  );
+
   const isDisabled = useCallback(
-    () => disabled || !bignumber(balance.value).greaterThan(0),
-    [balance, disabled],
+    () => disabled || !bignumber(balance.value).greaterThan(0) || isPaused,
+    [balance.value, disabled, isPaused],
   );
 
   return (
