@@ -9,8 +9,8 @@ export class LendingPoolDictionary {
       new LendingPool(
         'DLLR',
         Asset.DLLR,
-        [Asset.RBTC, Asset.DOC, Asset.BPRO, Asset.SOV],
-        true,
+        [Asset.RBTC, Asset.BPRO, Asset.SOV],
+        false,
         false,
       ),
     ],
@@ -29,7 +29,7 @@ export class LendingPoolDictionary {
       new LendingPool(
         'XUSD',
         Asset.XUSD,
-        [Asset.RBTC, Asset.DOC, Asset.BPRO, Asset.SOV],
+        [Asset.RBTC, Asset.BPRO, Asset.SOV],
         true,
         false,
       ),
