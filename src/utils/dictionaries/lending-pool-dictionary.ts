@@ -5,6 +5,16 @@ import { LendingPool } from '../models/lending-pool';
 export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
     [
+      Asset.DLLR,
+      new LendingPool(
+        'DLLR',
+        Asset.DLLR,
+        [Asset.RBTC, Asset.DOC, Asset.BPRO, Asset.SOV],
+        true,
+        false,
+      ),
+    ],
+    [
       Asset.RBTC,
       new LendingPool(
         'RBTC',

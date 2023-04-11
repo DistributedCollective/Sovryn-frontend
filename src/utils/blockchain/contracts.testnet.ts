@@ -381,4 +381,8 @@ export const contracts = {
     address: '0x007b3AA69A846cB1f76b60b3088230A52D2A83AC',
     abi: erc20TokenAbi,
   },
+  DLLR_lending: {
+    address: '0x9125087A98BC975Fa3E912226165D5C7e9F669cc',
+    abi: LoanTokenLogicStandard,
+  },
 };
