@@ -19,7 +19,7 @@ export class LendingPoolDictionary {
       new LendingPool(
         'RBTC',
         Asset.RBTC,
-        [Asset.XUSD, Asset.DOC, Asset.BPRO, Asset.SOV],
+        [Asset.DLLR, Asset.XUSD, Asset.DOC, Asset.BPRO, Asset.SOV],
         false,
         false,
       ),
@@ -50,7 +50,7 @@ export class LendingPoolDictionary {
       new LendingPool(
         'BPRO',
         Asset.BPRO,
-        [Asset.RBTC, Asset.XUSD, Asset.DOC, Asset.SOV],
+        [Asset.DLLR, Asset.RBTC, Asset.XUSD, Asset.DOC, Asset.SOV],
         false,
         false,
       ),
