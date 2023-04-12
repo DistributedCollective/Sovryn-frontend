@@ -16,6 +16,8 @@ export const getAssetColor = (asset: Asset) => {
       return '#FFAC3E';
     case Asset.XUSD:
       return '#D5D5D5';
+    case Asset.DLLR:
+      return '#db6e4d';
     default:
       return '#FFAC3E';
   }

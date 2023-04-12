@@ -5,11 +5,21 @@ import { LendingPool } from '../models/lending-pool';
 export class LendingPoolDictionary {
   public static pools: Map<Asset, LendingPool> = new Map<Asset, LendingPool>([
     [
+      Asset.DLLR,
+      new LendingPool(
+        'DLLR',
+        Asset.DLLR,
+        [Asset.RBTC, Asset.BPRO, Asset.SOV],
+        false,
+        false,
+      ),
+    ],
+    [
       Asset.RBTC,
       new LendingPool(
         'RBTC',
         Asset.RBTC,
-        [Asset.XUSD, Asset.DOC, Asset.BPRO, Asset.SOV],
+        [Asset.DLLR, Asset.XUSD, Asset.DOC, Asset.BPRO, Asset.SOV],
         false,
         false,
       ),
@@ -19,7 +29,7 @@ export class LendingPoolDictionary {
       new LendingPool(
         'XUSD',
         Asset.XUSD,
-        [Asset.RBTC, Asset.DOC, Asset.BPRO, Asset.SOV],
+        [Asset.RBTC, Asset.BPRO, Asset.SOV],
         true,
         false,
       ),
@@ -40,7 +50,7 @@ export class LendingPoolDictionary {
       new LendingPool(
         'BPRO',
         Asset.BPRO,
-        [Asset.RBTC, Asset.XUSD, Asset.DOC, Asset.SOV],
+        [Asset.DLLR, Asset.RBTC, Asset.XUSD, Asset.DOC, Asset.SOV],
         false,
         false,
       ),

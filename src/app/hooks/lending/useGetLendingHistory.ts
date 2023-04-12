@@ -20,7 +20,15 @@ export function useGetLendingHistory(pool: LendingPool) {
             },
           },
         )
-        .then(res => setData(res.data.slice(-42))) //last 7 days of data in 4hr chunks
+        .then(res =>
+          setData(
+            res.data
+              .slice(-42)
+              .sort((data1, data2) =>
+                new Date(data1.timestamp) > new Date(data2.timestamp) ? 1 : -1,
+              ),
+          ),
+        ) //last 7 days of data in 4hr chunks
         .catch(() => setData([]));
     }
   }, [poolAddress]);
