@@ -126,7 +126,7 @@ export const getCall = (id: string) => {
 };
 
 export const idHash = (args: any[]) => {
-  const params = args.map(item => item.toString().toLowerCase());
+  const params = args.map(item => item?.toString().toLowerCase());
   const json = JSON.stringify(params);
   return hashMessage(json);
 };

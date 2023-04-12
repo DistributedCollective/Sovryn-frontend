@@ -14,7 +14,7 @@ export function useLending_recentRewardSOV(asset: Asset) {
   const {
     value: poolID,
     loading: poolIDLoading,
-  } = useLiquidityMining_getPoolId(getLendingContract(asset).address);
+  } = useLiquidityMining_getPoolId(getLendingContract(asset)?.address);
 
   useEffect(() => {
     if (

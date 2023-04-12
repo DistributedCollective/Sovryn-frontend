@@ -7,7 +7,7 @@ import { LoanTokenGraphItem } from 'app/components/LoanTokenGraphs/types';
 
 export function useGetLendingHistory(pool: LendingPool) {
   const [data, setData] = useState<LoanTokenGraphItem[]>([]);
-  const poolAddress = getLendingContract(pool.getAsset()).address;
+  const poolAddress = getLendingContract(pool.getAsset())?.address;
 
   useEffect(() => {
     if (currentChainId !== undefined) {

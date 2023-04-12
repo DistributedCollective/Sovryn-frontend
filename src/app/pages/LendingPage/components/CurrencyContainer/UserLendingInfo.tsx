@@ -43,7 +43,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     value: rewards,
     loading: rewardsLoading,
   } = useLiquidityMining_getUserAccumulatedReward(
-    getLendingContract(asset).address,
+    getLendingContract(asset)?.address,
   );
 
   const recentRewardSOV = useLending_recentRewardSOV(asset);
