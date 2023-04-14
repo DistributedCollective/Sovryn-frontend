@@ -22,9 +22,6 @@ import './styles/tailwindcss/index.css';
 import '@sovryn/react-wallet/index.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
-// Import global types
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
 // Import root app
 import { App } from 'app';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
