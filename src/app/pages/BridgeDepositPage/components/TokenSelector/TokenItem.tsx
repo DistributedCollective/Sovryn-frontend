@@ -41,12 +41,31 @@ export const TokenItem: React.FC<ITokenItemProps> = ({
     [chain, sourceAsset, targetChain],
   );
 
+  const xusdBridgeTokens = useMemo(
+    () =>
+      BridgeDictionary.get(targetChain, chain as Chain)?.getAsset(
+        CrossBridgeAsset.XUSD as CrossBridgeAsset,
+      )?.bridgeTokenAddresses,
+    [chain, targetChain],
+  );
+
+  const rskBridgeTokenAddress = useMemo(
+    () => xusdBridgeTokens?.get(sourceAsset),
+    [sourceAsset, xusdBridgeTokens],
+  );
+
   const balance = useTokenBalance(chain as any, asset);
   const isPaused = useMemo(
     () =>
       pausedTokens.includes(asset.bridgeTokenAddress) ||
-      pausedTokens.includes(asset.tokenContractAddress),
-    [asset.bridgeTokenAddress, asset.tokenContractAddress, pausedTokens],
+      pausedTokens.includes(asset.tokenContractAddress) ||
+      (!!rskBridgeTokenAddress && pausedTokens.includes(rskBridgeTokenAddress)),
+    [
+      asset.bridgeTokenAddress,
+      asset.tokenContractAddress,
+      pausedTokens,
+      rskBridgeTokenAddress,
+    ],
   );
 
   const isDisabled = useCallback(
