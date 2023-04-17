@@ -19,7 +19,7 @@ import { useAccount } from '../../hooks/useAccount';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
 import { HistoryTable } from './components/HistoryTable';
 import { MiningPool } from './components/MiningPool';
-import { getNextMonday } from '../../../utils/dateHelpers';
+import { getNextDay } from '../../../utils/dateHelpers';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
   AppSection,
@@ -32,7 +32,7 @@ import { getAmmHistory } from 'app/components/Promotions/components/PromotionCar
 
 const pools = LiquidityPoolDictionary.list();
 
-const date = getNextMonday();
+const date = getNextDay(2);
 
 export function LiquidityMining() {
   const { t } = useTranslation();
