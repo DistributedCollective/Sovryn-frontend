@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
 
-export const getNextMonday = () =>
-  dayjs().utc().startOf('week').add(1, 'week').day(1).format('MMMM D');
+export const getNextDay = (day: number) => {
+  if (day < 1 || day > 7) {
+    throw new Error('Invalid day, must be integer in range 1-7');
+  }
+
+  return dayjs().utc().startOf('week').add(1, 'week').day(day).format('MMMM D');
+};
 
 export const timestampToDateTimeString = (timestamp: number) =>
   new Date(timestamp * 1000).toLocaleString('en-GB', {
