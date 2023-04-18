@@ -22,10 +22,6 @@ import './styles/tailwindcss/index.css';
 import '@sovryn/react-wallet/index.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
-// Import global types
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as GlobalTypes from './global';
-
 // Import root app
 import { App } from 'app';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
@@ -39,18 +35,11 @@ import { store } from './store/store';
 // Initialize languages
 import './locales/i18n';
 import './locales/dayjs';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { graphRskUrl } from './utils/classifiers';
+import { ApolloProvider } from '@apollo/client';
 import { ToastContainer } from 'react-toastify';
+import { rskClient } from 'utils/clients';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
-
-const rskClient = new ApolloClient({
-  uri: graphRskUrl,
-  cache: new InMemoryCache({
-    resultCaching: false,
-  }),
-});
 
 interface Props {
   Component: typeof App;

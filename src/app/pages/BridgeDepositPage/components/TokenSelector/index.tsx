@@ -17,6 +17,7 @@ import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useGetPausedTokens } from '../../hooks/useGetPausedTokens';
 
 export const TokenSelector: React.FC = () => {
   const { chain, targetChain, targetAsset } = useSelector(
@@ -25,6 +26,8 @@ export const TokenSelector: React.FC = () => {
   const walletContext = useWalletContext();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const pausedTokens = useGetPausedTokens();
 
   useEffect(() => {
     if (chain === null) {
@@ -110,6 +113,7 @@ export const TokenSelector: React.FC = () => {
                 symbol={item.symbol}
                 onClick={() => selectSourceAsset(item.asset)}
                 disabled={bridgeDepositLocked}
+                pausedTokens={pausedTokens}
               />
             );
           })}
