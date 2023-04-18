@@ -14,6 +14,21 @@ generates:
         Bytes: string
         BigInt: string
         BigDecimal: string
+  ./src/utils/graphql/babelfish/generated.tsx:
+    schema:
+      - './src/utils/graphql/babelfish/schema.graphql'
+    documents:
+      - './src/utils/graphql/babelfish/operations/*.graphql'
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      scalars:
+        Bytes: string
+        BigInt: string
+        BigDecimal: string
 hooks:
   afterAllFileWrite:
     - prettier ./src/utils/graphql --write

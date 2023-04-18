@@ -88,6 +88,8 @@ export const bscScanApi =
 
 export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
 
+export const graphBabelfishUrl = process.env.REACT_APP_GRAPH_BABELFISH;
+
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };

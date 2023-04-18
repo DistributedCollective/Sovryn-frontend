@@ -4,6 +4,11 @@ generates:
       - ${REACT_APP_GRAPH_RSK}
     plugins:
       - schema-ast
+  ./src/utils/graphql/babelfish/schema.graphql:
+    schema:
+      - ${REACT_APP_GRAPH_BABELFISH}
+    plugins:
+      - schema-ast
 hooks:
   afterAllFileWrite:
     - prettier ./src/utils/graphql/**/schema.graphql --write
