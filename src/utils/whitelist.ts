@@ -15,6 +15,7 @@ class Whitelist {
   // Check if user is whitelisted using backend server
   public async getApi(address: string) {
     const controller = new AbortController();
+
     // abort request if it's not resolved in 30 seconds and start checking in smart-contract from frontend side.
     const timeoutId = setTimeout(() => controller.abort(), 30e3);
     return fetch(`${backendUrl[currentChainId]}/whitelist/${address}`, {
