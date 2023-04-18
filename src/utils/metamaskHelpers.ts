@@ -33,7 +33,7 @@ const networks = {
         symbol: 'tRBTC',
         decimals: 18,
       },
-      rpcUrls: ['https://testnet.sovryn.app/rpc'],
+      rpcUrls: ['https://rsk-proxy1.sovryn.app/rpc'],
       blockExplorerUrls: ['https://explorer.testnet.rsk.co'],
     },
   ],

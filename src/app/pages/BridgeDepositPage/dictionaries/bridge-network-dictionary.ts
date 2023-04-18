@@ -27,7 +27,7 @@ export class BridgeNetworkDictionary {
       'RSK Testnet',
       CrossBridgeAsset.RBTC,
       rskLogo,
-      'https://testnet.sovryn.app/rpc',
+      'https://rsk-proxy1.sovryn.app/rpc',
       'https://explorer.testnet.rsk.co',
       AppMode.TESTNET,
       '0x9e469e1fc7fb4c5d17897b68eaf1afc9df39f103',
