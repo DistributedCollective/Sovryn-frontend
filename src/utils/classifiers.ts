@@ -27,9 +27,9 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: ['https://rsk-live.sovryn.app/rpc', 'https://public-node.rsk.co/'],
+  30: ['https://rsk-proxy1.sovryn.app/rpc', 'https://public-node.rsk.co/'],
   31: [
-    'https://rsk-proxy1.sovryn.app/rpc',
+    'https://testnet.sovryn.app/rpc',
     'https://testnet2.sovryn.app/rpc',
     'https://public-node.testnet.rsk.co/',
   ],
