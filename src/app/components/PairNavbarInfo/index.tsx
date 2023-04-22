@@ -30,7 +30,8 @@ const parsePairData = (
   /** Special case for RBTC/XUSD pair - underlying AMM pool is XUSD/RBTC but we need to display the reverse */
   if (
     pairData[0].trading_pairs === pairData[1].trading_pairs &&
-    pairData[1].base_symbol === Asset.XUSD
+    (pairData[1].base_symbol === Asset.XUSD ||
+      pairData[1].base_symbol === Asset.DOC)
   ) {
     lastPrice = pairData[0].last_price;
     percentageChange = -pairData[0].price_change_percent_24h;
@@ -55,7 +56,10 @@ const parsePairData = (
   );
 
   /** XUSD is quote symbol */
-  if (pairData[1].base_symbol === Asset.XUSD) {
+  if (
+    pairData[1].base_symbol === Asset.XUSD ||
+    pairData[1].base_symbol === Asset.DOC
+  ) {
     highPrice = pairData[0].high_price_24h_usd;
     lowPrice = pairData[0].lowest_price_24h_usd;
     return { highPrice, lowPrice, percentageChange, lastPrice };
