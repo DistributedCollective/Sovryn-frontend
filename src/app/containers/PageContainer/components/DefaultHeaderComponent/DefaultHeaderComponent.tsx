@@ -113,6 +113,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       to: myntUrl,
       title: t(translations.mainMenu.myntToken),
       dataActionId: 'header-mobile-lab-link-mynt-token',
+      hrefExternal: true,
     },
   ];
 
