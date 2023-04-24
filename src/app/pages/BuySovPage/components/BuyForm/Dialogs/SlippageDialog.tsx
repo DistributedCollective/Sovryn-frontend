@@ -11,6 +11,8 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Slider } from 'app/components/Form/Slider';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface ISlippageDialogProps {
   isOpen: boolean;
@@ -20,6 +22,8 @@ interface ISlippageDialogProps {
   onChange: (value: number) => void;
   asset?: Asset;
   dataActionId?: string;
+  maximumPrice?: string;
+  maximumPriceAsset?: Asset;
 }
 
 export const SlippageDialog: React.FC<ISlippageDialogProps> = ({
@@ -29,6 +33,8 @@ export const SlippageDialog: React.FC<ISlippageDialogProps> = ({
   dataActionId,
   isOpen,
   asset,
+  maximumPrice,
+  maximumPriceAsset,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -87,8 +93,22 @@ export const SlippageDialog: React.FC<ISlippageDialogProps> = ({
                   <AssetRenderer asset={asset || Asset.SOV} />
                 </>
               }
-              className="tw-mt-5"
+              className="tw-mb-0 tw-mt-5"
             />
+
+            {maximumPrice && maximumPriceAsset && (
+              <LabelValuePair
+                label={t(translations.buySovPage.slippageDialog.maximumPrice)}
+                value={
+                  <AssetValue
+                    value={maximumPrice}
+                    assetString={maximumPriceAsset}
+                    mode={AssetValueMode.auto}
+                    maxDecimals={6}
+                  />
+                }
+              />
+            )}
           </FormGroup>
         </div>
       </div>

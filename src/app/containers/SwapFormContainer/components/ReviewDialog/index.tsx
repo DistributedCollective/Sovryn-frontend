@@ -15,6 +15,8 @@ import { stringToFixedPrecision } from 'utils/display-text/format';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface IReviewDialogProps {
   isOpen: boolean;
@@ -25,6 +27,7 @@ interface IReviewDialogProps {
   amount: string;
   expectedReturn: string;
   amountReceived: string;
+  maximumPrice: string;
 }
 export const ReviewDialog: React.FC<IReviewDialogProps> = ({
   isOpen,
@@ -35,6 +38,7 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
   amount,
   expectedReturn,
   amountReceived,
+  maximumPrice,
 }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -74,12 +78,24 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
               className="tw-h-10 tw-truncate"
             />
             <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
-              <p className="tw-mb-3">
+              <p className="tw-m-0">
                 {t(translations.swapTradeForm.minimumReceived)}
               </p>
               <div className="tw-font-semibold">
                 {weiToFixed(amountReceived, 6)}{' '}
                 <AssetRenderer asset={targetToken} />
+              </div>
+            </div>
+
+            <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
+              <p className="tw-mb-3">{t(translations.swap.maximumPrice)}</p>
+              <div className="tw-font-semibold">
+                <AssetValue
+                  value={maximumPrice}
+                  assetString={sourceToken}
+                  mode={AssetValueMode.auto}
+                  maxDecimals={6}
+                />
               </div>
             </div>
           </FormGroup>

@@ -216,6 +216,8 @@ export const SwapFormContainer: React.FC = () => {
         onClose={() => setDialogOpen(false)}
         onChange={setSlippage}
         dataActionId="swap-"
+        maximumPrice={sourceTokenValue}
+        maximumPriceAsset={sourceToken}
       />
 
       <div className="tw-bg-gray-3 tw-w-full tw-mb-10 tw-overflow-hidden">
@@ -420,6 +422,7 @@ export const SwapFormContainer: React.FC = () => {
         amount={amount}
         expectedReturn={rateByPath}
         amountReceived={minReturn}
+        maximumPrice={sourceTokenValue}
       />
     </>
   );

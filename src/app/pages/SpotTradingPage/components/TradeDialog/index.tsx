@@ -35,6 +35,7 @@ interface ITradeDialogProps {
   duration?: number;
   fee?: React.ReactNode;
   buttonLoading?: boolean;
+  maximumSpotPrice?: string;
 }
 
 export const TradeDialog: React.FC<ITradeDialogProps> = ({
@@ -52,6 +53,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   duration,
   fee,
   buttonLoading,
+  maximumSpotPrice,
 }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
@@ -114,15 +116,29 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               }
             />
             {orderType === OrderType.MARKET && (
-              <LabelValuePair
-                label={t(translations.swap.minimumReceived)}
-                value={
-                  <>
-                    {weiToNumberFormat(minReturn, 6)}{' '}
-                    <AssetRenderer asset={targetToken} />
-                  </>
-                }
-              />
+              <>
+                <LabelValuePair
+                  label={t(translations.swap.minimumReceived)}
+                  value={
+                    <>
+                      {weiToNumberFormat(minReturn, 6)}{' '}
+                      <AssetRenderer asset={targetToken} />
+                    </>
+                  }
+                />
+
+                {maximumSpotPrice && (
+                  <LabelValuePair
+                    label={t(translations.swap.maximumPrice)}
+                    value={
+                      <>
+                        {weiToNumberFormat(maximumSpotPrice, 6)}{' '}
+                        <AssetRenderer asset={sourceToken} />
+                      </>
+                    }
+                  />
+                )}
+              </>
             )}
 
             {orderType === OrderType.LIMIT && (
