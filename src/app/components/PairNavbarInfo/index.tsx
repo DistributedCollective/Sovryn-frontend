@@ -27,12 +27,12 @@ const parsePairData = (
   let highPrice = 0;
   let lowPrice = 0;
 
-  /** Special case for RBTC/XUSD pair - underlying AMM pool is XUSD/RBTC but we need to display the reverse */
-  if (
-    pairData[0].trading_pairs === pairData[1].trading_pairs &&
-    (pairData[1].base_symbol === Asset.XUSD ||
-      pairData[1].base_symbol === Asset.DOC)
-  ) {
+  const isRbtcPair = pairData[0].trading_pairs === pairData[1].trading_pairs;
+
+  const stablecoinsToInvert = [Asset.XUSD, Asset.DOC, 'rUSDT'];
+
+  /** Special case for RBTC/[XUSD, DOC, rUSDT] pairs - underlying AMM pool is [token]/RBTC but we need to display the reverse */
+  if (isRbtcPair && stablecoinsToInvert.includes(pairData[1].base_symbol)) {
     lastPrice = pairData[0].last_price;
     percentageChange = -pairData[0].price_change_percent_24h;
     lowPrice = Number(bignumber(1).div(pairData[0].high_price_24h).toFixed(18));
@@ -41,7 +41,7 @@ const parsePairData = (
   }
 
   /** BTC is quote symbol */
-  if (pairData[0].trading_pairs === pairData[1].trading_pairs) {
+  if (isRbtcPair) {
     lastPrice = pairData[0].last_price;
     percentageChange = pairData[0].price_change_percent_24h;
     highPrice = pairData[0].high_price_24h;
@@ -56,10 +56,7 @@ const parsePairData = (
   );
 
   /** XUSD is quote symbol */
-  if (
-    pairData[1].base_symbol === Asset.XUSD ||
-    pairData[1].base_symbol === Asset.DOC
-  ) {
+  if (pairData[1].base_symbol === Asset.XUSD) {
     highPrice = pairData[0].high_price_24h_usd;
     lowPrice = pairData[0].lowest_price_24h_usd;
     return { highPrice, lowPrice, percentageChange, lastPrice };
