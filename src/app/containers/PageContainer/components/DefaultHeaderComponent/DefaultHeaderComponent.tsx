@@ -37,12 +37,15 @@ import {
 import { Sovryn } from 'utils/sovryn';
 import { bignumber } from 'mathjs';
 
+import { ReactComponent as AppsIcon } from 'assets/apps-icon.svg';
+
 type PagesProps = {
   to: string;
   title: string;
   dataActionId: string;
   hrefExternal?: boolean;
   disabled?: boolean;
+  bold?: boolean;
 };
 
 export const DefaultHeaderComponent: React.FC = () => {
@@ -190,6 +193,33 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
     {
       to: '',
+      title: 'sovryn.app',
+      dataActionId: '',
+      hrefExternal: true,
+    },
+    {
+      to: 'https://sovryn.app',
+      title: t(translations.mainMenu.borrow),
+      dataActionId: 'header-mobile-d2-link-borrow',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: 'https://sovryn.app/earn',
+      title: t(translations.mainMenu.earn),
+      dataActionId: 'header-mobile-d2-link-earn',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: 'https://sovryn.app/convert',
+      title: t(translations.mainMenu.convert),
+      dataActionId: 'header-mobile-d2-link-convert',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: '',
       title: '',
       dataActionId: '',
     },
@@ -223,13 +253,16 @@ export const DefaultHeaderComponent: React.FC = () => {
         href={link.to}
         text={link.title}
         onClick={() => {
-          history.push(link.to);
           setOpen(false);
+          if (link.hrefExternal) return;
+          history.push(link.to);
         }}
         hrefExternal={link.hrefExternal}
         data-action-id={link.dataActionId}
         disabled={link.disabled || false}
-        className="tw-leading-snug"
+        className={classNames('tw-leading-snug', {
+          'tw-font-bold': link.bold,
+        })}
       />
     );
   });
@@ -252,6 +285,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   };
 
   const SECTION_TYPE = {
+    PRODUCTS: 'products',
     TRADE: 'trade',
     EARN: 'earn',
     LABS: 'labs',
@@ -308,6 +342,37 @@ export const DefaultHeaderComponent: React.FC = () => {
               </Link>
             </div>
             <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap 2xl:tw-space-x-4 tw-items-center">
+              <NavPopover
+                content={
+                  <>
+                    <MenuItem
+                      text={t(translations.mainMenu.borrow)}
+                      label={t(translations.mainMenu.labels.d2Borrow)}
+                      href="https://sovryn.app"
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-borrow"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.earn)}
+                      label={t(translations.mainMenu.labels.d2Earn)}
+                      href="https://sovryn.app/borrow"
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-earn"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.convert)}
+                      label={t(translations.mainMenu.labels.d2Convert)}
+                      href="https://sovryn.app/convert"
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-convert"
+                    />
+                  </>
+                }
+              >
+                <span className={classNames(styles.firstLevelMenu)}>
+                  <AppsIcon />
+                </span>
+              </NavPopover>
               <NavPopover
                 content={
                   <>
