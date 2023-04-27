@@ -193,7 +193,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
     {
       to: '',
-      title: 'sovryn.app',
+      title: 'Sovryn.app',
       dataActionId: '',
       hrefExternal: true,
     },
@@ -355,7 +355,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <MenuItem
                       text={t(translations.mainMenu.earn)}
                       label={t(translations.mainMenu.labels.d2Earn)}
-                      href="https://sovryn.app/borrow"
+                      href="https://sovryn.app/earn"
                       hrefExternal
                       dataActionId="header-trade-d2-link-earn"
                     />
