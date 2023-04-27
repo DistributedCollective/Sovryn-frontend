@@ -42,7 +42,7 @@ export const bitocracyUrl =
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
 
-export const zeroUrl =
+export const D2_URL =
   currentNetwork === AppMode.MAINNET
     ? isStaging
       ? 'https://staging.sovryn.app'

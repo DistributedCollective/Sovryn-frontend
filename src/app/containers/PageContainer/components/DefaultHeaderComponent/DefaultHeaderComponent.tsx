@@ -23,7 +23,7 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, myntUrl } from 'utils/classifiers';
+import { D2_URL, bitocracyUrl, myntUrl } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
@@ -198,21 +198,21 @@ export const DefaultHeaderComponent: React.FC = () => {
       hrefExternal: true,
     },
     {
-      to: 'https://sovryn.app',
+      to: D2_URL,
       title: t(translations.mainMenu.borrow),
       dataActionId: 'header-mobile-d2-link-borrow',
       hrefExternal: true,
       bold: true,
     },
     {
-      to: 'https://sovryn.app/earn',
+      to: `${D2_URL}/earn`,
       title: t(translations.mainMenu.earn),
       dataActionId: 'header-mobile-d2-link-earn',
       hrefExternal: true,
       bold: true,
     },
     {
-      to: 'https://sovryn.app/convert',
+      to: `${D2_URL}/convert`,
       title: t(translations.mainMenu.convert),
       dataActionId: 'header-mobile-d2-link-convert',
       hrefExternal: true,
@@ -254,7 +254,9 @@ export const DefaultHeaderComponent: React.FC = () => {
         text={link.title}
         onClick={() => {
           setOpen(false);
-          if (link.hrefExternal) return;
+          if (link.hrefExternal) {
+            return;
+          }
           history.push(link.to);
         }}
         hrefExternal={link.hrefExternal}
@@ -348,21 +350,21 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       label={t(translations.mainMenu.labels.d2Borrow)}
-                      href="https://sovryn.app"
+                      href={D2_URL}
                       hrefExternal
                       dataActionId="header-trade-d2-link-borrow"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.earn)}
                       label={t(translations.mainMenu.labels.d2Earn)}
-                      href="https://sovryn.app/earn"
+                      href={`${D2_URL}/earn`}
                       hrefExternal
                       dataActionId="header-trade-d2-link-earn"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.convert)}
                       label={t(translations.mainMenu.labels.d2Convert)}
-                      href="https://sovryn.app/convert"
+                      href={`${D2_URL}/convert`}
                       hrefExternal
                       dataActionId="header-trade-d2-link-convert"
                     />

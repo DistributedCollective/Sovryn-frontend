@@ -3,7 +3,7 @@ import getStartedBanner from 'assets/images/banner/Zero_banner.svg';
 import getStartedBannerMobile from 'assets/images/banner/Zero_banner_mobile.svg';
 import { Picture } from 'app/components/Picture';
 import { Breakpoint } from 'types';
-import { zeroUrl } from 'utils/classifiers';
+import { D2_URL } from 'utils/classifiers';
 
 const zeroSrcSet = [
   {
@@ -21,7 +21,7 @@ const zeroSrcSet = [
 
 export const GetStartedBanner: React.FC = () => {
   const handleZeroBannerClick = useCallback(
-    () => window.open(zeroUrl, '_blank'),
+    () => window.open(D2_URL, '_blank'),
     [],
   );
 
