@@ -223,7 +223,9 @@ export const DefaultHeaderComponent: React.FC = () => {
         href={link.to}
         text={link.title}
         onClick={() => {
-          history.push(link.to);
+          if (!link.hrefExternal) {
+            history.push(link.to);
+          }
           setOpen(false);
         }}
         hrefExternal={link.hrefExternal}
