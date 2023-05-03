@@ -51,10 +51,8 @@ export const zeroUrl =
 
 export const myntUrl =
   currentNetwork === AppMode.MAINNET
-    ? isStaging
-      ? 'https://alpha-staging.sovryn.app/mynt-token'
-      : 'https://alpha.sovryn.app/mynt-token'
-    : 'https://alpha-test.sovryn.app/mynt-token';
+    ? 'https://mynt.sovryn.app'
+    : 'https://development--mynt-token-ui.netlify.app';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
