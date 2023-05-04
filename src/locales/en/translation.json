@@ -1826,7 +1826,8 @@
       "title": "Advanced Settings",
       "tolerance": "Slippage Tolerance:",
       "minimumReceived": "Minimum Received",
-      "minEntryPrice": "Minimum Entry Price"
+      "minEntryPrice": "Minimum Entry Price",
+      "maximumPrice": "Maximum Price"
     },
     "txDialog": {
       "pendingUser": {

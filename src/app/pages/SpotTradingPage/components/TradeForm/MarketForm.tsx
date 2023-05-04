@@ -166,6 +166,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         orderType={OrderType.MARKET}
         amount={amount}
         minReturn={minReturn}
+        maximumSpotPrice={maximumSpotPrice}
         targetToken={targetToken}
         sourceToken={sourceToken}
         expectedReturn={weiToFixed(rateByPath, 6)}
