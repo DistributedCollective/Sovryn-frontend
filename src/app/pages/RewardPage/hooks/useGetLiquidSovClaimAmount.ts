@@ -49,7 +49,7 @@ export const useGetLiquidSovClaimAmount = () => {
           }>(
             'stakingRewards',
             'getStakerCurrentReward',
-            [true, lastWithdrawalInterval],
+            [false, lastWithdrawalInterval],
             address,
           )
           .then(response => ({
