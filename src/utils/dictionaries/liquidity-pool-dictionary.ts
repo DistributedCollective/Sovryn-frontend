@@ -13,6 +13,7 @@ export class LiquidityPoolDictionary {
 
   public static get(converter: string): AmmLiquidityPool;
   public static get(assetA: Asset, assetB: Asset): AmmLiquidityPool;
+  public static get(poolTokenA: string): AmmLiquidityPool;
 
   public static get(
     converterOrAssetA: Asset | string,
@@ -28,7 +29,10 @@ export class LiquidityPoolDictionary {
     return this.list().find(
       item =>
         item.converter === converterOrAssetA.toLowerCase() ||
-        item.previousConverters.includes(converterOrAssetA.toLocaleLowerCase()),
+        item.previousConverters.includes(
+          converterOrAssetA.toLocaleLowerCase(),
+        ) ||
+        item.poolTokenA.toLowerCase() === converterOrAssetA.toLowerCase(),
     ) as AmmLiquidityPool;
   }
 
