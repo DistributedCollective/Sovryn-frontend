@@ -64,6 +64,9 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
 
 const Footer: React.FC = () => (
   <>
+    <p className="tw-mb-2">
+      <Trans i18nKey={translations.rewardPage.liquidClaimForm.txNote} />
+    </p>
     <Trans i18nKey={translations.rewardPage.liquidClaimForm.note} />{' '}
     <a
       href="https://wiki.sovryn.app/en/sovryn-dapp/sovryn-rewards-explained"

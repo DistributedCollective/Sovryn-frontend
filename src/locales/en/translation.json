@@ -1649,6 +1649,7 @@
     },
     "liquidClaimForm": {
       "note": "Claiming your rewards automatically adds them to your SOV portfolio balance.",
+      "txNote": "Multiple transactions may be required to claim your full reward balance.",
       "learn": "Learn more"
     },
     "feesEarnedClaimForm": {
