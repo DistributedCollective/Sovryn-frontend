@@ -38,6 +38,14 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   assetClaimLocked?: boolean;
 }
 
+interface IUserCheckpoint {
+  checkpointNum: string;
+  hasFees: boolean;
+  hasSkippedCheckpoints: boolean;
+}
+
+const MAX_NEXT_POSITIVE_CHECKPOINT = 75;
+
 export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   amountToClaim,
   contractAddress,
@@ -53,44 +61,115 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
 
   const controllerRef = useRef<AbortController>();
 
+  const { value: userCheckpoint } = useCacheCallWithValue<IUserCheckpoint>(
+    'feeSharingProxy',
+    'getNextPositiveUserCheckpoint',
+    {},
+    address,
+    contractAddress,
+    0,
+    MAX_NEXT_POSITIVE_CHECKPOINT,
+  );
+
+  const { checkpointNum, hasFees, hasSkippedCheckpoints } = useMemo(() => {
+    return {
+      checkpointNum: userCheckpoint.checkpointNum,
+      hasFees: userCheckpoint.hasFees,
+      hasSkippedCheckpoints: userCheckpoint.hasSkippedCheckpoints,
+    };
+  }, [userCheckpoint]);
+
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
     'numTokenCheckpoints',
     -1,
     contractAddress,
   );
-  const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
+  const { send: withdraw, ...tx } = useSendContractTx(
+    'feeSharingProxy',
+    'withdraw',
+  );
   const { send: withdrawRBTC, ...tx2 } = useSendContractTx(
     'feeSharingProxy',
     'withdrawRBTC',
+  );
+  const { send: withdrawStartingFromCheckpoint, ...tx3 } = useSendContractTx(
+    'feeSharingProxy',
+    'withdrawStartingFromCheckpoint',
+  );
+  const {
+    send: withdrawRBTCStartingFromCheckpoint,
+    ...tx4
+  } = useSendContractTx(
+    'feeSharingProxy',
+    'withdrawRBTCStartingFromCheckpoint',
   );
 
   const [isSimulating, setIsSimulating] = useState(false);
 
   const isClaimDisabled = useMemo(
     () =>
+      !hasFees ||
       isSimulating ||
       claimFeesEarnedLocked ||
       !bignumber(amountToClaim).greaterThan(0) ||
       assetClaimLocked,
-    [isSimulating, claimFeesEarnedLocked, amountToClaim, assetClaimLocked],
+    [
+      hasFees,
+      isSimulating,
+      claimFeesEarnedLocked,
+      amountToClaim,
+      assetClaimLocked,
+    ],
   );
+  console.log({
+    maxCheckpoints,
+    asset,
+    checkpointNum,
+  });
 
   const onSubmit = useCallback(() => {
-    if (asset === Asset.RBTC) {
-      withdrawRBTC(
-        [0, address],
-        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
-        { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
-      );
+    if (hasSkippedCheckpoints) {
+      if (asset === Asset.RBTC) {
+        withdrawRBTCStartingFromCheckpoint(
+          [checkpointNum, 0, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
+          { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
+        );
+      } else {
+        withdrawStartingFromCheckpoint(
+          [contractAddress, checkpointNum, maxCheckpoints, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
+          { type: TxType.STAKING_REWARDS_CLAIM },
+        );
+      }
     } else {
-      send(
-        [contractAddress, maxCheckpoints, address],
-        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
-        { type: TxType.STAKING_REWARDS_CLAIM },
-      );
+      if (asset === Asset.RBTC) {
+        withdrawRBTC(
+          [0, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
+          { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
+        );
+      } else {
+        withdraw(
+          [contractAddress, maxCheckpoints, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
+          { type: TxType.STAKING_REWARDS_CLAIM },
+        );
+      }
     }
-  }, [address, asset, contractAddress, maxCheckpoints, send, withdrawRBTC]);
+  }, [
+    hasSkippedCheckpoints,
+    asset,
+    withdrawRBTCStartingFromCheckpoint,
+    checkpointNum,
+    address,
+    withdrawStartingFromCheckpoint,
+    contractAddress,
+    maxCheckpoints,
+    withdrawRBTC,
+    withdraw,
+  ]);
 
   const handleCheckBeforeSubmit = useCallback(() => {
     if (controllerRef.current) {
@@ -100,12 +179,23 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
 
     controllerRef.current = new AbortController();
 
-    const args =
+    let args =
       asset === Asset.RBTC
         ? [0, address]
         : [contractAddress, maxCheckpoints, address];
+    let method = asset === Asset.RBTC ? 'withdrawRBTC' : 'withdraw';
 
-    const method = asset === Asset.RBTC ? 'withdrawRBTC' : 'withdraw';
+    if (hasSkippedCheckpoints) {
+      method =
+        asset === Asset.RBTC
+          ? 'withdrawRBTCStartingFromCheckpoint'
+          : 'withdrawStartingFromCheckpoint';
+
+      args =
+        asset === Asset.RBTC
+          ? [checkpointNum, 0, address]
+          : [contractAddress, checkpointNum, maxCheckpoints, address];
+    }
 
     const tx: TxTuple = [
       {
@@ -140,7 +230,16 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
       .finally(() => {
         setIsSimulating(false);
       });
-  }, [address, asset, contractAddress, maxCheckpoints, onSubmit, t]);
+  }, [
+    checkpointNum,
+    hasSkippedCheckpoints,
+    address,
+    asset,
+    contractAddress,
+    maxCheckpoints,
+    onSubmit,
+    t,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -193,6 +292,8 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
         />
         <TransactionDialog tx={tx} />
         <TransactionDialog tx={tx2} />
+        <TransactionDialog tx={tx3} />
+        <TransactionDialog tx={tx4} />
       </td>
     </tr>
   );
