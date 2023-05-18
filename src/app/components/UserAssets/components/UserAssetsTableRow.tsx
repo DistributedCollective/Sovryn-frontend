@@ -23,6 +23,7 @@ import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd
 import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
+import { BABELFISH_APP_LINK } from 'utils/classifiers';
 
 interface IUserAssetsTableRow {
   item: AssetDetails;
@@ -201,10 +202,10 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
           {[Asset.USDT, Asset.RDOC].includes(asset) && (
             <Button
               text={t(translations.userAssets.actions.convert)}
-              onClick={() => onConvert(asset)}
+              hrefExternal
+              href={BABELFISH_APP_LINK}
               style={ButtonStyle.link}
               size={ButtonSize.sm}
-              disabled={!hasAnyTokens}
               dataActionId={`portfolio-action-convert-${asset}`}
             />
           )}
