@@ -6,12 +6,7 @@ import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
 import { useFetch } from 'app/hooks/useFetch';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { translations } from 'locales/i18n';
-import { Asset } from 'types';
-import {
-  ammServiceUrl,
-  discordInvite,
-  learnMoreYieldFarming,
-} from 'utils/classifiers';
+import { ammServiceUrl, discordInvite } from 'utils/classifiers';
 import { currentChainId } from 'utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
@@ -21,14 +16,8 @@ import { HistoryTable } from './components/HistoryTable';
 import { MiningPool } from './components/MiningPool';
 import { getNextDay } from '../../../utils/dateHelpers';
 import { useHistory, useLocation } from 'react-router-dom';
-import {
-  AppSection,
-  IPromotionLinkState,
-  PromotionColor,
-} from '../../components/Promotions/components/PromotionCard/types';
-import { PromotionCard } from 'app/components/Promotions/components/PromotionCard';
-import { PromotionsCarousel } from 'app/components/Promotions/components/PromotionsCarousel';
-import { getAmmHistory } from 'app/components/Promotions/components/PromotionCard/utils';
+import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
+import { Promotions } from 'app/components/Promotions';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -69,95 +58,14 @@ export function LiquidityMining() {
         <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full">
-        <PromotionsCarousel className="tw-mt-3 tw-mb-7">
-          {/* <PromotionCard
-            appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Orange}
-            title={t(translations.promotions.card1.title)}
-            text={t(translations.promotions.card1.text)}
-            duration={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.MYNT}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.MYNT, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
-            imageClassName="tw-transform tw-scale-85"
-          /> */}
-          <PromotionCard
-            appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Orange}
-            title={t(translations.promotions.card6.title)}
-            text={t(translations.promotions.card6.text)}
-            duration={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.DLLR}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.DLLR}`}
-            imageClassName="tw-transform tw-scale-85"
-            ammData={getAmmHistory(ammData, Asset.DLLR, Asset.RBTC)}
-            poolTokenA={
-              LiquidityPoolDictionary.get(Asset.DLLR, Asset.RBTC).poolTokenA
-            }
-          />
-          <PromotionCard
-            appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Purple}
-            title={t(translations.promotions.card4.title)}
-            text={t(translations.promotions.card4.text)}
-            duration={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.SOV}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
-            imageClassName="tw-transform tw-scale-85"
-            ammData={getAmmHistory(ammData, Asset.SOV, Asset.RBTC)}
-            poolTokenA={
-              LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC).poolTokenA
-            }
-          />
-          <PromotionCard
-            appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Yellow}
-            title={t(translations.promotions.card3.title)}
-            text={t(translations.promotions.card3.text)}
-            duration={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.XUSD}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
-            imageClassName="tw-transform tw-scale-85"
-            ammData={getAmmHistory(ammData, Asset.XUSD, Asset.RBTC)}
-            poolTokenA={
-              LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC).poolTokenA
-            }
-          />
-          {/* <PromotionCard
-            appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Green}
-            title={t(translations.promotions.card5.title)}
-            text={t(translations.promotions.card5.text)}
-            duration={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            learnMoreLink={learnMoreYieldFarming}
-            logoAsset1={Asset.ETH}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
-            imageClassName="tw-transform tw-scale-85"
-          /> */}
-        </PromotionsCarousel>
+        <Promotions
+          carouselClassName="tw-mt-3 tw-mb-7"
+          customDurationText={t(translations.liquidityMining.recalibration, {
+            date,
+          })}
+          cardImageClassName="tw-transform tw-scale-85"
+          dataAttributePrefix="yieldfarm-promo-learnmore"
+        />
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 

@@ -153,19 +153,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
 
           <div className="tw-w-8/12 xl:tw-mx-0 xl:tw-w-5/12 tw-mx-auto tw-mt-auto">
-            {/*
-              Should un comment this and remove Banner once the sale is over.
-              <ArbitrageOpportunity />
-            */}
-            {/* <Banner
-              title={t(translations.landingPage.banner.originsFish)}
-              //remember month starts from 0
-              date={Date.UTC(2021, 7, 26, 14, 0)}
-              image={babelfishBanner}
-              learnLink="https://www.sovryn.app/blog/babelfish-sale-on-origins-1400-utc-26-08-2021"
-              buyLink="/origins"
-            /> */}
-            {/* <BabelSoldOutBanner /> */}
             <GetStartedBanner />
           </div>
         </div>
@@ -174,6 +161,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           className="tw-mt-14"
           cardClassName="tw-my-7"
           cardImageClassName="tw-mb-3"
+          dataAttributePrefix="landing-promo-learnmore"
         />
         <div className="tw-max-w-screen-xl tw-mx-auto">
           <div className="tw-w-full tw-overflow-auto">

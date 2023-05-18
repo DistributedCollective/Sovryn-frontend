@@ -1,0 +1,13 @@
+query getLiquidityMiningAllocationPoints {
+  liquidityMiningAllocationPoints {
+    id
+    rewardPerBlock
+    ammPoolToken {
+      id
+      symbol
+    }
+    lendingPoolToken {
+      id
+    }
+  }
+}
