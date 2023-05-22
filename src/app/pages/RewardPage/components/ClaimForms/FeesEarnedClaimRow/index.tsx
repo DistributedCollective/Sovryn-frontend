@@ -38,11 +38,11 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   assetClaimLocked?: boolean;
 }
 
-interface IUserCheckpoint {
+type UserCheckpoint = {
   checkpointNum: string;
   hasFees: boolean;
   hasSkippedCheckpoints: boolean;
-}
+};
 
 const MAX_NEXT_POSITIVE_CHECKPOINT = 75;
 
@@ -61,7 +61,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
 
   const controllerRef = useRef<AbortController>();
 
-  const { value: userCheckpoint } = useCacheCallWithValue<IUserCheckpoint>(
+  const { value: userCheckpoint } = useCacheCallWithValue<UserCheckpoint>(
     'feeSharingProxy',
     'getNextPositiveUserCheckpoint',
     {},
@@ -85,21 +85,21 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     -1,
     contractAddress,
   );
-  const { send: withdraw, ...tx } = useSendContractTx(
+  const { send: withdraw, ...withdrawTx } = useSendContractTx(
     'feeSharingProxy',
     'withdraw',
   );
-  const { send: withdrawRBTC, ...tx2 } = useSendContractTx(
+  const { send: withdrawRBTC, ...withdrawRBTCTx } = useSendContractTx(
     'feeSharingProxy',
     'withdrawRBTC',
   );
-  const { send: withdrawStartingFromCheckpoint, ...tx3 } = useSendContractTx(
-    'feeSharingProxy',
-    'withdrawStartingFromCheckpoint',
-  );
+  const {
+    send: withdrawStartingFromCheckpoint,
+    ...withdrawStartingFromCheckpointTx
+  } = useSendContractTx('feeSharingProxy', 'withdrawStartingFromCheckpoint');
   const {
     send: withdrawRBTCStartingFromCheckpoint,
-    ...tx4
+    ...withdrawRBTCStartingFromCheckpointTx
   } = useSendContractTx(
     'feeSharingProxy',
     'withdrawRBTCStartingFromCheckpoint',
@@ -122,11 +122,6 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
       assetClaimLocked,
     ],
   );
-  console.log({
-    maxCheckpoints,
-    asset,
-    checkpointNum,
-  });
 
   const onSubmit = useCallback(() => {
     if (hasSkippedCheckpoints) {
@@ -290,10 +285,10 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
           }
           dataActionId={`rewards-claim-feesearned-${asset}`}
         />
-        <TransactionDialog tx={tx} />
-        <TransactionDialog tx={tx2} />
-        <TransactionDialog tx={tx3} />
-        <TransactionDialog tx={tx4} />
+        <TransactionDialog tx={withdrawTx} />
+        <TransactionDialog tx={withdrawRBTCTx} />
+        <TransactionDialog tx={withdrawStartingFromCheckpointTx} />
+        <TransactionDialog tx={withdrawRBTCStartingFromCheckpointTx} />
       </td>
     </tr>
   );
