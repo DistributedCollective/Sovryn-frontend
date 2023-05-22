@@ -127,7 +127,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     if (hasSkippedCheckpoints) {
       if (asset === Asset.RBTC) {
         withdrawRBTCStartingFromCheckpoint(
-          [checkpointNum, 0, address],
+          [checkpointNum, maxCheckpoints, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
           { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
         );
@@ -188,7 +188,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
 
       args =
         asset === Asset.RBTC
-          ? [checkpointNum, 0, address]
+          ? [checkpointNum, maxCheckpoints, address]
           : [contractAddress, checkpointNum, maxCheckpoints, address];
     }
 
