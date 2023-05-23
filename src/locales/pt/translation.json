@@ -2296,31 +2296,5 @@
     "text": "O seu SOV está pronto a ser recebido!",
     "cta": "Sacar SOV"
   },
-  "promotions": {
-    "card1": {
-      "title": "5K SOVs bônus",
-      "duration": "Toda semana",
-      "text": "Deposite MYNT e rBTC neste pool de liquidez e comece agora mesmo a acumular a sua parte nos 5,000 SOVs."
-    },
-    "card2": {
-      "title": "2.5K SOVs bônus",
-      "duration": "Toda semana",
-      "text": "Deposite qualquer quantia de XUSD neste pool de empréstimo e comece agora mesmo a acumular o sua parte nos 2,500 SOVs."
-    },
-    "card3": {
-      "title": "5K SOVs bônus",
-      "duration": "Toda semana",
-      "text": "Deposite XUSD e rBTC neste pool de liquidez e comece agora mesmo a acumular a sua parte nos 5,000 SOVs."
-    },
-    "card4": {
-      "title": "10K SOVs bônus",
-      "duration": "Toda semana",
-      "text": "Deposite SOV e rBTC neste pool de liquidez e comece agora mesmo a acumular a sua parte nos 10,000 SOVs."
-    },
-    "card5": {
-      "title": "5K SOVs bônus",
-      "duration": "Toda semana",
-      "text": "Deposite ETH e rBTC neste pool de liquidez e comece agora mesmo a acumular a sua parte nos 5,000 SOVs."
-    }
-  }
+  "promotions": {}
 }

@@ -12829,6 +12829,25 @@ export type LimitOrderFilledFragment = {
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
+export type GetLiquidityMiningAllocationPointsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetLiquidityMiningAllocationPointsQuery = {
+  __typename?: 'Query';
+  liquidityMiningAllocationPoints: Array<{
+    __typename?: 'LiquidityMiningAllocationPoint';
+    id: string;
+    rewardPerBlock: string;
+    ammPoolToken?: {
+      __typename?: 'SmartToken';
+      id: string;
+      symbol?: string | null;
+    } | null;
+    lendingPoolToken?: { __typename?: 'LendingPool'; id: string } | null;
+  }>;
+};
+
 export type GetMarginLimitOrderFilledQueryVariables = Exact<{
   trader?: InputMaybe<Scalars['String']>;
 }>;
@@ -14049,6 +14068,71 @@ export type GetLimitOrderFilledLazyQueryHookResult = ReturnType<
 export type GetLimitOrderFilledQueryResult = Apollo.QueryResult<
   GetLimitOrderFilledQuery,
   GetLimitOrderFilledQueryVariables
+>;
+export const GetLiquidityMiningAllocationPointsDocument = gql`
+  query getLiquidityMiningAllocationPoints {
+    liquidityMiningAllocationPoints {
+      id
+      rewardPerBlock
+      ammPoolToken {
+        id
+        symbol
+      }
+      lendingPoolToken {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetLiquidityMiningAllocationPointsQuery__
+ *
+ * To run a query within a React component, call `useGetLiquidityMiningAllocationPointsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLiquidityMiningAllocationPointsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLiquidityMiningAllocationPointsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLiquidityMiningAllocationPointsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetLiquidityMiningAllocationPointsQuery,
+    GetLiquidityMiningAllocationPointsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetLiquidityMiningAllocationPointsQuery,
+    GetLiquidityMiningAllocationPointsQueryVariables
+  >(GetLiquidityMiningAllocationPointsDocument, options);
+}
+export function useGetLiquidityMiningAllocationPointsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLiquidityMiningAllocationPointsQuery,
+    GetLiquidityMiningAllocationPointsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetLiquidityMiningAllocationPointsQuery,
+    GetLiquidityMiningAllocationPointsQueryVariables
+  >(GetLiquidityMiningAllocationPointsDocument, options);
+}
+export type GetLiquidityMiningAllocationPointsQueryHookResult = ReturnType<
+  typeof useGetLiquidityMiningAllocationPointsQuery
+>;
+export type GetLiquidityMiningAllocationPointsLazyQueryHookResult = ReturnType<
+  typeof useGetLiquidityMiningAllocationPointsLazyQuery
+>;
+export type GetLiquidityMiningAllocationPointsQueryResult = Apollo.QueryResult<
+  GetLiquidityMiningAllocationPointsQuery,
+  GetLiquidityMiningAllocationPointsQueryVariables
 >;
 export const GetMarginLimitOrderFilledDocument = gql`
   query getMarginLimitOrderFilled($trader: String) {
