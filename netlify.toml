@@ -58,3 +58,4 @@
     REACT_APP_GRAPH_BABELFISH = "https://babelfish-subgraph.test.sovryn.app/subgraphs/name/babelfish/rskTestnet-graph"
     BUILD_STORYBOOK = "true"
     REACT_APP_STAGING = "false"
+    REACT_APP_BYPASS_MAINTENANCE = "true"
