@@ -20,7 +20,10 @@ export const useGetNextPositiveCheckpoint = (
   const updateNextPositiveCheckpoint = useCallback(async () => {
     let index = 1;
 
-    while (totalTokenCheckpoints >= MAX_NEXT_POSITIVE_CHECKPOINT * index) {
+    while (
+      totalTokenCheckpoints >=
+      MAX_NEXT_POSITIVE_CHECKPOINT * (index - 1)
+    ) {
       const {
         hasFees,
         checkpointNum,
@@ -38,9 +41,9 @@ export const useGetNextPositiveCheckpoint = (
 
       if (!!hasFees) {
         return setUserCheckpoint({
-          checkpointNum: checkpointNum,
-          hasFees: hasFees,
-          hasSkippedCheckpoints: hasSkippedCheckpoints,
+          checkpointNum,
+          hasFees,
+          hasSkippedCheckpoints,
         });
       }
       index++;

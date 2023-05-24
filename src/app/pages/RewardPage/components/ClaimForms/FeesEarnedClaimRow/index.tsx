@@ -39,6 +39,8 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   assetClaimLocked?: boolean;
 }
 
+const MAX_PROCESSIBLE_CHECKPOINTS = 300;
+
 export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   amountToClaim,
   contractAddress,
@@ -105,7 +107,10 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   );
 
   const maxWithdrawCheckpoint = useMemo(
-    () => (Number(maxCheckpoints) > 300 ? '300' : maxCheckpoints),
+    () =>
+      Number(maxCheckpoints) > MAX_PROCESSIBLE_CHECKPOINTS
+        ? String(MAX_PROCESSIBLE_CHECKPOINTS)
+        : maxCheckpoints,
     [maxCheckpoints],
   );
   const onSubmit = useCallback(() => {
