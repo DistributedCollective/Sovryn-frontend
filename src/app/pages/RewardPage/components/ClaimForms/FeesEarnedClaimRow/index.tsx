@@ -104,11 +104,15 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     ],
   );
 
+  const maxWithdrawCheckpoint = useMemo(
+    () => (Number(maxCheckpoints) > 300 ? '300' : maxCheckpoints),
+    [maxCheckpoints],
+  );
   const onSubmit = useCallback(() => {
     if (userCheckpoint?.hasSkippedCheckpoints) {
       if (asset === Asset.RBTC) {
         withdrawRBTCStartingFromCheckpoint(
-          [userCheckpoint?.checkpointNum, maxCheckpoints, address],
+          [userCheckpoint?.checkpointNum, maxWithdrawCheckpoint, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
           { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
         );
@@ -117,7 +121,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
           [
             contractAddress,
             userCheckpoint?.checkpointNum,
-            maxCheckpoints,
+            maxWithdrawCheckpoint,
             address,
           ],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
@@ -133,7 +137,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
         );
       } else {
         withdraw(
-          [contractAddress, maxCheckpoints, address],
+          [contractAddress, maxWithdrawCheckpoint, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
           { type: TxType.STAKING_REWARDS_CLAIM },
         );
@@ -146,7 +150,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     address,
     withdrawStartingFromCheckpoint,
     contractAddress,
-    maxCheckpoints,
+    maxWithdrawCheckpoint,
     withdrawRBTC,
     withdraw,
   ]);
@@ -162,7 +166,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     let args =
       asset === Asset.RBTC
         ? [0, address]
-        : [contractAddress, maxCheckpoints, address];
+        : [contractAddress, maxWithdrawCheckpoint, address];
     let method = asset === Asset.RBTC ? 'withdrawRBTC' : 'withdraw';
 
     if (userCheckpoint?.hasSkippedCheckpoints) {
@@ -173,11 +177,11 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
 
       args =
         asset === Asset.RBTC
-          ? [userCheckpoint?.checkpointNum, maxCheckpoints, address]
+          ? [userCheckpoint?.checkpointNum, maxWithdrawCheckpoint, address]
           : [
               contractAddress,
               userCheckpoint?.checkpointNum,
-              maxCheckpoints,
+              maxWithdrawCheckpoint,
               address,
             ];
     }
@@ -219,7 +223,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     address,
     asset,
     contractAddress,
-    maxCheckpoints,
+    maxWithdrawCheckpoint,
     onSubmit,
     t,
     userCheckpoint?.checkpointNum,
