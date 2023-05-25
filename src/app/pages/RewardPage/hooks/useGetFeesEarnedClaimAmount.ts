@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { calculateAssetValue } from 'utils/helpers';
 import { bignumber } from 'mathjs';
+import { contractReader } from 'utils/sovryn/contract-reader';
 export interface IEarnedFee {
   asset: Asset;
   contractAddress: string;
@@ -51,37 +52,58 @@ export const useGetFeesEarnedClaimAmount = () => {
   };
 };
 
-const defaultEarnedFees: IEarnedFee[] = [
-  {
-    asset: Asset.RBTC,
-    contractAddress: getContract('RBTC_lending').address,
-    value: '0',
-    rbtcValue: 0,
-  },
-  {
-    asset: Asset.SOV,
-    contractAddress: getContract('SOV_token').address,
-    value: '0',
-    rbtcValue: 0,
-  },
-  {
-    asset: Asset.MYNT,
-    contractAddress: getContract('MYNT_token').address,
-    value: '0',
-    rbtcValue: 0,
-  },
-  {
-    asset: Asset.ZUSD,
-    contractAddress: getContract('ZUSD_token').address,
-    value: '0',
-    rbtcValue: 0,
-  },
-];
-
 const useGetFeesEarned = () => {
   const address = useAccount();
   const blockSync = useBlockSync();
   const [loading, setLoading] = useState(false);
+  const [RBTCDummyAddress, setRBTCDummyAddress] = useState(
+    '0xeabd29be3c3187500df86a2613c6470e12f2d77d',
+  );
+
+  useEffect(() => {
+    const getRbtcDummyAddress = async () => {
+      contractReader
+        .call<string>(
+          'feeSharingProxy',
+          'RBTC_DUMMY_ADDRESS_FOR_CHECKPOINT',
+          [],
+        )
+        .then(result => setRBTCDummyAddress(result));
+    };
+
+    getRbtcDummyAddress().then();
+  }, []);
+
+  const defaultEarnedFees: IEarnedFee[] = useMemo(
+    () => [
+      {
+        asset: Asset.RBTC,
+        contractAddress: RBTCDummyAddress,
+        value: '0',
+        rbtcValue: 0,
+      },
+      {
+        asset: Asset.SOV,
+        contractAddress: getContract('SOV_token').address,
+        value: '0',
+        rbtcValue: 0,
+      },
+      {
+        asset: Asset.MYNT,
+        contractAddress: getContract('MYNT_token').address,
+        value: '0',
+        rbtcValue: 0,
+      },
+      {
+        asset: Asset.ZUSD,
+        contractAddress: getContract('ZUSD_token').address,
+        value: '0',
+        rbtcValue: 0,
+      },
+    ],
+    [RBTCDummyAddress],
+  );
+
   const [earnedFees, setEarnedFees] = useState(defaultEarnedFees);
   const feeSharingProxyContract = getContract('feeSharingProxy');
 

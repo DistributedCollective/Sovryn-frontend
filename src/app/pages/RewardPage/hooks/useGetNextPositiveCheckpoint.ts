@@ -18,12 +18,15 @@ export const useGetNextPositiveCheckpoint = (
   const [userCheckpoint, setUserCheckpoint] = useState<UserCheckpoint>();
 
   const updateNextPositiveCheckpoint = useCallback(async () => {
-    let index = 1;
+    const processedCheckpoints = await contractReader.call<number>(
+      'feeSharingProxy',
+      'processedCheckpoints',
+      [address, contractAddress],
+    );
 
-    while (
-      totalTokenCheckpoints >=
-      MAX_NEXT_POSITIVE_CHECKPOINT * (index - 1)
-    ) {
+    let userNextUnprocessedCheckpoint = processedCheckpoints;
+
+    while (userNextUnprocessedCheckpoint < totalTokenCheckpoints) {
       const {
         hasFees,
         checkpointNum,
@@ -34,10 +37,12 @@ export const useGetNextPositiveCheckpoint = (
         [
           address,
           contractAddress,
-          MAX_NEXT_POSITIVE_CHECKPOINT * (index - 1),
-          MAX_NEXT_POSITIVE_CHECKPOINT * index,
+          userNextUnprocessedCheckpoint,
+          MAX_NEXT_POSITIVE_CHECKPOINT,
         ],
       );
+
+      userNextUnprocessedCheckpoint = Number(checkpointNum);
 
       if (!!hasFees) {
         return setUserCheckpoint({
@@ -46,7 +51,6 @@ export const useGetNextPositiveCheckpoint = (
           hasSkippedCheckpoints,
         });
       }
-      index++;
     }
 
     setUserCheckpoint({
