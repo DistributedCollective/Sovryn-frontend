@@ -28,7 +28,8 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   assetClaimLocked?: boolean;
 }
 
-const MAX_PROCESSIBLE_CHECKPOINTS = 300;
+const MAX_PROCESSABLE_CHECKPOINTS_RBTC = 20;
+const MAX_PROCESSABLE_CHECKPOINTS_TOKENS = 55;
 
 export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   amountToClaim,
@@ -42,6 +43,15 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const address = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const claimFeesEarnedLocked = checkMaintenance(States.CLAIM_FEES_EARNED);
+
+  const isRBTC = useMemo(() => asset === Asset.RBTC, [asset]);
+  const maxProcessableCheckpoints = useMemo(
+    () =>
+      isRBTC
+        ? MAX_PROCESSABLE_CHECKPOINTS_RBTC
+        : MAX_PROCESSABLE_CHECKPOINTS_TOKENS,
+    [isRBTC],
+  );
 
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
@@ -86,14 +96,14 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
 
   const maxWithdrawCheckpoint = useMemo(
     () =>
-      Number(maxCheckpoints) > MAX_PROCESSIBLE_CHECKPOINTS
-        ? String(MAX_PROCESSIBLE_CHECKPOINTS)
+      Number(maxCheckpoints) > maxProcessableCheckpoints
+        ? String(maxProcessableCheckpoints)
         : maxCheckpoints,
-    [maxCheckpoints],
+    [maxCheckpoints, maxProcessableCheckpoints],
   );
   const onSubmit = useCallback(() => {
     if (userCheckpoint?.hasSkippedCheckpoints) {
-      if (asset === Asset.RBTC) {
+      if (isRBTC) {
         withdrawRBTCStartingFromCheckpoint(
           [userCheckpoint?.checkpointNum, maxWithdrawCheckpoint, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
@@ -112,7 +122,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
         );
       }
     } else {
-      if (asset === Asset.RBTC) {
+      if (isRBTC) {
         withdrawRBTC(
           [maxWithdrawCheckpoint, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
@@ -127,13 +137,14 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
       }
     }
   }, [
-    userCheckpoint,
-    asset,
+    userCheckpoint?.hasSkippedCheckpoints,
+    userCheckpoint?.checkpointNum,
+    isRBTC,
     withdrawRBTCStartingFromCheckpoint,
+    maxWithdrawCheckpoint,
     address,
     withdrawStartingFromCheckpoint,
     contractAddress,
-    maxWithdrawCheckpoint,
     withdrawRBTC,
     withdraw,
   ]);
