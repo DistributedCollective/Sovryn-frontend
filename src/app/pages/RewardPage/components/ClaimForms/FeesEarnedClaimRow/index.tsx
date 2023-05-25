@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IClaimFormProps } from '../BaseClaimForm/types';
 import { useAccount } from 'app/hooks/useAccount';
@@ -14,7 +8,7 @@ import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { currentChainId, gasLimit } from 'utils/classifiers';
+import { gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -24,11 +18,6 @@ import { bignumber } from 'mathjs';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { TransactionDialog } from 'app/components/TransactionDialog';
-import { simulateTx } from 'utils/simulator/simulateTx';
-import { TxTuple } from 'utils/simulator/types';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { Sovryn } from 'utils/sovryn';
-import { toastError } from 'utils/toaster';
 import { useGetNextPositiveCheckpoint } from 'app/pages/RewardPage/hooks/useGetNextPositiveCheckpoint';
 
 interface IFeesEarnedClaimRowProps extends IClaimFormProps {
@@ -53,8 +42,6 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const address = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const claimFeesEarnedLocked = checkMaintenance(States.CLAIM_FEES_EARNED);
-
-  const controllerRef = useRef<AbortController>();
 
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
@@ -88,22 +75,13 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     'withdrawRBTCStartingFromCheckpoint',
   );
 
-  const [isSimulating, setIsSimulating] = useState(false);
-
   const isClaimDisabled = useMemo(
     () =>
       !userCheckpoint?.hasFees ||
-      isSimulating ||
       claimFeesEarnedLocked ||
       !bignumber(amountToClaim).greaterThan(0) ||
       assetClaimLocked,
-    [
-      userCheckpoint,
-      isSimulating,
-      claimFeesEarnedLocked,
-      amountToClaim,
-      assetClaimLocked,
-    ],
+    [userCheckpoint, claimFeesEarnedLocked, amountToClaim, assetClaimLocked],
   );
 
   const maxWithdrawCheckpoint = useMemo(
@@ -136,7 +114,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     } else {
       if (asset === Asset.RBTC) {
         withdrawRBTC(
-          [0, address],
+          [maxWithdrawCheckpoint, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
           { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
         );
@@ -160,89 +138,6 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     withdraw,
   ]);
 
-  const handleCheckBeforeSubmit = useCallback(() => {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
-    setIsSimulating(true);
-
-    controllerRef.current = new AbortController();
-
-    let args =
-      asset === Asset.RBTC
-        ? [0, address]
-        : [contractAddress, maxWithdrawCheckpoint, address];
-    let method = asset === Asset.RBTC ? 'withdrawRBTC' : 'withdraw';
-
-    if (userCheckpoint?.hasSkippedCheckpoints) {
-      method =
-        asset === Asset.RBTC
-          ? 'withdrawRBTCStartingFromCheckpoint'
-          : 'withdrawStartingFromCheckpoint';
-
-      args =
-        asset === Asset.RBTC
-          ? [userCheckpoint?.checkpointNum, maxWithdrawCheckpoint, address]
-          : [
-              contractAddress,
-              userCheckpoint?.checkpointNum,
-              maxWithdrawCheckpoint,
-              address,
-            ];
-    }
-
-    const tx: TxTuple = [
-      {
-        to: getContract('feeSharingProxy').address,
-        from: address,
-        value: '0',
-        input: Sovryn.contracts['feeSharingProxy'].methods[method](
-          ...args,
-        ).encodeABI(),
-        gas_price: '0',
-        gas: 6_800_000,
-      },
-    ];
-
-    simulateTx(currentChainId, tx, controllerRef.current.signal)
-      .then(([{ transaction }]) => {
-        console.log('simulation response', asset, transaction);
-        if (transaction.status) {
-          onSubmit();
-        } else {
-          toastError(
-            t(translations.rewardPage.claimForm.contractFailure, {
-              currency: asset,
-            }),
-          );
-        }
-      })
-      .catch(() => {
-        // error from the simulator itself
-        toastError(t(translations.rewardPage.claimForm.simulatorFailure));
-      })
-      .finally(() => {
-        setIsSimulating(false);
-      });
-  }, [
-    address,
-    asset,
-    contractAddress,
-    maxWithdrawCheckpoint,
-    onSubmit,
-    t,
-    userCheckpoint?.checkpointNum,
-    userCheckpoint?.hasSkippedCheckpoints,
-  ]);
-
-  useEffect(() => {
-    return () => {
-      if (controllerRef.current) {
-        controllerRef.current.abort();
-      }
-    };
-  }, []);
-
   return (
     <tr
       className={classNames({
@@ -265,7 +160,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
       <td>
         <ActionButton
           text={t(translations.rewardPage.claimForm.cta)}
-          onClick={handleCheckBeforeSubmit}
+          onClick={onSubmit}
           className={classNames(
             'tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4',
             {
