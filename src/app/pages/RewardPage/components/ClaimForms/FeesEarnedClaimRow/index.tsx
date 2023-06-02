@@ -28,8 +28,8 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   assetClaimLocked?: boolean;
 }
 
-const MAX_PROCESSABLE_CHECKPOINTS_RBTC = 20;
-const MAX_PROCESSABLE_CHECKPOINTS_TOKENS = 55;
+const MAX_PROCESSABLE_CHECKPOINTS_RBTC = 33;
+const MAX_PROCESSABLE_CHECKPOINTS_TOKENS = 150;
 
 export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   amountToClaim,
