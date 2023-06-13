@@ -93,6 +93,8 @@ export class TradingPairDictionary {
         Asset.RBTC,
         [Asset.RBTC, Asset.DLLR],
         false,
+        true,
+        true,
       ),
     ],
     [
