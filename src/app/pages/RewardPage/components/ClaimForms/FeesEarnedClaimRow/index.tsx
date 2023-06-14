@@ -29,6 +29,8 @@ interface IFeesEarnedClaimRowProps extends IClaimFormProps {
 }
 
 const MAX_PROCESSABLE_CHECKPOINTS_RBTC = 33;
+const MAX_PROCESSABLE_CHECKPOINTS_ZUSD = 300;
+const MAX_PROCESSABLE_CHECKPOINTS_SOV = 200;
 const MAX_PROCESSABLE_CHECKPOINTS_TOKENS = 150;
 
 export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
@@ -45,13 +47,19 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const claimFeesEarnedLocked = checkMaintenance(States.CLAIM_FEES_EARNED);
 
   const isRBTC = useMemo(() => asset === Asset.RBTC, [asset]);
-  const maxProcessableCheckpoints = useMemo(
-    () =>
-      isRBTC
-        ? MAX_PROCESSABLE_CHECKPOINTS_RBTC
-        : MAX_PROCESSABLE_CHECKPOINTS_TOKENS,
-    [isRBTC],
-  );
+
+  const maxProcessableCheckpoints = useMemo(() => {
+    switch (asset) {
+      case Asset.RBTC:
+        return MAX_PROCESSABLE_CHECKPOINTS_RBTC;
+      case Asset.ZUSD:
+        return MAX_PROCESSABLE_CHECKPOINTS_ZUSD;
+      case Asset.SOV:
+        return MAX_PROCESSABLE_CHECKPOINTS_SOV;
+      default:
+        return MAX_PROCESSABLE_CHECKPOINTS_TOKENS;
+    }
+  }, [asset]);
 
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
