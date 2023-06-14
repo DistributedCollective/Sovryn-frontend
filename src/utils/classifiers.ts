@@ -28,11 +28,7 @@ export const blockExplorers = {
 
 export const rpcNodes = {
   30: ['https://rsk-live.sovryn.app/rpc', 'https://public-node.rsk.co/'],
-  31: [
-    'https://testnet.sovryn.app/rpc',
-    'https://testnet2.sovryn.app/rpc',
-    'https://public-node.testnet.rsk.co/',
-  ],
+  31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
   56: 'wss://bsc.sovryn.app/mainnet/websocket',
   97: 'wss://bsc.sovryn.app/testnet/websocket',
 };
