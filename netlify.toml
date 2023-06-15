@@ -29,12 +29,11 @@
     REACT_APP_TRANSAK_ENV = "PRODUCTION"
     REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
     REACT_APP_ESTIMATOR_URI = "/simulate"
-    BUILD_STORYBOOK = "true"
-
+    
 # PR deployments (previews)
 [context.deploy-preview]
   [context.deploy-preview.environment]
-    BUILD_STORYBOOK = "true"
+    
 
 # Staging deployments (all branches)
 [context.branch-deploy]
@@ -56,5 +55,4 @@
     REACT_APP_NETWORK = "testnet"
     REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
     REACT_APP_GRAPH_BABELFISH = "https://babelfish-subgraph.test.sovryn.app/subgraphs/name/babelfish/rskTestnet-graph"
-    BUILD_STORYBOOK = "true"
     REACT_APP_STAGING = "false"

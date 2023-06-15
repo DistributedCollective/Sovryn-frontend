@@ -8,12 +8,7 @@
   }
 }
 
-// clear root styling for storybook
-.sb-show-main #root {
-  @apply tw-relative tw-block tw-p-4;
-}
-
-#WEB3_CONNECT_MODAL_ID>div {
+#WEB3_CONNECT_MODAL_ID > div {
   @apply tw-z-30;
 }
 
