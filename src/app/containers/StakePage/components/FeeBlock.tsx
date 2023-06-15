@@ -21,6 +21,7 @@ import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Button, ButtonSize, ButtonStyle } from 'app/components/Button';
 import { useGetNextPositiveCheckpoint } from 'app/pages/RewardPage/hooks/useGetNextPositiveCheckpoint';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { MAX_PROCESSABLE_CHECKPOINTS_TOKENS } from 'app/constants';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -30,8 +31,6 @@ interface IFeeBlockProps {
   frozen?: boolean;
   vestedFees?: boolean;
 }
-
-const MAX_PROCESSABLE_CHECKPOINTS_TOKENS = 300;
 
 export const FeeBlock: React.FC<IFeeBlockProps> = ({
   contractToken,
