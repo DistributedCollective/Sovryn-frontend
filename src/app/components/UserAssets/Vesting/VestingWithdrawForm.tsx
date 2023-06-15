@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from 'app/hooks/staking/useGetUnlockedVesting';
@@ -42,15 +42,26 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
     VestingAbi as AbiItem[],
     'withdrawTokens',
   );
+  const vestingTxType = useMemo(
+    () =>
+      vesting.type === 'team'
+        ? TxType.SOV_WITHDRAW_VESTING_TEAM
+        : TxType.SOV_WITHDRAW_VESTING,
+    [vesting],
+  );
+
   const handleSubmit = useCallback(() => {
     if (!tx.loading) {
       send(
         [address.toLowerCase()],
-        { from: account, gas: gasLimit[TxType.SOV_WITHDRAW_VESTING] },
-        { type: TxType.SOV_WITHDRAW_VESTING },
+        {
+          from: account,
+          gas: gasLimit[vestingTxType],
+        },
+        { type: vestingTxType },
       );
     }
-  }, [account, address, send, tx]);
+  }, [account, address, send, tx, vestingTxType]);
 
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const openSchedule = useCallback(event => {
