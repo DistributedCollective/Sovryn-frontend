@@ -41,6 +41,7 @@ export enum TxType {
   SOV_CONVERT = 'sov_convert',
   SOV_ORIGIN_CLAIM = 'sov_origin_claim',
   SOV_WITHDRAW_VESTING = 'sov_withdraw_vesting',
+  SOV_WITHDRAW_VESTING_TEAM = 'sov_withdraw_vesting_team',
   ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
   LM_DEPOSIT = 'lm_deposit',
   LOCKED_SOV_CLAIM = 'locked_sov_claim',
