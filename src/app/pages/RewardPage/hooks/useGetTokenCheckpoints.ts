@@ -6,7 +6,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { useMemo } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 
-const MAX_PROCESSABLE_CHECKPOINTS_TOKENS = 300;
+import { getMaxProcessableCheckpoints } from 'utils/helpers';
 
 export const useGetTokenCheckpoints = (asset: Asset) => {
   const account = useAccount();
@@ -30,10 +30,10 @@ export const useGetTokenCheckpoints = (asset: Asset) => {
       return 0;
     }
 
-    return Number(maxCheckpoints) > MAX_PROCESSABLE_CHECKPOINTS_TOKENS
-      ? MAX_PROCESSABLE_CHECKPOINTS_TOKENS
+    return Number(maxCheckpoints) > getMaxProcessableCheckpoints(asset)
+      ? String(getMaxProcessableCheckpoints(asset))
       : Number(maxCheckpoints);
-  }, [userCheckpoint, maxCheckpoints, maxCheckpointsLoading]);
+  }, [userCheckpoint, maxCheckpoints, maxCheckpointsLoading, asset]);
 
   return {
     userCheckpoint,

@@ -21,7 +21,7 @@ import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Button, ButtonSize, ButtonStyle } from 'app/components/Button';
 import { useGetNextPositiveCheckpoint } from 'app/pages/RewardPage/hooks/useGetNextPositiveCheckpoint';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { MAX_PROCESSABLE_CHECKPOINTS_TOKENS } from 'app/constants';
+import { getMaxProcessableCheckpoints } from 'utils/helpers';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -61,10 +61,10 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
 
   const maxWithdrawCheckpoint = useMemo(
     () =>
-      Number(maxCheckpoints) > MAX_PROCESSABLE_CHECKPOINTS_TOKENS
-        ? MAX_PROCESSABLE_CHECKPOINTS_TOKENS
+      Number(maxCheckpoints) > getMaxProcessableCheckpoints(asset)
+        ? String(getMaxProcessableCheckpoints(asset))
         : Number(maxCheckpoints),
-    [maxCheckpoints],
+    [maxCheckpoints, asset],
   );
 
   const { userCheckpoint } = useGetNextPositiveCheckpoint(
@@ -79,7 +79,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     tokenAddress,
     useNewContract,
     Number(userCheckpoint?.checkpointNum),
-    maxWithdrawCheckpoint,
+    Number(maxWithdrawCheckpoint),
   );
 
   const dollarValue = useMemo(() => {
