@@ -78,7 +78,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     account,
     tokenAddress,
     useNewContract,
-    Number(userCheckpoint?.checkpointNum),
+    Number(userCheckpoint?.checkpointNum) - 1,
     Number(maxWithdrawCheckpoint),
   );
 

@@ -98,25 +98,29 @@ export const useGetFeesEarned = (): {
   const feeSharingProxyContract = getContract('feeSharingProxy');
 
   const getAvailableFees = useCallback(() => {
-    const callData = earnedFees.map(fee => ({
-      address: feeSharingProxyContract.address,
-      abi: feeSharingProxyContract.abi,
-      fnName:
-        fee.asset === Asset.RBTC
-          ? 'getAccumulatedRBTCFeeBalances'
-          : 'getAccumulatedFeesForCheckpointsRange',
-      args:
-        fee.asset === Asset.RBTC
-          ? [address]
-          : [
-              address,
-              fee.contractAddress,
-              getStartFrom(fee.asset),
-              getMaxCheckpoints(fee.asset),
-            ],
-      key: fee.asset,
-      parser: value => value[0].toString(),
-    }));
+    const callData = earnedFees.map(fee => {
+      const isRBTC = fee.asset === Asset.RBTC;
+      const fnName = isRBTC
+        ? 'getAccumulatedRBTCFeeBalances'
+        : 'getAccumulatedFeesForCheckpointsRange';
+      const startFrom = Math.max(getStartFrom(fee.asset) - 1, 0);
+      const args = isRBTC
+        ? [address]
+        : [
+            address,
+            fee.contractAddress,
+            startFrom,
+            getMaxCheckpoints(fee.asset),
+          ];
+      return {
+        address: feeSharingProxyContract.address,
+        abi: feeSharingProxyContract.abi,
+        fnName,
+        args,
+        key: fee.asset,
+        parser: value => value[0].toString(),
+      };
+    });
 
     if (
       !sovMaxWithdrawCheckpoint ||
