@@ -5196,10 +5196,10 @@
     node-fetch "^2.6.6"
     web3 "^1.6.0"
 
-"@sovryn/react-wallet@2.2.16":
-  version "2.2.16"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.2.16.tgz#eae6b70ef7de95b11ead68f6b9f8d41024d2f906"
-  integrity sha512-gX2gQabOBu8KJMFYWu1yOLngvhrNbegyij63Spk5llmG2bnBfxAiGazqlbdKWb5rVAwSkUCvldi7HsHXrrskuA==
+"@sovryn/react-wallet@2.2.17":
+  version "2.2.17"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.2.17.tgz#ff3720a96664b3b137e0f273fbf111c742de68e0"
+  integrity sha512-/HASj0uX4cuayroRcwPdyoTN8Dug8WOavmLSQ6ZYmS622q9SUCxCfPiEYGBRGH5hsmiSqU7GY+iIqXeHnpQrrA==
   dependencies:
     "@blueprintjs/core" "^3.44.2"
     "@hookstate/core" "^3.0.6"
