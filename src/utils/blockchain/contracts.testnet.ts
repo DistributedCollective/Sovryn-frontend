@@ -52,7 +52,7 @@ export const contracts = {
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
-    address: '0x7481aCBeb11C1D2866B0F11DE359E52dbe63EC5B',
+    address: '0xA3a46b149360a0B1e005CA8cB7522938A2da7532',
     abi: RBTCWrapperProxy,
     blockNumber: 1319117,
   },
