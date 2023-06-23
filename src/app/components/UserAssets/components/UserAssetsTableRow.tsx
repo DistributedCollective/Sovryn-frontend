@@ -209,7 +209,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               dataActionId={`portfolio-action-convert-${asset}`}
             />
           )}
-          {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(asset) && (
+          {[Asset.SOV, Asset.ETH, Asset.BNB].includes(asset) && (
             <BridgeLink asset={asset} disableWithdrawal={!hasAnyTokens} />
           )}
           {asset === Asset.WRBTC && (
@@ -220,6 +220,27 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               size={ButtonSize.sm}
               disabled={!hasAnyTokens}
             />
+          )}
+          {asset === Asset.XUSD && (
+            <>
+              <Button
+                text={t(translations.common.send)}
+                hrefExternal
+                href={BABELFISH_APP_LINK}
+                style={ButtonStyle.link}
+                size={ButtonSize.sm}
+                dataActionId={`portfolio-action-send-xusd`}
+              />
+
+              <Button
+                text={t(translations.common.receive)}
+                hrefExternal
+                href={BABELFISH_APP_LINK}
+                style={ButtonStyle.link}
+                size={ButtonSize.sm}
+                dataActionId={`portfolio-action-receive-xusd`}
+              />
+            </>
           )}
         </div>
       </td>
