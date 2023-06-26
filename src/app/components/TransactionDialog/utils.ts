@@ -9,7 +9,6 @@ import wLiquality from 'assets/wallets/liquality.svg';
 import wPortis from 'assets/wallets/portis.svg';
 import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
-import wWalletConnect from 'assets/wallets/walletconnect.svg';
 
 export const getWalletName = wallet => {
   switch (wallet) {
@@ -23,8 +22,6 @@ export const getWalletName = wallet => {
       return 'Ledger';
     case 'trezor':
       return 'Trezor';
-    case 'wallet-connect':
-      return 'Wallet Connect';
     default:
       return 'MetaMask';
   }
@@ -42,8 +39,6 @@ export const getWalletImage = wallet => {
       return wLedger;
     case 'trezor':
       return wTrezor;
-    case 'wallet-connect':
-      return wWalletConnect;
     default:
       return wMetamask;
   }
