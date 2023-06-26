@@ -81,7 +81,7 @@ Remember, bug reports are created in the hope that others with the same problem 
 
 Sovryn's GitHub issue trackers are not intended to provide help or support. Use one of the following channels instead:
 
-- [Discord](https://discord.gg/J22WS6z)
+- [Discord](https://discord.gg/sovryn)
 - [Wiki Pages](https://wiki.sovryn.app)
 - [Sovryn Forum](https://forum.sovryn.app)
 - [Sovryn Blog](https://sovryn.app/blog/)
