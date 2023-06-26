@@ -144,7 +144,7 @@ export const gasLimit = {
   [TxType.CONVERT_BTCB]: 120000,
 };
 
-export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
+export const discordInvite = 'https://discord.gg/sovryn';
 
 export const sovrynTwitter = 'https://twitter.com/SovrynBTC';
 export const sovrynTelegram = 'https://t.me/SovrynBitcoin';
