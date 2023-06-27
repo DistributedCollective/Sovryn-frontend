@@ -8,6 +8,11 @@ import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 import { CachedAssetRate } from 'app/containers/WalletProvider/types';
 import { numberFromWei } from './blockchain/math-helpers';
+import {
+  MAX_PROCESSABLE_CHECKPOINTS_SOV,
+  MAX_PROCESSABLE_CHECKPOINTS_TOKENS,
+  MAX_PROCESSABLE_CHECKPOINTS_ZUSD,
+} from 'app/constants';
 
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -288,3 +293,14 @@ export const calculateAssetValue = (
 
 export const capitalize = (val: string) =>
   val && val.charAt(0).toLocaleUpperCase() + val.slice(1);
+
+export const getMaxProcessableCheckpoints = (asset: Asset) => {
+  switch (asset) {
+    case Asset.ZUSD:
+      return MAX_PROCESSABLE_CHECKPOINTS_ZUSD;
+    case Asset.SOV:
+      return MAX_PROCESSABLE_CHECKPOINTS_SOV;
+    default:
+      return MAX_PROCESSABLE_CHECKPOINTS_TOKENS;
+  }
+};

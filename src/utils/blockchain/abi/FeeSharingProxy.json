@@ -305,6 +305,42 @@
         "internalType": "address",
         "name": "_user",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      }
+    ],
+    "name": "getAccumulatedFeesForCheckpointsRange",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
       }
     ],
     "name": "getAccumulatedRBTCFeeBalances",
