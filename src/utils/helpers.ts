@@ -192,8 +192,6 @@ export function detectWeb3Wallet() {
       return 'ledger';
     case ProviderType.TREZOR:
       return 'trezor';
-    case ProviderType.WALLET_CONNECT:
-      return 'wallet-connect';
   }
 }
 
