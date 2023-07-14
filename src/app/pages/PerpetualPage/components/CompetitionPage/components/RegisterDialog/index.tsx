@@ -12,7 +12,7 @@ import { currentChainId, notificationServiceUrl } from 'utils/classifiers';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
-const SIGNED_MSG_BASE = 'Login to backend on: %%';
+const SIGNED_MSG_BASE = 'Login to Sovryn on: %%';
 const baseUrl = notificationServiceUrl[currentChainId];
 
 interface IRegisterDialogProps {

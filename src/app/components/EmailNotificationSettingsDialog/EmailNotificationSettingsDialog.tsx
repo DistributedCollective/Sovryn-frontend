@@ -163,7 +163,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     }
 
     const timestamp = new Date();
-    const message = `Login to backend on: ${timestamp}`;
+    const message = `Login to Sovryn on: ${timestamp}`;
 
     const { data: alreadyUser } = await axios.get(
       `${userEndpoint}isUser/${account}`,
