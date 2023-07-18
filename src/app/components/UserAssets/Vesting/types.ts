@@ -20,6 +20,7 @@ export type VestGroup =
   | 'team'
   | 'reward'
   | 'fouryear'
+  | 'teamFouryear'
   | 'fish'
   | 'fishAirdrop';
 
