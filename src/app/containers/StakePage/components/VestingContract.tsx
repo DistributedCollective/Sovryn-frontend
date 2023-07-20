@@ -64,6 +64,10 @@ const getTokenContractNameByVestingType = (type: VestGroup) => {
   }
 };
 
+const withdrawTxConfig = {
+  gas: gasLimit[TxType.SOV_WITHDRAW_VESTING],
+};
+
 export const VestingContract: React.FC<IVestingContractProps> = ({
   vestingAddress,
   type,
@@ -185,18 +189,11 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
     'withdrawTokens',
   );
 
-  const withdrawTxConfig = useMemo(
-    () => ({
-      gas: gasLimit[TxType.SOV_WITHDRAW_VESTING],
-    }),
-    [],
-  );
-
   const handleWithdraw = useCallback(
     (receiver: string) => {
       send([receiver], withdrawTxConfig);
     },
-    [send, withdrawTxConfig],
+    [send],
   );
 
   return (
