@@ -10,12 +10,14 @@ import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
+import type { TransactionConfig } from 'web3-core';
 
 interface IWithdrawVestingProps {
   vesting: string;
   vestingType: VestGroup;
   onCloseModal: () => void;
   onWithdraw: (receiver: string) => void;
+  txConfig: TransactionConfig;
 }
 
 export const WithdrawVesting: React.FC<IWithdrawVestingProps> = ({
@@ -23,6 +25,7 @@ export const WithdrawVesting: React.FC<IWithdrawVestingProps> = ({
   vestingType,
   onCloseModal,
   onWithdraw,
+  txConfig,
 }) => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -87,6 +90,7 @@ export const WithdrawVesting: React.FC<IWithdrawVestingProps> = ({
           </div>
           <TxFeeCalculator
             args={[address.toLowerCase()]}
+            txConfig={txConfig}
             methodName="withdrawTokens"
             contractName="vesting"
           />
