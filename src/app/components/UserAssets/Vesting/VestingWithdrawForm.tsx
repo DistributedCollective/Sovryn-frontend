@@ -18,6 +18,7 @@ import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
 import { gasLimit } from 'utils/classifiers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Icon } from 'app/components/Icon';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 
 type VestingWithdrawFormProps = {
   vesting: FullVesting;
@@ -50,18 +51,19 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
     [vesting],
   );
 
+  const txConfig = useMemo(
+    () => ({
+      from: account,
+      gas: gasLimit[vestingTxType],
+    }),
+    [account, vestingTxType],
+  );
+
   const handleSubmit = useCallback(() => {
     if (!tx.loading) {
-      send(
-        [address.toLowerCase()],
-        {
-          from: account,
-          gas: gasLimit[vestingTxType],
-        },
-        { type: vestingTxType },
-      );
+      send([address.toLowerCase()], txConfig, { type: vestingTxType });
     }
-  }, [account, address, send, tx, vestingTxType]);
+  }, [address, send, tx, vestingTxType, txConfig]);
 
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const openSchedule = useCallback(event => {
@@ -119,9 +121,13 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
             />
           </FieldGroup>
 
-          <div className="tw-text-white tw-text-sm tw-font-normal tw-mx-9 tw-my-5">
-            {t(translations.common.fee, { amount: '0.000019' })}
-          </div>
+          <TxFeeCalculator
+            args={[address.toLowerCase()]}
+            txConfig={txConfig}
+            methodName="withdrawTokens"
+            contractName="vesting"
+            className="tw-my-5"
+          />
         </div>
 
         <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">

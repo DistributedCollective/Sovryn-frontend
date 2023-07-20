@@ -185,13 +185,18 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
     'withdrawTokens',
   );
 
+  const withdrawTxConfig = useMemo(
+    () => ({
+      gas: gasLimit[TxType.SOV_WITHDRAW_VESTING],
+    }),
+    [],
+  );
+
   const handleWithdraw = useCallback(
     (receiver: string) => {
-      send([receiver], {
-        gas: gasLimit[TxType.SOV_WITHDRAW_VESTING],
-      });
+      send([receiver], withdrawTxConfig);
     },
-    [send],
+    [send, withdrawTxConfig],
   );
 
   return (
@@ -366,6 +371,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
               vestingType={type}
               onCloseModal={() => setShowWithdraw(false)}
               onWithdraw={handleWithdraw}
+              txConfig={withdrawTxConfig}
             />
           </>
         }
