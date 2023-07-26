@@ -33,6 +33,7 @@ import {
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 import { TransactionDialog } from 'app/components/TransactionDialog';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 
 interface ILendingDialogProps {
   currency: Asset;
@@ -56,6 +57,12 @@ export const LendingDialog: React.FC<ILendingDialogProps> = ({
       type === DialogType.ADD ? 'deposit' : 'withdraw'
     ];
   const [amount, setAmount] = useState<string>('');
+  const lendingContract = getLendingContractName(currency);
+  const { value: marketLiquidity } = useCacheCallWithValue(
+    lendingContract,
+    'marketLiquidity',
+    '0',
+  );
 
   const weiAmount = useWeiAmount(amount);
 
@@ -94,14 +101,32 @@ export const LendingDialog: React.FC<ILendingDialogProps> = ({
     if (isTotalClicked) {
       withdrawAmount = depositedAssetBalance;
     }
+    if (bignumber(marketLiquidity).lessThanOrEqualTo(withdrawAmount)) {
+      withdrawAmount = marketLiquidity;
+    }
+
     return bignumber(withdrawAmount)
       .mul(bignumber(depositedBalance).div(depositedAssetBalance))
       .toFixed(0);
-  }, [depositedAssetBalance, depositedBalance, isTotalClicked, weiAmount]);
+  }, [
+    depositedAssetBalance,
+    depositedBalance,
+    isTotalClicked,
+    weiAmount,
+    marketLiquidity,
+  ]);
 
   const [withdrawAmount, setWithdrawAmount] = useState(
     calculateWithdrawAmount(),
   );
+
+  const maxWithdrawAmount = useMemo(() => {
+    if (bignumber(depositedAssetBalance).greaterThan(marketLiquidity)) {
+      return marketLiquidity;
+    } else {
+      return depositedAssetBalance;
+    }
+  }, [depositedAssetBalance, marketLiquidity]);
 
   useEffect(() => {
     setWithdrawAmount(calculateWithdrawAmount());
@@ -213,7 +238,7 @@ export const LendingDialog: React.FC<ILendingDialogProps> = ({
               maxAmount={
                 type === DialogType.ADD
                   ? maxMinusFee(userBalance, currency, gasLimit)
-                  : depositedAssetBalance
+                  : maxWithdrawAmount
               }
               dataActionId={`lend-${
                 type === DialogType.ADD ? 'deposit' : 'withdraw'
