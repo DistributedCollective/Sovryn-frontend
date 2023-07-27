@@ -128,6 +128,11 @@ export const LendingDialog: React.FC<ILendingDialogProps> = ({
     }
   }, [depositedAssetBalance, marketLiquidity]);
 
+  const validateRedeem = useMemo(
+    () => bignumber(depositedAssetBalance).lessThan(marketLiquidity),
+    [depositedAssetBalance, marketLiquidity],
+  );
+
   useEffect(() => {
     setWithdrawAmount(calculateWithdrawAmount());
   }, [calculateWithdrawAmount]);
@@ -158,11 +163,9 @@ export const LendingDialog: React.FC<ILendingDialogProps> = ({
       maxAmount !== '0' ? maxAmount : undefined,
     ) && validate;
 
-  const isValidRedeem = useIsAmountWithinLimits(
-    weiAmount,
-    '1',
-    depositedAssetBalance,
-  );
+  const isValidRedeem =
+    useIsAmountWithinLimits(weiAmount, '1', depositedAssetBalance) &&
+    validateRedeem;
 
   // reset amount to if currency was changed
   useEffect(() => {
