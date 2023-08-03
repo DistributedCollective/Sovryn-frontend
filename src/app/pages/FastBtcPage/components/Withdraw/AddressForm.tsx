@@ -6,7 +6,6 @@ import React, {
   useEffect,
 } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import debounce from 'lodash.debounce';
 import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -41,7 +40,7 @@ export const AddressForm: React.FC = () => {
   );
   const [value, setValue] = useState(address);
 
-  const invalid = useMemo(
+  const invalidAddress = useMemo(
     () => addressValidationState === AddressValidationState.INVALID,
     [addressValidationState],
   );
@@ -58,40 +57,42 @@ export const AddressForm: React.FC = () => {
 
   const validateAddress = useCallback(async (address: string) => {
     setAddressValidationState(AddressValidationState.LOADING);
-    let result = false;
     const isValidBtcAddress = validate(address);
     const isValid = await contractReader.call(
       'fastBtcBridge',
       'isValidBtcAddress',
       [address],
     );
-    if (isValidBtcAddress && isValid) {
-      const { network, type } = getAddressInfo(address);
-      if (
-        network.toLowerCase() === currentNetwork.toLowerCase() &&
-        type.toLowerCase() !== AddressType.p2tr
-      ) {
-        result = true;
-      }
-    }
 
-    setAddressValidationState(
-      result ? AddressValidationState.VALID : AddressValidationState.INVALID,
-    );
+    if (isValidBtcAddress && isValid) {
+      const { type, network } = getAddressInfo(address);
+      const isNetworkValid =
+        network.toLowerCase() === currentNetwork.toLowerCase();
+      const isTypeValid = type.toLowerCase() !== AddressType.p2tr;
+
+      setAddressValidationState(
+        isNetworkValid && isTypeValid
+          ? AddressValidationState.VALID
+          : AddressValidationState.INVALID,
+      );
+    } else {
+      setAddressValidationState(AddressValidationState.INVALID);
+    }
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const delayedOnChange = useCallback(
-    debounce(addressToValidate => validateAddress(addressToValidate), 300),
-    [validateAddress],
-  );
-
   useEffect(() => {
-    if (value) {
+    if (value && value !== '') {
+      setAddressValidationState(AddressValidationState.LOADING);
+      validateAddress(value);
+    } else {
       setAddressValidationState(AddressValidationState.NONE);
-      delayedOnChange(value);
     }
-  }, [delayedOnChange, value]);
+  }, [value, validateAddress]);
+
+  const isSubmitDisabled = useMemo(
+    () => invalidAddress || fastBtcLocked || !value || value === '',
+    [fastBtcLocked, invalidAddress, value],
+  );
 
   return (
     <>
@@ -105,7 +106,7 @@ export const AddressForm: React.FC = () => {
           labelClassName="tw-text-sm tw-font-semibold"
         >
           <Input onChange={setValue} value={value} className="tw-max-w-none" />
-          {invalid && (
+          {invalidAddress && (
             <ErrorBadge
               content={t(
                 translations.fastBtcPage.withdraw.addressForm.errorBECH32,
@@ -119,10 +120,7 @@ export const AddressForm: React.FC = () => {
             className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
             text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
             onClick={onContinueClick}
-            disabled={
-              addressValidationState !== AddressValidationState.VALID ||
-              fastBtcLocked
-            }
+            disabled={isSubmitDisabled}
             loading={addressValidationState === AddressValidationState.LOADING}
           />
           {fastBtcLocked && (
