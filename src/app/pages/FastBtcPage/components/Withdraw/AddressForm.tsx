@@ -10,7 +10,6 @@ import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { Input } from '../../../../components/Form/Input';
-import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from '../../../../components/Form/ErrorBadge';
 import { FastBtcButton } from '../FastBtcButton';
 import {
@@ -58,13 +57,8 @@ export const AddressForm: React.FC = () => {
   const validateAddress = useCallback(async (address: string) => {
     setAddressValidationState(AddressValidationState.LOADING);
     const isValidBtcAddress = validate(address);
-    const isValid = await contractReader.call(
-      'fastBtcBridge',
-      'isValidBtcAddress',
-      [address],
-    );
 
-    if (isValidBtcAddress && isValid) {
+    if (isValidBtcAddress) {
       const { type, network } = getAddressInfo(address);
       const isNetworkValid =
         network.toLowerCase() === currentNetwork.toLowerCase();
