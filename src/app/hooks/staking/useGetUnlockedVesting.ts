@@ -88,7 +88,7 @@ export function useGetUnlockedVesting(
 
           if (
             Math.round(Date.now() / 1e3) <=
-            Number(startDate) + extendedDuration
+            Number(startDate) + Number(extendedDuration)
           ) {
             value = '0';
           }
