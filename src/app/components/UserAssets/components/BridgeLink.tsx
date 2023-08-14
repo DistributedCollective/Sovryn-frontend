@@ -51,10 +51,6 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({
         return type === CROSSCHAIN_TYPE.DEPOSIT
           ? t(translations.maintenance.bridgeBnbDeposit)
           : t(translations.maintenance.bridgeBnbWithdraw);
-      case Asset.XUSD:
-        return type === CROSSCHAIN_TYPE.DEPOSIT
-          ? t(translations.maintenance.bridgeXusdDeposit)
-          : t(translations.maintenance.bridgeXusdWithdraw);
       default:
         return t(translations.maintenance.bridge);
     }
