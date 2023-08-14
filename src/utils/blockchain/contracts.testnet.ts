@@ -62,7 +62,7 @@ export const contracts = {
     blockNumber: 1218689,
   },
   swapNetwork: {
-    address: '0x61172B53423E205a399640e5283e51FE60EC2256',
+    address: '0x6390dF6De9F24902B29740371525C2CeAa8f5a4f',
     abi: SwapNetworkABI,
     blockNumber: 1218795,
   },
@@ -325,7 +325,7 @@ export const contracts = {
     abi: MYNTMarketMakerAbi,
   },
   fastBtcBridge: {
-    address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
+    address: '0xb3E92Db36eeac0627385Fa4F39F615a85eA5E911',
     abi: fastBtcBridgeAbi,
   },
   fastBtcMultisig: {

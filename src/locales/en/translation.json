@@ -500,6 +500,7 @@
     "perpetuals": "Perpetuals",
     "getStarted": "Get Started",
     "fundWallet": "Fund Wallet",
+    "d2Title": "sovryn.app",
     "tooltips": {
       "readMore": "Read more",
       "fundWalletButton": "Click here to fund your wallet and get started."
@@ -864,6 +865,7 @@
         "origin": "Origin SOV",
         "team": "Team SOV",
         "fouryear": "Four-Year Vested SOV",
+        "teamFouryear": "Team Vesting",
         "reward": "Reward SOV",
         "fish": "Origins FISH",
         "fishAirdrop": "Airdrop FISH"

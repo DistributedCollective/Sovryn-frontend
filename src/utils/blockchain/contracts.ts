@@ -325,7 +325,7 @@ export const contracts = {
     abi: MYNTMarketMakerAbi,
   },
   fastBtcBridge: {
-    address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
+    address: '0x1A8E78B41bc5Ab9Ebb6996136622B9b41A601b5C',
     abi: fastBtcBridgeAbi,
   },
   fastBtcMultisig: {
