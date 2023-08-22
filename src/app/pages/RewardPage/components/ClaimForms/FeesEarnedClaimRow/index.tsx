@@ -42,7 +42,9 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const claimFeesEarnedLocked = checkMaintenance(States.CLAIM_FEES_EARNED);
 
-  const isRBTC = useMemo(() => asset === Asset.RBTC, [asset]);
+  const isRBTC = useMemo(() => asset === Asset.RBTC || asset === Asset.WRBTC, [
+    asset,
+  ]);
 
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
@@ -62,7 +64,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   );
   const { send: withdrawRBTC, ...withdrawRBTCTx } = useSendContractTx(
     'feeSharingProxy',
-    'withdrawRBTC',
+    'withdrawRbtcTokens',
   );
   const {
     send: withdrawStartingFromCheckpoint,
@@ -96,15 +98,20 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     if (userCheckpoint?.hasSkippedCheckpoints) {
       if (isRBTC) {
         withdrawRBTCStartingFromCheckpoint(
-          [userCheckpoint?.checkpointNum, maxWithdrawCheckpoint, address],
+          [
+            [contractAddress],
+            [userCheckpoint?.checkpointNum],
+            maxWithdrawCheckpoint,
+            address,
+          ],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
           { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
         );
       } else {
         withdrawStartingFromCheckpoint(
           [
-            contractAddress,
-            userCheckpoint?.checkpointNum,
+            [contractAddress],
+            [userCheckpoint?.checkpointNum],
             maxWithdrawCheckpoint,
             address,
           ],
@@ -115,7 +122,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
     } else {
       if (isRBTC) {
         withdrawRBTC(
-          [maxWithdrawCheckpoint, address],
+          [[contractAddress], maxWithdrawCheckpoint, address],
           { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
           { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
         );
