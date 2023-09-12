@@ -23,6 +23,7 @@ import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd
 import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
+import { BABELFISH_APP_LINK } from 'utils/classifiers';
 
 interface IUserAssetsTableRow {
   item: AssetDetails;
@@ -201,14 +202,14 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
           {[Asset.USDT, Asset.RDOC].includes(asset) && (
             <Button
               text={t(translations.userAssets.actions.convert)}
-              onClick={() => onConvert(asset)}
+              hrefExternal
+              href={BABELFISH_APP_LINK}
               style={ButtonStyle.link}
               size={ButtonSize.sm}
-              disabled={!hasAnyTokens}
               dataActionId={`portfolio-action-convert-${asset}`}
             />
           )}
-          {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(asset) && (
+          {[Asset.SOV, Asset.ETH, Asset.BNB].includes(asset) && (
             <BridgeLink asset={asset} disableWithdrawal={!hasAnyTokens} />
           )}
           {asset === Asset.WRBTC && (
@@ -219,6 +220,27 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               size={ButtonSize.sm}
               disabled={!hasAnyTokens}
             />
+          )}
+          {asset === Asset.XUSD && (
+            <>
+              <Button
+                text={t(translations.common.send)}
+                hrefExternal
+                href={BABELFISH_APP_LINK}
+                style={ButtonStyle.link}
+                size={ButtonSize.sm}
+                dataActionId={`portfolio-action-send-xusd`}
+              />
+
+              <Button
+                text={t(translations.common.receive)}
+                hrefExternal
+                href={BABELFISH_APP_LINK}
+                style={ButtonStyle.link}
+                size={ButtonSize.sm}
+                dataActionId={`portfolio-action-receive-xusd`}
+              />
+            </>
           )}
         </div>
       </td>

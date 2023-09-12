@@ -19,6 +19,9 @@ import { weiToUSD } from 'utils/display-text/format';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Button, ButtonSize, ButtonStyle } from 'app/components/Button';
+import { useGetNextPositiveCheckpoint } from 'app/pages/RewardPage/hooks/useGetNextPositiveCheckpoint';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { getMaxProcessableCheckpoints } from 'utils/helpers';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -48,16 +51,39 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
         : contractToken.getLendingContractName(),
     [contractToken, isSovToken],
   );
+
+  const { value: maxCheckpoints } = useCacheCallWithValue(
+    'feeSharingProxy',
+    'totalTokenCheckpoints',
+    -1,
+    contractToken.getTokenContractAddress(),
+  );
+
+  const maxWithdrawCheckpoint = useMemo(
+    () =>
+      Number(maxCheckpoints) > getMaxProcessableCheckpoints(asset)
+        ? String(getMaxProcessableCheckpoints(asset))
+        : Number(maxCheckpoints),
+    [maxCheckpoints, asset],
+  );
+
+  const { userCheckpoint } = useGetNextPositiveCheckpoint(
+    contractToken.getTokenContractAddress(),
+    Number(maxCheckpoints),
+  );
+
   const dollars = useCachedAssetPrice(asset, Asset.USDT);
   const tokenAddress = getContract(token)?.address;
   const currency = useStaking_getAccumulatedFees(
     account,
     tokenAddress,
     useNewContract,
+    Number(userCheckpoint?.checkpointNum) - 1,
+    Number(maxWithdrawCheckpoint),
   );
 
   const dollarValue = useMemo(() => {
-    if (currency.value === null) {
+    if (!currency.value) {
       return '';
     }
     return bignumber(currency.value)
@@ -139,7 +165,9 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           </div>
           <Button
             text={t(translations.userAssets.actions.withdraw)}
-            disabled={frozen || currency.value === '0'}
+            disabled={
+              frozen || currency.value === '0' || !userCheckpoint?.hasFees
+            }
             onClick={handleWithdrawFee}
             className="tw-lowercase"
             dataActionId={`staking-withdrawalButton-${

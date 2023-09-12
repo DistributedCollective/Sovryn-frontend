@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IClaimFormProps } from '../BaseClaimForm/types';
 import { useAccount } from 'app/hooks/useAccount';
@@ -14,7 +8,7 @@ import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { currentChainId, gasLimit } from 'utils/classifiers';
+import { gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -24,11 +18,8 @@ import { bignumber } from 'mathjs';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { TransactionDialog } from 'app/components/TransactionDialog';
-import { simulateTx } from 'utils/simulator/simulateTx';
-import { TxTuple } from 'utils/simulator/types';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { Sovryn } from 'utils/sovryn';
-import { toastError } from 'utils/toaster';
+import { useGetNextPositiveCheckpoint } from 'app/pages/RewardPage/hooks/useGetNextPositiveCheckpoint';
+import { getMaxProcessableCheckpoints } from 'utils/helpers';
 
 interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   rbtcValue: number;
@@ -51,104 +42,103 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const claimFeesEarnedLocked = checkMaintenance(States.CLAIM_FEES_EARNED);
 
-  const controllerRef = useRef<AbortController>();
+  const isRBTC = useMemo(() => asset === Asset.RBTC, [asset]);
 
   const { value: maxCheckpoints } = useCacheCallWithValue(
     'feeSharingProxy',
-    'numTokenCheckpoints',
+    'totalTokenCheckpoints',
     -1,
     contractAddress,
   );
-  const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
-  const { send: withdrawRBTC, ...tx2 } = useSendContractTx(
+
+  const {
+    userCheckpoint,
+    updateNextPositiveCheckpoint,
+  } = useGetNextPositiveCheckpoint(contractAddress, Number(maxCheckpoints));
+
+  const { send: withdraw, ...withdrawTx } = useSendContractTx(
+    'feeSharingProxy',
+    'withdraw',
+  );
+  const { send: withdrawRBTC, ...withdrawRBTCTx } = useSendContractTx(
     'feeSharingProxy',
     'withdrawRBTC',
   );
-
-  const [isSimulating, setIsSimulating] = useState(false);
+  const {
+    send: withdrawStartingFromCheckpoint,
+    ...withdrawStartingFromCheckpointTx
+  } = useSendContractTx('feeSharingProxy', 'withdrawStartingFromCheckpoint');
+  const {
+    send: withdrawRBTCStartingFromCheckpoint,
+    ...withdrawRBTCStartingFromCheckpointTx
+  } = useSendContractTx(
+    'feeSharingProxy',
+    'withdrawRBTCStartingFromCheckpoint',
+  );
 
   const isClaimDisabled = useMemo(
     () =>
-      isSimulating ||
+      !userCheckpoint?.hasFees ||
       claimFeesEarnedLocked ||
       !bignumber(amountToClaim).greaterThan(0) ||
       assetClaimLocked,
-    [isSimulating, claimFeesEarnedLocked, amountToClaim, assetClaimLocked],
+    [userCheckpoint, claimFeesEarnedLocked, amountToClaim, assetClaimLocked],
   );
 
+  const maxWithdrawCheckpoint = useMemo(
+    () =>
+      Number(maxCheckpoints) > getMaxProcessableCheckpoints(asset)
+        ? String(getMaxProcessableCheckpoints(asset))
+        : maxCheckpoints,
+    [maxCheckpoints, asset],
+  );
   const onSubmit = useCallback(() => {
-    if (asset === Asset.RBTC) {
-      withdrawRBTC(
-        [0, address],
-        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
-        { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
-      );
-    } else {
-      send(
-        [contractAddress, maxCheckpoints, address],
-        { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
-        { type: TxType.STAKING_REWARDS_CLAIM },
-      );
-    }
-  }, [address, asset, contractAddress, maxCheckpoints, send, withdrawRBTC]);
-
-  const handleCheckBeforeSubmit = useCallback(() => {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
-    setIsSimulating(true);
-
-    controllerRef.current = new AbortController();
-
-    const args =
-      asset === Asset.RBTC
-        ? [0, address]
-        : [contractAddress, maxCheckpoints, address];
-
-    const method = asset === Asset.RBTC ? 'withdrawRBTC' : 'withdraw';
-
-    const tx: TxTuple = [
-      {
-        to: getContract('feeSharingProxy').address,
-        from: address,
-        value: '0',
-        input: Sovryn.contracts['feeSharingProxy'].methods[method](
-          ...args,
-        ).encodeABI(),
-        gas_price: '0',
-        gas: 6_800_000,
-      },
-    ];
-
-    simulateTx(currentChainId, tx, controllerRef.current.signal)
-      .then(([{ transaction }]) => {
-        console.log('simulation response', asset, transaction);
-        if (transaction.status) {
-          onSubmit();
-        } else {
-          toastError(
-            t(translations.rewardPage.claimForm.contractFailure, {
-              currency: asset,
-            }),
-          );
-        }
-      })
-      .catch(() => {
-        // error from the simulator itself
-        toastError(t(translations.rewardPage.claimForm.simulatorFailure));
-      })
-      .finally(() => {
-        setIsSimulating(false);
-      });
-  }, [address, asset, contractAddress, maxCheckpoints, onSubmit, t]);
-
-  useEffect(() => {
-    return () => {
-      if (controllerRef.current) {
-        controllerRef.current.abort();
+    if (userCheckpoint?.hasSkippedCheckpoints) {
+      if (isRBTC) {
+        withdrawRBTCStartingFromCheckpoint(
+          [userCheckpoint?.checkpointNum, maxWithdrawCheckpoint, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
+          { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
+        );
+      } else {
+        withdrawStartingFromCheckpoint(
+          [
+            contractAddress,
+            userCheckpoint?.checkpointNum,
+            maxWithdrawCheckpoint,
+            address,
+          ],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
+          { type: TxType.STAKING_REWARDS_CLAIM },
+        );
       }
-    };
-  }, []);
+    } else {
+      if (isRBTC) {
+        withdrawRBTC(
+          [maxWithdrawCheckpoint, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM_RBTC] },
+          { type: TxType.STAKING_REWARDS_CLAIM_RBTC },
+        );
+      } else {
+        withdraw(
+          [contractAddress, maxWithdrawCheckpoint, address],
+          { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
+          { type: TxType.STAKING_REWARDS_CLAIM },
+        );
+      }
+    }
+  }, [
+    userCheckpoint?.hasSkippedCheckpoints,
+    userCheckpoint?.checkpointNum,
+    isRBTC,
+    withdrawRBTCStartingFromCheckpoint,
+    maxWithdrawCheckpoint,
+    address,
+    withdrawStartingFromCheckpoint,
+    contractAddress,
+    withdrawRBTC,
+    withdraw,
+  ]);
 
   return (
     <tr
@@ -172,7 +162,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
       <td>
         <ActionButton
           text={t(translations.rewardPage.claimForm.cta)}
-          onClick={handleCheckBeforeSubmit}
+          onClick={onSubmit}
           className={classNames(
             'tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4',
             {
@@ -191,8 +181,16 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
           }
           dataActionId={`rewards-claim-feesearned-${asset}`}
         />
-        <TransactionDialog tx={tx} />
-        <TransactionDialog tx={tx2} />
+        <TransactionDialog tx={withdrawTx} />
+        <TransactionDialog tx={withdrawRBTCTx} />
+        <TransactionDialog
+          tx={withdrawStartingFromCheckpointTx}
+          onSuccess={updateNextPositiveCheckpoint}
+        />
+        <TransactionDialog
+          tx={withdrawRBTCStartingFromCheckpointTx}
+          onSuccess={updateNextPositiveCheckpoint}
+        />
       </td>
     </tr>
   );

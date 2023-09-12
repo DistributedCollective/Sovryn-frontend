@@ -5,7 +5,6 @@ import wLiquality from 'assets/wallets/liquality.svg';
 import wPortis from 'assets/wallets/portis.svg';
 import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
-import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import classNames from 'classnames';
 
 export const getWalletImage = wallet => {
@@ -14,7 +13,6 @@ export const getWalletImage = wallet => {
   if (wallet === 'portis') return wPortis;
   if (wallet === 'ledger') return wLedger;
   if (wallet === 'trezor') return wTrezor;
-  if (wallet === 'wallet-connect') return wWalletConnect;
   return wMetamask;
 };
 
@@ -24,7 +22,6 @@ export const getWalletName = wallet => {
   if (wallet === 'portis') return 'Portis';
   if (wallet === 'ledger') return 'Ledger';
   if (wallet === 'trezor') return 'Trezor';
-  if (wallet === 'wallet-connect') return 'Wallet Connect';
   return 'MetaMask';
 };
 

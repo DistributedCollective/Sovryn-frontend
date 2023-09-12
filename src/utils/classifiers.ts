@@ -119,14 +119,13 @@ export const gasLimit = {
   [TxType.STAKING_STAKE]: 1400000,
   [TxType.STAKING_INCREASE_STAKE]: 450000,
   [TxType.STAKING_EXTEND]: 450000,
-  [TxType.STAKING_WITHDRAW]: 650000,
-  [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
-  [TxType.STAKING_REWARDS_CLAIM_RBTC]: 6500000, //temporary high limit to cover all checkpoints
-  [TxType.DEPOSIT_COLLATERAL]: 250000,
+  [TxType.STAKING_WITHDRAW]: 1400000,
+  [TxType.STAKING_REWARDS_CLAIM]: 6700000,
+  [TxType.STAKING_REWARDS_CLAIM_RBTC]: 6700000,
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 3500000,
-  [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 4000000,
+  [TxType.SOV_WITHDRAW_VESTING_TEAM]: 6700000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
@@ -141,7 +140,7 @@ export const gasLimit = {
   [TxType.CONVERT_BTCB]: 120000,
 };
 
-export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
+export const discordInvite = 'https://discord.gg/sovryn';
 
 export const sovrynTwitter = 'https://twitter.com/SovrynBTC';
 export const sovrynTelegram = 'https://t.me/SovrynBitcoin';
@@ -156,6 +155,8 @@ export const MAINTENANCE_MARGIN = 15000000000000000000;
 export const MIN_GAS = 40000;
 
 export const CREATE_TICKET_LINK = 'https://help.sovryn.app/';
+
+export const BABELFISH_APP_LINK = 'https://app.babelfish.money';
 
 export const WIKI_LIMIT_ORDER_LIMITS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';

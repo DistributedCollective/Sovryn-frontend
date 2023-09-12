@@ -168,6 +168,37 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "prevProcessedCheckpoints",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newProcessedCheckpoints",
+        "type": "uint256"
+      }
+    ],
+    "name": "UserFeeProcessedNoWithdraw",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "receiver",
         "type": "address"
       },
@@ -251,11 +282,47 @@
       },
       {
         "internalType": "address",
-        "name": "_loanPoolToken",
+        "name": "_token",
         "type": "address"
       }
     ],
     "name": "getAccumulatedFees",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      }
+    ],
+    "name": "getAccumulatedFeesForCheckpointsRange",
     "outputs": [
       {
         "internalType": "uint256",
@@ -282,6 +349,52 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startFrom",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxCheckpoints",
+        "type": "uint256"
+      }
+    ],
+    "name": "getNextPositiveUserCheckpoint",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "checkpointNum",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "hasSkippedCheckpoints",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "hasFees",
+        "type": "bool"
       }
     ],
     "payable": false,
@@ -344,7 +457,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "_token",
         "type": "address"
       }
     ],
@@ -488,6 +601,27 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "totalTokenCheckpoints",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -557,7 +691,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_loanPoolToken",
+        "name": "_token",
         "type": "address"
       },
       {
@@ -622,6 +756,61 @@
       }
     ],
     "name": "withdrawRBTC",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fromCheckpoint",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawRBTCStartingFromCheckpoint",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_fromCheckpoint",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawStartingFromCheckpoint",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

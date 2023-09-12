@@ -193,7 +193,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
     {
       to: '',
-      title: 'Sovryn.app',
+      title: t(translations.mainMenu.d2Title),
       dataActionId: '',
       hrefExternal: true,
     },
@@ -346,6 +346,7 @@ export const DefaultHeaderComponent: React.FC = () => {
               <NavPopover
                 content={
                   <>
+                    <MenuSeparator text={t(translations.mainMenu.d2Title)} />
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       label={t(translations.mainMenu.labels.d2Borrow)}

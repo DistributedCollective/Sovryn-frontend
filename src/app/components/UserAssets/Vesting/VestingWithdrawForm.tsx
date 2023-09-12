@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from 'app/hooks/staking/useGetUnlockedVesting';
@@ -18,6 +18,7 @@ import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
 import { gasLimit } from 'utils/classifiers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Icon } from 'app/components/Icon';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 
 type VestingWithdrawFormProps = {
   vesting: FullVesting;
@@ -42,15 +43,27 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
     VestingAbi as AbiItem[],
     'withdrawTokens',
   );
+  const vestingTxType = useMemo(
+    () =>
+      vesting.type === 'team'
+        ? TxType.SOV_WITHDRAW_VESTING_TEAM
+        : TxType.SOV_WITHDRAW_VESTING,
+    [vesting],
+  );
+
+  const txConfig = useMemo(
+    () => ({
+      from: account,
+      gas: gasLimit[vestingTxType],
+    }),
+    [account, vestingTxType],
+  );
+
   const handleSubmit = useCallback(() => {
     if (!tx.loading) {
-      send(
-        [address.toLowerCase()],
-        { from: account, gas: gasLimit[TxType.SOV_WITHDRAW_VESTING] },
-        { type: TxType.SOV_WITHDRAW_VESTING },
-      );
+      send([address.toLowerCase()], txConfig, { type: vestingTxType });
     }
-  }, [account, address, send, tx]);
+  }, [address, send, tx, vestingTxType, txConfig]);
 
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const openSchedule = useCallback(event => {
@@ -108,9 +121,13 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
             />
           </FieldGroup>
 
-          <div className="tw-text-white tw-text-sm tw-font-normal tw-mx-9 tw-my-5">
-            {t(translations.common.fee, { amount: '0.000019' })}
-          </div>
+          <TxFeeCalculator
+            args={[address.toLowerCase()]}
+            txConfig={txConfig}
+            methodName="withdrawTokens"
+            contractName="vesting"
+            className="tw-my-5"
+          />
         </div>
 
         <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">

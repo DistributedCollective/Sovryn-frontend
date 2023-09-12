@@ -81,7 +81,7 @@ Remember, bug reports are created in the hope that others with the same problem 
 
 Sovryn's GitHub issue trackers are not intended to provide help or support. Use one of the following channels instead:
 
-- [Discord](https://discord.gg/J22WS6z)
+- [Discord](https://discord.gg/sovryn)
 - [Wiki Pages](https://wiki.sovryn.app)
 - [Sovryn Forum](https://forum.sovryn.app)
 - [Sovryn Blog](https://sovryn.app/blog/)
@@ -107,20 +107,6 @@ Ask in the #sorcery channel of the Sovryn Discord server when unsure if the feat
 ### Working With UI
 
 All UI designs used for this repository should be available publically in [Google Drive folder as Adobe XD files](https://drive.google.com/drive/folders/1e_VljWpANJe0o4VmIkKU5Ewo56l9iMaM?usp=sharing)
-
-### Storybook
-
-We use Storybook to provide API style docs and examples for our UI components. Any new components should have stories added to them that include all available properties that can be passed in, and some specific examples for major common variations. For specific implementation examples, you can search the codebase for files named `index.stories.tsx`.
-
-To test components via Storybook on your local machine:
-
-- run `yarn install` on your working branch.
-- run `yarn storybook` to load the development server.
-- access Storybook dev server on `localhost:6006`.
-- if the docs fail to load and you see an error `cannot read properties of undefined (reading 'storyStore')`, the package installation is likely broken and you will need to clear `node_modules` folder and follow first two steps again.
-- changes can now be made to `index.stories.tsx` files and the development server will hot-reload automatically.
-
-To test components on a deployed PR link, simply append `/storybook` to the end of the deployed URL.
 
 ## Security Vulnerabilities
 
