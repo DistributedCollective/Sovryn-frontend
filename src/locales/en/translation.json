@@ -1647,7 +1647,8 @@
       "learn": "Learn more",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly.",
       "contractFailure": "Due to a known issue, claiming {{currency}} transaction will fail. Work on a fix is in progress.",
-      "simulatorFailure": "Unknown error, please try again later."
+      "simulatorFailure": "Unknown error, please try again later.",
+      "liquidityMiningError": "Your LM (Liquidity Mining) vesting contract holds more than {{count}} liquid stakes. Please withdraw excess liquid SOV from your vesting contract to enable the 'Claim' button and claim rewards."
     },
     "liquidClaimForm": {
       "note": "Claiming your rewards automatically adds them to your SOV portfolio balance.",
