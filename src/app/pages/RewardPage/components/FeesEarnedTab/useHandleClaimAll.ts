@@ -9,6 +9,8 @@ import { useAccount } from 'app/hooks/useAccount';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { Asset } from 'types';
 import { toastError } from 'utils/toaster';
+import { gasLimit } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
 
 const MAX_CHECKPONTS = 10;
 const MAX_NEXT_POSITIVE_CHECKPOINT = 75;
@@ -19,7 +21,7 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
   const account = useAccount();
   const { send, ...tx } = useSendContractTx(
     'feeSharingProxy',
-    'withdrawStartingFromCheckpoints',
+    'claimAllCollectedFees',
   );
 
   const claimable = useMemo(
@@ -40,7 +42,7 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
           hasFees: result.hasFees,
         })),
       ),
-    ).then(result => result.filter(fee => fee.hasSkippedCheckpoints));
+    ).then(result => result.filter(fee => fee.hasFees));
 
     if (checkpoints.length === 0) {
       // todo: use translation key
@@ -51,15 +53,35 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
       return;
     }
 
+    const nonRbtcRegular = checkpoints
+      .filter(
+        item => !isBtcBasedToken(item.asset) && !item.hasSkippedCheckpoints,
+      )
+      .map(item => item.contractAddress);
+
+    const rbtcRegular = checkpoints
+      .filter(
+        item => isBtcBasedToken(item.asset) && !item.hasSkippedCheckpoints,
+      )
+      .map(item => item.contractAddress);
+
+    const tokensWithSkippedCheckpoints = checkpoints
+      .filter(item => item.hasSkippedCheckpoints)
+      .map(item => ({
+        tokenAddress: item.contractAddress,
+        fromCheckpoint: item.startFrom,
+      }));
+
     send(
       [
-        claimable.map(fee => fee.contractAddress),
-        claimable.map(fee => fee.startFrom),
+        nonRbtcRegular,
+        rbtcRegular,
+        tokensWithSkippedCheckpoints,
         MAX_CHECKPONTS,
         account,
       ],
       {
-        gas: 5_000_000, // todo: move to constants
+        gas: gasLimit[TxType.CLAIM_ALL_REWARDS],
       },
     );
 
@@ -114,4 +136,8 @@ async function getNextPositiveCheckpoint(
     hasFees: false,
     hasSkippedCheckpoints: false,
   };
+}
+
+function isBtcBasedToken(token: Asset) {
+  return [Asset.RBTC, Asset.WRBTC].includes(token);
 }

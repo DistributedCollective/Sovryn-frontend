@@ -273,6 +273,53 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_nonRbtcTokensRegularWithdraw",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_rbtcTokensRegularWithdraw",
+        "type": "address[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fromCheckpoint",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct FeeSharingCollectorStorage.TokenWithSkippedCheckpointsWithdraw[]",
+        "name": "_tokensWithSkippedCheckpoints",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      }
+    ],
+    "name": "claimAllCollectedFees",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -802,91 +849,6 @@
       }
     ],
     "name": "withdrawFeesAMM",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "_tokens",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_maxCheckpoints",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawRbtcTokens",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "_tokens",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_fromCheckpoints",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_maxCheckpoints",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawRbtcTokensStartingFromCheckpoint",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "_tokens",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_fromCheckpoints",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_maxCheckpoints",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawStartingFromCheckpoints",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
