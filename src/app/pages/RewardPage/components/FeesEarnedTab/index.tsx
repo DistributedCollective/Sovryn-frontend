@@ -42,10 +42,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 
   const [tx, claim] = useHandleClaimAll(earnedFees);
 
-  const isClaimDisabled = useMemo(() => {
-    // todo: disable if already claiming
-    return false;
-  }, []);
+  const isClaimDisabled = useMemo(() => tx.loading, [tx.loading]);
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
@@ -82,7 +79,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                   </th>
                   <th>
                     <ActionButton
-                      text={t(translations.rewardPage.claimForm.cta)}
+                      text={t(translations.rewardPage.claimForm.ctaAll)}
                       onClick={claim}
                       className={classNames(
                         'tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4',

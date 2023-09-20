@@ -31,8 +31,6 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
   );
 
   const handleClaim = useCallback(async () => {
-    console.log('handleClaim', fees, claimable);
-
     const checkpoints = await Promise.all(
       claimable.map(fee =>
         getNextPositiveCheckpoint(account, fee).then(result => ({
@@ -44,12 +42,10 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
       ),
     ).then(result => result.filter(fee => fee.hasSkippedCheckpoints));
 
-    console.log('checkpoints', checkpoints);
-
     if (checkpoints.length === 0) {
       // todo: use translation key
       toastError(
-        'No available fees here, try using individual "CLAIM" buttons for each token instead',
+        'No available fees to claim. Please wait for the next checkpoint.',
         'claim-all',
       );
       return;
@@ -68,7 +64,7 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
     );
 
     // withdrawStartingFromCheckpoints
-  }, [fees, claimable, send, account]);
+  }, [claimable, send, account]);
   return [tx, handleClaim];
 };
 

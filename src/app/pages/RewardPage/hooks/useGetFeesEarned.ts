@@ -13,12 +13,10 @@ import {
   bridgeNetwork,
 } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { useIsMounted } from 'app/hooks/useIsMounted';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 const MAX_CHECKPONTS = 50;
 
-const ASSETS = AssetsDictionary.assetList();
-// const ASSETS = [Asset.RBTC, Asset.SOV, Asset.MYNT, Asset.ZUSD];
+const ASSETS = [Asset.RBTC, Asset.WRBTC, Asset.SOV, Asset.MYNT, Asset.ZUSD];
 
 let btcDummyAddress: string;
 const getRbtcDummyAddress = async () => {
