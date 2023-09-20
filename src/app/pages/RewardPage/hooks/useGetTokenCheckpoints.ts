@@ -8,6 +8,9 @@ import { useAccount } from 'app/hooks/useAccount';
 
 import { getMaxProcessableCheckpoints } from 'utils/helpers';
 
+/**
+ * @deprecated
+ */
 export const useGetTokenCheckpoints = (asset: Asset) => {
   const account = useAccount();
   const {

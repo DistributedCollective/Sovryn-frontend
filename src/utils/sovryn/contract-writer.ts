@@ -205,6 +205,16 @@ class ContractWriter {
         }
 
         try {
+          console.log({
+            to: address.toLowerCase(),
+            value: String(options?.value || '0'),
+            data: data,
+            gasPrice: String(gasPrice),
+            nonce,
+            gasLimit: String(gasLimit),
+            chainId: walletService.chainId,
+          });
+
           const signedTxOrTransactionHash = await walletService.signTransaction(
             {
               to: address.toLowerCase(),
