@@ -15,7 +15,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { translations } from 'locales/i18n';
 import { UserCheckpoint } from './types';
 
-const MAX_CHECKPOINTS = 10;
+const MAX_CHECKPOINTS = 50;
 const MAX_NEXT_POSITIVE_CHECKPOINT = 75;
 
 type HandleClaimAllResult = [ResetTxResponseInterface, () => void];
@@ -29,10 +29,7 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
   );
 
   const claimable = useMemo(
-    () =>
-      fees.filter(
-        fee => BigNumber.from(fee.value).gt(0) && (fee.startFrom || 0 > 1),
-      ),
+    () => fees.filter(fee => BigNumber.from(fee.value).gt(0)),
     [fees],
   );
 
@@ -47,8 +44,6 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
         })),
       ),
     ).then(result => result.filter(fee => fee.hasFees));
-
-    console.log(checkpoints);
 
     if (checkpoints.length === 0) {
       toastError(
