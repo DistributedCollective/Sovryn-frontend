@@ -14,7 +14,7 @@ import {
 } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { useIsMounted } from 'app/hooks/useIsMounted';
 
-const MAX_CHECKPONTS = 50;
+const MAX_CHECKPOINTS = 50;
 
 const ASSETS = [Asset.RBTC, Asset.WRBTC, Asset.SOV, Asset.MYNT, Asset.ZUSD];
 
@@ -108,7 +108,7 @@ export const useGetFeesEarned = (): {
                   checkpoints.returnData[`${token}/processedCheckpoints`],
                   0,
                 ),
-                MAX_CHECKPONTS,
+                MAX_CHECKPOINTS,
               ],
               key: token,
               parser: ({ fees }: { fees: string[] }) =>

@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { BigNumber } from 'ethers';
+import { useTranslation } from 'react-i18next';
 import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
 import {
   ResetTxResponseInterface,
@@ -11,13 +12,16 @@ import { Asset } from 'types';
 import { toastError } from 'utils/toaster';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
+import { translations } from 'locales/i18n';
+import { UserCheckpoint } from './types';
 
-const MAX_CHECKPONTS = 10;
+const MAX_CHECKPOINTS = 10;
 const MAX_NEXT_POSITIVE_CHECKPOINT = 75;
 
 type HandleClaimAllResult = [ResetTxResponseInterface, () => void];
 
 export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
+  const { t } = useTranslation();
   const account = useAccount();
   const { send, ...tx } = useSendContractTx(
     'feeSharingProxy',
@@ -44,10 +48,11 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
       ),
     ).then(result => result.filter(fee => fee.hasFees));
 
+    console.log(checkpoints);
+
     if (checkpoints.length === 0) {
-      // todo: use translation key
       toastError(
-        'No available fees to claim. Please wait for the next checkpoint.',
+        t(translations.rewardPage.claimForm.noCheckpoints),
         'claim-all',
       );
       return;
@@ -77,7 +82,7 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
         nonRbtcRegular,
         rbtcRegular,
         tokensWithSkippedCheckpoints,
-        MAX_CHECKPONTS,
+        MAX_CHECKPOINTS,
         account,
       ],
       {
@@ -86,15 +91,8 @@ export const useHandleClaimAll = (fees: IEarnedFee[]): HandleClaimAllResult => {
     );
 
     // withdrawStartingFromCheckpoints
-  }, [claimable, send, account]);
+  }, [claimable, send, account, t]);
   return [tx, handleClaim];
-};
-
-type UserCheckpoint = {
-  asset: Asset;
-  checkpointNum: number;
-  hasFees: boolean;
-  hasSkippedCheckpoints: boolean;
 };
 
 async function getNextPositiveCheckpoint(

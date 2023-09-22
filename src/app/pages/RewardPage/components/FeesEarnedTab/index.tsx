@@ -91,10 +91,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                       disabled={isClaimDisabled}
                       title={
                         (claimFeesEarnedLocked &&
-                          t(translations.maintenance.claimRewards).replace(
-                            /<\/?\d+>/g,
-                            '',
-                          )) ||
+                          t(translations.maintenance.claimRewardsTitle)) ||
                         undefined
                       }
                       dataActionId={`rewards-claim-feesearned-all`}
