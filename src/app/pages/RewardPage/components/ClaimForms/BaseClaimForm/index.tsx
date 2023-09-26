@@ -18,6 +18,8 @@ import { Asset } from 'types';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { discordInvite } from 'utils/classifiers';
 import { weiToNumberFormat } from 'utils/display-text/format';
+import useGetVestingAddresses from './hooks/useGetVestingAddresses';
+import useGetFilteredDates from './hooks/useGetFilteredDates';
 
 interface IBaseClaimFormProps {
   className?: string;
@@ -30,6 +32,8 @@ interface IBaseClaimFormProps {
   claimLocked?: boolean;
   dataActionId?: string;
 }
+
+const MAX_LIQUID_STAKES = 44;
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   className,
@@ -45,16 +49,36 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
+  const currentDate = useMemo(() => Math.ceil(new Date().getTime() / 1e3), []);
+
+  const vestingAddresses = useGetVestingAddresses();
+
+  const filteredDates = useGetFilteredDates(vestingAddresses);
+  const datesLessThanCurrentTime = useMemo(
+    () =>
+      filteredDates.filter(
+        dateInSeconds => parseInt(dateInSeconds) < currentDate,
+      ),
+    [filteredDates, currentDate],
+  );
+
+  const isAboveThreshold = useMemo(
+    () =>
+      datesLessThanCurrentTime.length > MAX_LIQUID_STAKES &&
+      vestingAddresses.length > 0,
+    [datesLessThanCurrentTime, vestingAddresses],
+  );
 
   const isDisabled = useMemo(
     () =>
+      isAboveThreshold ||
       parseFloat(amountToClaim) === 0 ||
       !amountToClaim ||
       rewardsLocked ||
       claimLocked ||
       tx.status === TxStatus.PENDING ||
       tx.status === TxStatus.PENDING_FOR_USER,
-    [amountToClaim, rewardsLocked, claimLocked, tx.status],
+    [amountToClaim, rewardsLocked, claimLocked, tx.status, isAboveThreshold],
   );
 
   return (
@@ -127,6 +151,13 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
             </Tooltip>
           )}
 
+          {isAboveThreshold && (
+            <p className="tw-text-xs my-2">
+              {t(translations.rewardPage.claimForm.liquidityMiningError, {
+                count: MAX_LIQUID_STAKES,
+              })}
+            </p>
+          )}
           <div className="tw-text-xs">{footer}</div>
         </>
       </div>
