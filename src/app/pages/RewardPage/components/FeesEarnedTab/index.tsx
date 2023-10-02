@@ -12,6 +12,11 @@ import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { useGetTradingRewards } from '../RewardTab/hooks/useGetTradingRewards';
+import { useHandleClaimAll } from './useHandleClaimAll';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import classNames from 'classnames';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
@@ -26,12 +31,18 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const { checkMaintenance, States } = useMaintenance();
+  const claimFeesEarnedLocked = checkMaintenance(States.CLAIM_FEES_EARNED);
   const { data: rewardsData } = useGetTradingRewards();
 
   const totalStakingFees = useMemo(
     () => rewardsData?.userRewardsEarnedHistory?.totalFeeWithdrawn || '0',
     [rewardsData],
   );
+
+  const [tx, claim] = useHandleClaimAll(earnedFees);
+
+  const isClaimDisabled = useMemo(() => tx.loading, [tx.loading]);
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
@@ -66,7 +77,26 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                       />
                     </div>
                   </th>
-                  <th></th>
+                  <th>
+                    <ActionButton
+                      text={t(translations.rewardPage.claimForm.ctaAll)}
+                      onClick={claim}
+                      className={classNames(
+                        'tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4',
+                        {
+                          'tw-cursor-not-allowed': isClaimDisabled,
+                        },
+                      )}
+                      textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+                      disabled={isClaimDisabled}
+                      title={
+                        (claimFeesEarnedLocked &&
+                          t(translations.maintenance.claimRewardsTitle)) ||
+                        undefined
+                      }
+                      dataActionId={`rewards-claim-feesearned-all`}
+                    />
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -105,6 +135,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           asset={Asset.RBTC}
           isComingSoon
         />
+        <TransactionDialog tx={tx} />
       </div>
     </div>
   );

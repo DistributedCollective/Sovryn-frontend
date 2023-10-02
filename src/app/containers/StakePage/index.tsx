@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
 import { Tooltip } from '@blueprintjs/core';
@@ -6,9 +6,7 @@ import { bignumber } from 'mathjs';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { weiTo4, toWei, fromWei } from 'utils/blockchain/math-helpers';
-import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import {
   staking_allowance,
   staking_approve,
@@ -39,9 +37,6 @@ import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
 import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { AssetDetails } from 'utils/models/asset-details';
-import { getUSDSum } from '../../../utils/helpers';
-import { FeeBlock } from './components/FeeBlock';
 import { Spinner, SpinnerSize } from 'app/components/Spinner';
 import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
@@ -121,13 +116,6 @@ const InnerStakePage: React.FC = () => {
     Number(lockDate),
     Number(currentLockDate.value),
   );
-  const [assetsUsd, setAssetsUsd] = useState<{
-    [assets: string]: number;
-  }>({});
-  const usdTotal = useMemo(() => getUSDSum(Object.values(assetsUsd)), [
-    assetsUsd,
-  ]);
-  const assets = AssetsDictionary.list();
   const { value: sovBalance, loading: sovBalanceLoading } = useAssetBalanceOf(
     Asset.SOV,
   );
@@ -325,12 +313,6 @@ const InnerStakePage: React.FC = () => {
     [prevTimestamp, timestamp, extendForm, extendTx.loading, extend],
   );
 
-  const updateUsdTotal = useCallback(
-    (asset: AssetDetails, e: number) =>
-      setAssetsUsd(assetsUsd => ({ ...assetsUsd, [asset.asset]: e })),
-    [],
-  );
-
   const onDelegate = useCallback((a, b) => {
     setTimestamp(b);
     setIsStakeDelegate(true);
@@ -386,7 +368,7 @@ const InnerStakePage: React.FC = () => {
               {t(translations.stake.title)}
             </h2>
             <div className="lg:tw-flex tw-items-stretch tw-justify-between tw-mt-2">
-              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
+              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/2 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/2">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
@@ -459,34 +441,7 @@ const InnerStakePage: React.FC = () => {
                   </Tooltip>
                 )}
               </div>
-              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl tw-text-sm tw-w-full lg:tw-w-1/3 lg:tw-mb-0 lg:tw-mx-2 2xl:tw-w-1/4 ">
-                <p className="tw-text-lg tw--mt-1">
-                  {t(translations.stake.feeTitle)}
-                </p>
-                <p className="tw-text-4xl tw-mt-2 tw-mb-6">
-                  ≈ {numberToUSD(usdTotal)}
-                </p>
-                {assets.map((item, i) => {
-                  if (item.asset === 'CSOV') return '';
-                  return (
-                    <FeeBlock
-                      updateUsdTotal={updateUsdTotal}
-                      key={item.asset}
-                      contractToken={item}
-                      frozen={frozen}
-                    />
-                  );
-                })}
-                <FeeBlock
-                  updateUsdTotal={updateUsdTotal}
-                  contractToken={AssetsDictionary.get(Asset.SOV)}
-                  title={t(translations.stake.vestingFees)}
-                  useNewContract
-                  frozen={frozen}
-                  vestedFees={true}
-                />
-              </div>
-              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
+              <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/2 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/2">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>

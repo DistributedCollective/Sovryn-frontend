@@ -124,6 +124,56 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "oldLoanTokenWrbtc",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newLoanTokenWrbtc",
+        "type": "address"
+      }
+    ],
+    "name": "SetLoanTokenWrbtc",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldWrbtcToken",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newWrbtcToken",
+        "type": "address"
+      }
+    ],
+    "name": "SetWrbtcToken",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "token",
         "type": "address"
       },
@@ -273,6 +323,53 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_nonRbtcTokensRegularWithdraw",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_rbtcTokensRegularWithdraw",
+        "type": "address[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fromCheckpoint",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct FeeSharingCollectorStorage.TokenWithSkippedCheckpointsWithdraw[]",
+        "name": "_tokensWithSkippedCheckpoints",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      },
+      {
+        "internalType": "address",
+        "name": "_receiver",
+        "type": "address"
+      }
+    ],
+    "name": "claimAllCollectedFees",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -374,6 +471,42 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint32",
+        "name": "_maxCheckpoints",
+        "type": "uint32"
+      }
+    ],
+    "name": "getAllUserFeesPerMaxCheckpoints",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "fees",
+        "type": "uint256[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startFrom",
+        "type": "uint256"
+      },
+      {
         "internalType": "uint256",
         "name": "_maxCheckpoints",
         "type": "uint256"
@@ -417,6 +550,47 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "wrbtcToken",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "loanWrbtcToken",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "name": "isFunctionExecuted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "isOwner",
@@ -446,6 +620,21 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "loanTokenWrbtcAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -531,6 +720,15 @@
   },
   {
     "constant": false,
+    "inputs": [],
+    "name": "recoverIncorrectAllocatedFees",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
     "inputs": [
       {
         "internalType": "address",
@@ -539,6 +737,36 @@
       }
     ],
     "name": "removeWhitelistedConverterAddress",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newLoanTokenWrbtcAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setLoanTokenWrbtc",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newWrbtcTokenAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setWrbtcToken",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -745,81 +973,6 @@
     "constant": false,
     "inputs": [
       {
-        "internalType": "uint32",
-        "name": "_maxCheckpoints",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawRBTC",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fromCheckpoint",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_maxCheckpoints",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawRBTCStartingFromCheckpoint",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_fromCheckpoint",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_maxCheckpoints",
-        "type": "uint32"
-      },
-      {
-        "internalType": "address",
-        "name": "_receiver",
-        "type": "address"
-      }
-    ],
-    "name": "withdrawStartingFromCheckpoint",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
         "internalType": "address",
         "name": "receiver",
         "type": "address"
@@ -834,6 +987,21 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "wrbtcTokenAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   }
 ]

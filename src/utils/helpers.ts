@@ -283,7 +283,7 @@ export const calculateAssetValue = (
   targetAsset: Asset = Asset.RBTC,
   assetRates: CachedAssetRate[],
 ) => {
-  if (asset === targetAsset) {
+  if (areAssetsEqual(asset, targetAsset)) {
     return Number(amount);
   }
   if (asset === Asset.ZUSD) asset = Asset.XUSD;
@@ -295,6 +295,11 @@ export const calculateAssetValue = (
   );
   return numberFromWei(bignumber(amount).mul(rate));
 };
+
+const areAssetsEqual = (asset1: Asset, asset2: Asset) =>
+  asset2 === asset1 ||
+  ([Asset.RBTC, Asset.WRBTC].includes(asset1) &&
+    [Asset.RBTC, Asset.WRBTC].includes(asset2));
 
 export const capitalize = (val: string) =>
   val && val.charAt(0).toLocaleUpperCase() + val.slice(1);

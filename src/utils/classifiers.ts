@@ -138,6 +138,7 @@ export const gasLimit = {
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
   [TxType.CONVERT_BTCB]: 120000,
+  [TxType.CLAIM_ALL_REWARDS]: 5000000,
 };
 
 export const discordInvite = 'https://discord.gg/sovryn';

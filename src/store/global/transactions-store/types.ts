@@ -63,6 +63,7 @@ export enum TxType {
   LIMIT_ORDER = 'limit_order',
   SETTLEMENT_WITDHRAW = 'settlement_withdraw',
   CONVERT_BTCB = 'convert_btcb',
+  CLAIM_ALL_REWARDS = 'claim_all_rewards',
 }
 
 export enum TxStatus {

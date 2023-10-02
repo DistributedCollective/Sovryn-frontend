@@ -987,6 +987,31 @@
         "type": "address"
       },
       {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldAdmin",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newAdmin",
+        "type": "address"
+      }
+    ],
+    "name": "SetAdmin",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
         "indexed": false,
         "internalType": "uint256",
         "name": "oldValue",
@@ -1306,6 +1331,31 @@
       }
     ],
     "name": "SetMinReferralsToPayoutAffiliates",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldPauser",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newPauser",
+        "type": "address"
+      }
+    ],
+    "name": "SetPauser",
     "type": "event"
   },
   {
@@ -2649,6 +2699,42 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useCollateral",
+        "type": "bool"
+      },
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "name": "extendLoanDuration",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "secondsExtended",
+        "type": "uint256"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "feeRebatePercent",
@@ -2898,6 +2984,21 @@
         "internalType": "struct ISovryn.LoanReturnDataV2[]",
         "name": "loansDataV2",
         "type": "tuple[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getAdmin",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -3499,7 +3600,7 @@
     "type": "function"
   },
   {
-    "constant": false,
+    "constant": true,
     "inputs": [
       {
         "internalType": "uint256",
@@ -3513,9 +3614,15 @@
       }
     ],
     "name": "getLoanPoolsList",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "",
+        "type": "bytes32[]"
+      }
+    ],
     "payable": false,
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -3650,6 +3757,21 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getPauser",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -4887,6 +5009,31 @@
     "constant": false,
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "withdrawAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "reduceLoanDuration",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "internalType": "address",
         "name": "sourceTokenAddress",
         "type": "address"
@@ -4966,6 +5113,21 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newAdmin",
+        "type": "address"
+      }
+    ],
+    "name": "setAdmin",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -5213,6 +5375,21 @@
       }
     ],
     "name": "setMinReferralsToPayoutAffiliates",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newPauser",
+        "type": "address"
+      }
+    ],
+    "name": "setPauser",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
