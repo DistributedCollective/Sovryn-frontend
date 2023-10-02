@@ -7,6 +7,7 @@ export enum TradingPairType {
   RBTC_XUSD = 'RBTC_XUSD',
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',
+  RBTC_DLLR = 'RBTC_DLLR',
   BPRO_XUSD = 'BPRO_XUSD',
   BPRO_USDT = 'BPRO_USDT',
   BPRO_DOC = 'BPRO_DOC',
@@ -31,6 +32,7 @@ export const pairs = {
   [TradingPairType.RBTC_USDT]: [Asset.RBTC, Asset.USDT],
   [TradingPairType.RBTC_DOC]: [Asset.RBTC, Asset.DOC],
   [TradingPairType.RBTC_XUSD]: [Asset.RBTC, Asset.XUSD],
+  [TradingPairType.RBTC_DLLR]: [Asset.RBTC, Asset.DLLR],
   // @dev testnet only pairs
   [TradingPairType.RBTC_XUSD_legacy]: [Asset.RBTC, Asset.XUSD_legacy],
   [TradingPairType.BPRO_XUSD_legacy]: [Asset.BPRO, Asset.XUSD_legacy],
@@ -79,6 +81,20 @@ export class TradingPairDictionary {
         Asset.RBTC,
         [Asset.RBTC, Asset.DOC],
         false,
+      ),
+    ],
+    [
+      TradingPairType.RBTC_DLLR,
+      new TradingPair(
+        TradingPairType.RBTC_DLLR,
+        RenderTradingPairName({ asset1: Asset.RBTC, asset2: Asset.DLLR }),
+        'RBTC/DLLR',
+        Asset.DLLR,
+        Asset.RBTC,
+        [Asset.RBTC, Asset.DLLR],
+        false,
+        true,
+        true,
       ),
     ],
     [

@@ -271,6 +271,12 @@ export const parseJwt = (token: string) => {
   return JSON.parse(jsonPayload);
 };
 
+export const validateJwt = (token: string) => {
+  const parsedToken = parseJwt(token);
+  const now = Date.now() / 1000;
+  return parsedToken?.exp > now;
+};
+
 export const calculateAssetValue = (
   asset: Asset,
   amount: string,

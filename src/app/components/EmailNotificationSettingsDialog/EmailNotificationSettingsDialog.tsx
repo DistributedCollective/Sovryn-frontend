@@ -7,7 +7,7 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import axios from 'axios';
 import { useAccount } from 'app/hooks/useAccount';
-import { parseJwt, validateEmail } from 'utils/helpers';
+import { validateEmail, validateJwt } from 'utils/helpers';
 import { walletService } from '@sovryn/react-wallet';
 import {
   currentChainId,
@@ -162,29 +162,32 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       return;
     }
 
+    const storedToken = getStoredToken(account);
+    if (storedToken && validateJwt(storedToken)) {
+      setNotificationToken(storedToken);
+      setNotificationWallet(account);
+      return;
+    }
+
     const timestamp = new Date();
     const message = `Login to Sovryn on: ${timestamp}`;
-
-    const { data: alreadyUser } = await axios.get(
-      `${userEndpoint}isUser/${account}`,
-    );
 
     return walletService
       .signMessage(message)
       .then(signedMessage =>
         axios
-          .post(`${userEndpoint}${alreadyUser ? 'auth' : 'register'}`, {
+          .post(`${userEndpoint}auth`, {
             signedMessage,
             message,
             walletAddress: account,
-            ...(alreadyUser
-              ? ''
-              : { subscriptions: defaultSubscriptionsArray }),
+            // create default subscriptions for new users
+            subscriptions: defaultSubscriptionsArray,
           })
           .then(res => {
             if (res.data?.token) {
               setNotificationToken(res.data.token);
               setNotificationWallet(account);
+              storeToken(account, res.data.token);
             }
           }),
       )
@@ -258,37 +261,36 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       return;
     }
 
-    const userId = parseJwt(notificationToken)?.sub;
-
-    if (!userId) {
+    if (!validateJwt(notificationToken)) {
+      getToken();
       return;
     }
 
     setLoading(true);
 
-    const promise = axios.get(`${userEndpoint}${userId}`, {
+    const promise = axios.get(userEndpoint, {
       headers: {
         Authorization: 'bearer ' + notificationToken,
       },
     });
 
     handleUserDataResponse(promise);
-  }, [handleUserDataResponse, account, notificationToken]);
+  }, [account, notificationToken, handleUserDataResponse, getToken]);
 
   const updateUser = useCallback(() => {
     if (!account || !notificationToken) {
       return;
     }
 
-    const userId = parseJwt(notificationToken)?.sub;
-    if (!userId) {
+    if (!validateJwt(notificationToken)) {
+      getToken();
       return;
     }
 
     setLoading(true);
 
     if (email.length === 0) {
-      const promise = axios.delete(`${userEndpoint}${userId}`, {
+      const promise = axios.delete(userEndpoint, {
         headers: {
           Authorization: 'bearer ' + notificationToken,
         },
@@ -297,7 +299,7 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
       handleUserDelete(promise);
     } else {
       const promise = axios.put(
-        `${userEndpoint}${account}`,
+        userEndpoint,
         {
           walletAddress: account,
           email: email || undefined,
@@ -314,11 +316,12 @@ const EmailNotificationSettingsDialogComponent: React.FC<IEmailNotificationSetti
     }
   }, [
     account,
-    email,
-    handleUserDataResponse,
     notificationToken,
-    subscriptions,
+    email,
+    getToken,
     handleUserDelete,
+    subscriptions,
+    handleUserDataResponse,
   ]);
 
   useEffect(() => {
@@ -423,3 +426,11 @@ export const EmailNotificationSettingsDialog: React.FC<IEmailNotificationSetting
     />
   </EmailNotificationSettingsContextProvider>
 );
+
+function getStoredToken(account: string) {
+  return localStorage.getItem(`notification-token-${account}`);
+}
+
+function storeToken(account: string, token: string) {
+  localStorage.setItem(`notification-token-${account}`, token);
+}
