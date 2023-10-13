@@ -15,7 +15,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { translations } from 'locales/i18n';
 import { UserCheckpoint } from './types';
 
-const MAX_CHECKPOINTS = 50;
+const MAX_CHECKPOINTS = 150;
 const MAX_NEXT_POSITIVE_CHECKPOINT = 75;
 
 type HandleClaimAllResult = [ResetTxResponseInterface, () => void];

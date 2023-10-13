@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { Asset, Chain } from 'types';
 import {
+  assetByLoanTokenAddress,
+  assetByTokenAddress,
   getContract,
+  getLendingContract,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -16,7 +19,14 @@ import { useIsMounted } from 'app/hooks/useIsMounted';
 
 const MAX_CHECKPOINTS = 50;
 
-const ASSETS = [Asset.RBTC, Asset.WRBTC, Asset.SOV, Asset.MYNT, Asset.ZUSD];
+const TOKEN_ASSETS = [
+  Asset.RBTC,
+  Asset.WRBTC,
+  Asset.SOV,
+  Asset.MYNT,
+  Asset.ZUSD,
+];
+const LOAN_ASSETS = [Asset.RBTC];
 
 let btcDummyAddress: string;
 const getRbtcDummyAddress = async () => {
@@ -31,13 +41,14 @@ const getRbtcDummyAddress = async () => {
 };
 
 const getTokenAddresses = async () => {
-  const result = await Promise.all(
-    ASSETS.map(asset =>
+  const result = await Promise.all([
+    ...TOKEN_ASSETS.map(asset =>
       asset === Asset.RBTC
         ? getRbtcDummyAddress()
         : getTokenContract(asset).address,
     ),
-  );
+    ...LOAN_ASSETS.map(asset => getLendingContract(asset).address),
+  ]);
   return result;
 };
 
@@ -118,9 +129,9 @@ export const useGetFeesEarned = (): {
       );
 
       const results = tokens.map(
-        (token, index) =>
+        token =>
           ({
-            asset: ASSETS[index],
+            asset: assetByTokenAddress(token) || assetByLoanTokenAddress(token),
             contractAddress: token,
             value: amounts.returnData[token].toString(),
             rbtcValue: 0,
