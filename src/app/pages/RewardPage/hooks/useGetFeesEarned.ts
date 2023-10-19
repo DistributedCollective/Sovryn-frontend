@@ -131,7 +131,10 @@ export const useGetFeesEarned = (): {
       const results = tokens.map(
         token =>
           ({
-            asset: assetByTokenAddress(token) || assetByLoanTokenAddress(token),
+            asset:
+              assetByTokenAddress(token) ||
+              assetByLoanTokenAddress(token) ||
+              Asset.RBTC,
             contractAddress: token,
             value: amounts.returnData[token].toString(),
             rbtcValue: 0,
