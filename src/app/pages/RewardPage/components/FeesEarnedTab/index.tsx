@@ -44,6 +44,29 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 
   const isClaimDisabled = useMemo(() => tx.loading, [tx.loading]);
 
+  const fees = useMemo(
+    () =>
+      earnedFees.reduce((p, c) => {
+        const asset = c.asset;
+        const index = p.findIndex(i => i.asset === asset);
+        if (index === -1) {
+          p.push({
+            asset,
+            value: c.value,
+            rbtcValue: c.rbtcValue,
+            contractAddress: c.contractAddress,
+          });
+        } else {
+          p[index].value = bignumber(p[index].value).add(c.value).toString();
+          p[index].rbtcValue = bignumber(p[index].rbtcValue)
+            .add(c.rbtcValue)
+            .toNumber();
+        }
+        return p;
+      }, [] as IEarnedFee[]),
+    [earnedFees],
+  );
+
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
       <div className={styles['tab-main-section']}>
@@ -100,7 +123,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {earnedFees.map(earnedFee => (
+                {fees.map(earnedFee => (
                   <FeesEarnedClaimRow
                     amountToClaim={earnedFee.value}
                     contractAddress={earnedFee.contractAddress}
