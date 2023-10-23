@@ -198,7 +198,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       hrefExternal: true,
     },
     {
-      to: D2_URL,
+      to: `${D2_URL}/borrow/line-of-credit`,
       title: t(translations.mainMenu.borrow),
       dataActionId: 'header-mobile-d2-link-borrow',
       hrefExternal: true,
@@ -350,7 +350,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <MenuItem
                       text={t(translations.mainMenu.borrow)}
                       label={t(translations.mainMenu.labels.d2Borrow)}
-                      href={D2_URL}
+                      href={`${D2_URL}/borrow/line-of-credit`}
                       hrefExternal
                       dataActionId="header-trade-d2-link-borrow"
                     />
