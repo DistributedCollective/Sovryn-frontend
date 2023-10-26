@@ -46,17 +46,9 @@ export const LockedBalance: React.FC<LockedBalanceProps> = ({
         <button
           className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-w-full tw-flex tw-justify-between tw-mt-1 tw-text-primary hover:tw-opacity-75 hover:tw-underline"
           onClick={handleClick}
+          disabled
         >
-          <Tooltip
-            content={
-              <>
-                {t(translations.common.unusedBalanceTooltip)}&nbsp;
-                <strong>{weiToAssetNumberFormat(value, Asset.RBTC)}</strong>
-                &nbsp;
-                <AssetRenderer asset={Asset.RBTC} />
-              </>
-            }
-          >
+          <Tooltip content={<>{t(translations.common.featureDisabled)}</>}>
             {t(translations.common.unusedBalance)}
           </Tooltip>
         </button>

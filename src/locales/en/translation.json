@@ -37,7 +37,8 @@
     "walletCompatibility": "Wallet Compatibility",
     "send": "Send",
     "receive": "Receive",
-    "save": "Save"
+    "save": "Save",
+    "featureDisabled": "This feature is currently disabled."
   },
   "tradeEvents": {
     "CloseWithSwap": "Withdraw",
