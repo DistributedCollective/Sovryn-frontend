@@ -198,23 +198,58 @@ export const DefaultHeaderComponent: React.FC = () => {
       hrefExternal: true,
     },
     {
-      to: `${D2_URL}/borrow/line-of-credit`,
-      title: t(translations.mainMenu.borrow),
-      dataActionId: 'header-mobile-d2-link-borrow',
-      hrefExternal: true,
-      bold: true,
-    },
-    {
-      to: `${D2_URL}/earn`,
-      title: t(translations.mainMenu.earn),
-      dataActionId: 'header-mobile-d2-link-earn',
-      hrefExternal: true,
-      bold: true,
-    },
-    {
       to: `${D2_URL}/convert`,
       title: t(translations.mainMenu.convert),
       dataActionId: 'header-mobile-d2-link-convert',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/earn/market-making`,
+      title: t(translations.mainMenu.marketMaking),
+      dataActionId: 'header-mobile-d2-link-market-making',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/bitocracy`,
+      title: t(translations.mainMenu.bitocracy),
+      dataActionId: 'header-mobile-d2-link-bitocracy',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/borrow/fixed-interest`,
+      title: t(translations.mainMenu.fixedInterestLoans),
+      dataActionId: 'header-mobile-d2-link-fixed-interest-loans',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/earn/lend`,
+      title: t(translations.mainMenu.lend),
+      dataActionId: 'header-mobile-d2-link-lend',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/earn/stability-pool`,
+      title: t(translations.mainMenu.stabilityPool),
+      dataActionId: 'header-mobile-d2-link-stability-pool',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/earn/staking`,
+      title: t(translations.mainMenu.staking),
+      dataActionId: 'header-mobile-d2-link-staking',
+      hrefExternal: true,
+      bold: true,
+    },
+    {
+      to: `${D2_URL}/borrow/line-of-credit`,
+      title: t(translations.mainMenu.zeroLineOfCredits),
+      dataActionId: 'header-mobile-d2-link-zero-line-of-credits',
       hrefExternal: true,
       bold: true,
     },
@@ -345,21 +380,10 @@ export const DefaultHeaderComponent: React.FC = () => {
             <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap 2xl:tw-space-x-4 tw-items-center">
               <NavPopover
                 content={
-                  <>
-                    <MenuSeparator text={t(translations.mainMenu.d2Title)} />
-                    <MenuItem
-                      text={t(translations.mainMenu.borrow)}
-                      label={t(translations.mainMenu.labels.d2Borrow)}
-                      href={`${D2_URL}/borrow/line-of-credit`}
-                      hrefExternal
-                      dataActionId="header-trade-d2-link-borrow"
-                    />
-                    <MenuItem
-                      text={t(translations.mainMenu.earn)}
-                      label={t(translations.mainMenu.labels.d2Earn)}
-                      href={`${D2_URL}/earn`}
-                      hrefExternal
-                      dataActionId="header-trade-d2-link-earn"
+                  <div className="tw-grid tw-grid-cols-2 tw-max-w-md">
+                    <MenuSeparator
+                      text={t(translations.mainMenu.d2Title)}
+                      className="tw-col-span-2"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.convert)}
@@ -368,7 +392,60 @@ export const DefaultHeaderComponent: React.FC = () => {
                       hrefExternal
                       dataActionId="header-trade-d2-link-convert"
                     />
-                  </>
+                    <MenuItem
+                      text={t(translations.mainMenu.lend)}
+                      label={t(translations.mainMenu.labels.d2Lend)}
+                      href={`${D2_URL}/earn/lend`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-lend"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.marketMaking)}
+                      label={t(translations.mainMenu.labels.d2MarketMaking)}
+                      href={`${D2_URL}/earn/market-making`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-market-making"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.stabilityPool)}
+                      label={t(translations.mainMenu.labels.d2StabilityPool)}
+                      href={`${D2_URL}/earn/stability-pool`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-stability-pool"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.bitocracy)}
+                      label={t(translations.mainMenu.labels.d2Bitocracy)}
+                      href={`${D2_URL}/bitocracy`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-bitocracy"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.staking)}
+                      label={t(translations.mainMenu.labels.d2Staking)}
+                      href={`${D2_URL}/earn/staking`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-staking"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.fixedInterestLoans)}
+                      label={t(
+                        translations.mainMenu.labels.d2FixedInterestLoans,
+                      )}
+                      href={`${D2_URL}/borrow/fixed-interest`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-fixed-interest-loans"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.zeroLineOfCredits)}
+                      label={t(
+                        translations.mainMenu.labels.d2ZeroLineOfCredits,
+                      )}
+                      href={`${D2_URL}/borrow/line-of-credit`}
+                      hrefExternal
+                      dataActionId="header-trade-d2-link-zero-line-of-credits"
+                    />
+                  </div>
                 }
               >
                 <span className={classNames(styles.firstLevelMenu)}>

@@ -497,11 +497,14 @@
     "rewards": "Rewards",
     "labs": "Labs",
     "myntToken": "MYNT Token",
-    "zero": "Zero",
+    "zeroLineOfCredits": "Zero line of credit",
     "perpetuals": "Perpetuals",
     "getStarted": "Get Started",
     "fundWallet": "Fund Wallet",
     "d2Title": "sovryn.app",
+    "marketMaking": "Market making",
+    "fixedInterestLoans": "Fixed-interest loans",
+    "stabilityPool": "Stability pool",
     "tooltips": {
       "readMore": "Read more",
       "fundWalletButton": "Click here to fund your wallet and get started."
@@ -520,9 +523,14 @@
       "zero": "0% interest loans on your bitcoin",
       "voting": "Affect Sovryn's governance",
       "forum": "Join the community",
-      "d2Borrow": "Open a line of credit with BTC at 0% interest",
-      "d2Earn": "Earn BTC by providing liquidity for liquidations",
-      "d2Convert": "Convert between assets"
+      "d2Convert": "Convert between assets",
+      "d2MarketMaking": "Earn BTC by providing liquidity for liquidations",
+      "d2Bitocracy": "Help decide the future of Sovryn",
+      "d2FixedInterestLoans": "Borrow without rate hikes",
+      "d2Lend": "Earn interest in the lending pool",
+      "d2StabilityPool": "Earn BTC by providing liquidity for liquidations",
+      "d2Staking": "Gain voting power and earn fees",
+      "d2ZeroLineOfCredits": "Borrow without interest"
     }
   },
   "originsLaunchpad": {
