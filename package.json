@@ -18,7 +18,7 @@
     "@rsksmart/rsk3": "0.3.4",
     "@sovryn/charting-library": "1.0.0",
     "@sovryn/perpetual-swap": "5.0.3",
-    "@sovryn/react-wallet": "2.2.22",
+    "@sovryn/react-wallet": "2.2.23",
     "@sovryn/wallet": "2.2.18",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "5.1.1",
