@@ -21,7 +21,6 @@ export const useGetLiquidSovClaimAmount = () => {
     }
 
     const now = Math.ceil(Date.now() / 1000);
-
     const maxDuration = await contractReader
       .call('stakingRewards', 'maxDuration', [])
       .then(Number);
