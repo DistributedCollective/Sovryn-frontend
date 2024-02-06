@@ -1,851 +1,2907 @@
 {
-  "activeBorrowTable": {
-    "headers": {
-      "borrowAmount": "Emprunté",
-      "collateralAmount": "Collatéral",
-      "endTimestamp": "Remboursement jusqu'à",
-      "interestAPR": "Intérêt APR"
-    },
-    "repayButton": "Rembourser"
-  },
-  "activeLoan": {
-    "expandedRow": {
-      "currentPrice": "Prix ​​actuel",
-      "leverage": "Effet de levier",
-      "liquidationPrice": "Prix ​​de liquidation",
-      "mainenanceMargin": "Marge de maintenance",
-      "renewalDate": "Date de renouvellement",
-      "startMargin": "Marge de départ"
-    },
-    "table": {
-      "container": {
-        "close": "Fermer",
-        "topUp": "Recharger"
-      },
-      "currentMargin": "Marge actuelle",
-      "interestApr": "Intérêt APR",
-      "positionSize": "Taille de la position",
-      "profit": "Perte / Profit",
-      "startPrice": "Prix ​​de départ"
-    }
-  },
-  "activeUserBorrows": {
-    "text": "Vous n'avez aucun prêt actif."
-  },
-  "activeUserLoans": {
-    "info": {
-      "line_1": "Besoin d'aide pour effectuer une transaction? Lisez notre guide sur",
-      "line_2": "Comment trader et prêter avec Sovryn",
-      "line_3": "."
-    },
-    "text": "Vous n'avez aucun trade actif."
-  },
-  "amountField": {
-    "btn_max": "Max",
-    "placeholder": "Entrer le montant"
-  },
-  "announcement": {
-    "message": "Sovryn vient de lever les limites des transactions (hourra!). Cela signifie que vous pouvez maintenant prendre n'importe quelle taille de position. Veuillez toutefois noter que, comme les limites viennent tout juste d'être supprimées, la liquidité du système peut être faible au départ."
-  },
-  "assetWalletBalance": {
-    "accountBalance": "Solde du compte",
-    "connect": "Connectez-vous au portefeuille",
-    "suppliedBalance": "Balance fournie"
-  },
-  "borrowActivity": {
-    "tabs": {
-      "active": "Actif",
-      "history": "Remboursé"
-    },
-    "title": "Mes dettes",
-    "walletNote": "Connectez d'abord votre portefeuille!"
-  },
-  "borrowHistory": {
-    "no_items": "Votre historique d'emprunt est vide.",
-    "table": {
-      "headers": {
-        "borrowAmount": "Emprunté",
-        "collateralAmount": "Collatéral",
-        "interestAPR": "Intérêt APR",
-        "timestamp": "Date"
-      }
-    }
-  },
-  "buySovPage": {
-    "banner": {
-      "cta": "Acheter du SOV",
-      "title": "Le trading SOV est maintenant en ligne!"
-    },
-    "earn": "Gagner avec Sovryn",
-    "engage": {
-      "cta": "Engager le portefeuille",
-      "line1": "Activez un portefeuille web, mobile ou matériel connecté au <0> RSK Mainnet </0>",
-      "line2": "Vous n’avez pas de portefeuille? Sovryn recommande <0> Portefeuille Liquality </0>",
-      "title": "Engager le portefeuille"
-    },
-    "features": {
-      "learnMore": "En savoir plus",
-      "lending": {
-        "cta": "Trade",
-        "text": "Gagnez un revenu passif en prêtant vos actifs directement aux emprunteurs ou aux traders sur marge et réduisez votre exposition aux performances et aux fluctuations plus larges du marché. La solution non-dépositaire de Sovryn vous permet de garder le contrôle de vos fonds et vous êtes libre de retirer vos actifs à tout moment.",
-        "title": "Prêt"
-      },
-      "liquidity": {
-        "cta": "Market Maker",
-        "text": "La solution de couche 2 de Sovryn fonctionnant sur la chaîne latérale Bitcoin Rootstock (RSK) facilite l'utilisation sans friction de primitives financières pour plusieurs actifs sur plusieurs chaînes afin de faire avancer la vision de Satoshi de la souveraineté monétaire au-delà des simples transactions entre pairs",
-        "title": "Tenue de marché"
-      },
-      "marginTrading": {
-        "cta": "Échanger",
-        "text": "Le trading sur marge vous permet d'utiliser les actifs de votre portefeuille comme garantie pour votre marge, d'emprunter plus d'actifs ou d'augmenter votre position initiale.",
-        "title": "Marge de négociation"
-      },
-      "mining": {
-        "cta": "Exploiter",
-        "text": "Sovryn fait ses adieux aux services centralisés qui assurent traditionnellement la tenue de marché. Les frais générés par le trading sont répartis entre les fournisseurs de liquidité en guise de récompense, en échange de la facilitation des transactions et des echanges.",
-        "title": "liquidités de minage"
-      },
-      "stake": {
-        "cta": "Stake",
-        "text": "Le protocole Sovryn a des incitations codées en dur pour la croissance à long terme. Les détenteurs de jetons qui jalonnent leur SOV reçoivent une part au prorata des revenus que la plateforme génère à partir de divers frais de transaction lorsqu'ils participent à la gouvernance du protocole en votant.",
-        "title": "Participer et voter"
-      },
-      "swap": {
-        "cta": "Échanger",
-        "text": "Échangez sans friction entre les jetons répertoriés. L'AMM décentralisée Sovryn garantit que personne ne peut profiter de votre création de trade",
-        "title": "Échanger"
-      },
-      "title": "Fonctionnalités du protocole Sovryn"
-    },
-    "form": {
-      "availableBalance": "Solde disponible:",
-      "cta": "Acheter du SOV",
-      "enterAmount": "Entrer le montant",
-      "minimumReceived": "Minimum reçu:",
-      "title": "Achetez du SOV avec du <0>RBTC</0>"
-    },
-    "meta": {
-      "description": "SOV  trading est maintenant en ligne!",
-      "title": "Le trading SOV est maintenant en ligne!"
-    },
-    "promotions": {
-      "title": "Promotions SOV"
-    },
-    "slippageDialog": {
-      "minimumReceived": "Minimum reçu",
-      "title": "Ajuster le glissement",
-      "tolerance": "Tolérance de glissement:"
-    },
-    "stats": {
-      "circulatingSupply": "Approvisionnement en circulation:",
-      "lastPrice": "Prix du dernier trade:",
-      "marketCap": "Capitalisation de marché :",
-      "totalSupply": "Offre totale:"
-    },
-    "title": "Achetez du SOV exclusivement sur Sovryn!",
-    "topUp": {
-      "cta": "Recharger le portefeuille",
-      "line1": "Vous aurez besoin de <0>RBTC</0> dans votre portefeuille pour acheter du SOV et payer les frais de gas sur RSK Mainnet.",
-      "line2": "En savoir plus sur <0>RBTC</0> sur RSK",
-      "title": "Recharger du <0>RBTC</0>"
-    },
-    "txDialog": {
-      "pendingUser": {
-        "text": "Veuillez confirmer la transaction dans votre portefeuille {{walletName}}",
-        "title": "Confirmer la transaction"
-      },
-      "txStatus": {
-        "aborted": "La transaction a été annulée par l'utilisateur.",
-        "cta": "Afficher dans Tracker",
-        "title": "Statut de la transaction"
-      }
-    }
-  },
-  "closeTradingPositionHandler": {
-    "closeAmount": "Montant de fermeture",
-    "closePosition": "Fermer la position",
-    "liquidity": {
-      "line_1": "La liquidité est trop faible pour la position de clôture.",
-      "line_2": "Essayez un autre actif de rendement ou attendez que les arbitres rééquilibrent."
-    },
-    "positionSize": "Taille de la position",
-    "returnAmount": "Montant de retour",
-    "title": "Position de liquidation",
-    "titleDone": "Position liquidée",
-    "withdrawIn": "Retirer dans"
-  },
   "common": {
     "back": "Retour",
-    "cancel": "Annuler",
-    "close": "Fermer",
-    "confirm": "Confirmer",
-    "confirmed": "Confirmé",
-    "failed": "Raté",
-    "fee": "Frais Tx : {{amount}} (r)BTC",
-    "for": "pour",
-    "max": "Max",
     "min": "min",
-    "pending": "En attente"
+    "max": "max",
+    "close": "Fermer",
+    "for": "pour",
+    "confirm": "Confirmer",
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "fee": "Frais de transaction : {{amount}} (r)BTC",
+    "pending": "En attente",
+    "complete": "Terminé",
+    "confirmed": "Confirmé",
+    "failed": "Échec",
+    "deposit": "Dépôt",
+    "withdraw": "Retrait",
+    "availableBalance": "Solde disponible :",
+    "unusedBalance": "Récupérer les fonds inutilisés",
+    "unusedBalanceTooltip": "Solde inutilisé :",
+    "maintenance": "En maintenance",
+    "comingSoon": "Prochainement",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "loading": "Chargement...",
+    "noData": "Aucune donnée",
+    "retry": "Réessayer",
+    "continueToFailure": "Je comprends les risques d'échec de la transaction, autorisez-moi à continuer",
+    "unit": {
+      "day": "{{count}} jour",
+      "day_plural": "{{count}} jours"
+    },
+    "gasPrice": "Prix du gaz",
+    "gasLimit": "Limite de gaz",
+    "units": "unités",
+    "txHash": "Hash de transaction",
+    "walletCompatibility": "Compatibilité du portefeuille",
+    "send": "Envoyer",
+    "receive": "Recevoir",
+    "save": "Enregistrer"
   },
-  "expandedRowMobile": {
-    "currentMargin": "Marge actuelle",
-    "currentPrice": "Prix ​​actuel",
-    "interestAPR": "Intérêt APR",
-    "leverage": "Effet de levier",
-    "liquidationPrice": "Prix ​​de liquidation",
-    "maintenanceMargin": "Marge de maintenance",
-    "renewalDate": "Date de renouvellement",
-    "startMargin": "Marge de départ",
-    "startPrice": "Prix ​​de départ"
+  "tradeEvents": {
+    "CloseWithSwap": "Retrait",
+    "Trade": "Ouvrir une position",
+    "Liquidate": "Liquider",
+    "DepositCollateral": "Ajouter du collatéral"
+  },
+  "global": {
+    "liquidationPrice": "Prix de liquidation",
+    "interestApr": "Taux d'intérêt annuel"
+  },
+  "title": "Sovryn",
+  "announcement": {
+    "message": "Sovryn vient de lever les limites de transaction (hourra !). Cela signifie que vous pouvez maintenant prendre n'importe quelle taille de position. Veuillez noter, cependant, que les limites viennent tout juste d'être levées, la liquidité dans le système peut être initialement faible."
+  },
+  "maintenance": {
+    "full": "Sovryn est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "openMarginTrades": "Désolé, l'ouverture de trades sur marge est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "addToMarginTrades": "Désolé, l'ajout de trades sur marge est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "closeMarginTrades": "Désolé, la fermeture de trades sur marge est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "buySov": "Désolé, l'achat de SOV est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "spotTrades": "Désolé, le trading spot est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "swapTrades": "Désolé, les swaps sont actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "depositLend": "Désolé, les dépôts de prêt sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "withdrawLend": "Désolé, les retraits de prêt sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "startBorrow": "Désolé, l'ouverture de prêts est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "stopBorrow": "Désolé, la fermeture de prêts est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "addCollateralBorrow": "Désolé, l'ajout de collatéral est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "addLiquidity": "Désolé, l'ajout de liquidité est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "removeLiquidity": "Désolé, le retrait de liquidité est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "liquidity": "Désolé, la fourniture de liquidité est actuellement en maintenance, certaines fonctionnalités peuvent ne pas être disponibles. Veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "fastBTC": "Désolé, les transferts FastBTC sont actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "fastBTCPortfolio": "Désolé, les transferts FastBTC sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "transack": "Désolé, les dépôts Transack sont actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "bridge": "Désolé, les transferts inter-chaînes sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeSteps": "Désolé, les transferts inter-chaînes sont actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "bridgeSovDeposit": "Désolé, les dépôts inter-chaînes SOV sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeSovWithdraw": "Désolé, les retraits inter-chaînes SOV sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeEthDeposit": "Désolé, les dépôts inter-chaînes ETH sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeEthWithdraw": "Désolé, les retraits inter-chaînes ETH sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeBnbDeposit": "Désolé, les dépôts inter-chaînes BNB sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeBnbWithdraw": "Désolé, les retraits inter-chaînes BNB sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeXusdDeposit": "Désolé, les dépôts inter-chaînes XUSD sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "bridgeXusdWithdraw": "Désolé, les retraits inter-chaînes XUSD sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "staking": "Désolé, l'ajout aux stakes est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "stakingModal": "Désolé, l'ajout aux stakes est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "unstaking": "Désolé, le unstaking est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "unstakingModal": "Désolé, le unstaking est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "withdrawEarnedFees": "Désolé, le retrait des frais est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "delegateStakes": "Désolé, la délégation de stakes est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "delegateVests": "Désolé, la délégation de vests est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "delegateModal": "Désolé, la délégation est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "withdrawVests": "Désolé, le retrait de vests est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "withdrawVestsModal": "Désolé, le retrait de vests est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "claimRewards": "Désolé, la réclamation de récompenses est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "claimRewardsTitle": "Désolé, la réclamation de récompenses est actuellement en maintenance, veuillez consulter notre discord pour les mises à jour.",
+    "claimOrigins": "Désolé, la réclamation des origines est actuellement en maintenance, veuillez consulter notre <0>discord</0> pour les mises à jour.",
+    "perpetuals": "Désolé, Perpetuals est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "perpetualsAccountFund": "Désolé, les dépôts sur Perpetuals sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "perpetualsAccountWithdraw": "Désolé, les retraits sur Perpetuals sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "perpetualsAccountTransfer": "Désolé, les transferts sur Perpetuals sont actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "perpetualsTrade": "Désolé, le trading sur Perpetuals est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour.",
+    "perpetualsGsn": "Désolé, le GSN sur Perpetuals est actuellement en maintenance, veuillez consulter notre discord (lien dans le pied de page) pour les mises à jour. Les transactions sans GSN peuvent toujours fonctionner."
+  },
+  "homePage": {
+    "title": "Page d'accueil",
+    "meta": "Page d'accueil de Sovryn",
+    "lend": "Prêter",
+    "trade": "Trader"
+  },
+  "hintHowToConnect": {
+    "hintOne": "Avant de pouvoir trader et prêter avec Sovryn, vous devez vous connecter au réseau RSK.",
+    "hintTwo": "Obtenez des instructions sur comment vous connecter avec <0>MetaMask</0> ou <1>Nifty</1> puis connectez votre portefeuille :"
+  },
+  "serviceWorkerToaster": {
+    "title": "Sovryn a été mis à jour vers <br/> <0>ID de construction :</0> <1>{{buildId}}</1>",
+    "notice": "Veuillez fermer toutes les onglets avec Sovryn ouvert pour mettre à jour",
+    "updateBtn": "METTRE À JOUR",
+    "closeBtn": "Veuillez me laisser fermer un trade"
+  },
+  "tradingActivity": {
+    "title": "Mon activité de trading",
+    "walletNote": "Connectez d'abord votre portefeuille !",
+    "tabs": {
+      "activeTrades": "Actif",
+      "tradingHistory": "Fermé"
+    }
+  },
+  "trading": {
+    "limit": {
+      "cancelDialog": {
+        "title": "Annuler l'ordre limite",
+        "cta": "Confirmer",
+        "complete": "Annulation complète",
+        "failed": "Échec de l'annulation",
+        "tx": {
+          "title": "Annuler",
+          "message": "Annuler l'ordre limite {{tradeType}}"
+        }
+      },
+      "tradeDialog": {
+        "marketTitle": "Revoir l'ordre",
+        "limitTitle": "Revoir l'ordre",
+        "tradingPair": "Paire de trading :",
+        "orderType": "Type d'ordre :",
+        "tradeAmount": "Montant du trade :",
+        "limitPrice": "Prix limite :",
+        "duration": "Durée :",
+        "receiveAmount": "Montant reçu :",
+        "orderAmount": "Montant de l'ordre :",
+        "newOrderDetails": "Détails de la nouvelle commande",
+        "order": "Ordre"
+      }
+    }
+  },
+  "tradingPage": {
+    "meta": {
+      "title": "Trading",
+      "description": "Tradez avec Sovryn."
+    },
+    "email": {
+      "optin": {
+        "title": "Succès",
+        "text": "Vous recevrez désormais des notifications par e-mail lorsque vos positions sont proches de la liquidation, et si une position a été liquidée. Vous pouvez vous désinscrire de ces notifications à tout moment."
+      },
+      "unsubscribe": {
+        "title": "Vous êtes désormais désabonné des notifications par e-mail",
+        "text": "Vous ne recevrez plus d'e-mails sur les appels de marge ou les positions liquidées. Vous pouvez vous réabonner à ces notifications à tout moment."
+      }
+    }
+  },
+  "marketingPage": {
+    "explain": {
+      "title": "COMMENT ÇA MARCHE ?",
+      "earn": "Gagnez des SOV en déposant de la liquidité dans les pools de liquidité USDT/RBTC ou SOV/RBTC",
+      "datesUSDT": "Dates USDT/RBTC : 1er avril 2021, 12h00 UTC - 1er mai 2021, 12h00 UTC",
+      "datesSOV": "Dates SOV/RBTC : 13 avril 2021 12h00 UTC - 11 mai 2021 12h00 UTC",
+      "depositUSDT": "Pool de récompenses pour le dépôt de USDT : 25 000 SOV",
+      "depositRBTC": "Pool de récompenses pour le dépôt de RBTC : 25 000 SOV",
+      "depositSOV": "Pool de récompenses pour le dépôt de SOV/RBTC : 75 000 SOV (15k / semaine plus 15k supplémentaires pour la 1re semaine)",
+      "sharePool": "Votre part dans le pool est calculée par :",
+      "liquidityAdded": "liquidité ajoutée par vous * nombre de blocs détenus",
+      "totalAdded": "total de liquidité ajoutée * nombre de blocs détenus",
+      "comingSoon": "Prochainement"
+    },
+    "liquidity": {
+      "title": "MINAGE DE LIQUIDITÉ : POOL USDT/BTC",
+      "connetWallet": "Connectez votre portefeuille pour voir votre historique de minage de liquidité.",
+      "provider": "*Ce nombre peut augmenter ou diminuer en fonction de la quantité de liquidité que d'autres fournisseurs de liquidité ajoutent ou retirent du pool",
+      "asset": "Actif",
+      "sov": "25k SOV",
+      "reward": "Récompense",
+      "pool": "Pool",
+      "rewardPool": "Votre part actuelle dans le pool de récompenses*",
+      "rewardSOV": "Votre récompense SOV actuelle*",
+      "miningEvent": "Vos événements de minage de liquidité",
+      "noAsset": "Vous n'avez pas encore d'événements de minage de liquidité {{asset}}.",
+      "rewardPoolNote": "*Pour les semaines en cours, ce nombre peut augmenter ou diminuer",
+      "RBTC_DOC": "<0>RBTC</0>/DOC",
+      "RBTC_USDT": "<0>RBTC</0>/USDT",
+      "BPRO_USDT": "BPRO/<0>USDT</0>",
+      "RBTC_SOV": "<0>RBTC</0>/SOV"
+    }
+  },
+  "tradingHistoryPage": {
+    "title": "Historique de trading",
+    "auth": "Veuillez connecter et autoriser votre portefeuille.",
+    "noClosedTrades": "Vous n'avez aucun trade fermé.",
+    "table": {
+      "direction": "Direction",
+      "positionSize": "Taille de la position",
+      "leverage": "Effet de levier",
+      "openPrice": "Prix d'ouverture",
+      "closePrice": "Prix de fermeture",
+      "profit": "Profit réalisé",
+      "entryTxHash": "Hash de transaction d'entrée",
+      "closeTxHash": "Hash de transaction de sortie",
+      "actions": "Actions",
+      "cta": {
+        "details": "Détails"
+      },
+      "profitLabels": {
+        "up": "En hausse de ",
+        "down": "En baisse de ",
+        "noChange": "Pas de changement"
+      }
+    }
+  },
+  "receiveRBTCPage": {
+    "title": "Recevoir du RBTC",
+    "description": "Recevez du RBTC via un transfert bitcoin ou bancaire / carte",
+    "selectSource": "Sélectionner la source",
+    "bitcoinNetwork": "Réseau Bitcoin",
+    "bankCard": "Banque/Carte"
   },
   "fastBtcPage": {
     "meta": {
-      "description": "Déplacez vos Bitcoin vers le réseau RSK.",
-      "title": "Fast-BTC"
+      "title": "Fast-BTC",
+      "description": "Transférez votre Bitcoin vers le réseau RSK.",
+      "titleDeposit": "Recevoir du Bitcoin avec FastBTC",
+      "descriptionDeposit": "Transférez du Bitcoin vers une adresse de dépôt sur le réseau Bitcoin, et il sera reçu en tant que RBTC",
+      "titleWithdraw": "Envoyer du Bitcoin avec FastBTC",
+      "descriptionWithdraw": "Envoyez du Bitcoin en transférant du RBTC vers le réseau Bitcoin",
+      "titleTransak": "Recevoir du Bitcoin avec Transak et FastBTC",
+      "descriptionTransak": "Déposez du FIAT et recevez du BTC qui sera automatiquement reçu en tant que RBTC"
+    },
+    "backToPortfolio": "Retour au portfolio",
+    "backToPerpetuals": "Retour aux perpétuels",
+    "deposit": {
+      "sidebarSteps": {
+        "validation": "Validation FastBTC<br/>",
+        "address": "Entrer<br/>Adresse",
+        "processing": "Traitement<br/>Transaction",
+        "processingSteps": "Traitement... ({{step}}/{{steps}})",
+        "completed": "Transaction<br/>Complète"
+      },
+      "mainScreen": {
+        "title": "Déposer du BTC sur Sovryn en tant que <0/>",
+        "description": "Votre adresse de dépôt peut changer dans le cadre de la maintenance régulière de FastBTC.",
+        "cta": "Générer une adresse"
+      },
+      "depositDetails": {
+        "title": "Détails du transfert",
+        "min": "MIN :",
+        "max": "MAX :",
+        "fee": "Frais :"
+      },
+      "depositInstructions": {
+        "title": "Instructions :",
+        "line1": "Ne transférez aucun actif autre que le BTC à recevoir en tant que RBTC.",
+        "line2": "Ne transférez pas moins que la limite MIN.",
+        "line3": "Ne transférez pas plus que la limite MAX.",
+        "line4": "Transférez uniquement du BTC à l'adresse de dépôt qui vous a été attribuée.",
+        "line5": "Prévoyez jusqu'à {{hours}} heures de traitement.",
+        "line6": "Si votre transaction prend plus de {{hours}} heures, veuillez <0>nous contacter</0>."
+      },
+      "validationScreen": {
+        "title": "Vérification des fédérations FastBTC",
+        "description": "En tant que couche de sécurité supplémentaire, nous vérifions les signatures du nœud fédérateur FastBTC. Veuillez patienter jusqu'à ce que cela soit terminé",
+        "cta": "Cliquez pour continuer",
+        "download": "Cliquez pour télécharger les détails de la vérification",
+        "validationTextLoading": "Vérification des signatures...",
+        "validationTextSuccess": "Vérification terminée",
+        "validationTextError": "Vérification échouée"
+      },
+      "addressForm": {
+        "title": "Adresse de dépôt BTC",
+        "description": "Envoyez du BTC à cette adresse"
+      },
+      "statusScreen": {
+        "title": "Traitement de la commande...",
+        "titleCompleted": "Commande terminée",
+        "amount": "Dépôt",
+        "fees": "Frais payés",
+        "received": "Montant reçu",
+        "txHash": "Hash de transaction",
+        "txId": "ID de transaction",
+        "description": "Si votre transaction prend plus de {{hours}} heures, veuillez <0>nous contacter</0>.",
+        "cta": "Retour au Portfolio"
+      },
+      "qr": {
+        "title": "Envoyez du BTC à cette adresse :",
+        "generating": "Génération..."
+      }
+    },
+    "transak": {
+      "sidebarSteps": {
+        "address": "Revoir<br/>Adresse"
+      },
+      "validationScreen": {
+        "cta": "Continuer pour déposer du FIAT"
+      }
+    },
+    "withdraw": {
+      "sidebarSteps": {
+        "amount": "Entrer<br/>Montant",
+        "address": "Adresse BTC<br/>",
+        "review": "Revoir <br/>Transaction",
+        "confirm": "Confirmer <br/>Transaction",
+        "processing": "Traitement <br/>Transaction",
+        "processingProgress": "Traitement...",
+        "completed": "Transaction <br/>Complétée"
+      },
+      "mainScreen": {
+        "title": "Retrait <0/> vers le réseau BTC",
+        "description": "Veuillez vérifier que vous saisissez la bonne adresse BTC pour l'envoi"
+      },
+      "withdrawDetails": {
+        "title": "Détails du transfert",
+        "min": "MIN :",
+        "max": "MAX :",
+        "fee": "FRAIS :"
+      },
+      "withdrawInstructions": {
+        "title": "Instructions :",
+        "line1": "Veuillez vérifier et confirmer que l'adresse à laquelle vous envoyez est une adresse BTC.",
+        "line2": "Ne pas envoyer moins que la limite MIN.",
+        "line3": "Ne pas envoyer plus que la limite MAX.",
+        "line4": "Veuillez prévoir jusqu'à {{hours}} heures pour le traitement.",
+        "line5": "Si votre transaction prend plus de {{hours}} heures, veuillez <0>nous contacter</0>."
+      },
+      "amountForm": {
+        "title": "<0/> Montant du retrait",
+        "withdrawAmount": "Montant à envoyer",
+        "availableBalance": "Solde : <0/> <1/>"
+      },
+      "addressForm": {
+        "title": "Entrer l'adresse du portefeuille BTC de réception",
+        "address": "Adresse de réception BTC",
+        "errorBECH32": "Veuillez entrer une adresse BTC prise en charge. Toutes les adresses BTC, à l'exception des adresses Taproot, sont prises en charge.",
+        "cta": "Suivant"
+      },
+      "reviewScreen": {
+        "dateTime": "Date/Heure",
+        "title": "Détails de l'envoi",
+        "amount": "Envoyer",
+        "address": "Récepteur",
+        "fees": "Frais de pont",
+        "received": "Montant total",
+        "tx": "ID de transaction",
+        "description": "Si votre transaction prend plus de {{hours}} heures, veuillez <0>nous contacter</0>"
+      },
+      "walletTxHelper": {
+        "confirm": "Veuillez confirmer la transaction dans votre portefeuille {{wallet}}",
+        "pending": "Veuillez confirmer la transaction dans votre portefeuille {{wallet}}",
+        "confirmed": "Veuillez confirmer la transaction dans votre portefeuille {{wallet}}",
+        "failed": "Votre transaction a échoué.",
+        "aborted": "Vous avez refusé cette transaction dans votre portefeuille."
+      },
+      "statusScreen": {
+        "titles": {
+          "pending_for_user": "Confirmer le retrait <0/>",
+          "pending": "Traitement de la commande…",
+          "confirmed": "Commande complète",
+          "failed": "Échec de la commande"
+        },
+        "cta": "Retour au portfolio"
+      }
+    },
+    "tradeOrSwapTabs": {
+      "tabs": {
+        "trade": "Trade",
+        "swap": "Échanger"
+      }
+    },
+    "marginTradeForm": {
+      "fields": {
+        "currency": "Devise",
+        "currency_placeholder": "Choisissez la devise",
+        "limitSettings": "Paramètres d'ordre à seuil",
+        "amount": "Montant",
+        "startPrice": "Prix de départ",
+        "advancedSettings": "Paramètres avancés",
+        "esEntryPrice": "Prix d'entrée estimé :",
+        "esLiquidationPrice": "Prix de liquidation estimé :",
+        "interestAPY": "Intérêt APY :",
+        "slippageSettings": "Paramètres de glissement",
+        "interestAPR": "Intérêt APR :"
+      },
+      "buttons": {
+        "submit": "Passer le trade"
+      },
+      "liquidity": {
+        "line_1": "La liquidité est trop faible pour le swap.",
+        "line_2": "Essayez une autre paire ou attendez que les arbitres rééquilibrent."
+      }
+    },
+    "swapTradeForm": {
+      "fields": {
+        "currency_placeholder": "Choisissez la devise",
+        "send": "Vous envoyez",
+        "receive": "Vous recevez"
+      },
+      "buttons": {
+        "submit": "Passer le trade",
+        "switchAssets": "Changer d'actifs"
+      },
+      "arbitrage": {
+        "best_rate": "Opportunité d'arbitrage",
+        "for": "pour",
+        "text": "Gagnez <0>{{percent}}</0> au-dessus du marché en échangeant <1></1> pour <2></2>",
+        "popover_p1": "Les utilisateurs peuvent aider à équilibrer l'AMM (automated market maker) Sovryn lorsque des opportunités d'arbitrage se présentent. Actuellement, jusqu'à {{fromAmount}} {{fromToken}} peuvent être échangés contre jusqu'à {{toAmount}} {{toToken}}.",
+        "popover_p2": "Cela représente {{earn}} {{toToken}} de plus que le prix du marché."
+      },
+      "reviewSwap": "Revoir l'échange",
+      "swapAsset": "Actif d'échange :",
+      "amount": "Montant :",
+      "amountReceived": "Montant à recevoir :",
+      "receiveAsset": "Actif à recevoir :",
+      "minimumReceived": "Minimum à recevoir :"
+    },
+    "amountField": {
+      "placeholder": "Entrer le montant",
+      "btn_max": "Max"
+    },
+    "wallet": {
+      "btn": "Connecter le portefeuille",
+      "connect_btn": "Connecter le portefeuille",
+      "disconnect": "Déconnecter",
+      "my_wallet": "Mon portefeuille",
+      "copy_address": "Copier l'adresse",
+      "referrals": "Référez un ami",
+      "changeWallet": "Changer de portefeuille"
+    },
+    "hintDialog": {
+      "title": "Conseils Sovryn"
+    },
+    "footer": {
+      "title": "Propulsé par <0>Bitcoin</0>",
+      "notice_1": "Vous seul contrôlez et avez accès à votre richesse, toute action que vous entreprenez pourrait entraîner une perte potentielle de fonds.",
+      "notice_2": "Assurez-vous particulièrement de vérifier tous les prix des frais de transaction avant de procéder, car les portefeuilles tiers peuvent automatiquement présenter des frais élevés.",
+      "notice_3": "Si vous êtes nouveau dans la DeFi, voici le <0>wiki</0> sur la façon d'utiliser SOVRYN.",
+      "notice_4": "Pour les dernières mises à jour ou discussions, rendez-vous sur notre serveur <0>Discord</0>.",
+      "optOut": "Refuser Google Analytics",
+      "buildID": "ID de version"
+    },
+    "analyticsDialog": {
+      "title": "Paramètres d'analyse",
+      "message_1": "Nous aimerions collecter certaines données d'analyse de votre part afin d'améliorer l'expérience utilisateur. Si vous préférez ne pas participer, veuillez décocher la case ci-dessous et cliquer sur 'Confirmer'.",
+      "option": "Autoriser Sovryn à collecter des données d'analyse",
+      "message_2": "Veuillez rafraîchir la page après la confirmation pour vous assurer que les analyses sont désactivées."
+    },
+    "mainMenu": {
+      "buySov": "Acheter SOV",
+      "products": "Produits",
+      "trade": "Trade",
+      "swap": "Échanger",
+      "marginTrade": "Marge",
+      "earn": "Gagner",
+      "convert": "Convertir",
+      "pool": "Pool",
+      "voting": "Vote",
+      "portfolio": "Portefeuille",
+      "finance": "Finance",
+      "lend": "Prêter",
+      "borrow": "Emprunter",
+      "yieldFarm": "Yield Farm",
+      "reward": "Récompenses",
+      "staking": "Staking",
+      "governance": "Gouvernance",
+      "forum": "Forum",
+      "wallet": "Portefeuille",
+      "bridge": "Pont",
+      "stats": "Statistiques",
+      "help": "Aide",
+      "bitocracy": "Bitocratie",
+      "notifications": "Notifications",
+      "spotTrade": "Spot",
+      "origins": "Origines",
+      "originsClaim": "Origines - Réclamation",
+      "originsLaunchpad": "Origines - Launchpad",
+      "claim": "Réclamation",
+      "rewards": "Récompenses",
+      "labs": "Laboratoires",
+      "myntToken": "Jetons MYNT",
+      "zero": "Zéro",
+      "perpetuals": "Perpétuels",
+      "getStarted": "Commencer",
+      "fundWallet": "Financer le portefeuille",
+      "d2Title": "sovryn.app",
+      "tooltips": {
+        "readMore": "En savoir plus",
+        "fundWalletButton": "Cliquez ici pour financer votre portefeuille et commencer."
+      },
+      "labels": {
+        "swap": "Échanger un actif contre un autre",
+        "spotTrade": "Passer des trades sur le marché",
+        "marginTrade": "Effet de levier jusqu'à 5x",
+        "lend": "Gagner en déposant dans le LP",
+        "pool": "Gagner du rendement dans l'AMM",
+        "staking": "Gagner des récompenses en stakant du SOV",
+        "originsLaunchpad": "Ventes précédentes sur Origins",
+        "originsClaim": "Réclamer des récompenses Fish",
+        "myntToken": "Protocole de stablecoin adossé au BTC de Sovryn",
+        "perpetuals": "Trader des contrats à terme perpétuels",
+        "zero": "Prêts à 0% d'intérêt sur votre bitcoin",
+        "voting": "Influencer la gouvernance de Sovryn",
+        "forum": "Rejoindre la communauté",
+        "d2Borrow": "Ouvrir une ligne de crédit avec du BTC à 0% d'intérêt",
+        "d2Earn": "Gagner du BTC en fournissant de la liquidité pour les liquidations",
+        "d2Convert": "Convertir entre les actifs"
+      }
+    },
+    "originsLaunchpad": {
+      "upcomingSales": {
+        "title": "Prochaines ventes sur Origins Launchpad",
+        "projectCard": {
+          "saleToken": "Jetons en vente",
+          "project": "Projet",
+          "startDate": "Débute",
+          "startPrice": "Prix"
+        },
+        "inputLabel": "Entrez votre adresse e-mail",
+        "inputLabelName": "Nom ou pseudonyme",
+        "submitButton": "Abonnez-vous aux mises à jour Origins",
+        "submitSuccess": "Abonnement réussi !"
+      },
+      "previousSales": {
+        "title": "Ventes précédentes sur Origins",
+        "projectCard": {
+          "saleName": "Nom de la vente",
+          "saleAllocation": "Allocation de la vente",
+          "totalRaised": "Total collecté",
+          "participatingWallets": "Portefeuilles participants",
+          "date": "Date",
+          "saleDuration": "Durée de la vente",
+          "price": "Prix"
+        }
+      },
+      "saleDay": {
+        "title": "Événement de lancement {{token}} sur Origins",
+        "engageWalletScreen": {
+          "dialogTitle": "Bienvenue à l'événement de lancement {{token}} sur Origins",
+          "buttonText": "Connecter le portefeuille",
+          "dialogFooter1": "Connectez un portefeuille de navigateur, mobile ou matériel connecté au <0>RSK Mainnet</0>",
+          "dialogFooter2": "Vous n'avez pas de portefeuille ? Sovryn recommande le portefeuille <0>Liquality</0>"
+        },
+        "accessCodeVerificationStep": {
+          "dialogTitle": "Bienvenue à l'événement de lancement {{token}} sur Origins",
+          "alert": {
+            "closed": "L'événement de lancement {{token}} est déjà terminé.",
+            "active": "Vous pouvez maintenant participer à l'événement de lancement {{token}}.",
+            "notYetOpen": "L'événement public de lancement {{token}} ouvrira à {{time}}, préparez votre {{depositToken}} !"
+          },
+          "verified": {
+            "privateSale": "Vous avez été whitelisted pour participer à la prévente privée Blockchain Whispers' {{token}}.",
+            "publicSale": "Vous pouvez maintenant participer à la prévente {{token}}."
+          },
+          "notVerified": "La prévente publique {{token}} ouvrira à 14:00 UTC, préparez votre RBTC !",
+          "cta": "Continuer",
+          "notVerifiedFooter": "<0>Censé être whitelisted ?</0>"
+        },
+        "importantInformationStep": {
+          "privateSale": {
+            "title": "Informations importantes sur l'événement de lancement {{token}} de Sovryn",
+            "information": {
+              "1": "Vous avez été whitelisted pour la prévente privée {{token}} de Blockchain Whispers ! Bienvenue et merci de votre soutien !",
+              "2": "Il est fortement recommandé d'envoyer des fonds depuis une adresse vous appartenant directement (EOA).",
+              "3": "Pour toute question, veuillez consulter la communauté dans les canaux Discord ou Telegram.",
+              "4": "Le prix de 100 jetons {{token}} est de 1 SOV.",
+              "5": "Les jetons {{token}} achetés lors de cette prévente privée seront acquis de manière linéaire pendant environ 10 mois à partir du moment où ils sont réclamés.",
+              "6": "La vente se termine dans 7 jours.",
+              "7": "Une fois l'achat des jetons {{token}} terminé, ils seront visibles dans la section Portfolio.",
+              "8": "Il n'y aura pas de calendrier de gel pour le jeton acheté. Vous pouvez transférer les jetons une fois la vente terminée."
+            },
+            "checkboxText": "J'ai lu et compris que je suis responsable de ma propre Sovrynité",
+            "submitButtonText": "Je comprends"
+          },
+          "publicSale": {
+            "title": "Informations importantes sur l'événement de lancement {{token}}",
+            "information": {
+              "1": "Bienvenue à l'événement de lancement {{token}}. Merci de votre participation !",
+              "2": "Nous vous conseillons de participer à cette vente avec un portefeuille qui vous appartient exclusivement (EOA).",
+              "3": "Pour toute question, veuillez consulter la communauté dans nos canaux <0>Discord</0> ou <1>Telegram</1>.",
+              "4": "Le prix de 100 {{token}} est de 1 SOV. Les autres actifs seront convertis en SOV au taux de change actuel avant l'achat.",
+              "5": "Il n'y aura pas de calendrier de gel pour le jeton acheté. Vous pourrez transférer les {{token}} achetés une fois la vente terminée.",
+              "6": "La vente se termine le 15 novembre 2021.",
+              "7": "Une fois que vous recevez les {{token}} achetés, ils seront visibles dans votre section <0>Portfolio</0>."
+            },
+            "checkboxText": "J'ai lu les informations et accepte ma participation Sovryn à cette vente de démarrage",
+            "submitButtonText": "Je comprends"
+          }
+        },
+        "buyStep": {
+          "buyInformationLabels": {
+            "depositLimits": "Limites de dépôt",
+            "saleAllocation": "Allocation de vente",
+            "allocationRemaining": "Allocation restante",
+            "participatingWallets": "Portefeuilles participants",
+            "price": "Prix",
+            "acceptedCurrencies": "Actifs acceptés",
+            "tokenSaleEndTime": "Heure de fin de la vente de jetons",
+            "totalDepositReceived": "Total des dépôts reçus",
+            "tokenPrice": "Prix du jeton",
+            "saleClosed": "Vente terminée"
+          },
+          "buyDialog": {
+            "enterAmount": "Entrez le montant",
+            "tokenReceived": "{{token}} reçu",
+            "transactionFee": "Frais de transaction",
+            "buyButton": "Acheter {{token}}",
+            "isOverMaxLimit": "Vous ne pouvez pas déposer plus que la limite maximale",
+            "yourTotalDeposit": "Votre dépôt total",
+            "balance": "Solde",
+            "estimatedTokenAmount": "Montant estimé de {{token}} à recevoir : {{amount}}"
+          },
+          "instructions": {
+            "title": "Instructions",
+            "instruction1": "Achetez {{token}} avec les actifs acceptés dans votre portefeuille engagé",
+            "instruction2": "Veuillez patienter jusqu'à 5 minutes pour que la transaction soit traitée",
+            "discordSupport": "Pour obtenir de l'aide, rejoignez-nous sur <0>{{discordUrl}}</0>"
+          }
+        }
+      },
+      "txDialog": {
+        "dateTime": "Date/Heure",
+        "amountSent": "Montant envoyé",
+        "amountReceived": "Montant reçu",
+        "txHash": "Hash de transaction"
+      }
     }
   },
-  "footer": {
-    "buildID": "ID de build",
-    "notice_1": "Vous seul contrôlez et avez accès à votre patrimoine, toute action que vous entreprenez pourrait entraîner une perte potentielle de fonds.",
-    "notice_2": "Assurez-vous en particulier de vérifier tous les prix des frais de transaction avant de continuer, car les portefeuilles tiers peuvent automatiquement présenter des frais élevés.",
-    "notice_3": "Si vous êtes nouveau sur DeFi, voici le <0> wiki </0> sur la façon d’utiliser SOVRYN.",
-    "optOut": "Désactivation de <0> Google Analytics </0>",
-    "title": "Propulsé par <0> Bitcoin </0>"
+  "originsClaim": {
+    "meta": {
+      "title": "Réclamation d'Origins",
+      "description": "Réclamez vos achats sur Origins"
+    },
+    "claimForm": {
+      "title": "Solde FISH à réclamer",
+      "availble": "Total FISH disponible :",
+      "cta": "Réclamer",
+      "note": "Le retrait sera disponible le {{date}}.",
+      "unlockedNote": "Vous recevrez instantanément {{amount}} jetons FISH sur votre portefeuille."
+    },
+    "vestForm": {
+      "title": "Solde verrouillé",
+      "availble": "Total FISH verrouillé disponible :",
+      "cta": "Commencer le vesting",
+      "note": "{{amount}} jetons FISH seront verrouillés pendant 10 mois avec une période d'attente d'un mois.",
+      "learn": "En savoir plus"
+    }
+  },
+  "trandingPositionSelector": {
+    "long": "Achat",
+    "short": "Vente à découvert"
+  },
+  "assetWalletBalance": {
+    "accountBalance": "Solde du compte",
+    "suppliedBalance": "Solde approvisionné",
+    "connect": "Connecter au portefeuille"
+  },
+  "leverageSelector": {
+    "text": "Effet de levier"
+  },
+  "activeLoan": {
+    "expandedRow": {
+      "leverage": "Effet de levier",
+      "startMargin": "Marge initiale",
+      "mainenanceMargin": "Marge de maintenance",
+      "currentPrice": "Prix actuel",
+      "liquidationPrice": "Prix de liquidation",
+      "renewalDate": "Date de renouvellement"
+    },
+    "table": {
+      "positionSize": "Taille de la position",
+      "profit": "Profit / Perte",
+      "currentMargin": "Marge actuelle",
+      "interestApr": "APR d'intérêt",
+      "startPrice": "Prix de départ",
+      "container": {
+        "topUp": "Approvisionner",
+        "close": "Fermer"
+      }
+    }
+  },
+  "expandedRowMobile": {
+    "currentMargin": "Marge actuelle",
+    "interestAPR": "APR d'intérêt",
+    "startPrice": "Prix de départ",
+    "leverage": "Effet de levier",
+    "startMargin": "Marge initiale",
+    "maintenanceMargin": "Marge de maintenance",
+    "currentPrice": "Prix actuel",
+    "liquidationPrice": "Prix de liquidation",
+    "renewalDate": "Date de renouvellement"
+  },
+  "statsPage": {
+    "titles": {
+      "transactionVolume": "Volume des transactions",
+      "tradingVolume": "Volume de trading",
+      "hourVolumne": "VOLUME 24 HEURES",
+      "allVolumne": "VOLUME TOTAL",
+      "btc": "BTC",
+      "usd": "USD",
+      "tvl": "Total verrouillé",
+      "lending": "Statistiques de prêt"
+    },
+    "tvl": {
+      "type": "Type de contrat",
+      "btc": "Valeur (BTC)",
+      "usd": "Valeur (USD)",
+      "protocol": "Contrat de protocole",
+      "lend": "Contrat de prêt",
+      "amm": "Contrat AMM",
+      "staked": "Contrat de mise en jeu Bitocracy",
+      "total": "Total"
+    },
+    "ammpool": {
+      "title": "SOLD ÉQUILIBRES",
+      "pool": "Pool",
+      "stakedBalance": "Solde mis en jeu",
+      "contractBalance": "Solde du contrat",
+      "imBalance": "Déséquilibre"
+    },
+    "tradingVolume": "Volume de trading",
+    "lending": "Statistiques de prêt",
+    "asset": "Actif",
+    "totalAssetSupplied": "Total des actifs fournis",
+    "totalAssetBorrowed": "Total des actifs empruntés",
+    "totalAvailable": "Total disponible",
+    "supplyAPR": "APY de l'approvisionnement",
+    "borrowAPR": "APY d'emprunt"
+  },
+  "pageNotFound": {
+    "text": "Page non trouvée.",
+    "backHome": "Retour à l'accueil"
+  },
+  "swap": {
+    "title": "Échange",
+    "meta": "Échange",
+    "cta": "Échanger",
+    "minimumReceived": "Minimum reçu :",
+    "maximumPrice": "Prix maximum :",
+    "send": "Jetons à échanger",
+    "receive": "Jetons à recevoir",
+    "receiveAmount": "Montant à recevoir",
+    "tradeAmount": "Montant de l'échange",
+    "advancedSettings": "Paramètres avancés"
+  },
+  "stake": {
+    "title": "Mise en jeu/Vesting",
+    "meta": "Mise en jeu/Vesting",
+    "paused": "La fonctionnalité de mise en jeu est actuellement en pause par la gouvernance de Sovryn, veuillez réessayer plus tard ou consulter notre <0>Discord</0> pour plus de détails.",
+    "connect": "Veuillez vous connecter avec votre portefeuille pour utiliser la mise en jeu.",
+    "total": "Total des SOV mis en jeu",
+    "votingPower": "Puissance de vote combinée",
+    "viewGovernance": "Voir la gouvernance",
+    "addStake": "Ajouter une nouvelle mise en jeu",
+    "feeTitle": "Frais totaux gagnés disponibles",
+    "sentLendingPool": "{{asset}} sera envoyé à la piscine de prêt.",
+    "convertedToRBTC": "{{asset}} sera converti en RBTC et envoyé directement à votre portefeuille.",
+    "noUnlockedSov": "Vous n'avez pas de SOV débloqués",
+    "txFee": "Frais de transaction",
+    "txId": "ID de transaction :",
+    "sov": "SOV",
+    "days": "jours",
+    "vestingFees": "SOV investis",
+    "delegation": {
+      "delegateTo": "Déléguer à",
+      "delegatedTo": "Délégué à",
+      "noDelegate": "Pas de délégué",
+      "address": "Entrez ou collez l'adresse"
+    },
+    "withdraw": {
+      "title": "Désinvestir SOV",
+      "amountCurrentlyStaked": "Montant actuellement mis en jeu",
+      "amountToUnstake": "Montant à désinvestir",
+      "receiveSovAt": "Recevoir SOV à",
+      "unlockedSov": "SOV débloqués",
+      "forfeit": "Forfait de désinvestissement anticipé",
+      "closeDialog": "Fermer la boîte de dialogue",
+      "reallyUnstake": "Êtes-vous sûr de vouloir désinvestir ?",
+      "stakeUnlockUntil": "Cette mise en jeu n'est pas prévue pour se déverrouiller avant",
+      "penalty": "Désinvestir maintenant entraîne une pénalité de réduction qui vous coûtera",
+      "penaltyZero": "Vous serez réduit de certains de vos SOV pour un retrait anticipé",
+      "unstake": "Oui, désinvestir",
+      "loading": "Chargement..."
+    },
+    "staking": {
+      "title": "Mettre en jeu SOV",
+      "amountToStake": "Montant à mettre en jeu",
+      "amountPlaceholder": "Entrez le montant",
+      "votingPowerReceived": "Puissance de vote reçue"
+    },
+    "extending": {
+      "title": "Prolonger la mise en jeu de SOV",
+      "previousUntil": "Précédent jusqu'à",
+      "amountToStake": "Montant à mettre en jeu",
+      "votingPowerReceived": "Puissance de vote reçue",
+      "willAddedVote": "Sera ajouté à votre vote",
+      "balance": "Solde"
+    },
+    "history": {
+      "loading": "Chargement...",
+      "title": "Historique de la mise en jeu",
+      "asset": "Actif",
+      "action": "Action",
+      "stakedAmount": "Montant",
+      "stakingDate": "Date/Heure",
+      "hash": "Hash de transaction",
+      "totalStaked": "Total mis en jeu",
+      "viewHistory": "Cliquez pour voir l'historique",
+      "status": "Statut",
+      "emptyHistory": "L'historique est vide.",
+      "actions": {
+        "stake": "Mise en jeu",
+        "unstake": "Désinvestir",
+        "feeWithdraw": "Retrait de frais",
+        "increase": "Augmentation",
+        "extend": "Prolonger",
+        "delegate": "Déléguer",
+        "withdraw": "Retirer"
+      }
+    },
+    "increase": {
+      "title": "Ajouter à la mise en jeu",
+      "currentlyStaked": "Montant actuellement mis en jeu",
+      "amountToAdd": " Montant à ajouter",
+      "newVotingPower": "Nouvelle puissance de vote"
+    },
+    "currentStakes": {
+      "title": "Contrats de mise en jeu actuels",
+      "asset": "Actif",
+      "lockedAmount": "Montant verrouillé",
+      "votingPower": "Puissance de vote",
+      "votingDelegation": "Délégation de vote",
+      "stakingPeriod": "Période de mise en jeu",
+      "unlockDate": "Date de déverrouillage"
+    },
+    "currentVests": {
+      "title": "Contrats de vesting actuels",
+      "asset": "Actif",
+      "dollarBalance": "Valeur en USD",
+      "lockedAmount": "Montant verrouillé",
+      "votingPower": "Délégation de vote",
+      "stakingDate": "Date de fin",
+      "stakingPeriod": "Période de vesting",
+      "unlockDate": "Date de déverrouillage",
+      "fees": "Frais gagnés",
+      "noVestingContracts": "Vous n'avez aucun contrat de vesting.",
+      "assetType": {
+        "genesis": "Genesis SOV",
+        "origin": "Origin SOV",
+        "team": "Team SOV",
+        "fouryear": "Four-Year Vested SOV",
+        "teamFouryear": "Team Vesting",
+        "reward": "Reward SOV",
+        "fish": "Origins FISH",
+        "fishAirdrop": "Airdrop FISH"
+      }
+    },
+    "actions": {
+      "title": "Actions",
+      "increase": "Augmenter",
+      "extend": "Prolonger",
+      "unstake": "Désinvestir",
+      "delegate": "Déléguer",
+      "confirm": "Confirmer",
+      "cancel": "Annuler",
+      "withdraw": "Retirer"
+    },
+    "dateSelector": {
+      "noneAvailable": "Aucune date disponible.",
+      "selectDelegate": "Choisissez la période de délégation :",
+      "selectYear": "Sélectionner l'année :"
+    },
+    "loading": "Chargement, veuillez patienter...",
+    "nostake": "Pas encore de mise en jeu."
+  },
+  "liquidity": {
+    "title": "Liquidité",
+    "meta": "Ajouter de la liquidité",
+    "pool": "Pool",
+    "apy": "APY",
+    "currency": "Devise",
+    "currencySelect": "Sélectionnez la devise",
+    "poolSelect": "Sélectionnez le pool",
+    "amount": "Entrez le montant",
+    "amountTarget": "Montant cible",
+    "suppliedBalance": "Solde approvisionné",
+    "token": "Jetons de pool attendus",
+    "fee": "frais",
+    "supply": "Fournir",
+    "withdraw": "Retirer",
+    "totalLiquidity": "Liquidité totale",
+    "transfer": "Transférer",
+    "transferNote": "Veuillez initier le transfert de votre liquidité vers nos nouveaux pools",
+    "v1": {
+      "balance": "Solde disponible"
+    },
+    "PoolTransferDialog": {
+      "title": "Mise à jour du pool",
+      "subtitle": "Nous avons mis à jour les contrats intelligents AMM, afin de continuer à utiliser les pools de liquidité avec l'interface utilisateur Sovryn et de gagner des récompenses de minage de liquidité, veuillez cliquer sur transférer pour chaque pool dans lequel vous avez de la liquidité."
+    }
+  },
+  "modal": {
+    "close": "Fermer"
   },
   "formSelect": {
     "loading": "Chargement, veuillez patienter.",
     "noresults": "Aucun résultat.",
-    "placeholder": "Sélectionnez quelque chose"
-  },
-  "global": {
-    "interestApr": "Intérêt APR",
-    "liquidationPrice": "Prix ​​de liquidation"
-  },
-  "hintDialog": {
-    "title": "Conseils de Sovryn"
-  },
-  "hintHowToConnect": {
-    "hintOne": "Avant de pouvoir trade et prêter avec Sovryn, vous devez vous connecter au réseau RSK.",
-    "hintTwo": "Obtenez des instructions sur la façon de vous connecter avec <0> Metamask </0> ou <1> Nifty </1>, puis connectez votre portefeuille:"
+    "placeholder": "Sélectionner quelque chose",
+    "selectTradePair": "Sélectionner une paire de trading"
   },
   "hintHowToTopUp": {
-    "hintOne": "Vous êtes connecté! Pour trade et prêter avec Sovryn, vous aurez besoin de Bitcoin sur la plate-forme RSK.",
-    "hintThree": "et lancez-vous!",
-    "hintTwo": "Rechargez votre portefeuille à"
+    "hintOne": "Vous êtes connecté ! Pour trader et prêter avec Sovryn, vous aurez besoin de quelques Bitcoins sur la plateforme RSK.",
+    "hintTwo": "Approvisionnez votre portefeuille sur",
+    "hintThree": "et commencez !"
   },
-  "homePage": {
-    "lend": "Prêter",
-    "meta": "Page d'accueil de Sovryn",
-    "title": "Page d'accueil",
-    "trade": "Trade"
+  "whiteListedNotification": {
+    "text": "Votre portefeuille n'est pas autorisé à utiliser l'application Sovryn. Toutes les interactions sont désactivées jusqu'à ce que vous passiez à un portefeuille autorisé ou autorisiez ce portefeuille. Les portefeuilles sont automatiquement autorisés s'ils contiennent du SOV (y compris le SOV bloqué ou mis en jeu). La documentation sur l'application Sovryn est disponible sur le <0>wiki</0>."
+  },
+  "limitsNotification": {
+    "text": "Sovryn vient de lever les limites de transaction (hourra !). Cela signifie que vous pouvez désormais prendre n'importe quelle taille de position. Cependant, veuillez noter que les limites viennent d'être supprimées, la liquidité dans le système peut être faible initialement."
   },
   "lend": {
-    "borrowingContainer": {
-      "amount": "Montant à emprunter",
-      "borrow": "Emprunter",
-      "chooseDays": "Choisissez les jours",
-      "tokenAssetCollateral": "Actif à garantir et montant"
-    },
-    "container": {
-      "amountName": "Montant du dépôt",
-      "balance": "Balance",
-      "leftBtn": "Dépôt",
-      "profit": "Profit",
-      "rightBtn": "Retirer",
-      "supply": "Supply"
-    },
-    "currency": {
-      "borrow": "Emprunter",
-      "borrowArp": "Emprunt APR",
-      "lend": "Prêter ",
-      "lendArp": "Prêt APR"
-    },
+    "title": "Prêter",
     "history": {
+      "title": "Historique des prêts",
       "amount": "Montant du prêt",
       "date": "Date et heure",
-      "emptyState": "L'historique est vide.",
       "price": "Prix",
-      "title": "Historique des prêts",
-      "transaction": "Transaction"
+      "transaction": "Transaction",
+      "emptyState": "L'historique est vide."
+    },
+    "currency": {
+      "lend": "Prêter",
+      "borrow": "Emprunter",
+      "lendArp": "APR de prêt",
+      "borrowArp": "APR d'emprunt"
+    },
+    "container": {
+      "leftBtn": "Déposer",
+      "rightBtn": "Retirer",
+      "amountName": "Montant du dépôt",
+      "balance": "Solde",
+      "profit": "Profit",
+      "supply": "Approvisionnement"
+    },
+    "borrowingContainer": {
+      "amount": "Montant à emprunter",
+      "tokenAssetCollateral": "Actif à utiliser en garantie et montant",
+      "borrow": "Emprunter",
+      "chooseDays": "Choisir la durée",
+      "disabled": "Cet actif ne peut pas être emprunté."
     }
   },
-  "lendingPage": {
-    "amount": {
-      "deposit": "Montant à déposer",
-      "redeem": "Montant à échanger"
+  "borrow": {
+    "meta": {
+      "title": "Emprunter"
+    }
+  },
+  "activeUserBorrows": {
+    "text": "Vous n'avez aucun prêt en cours."
+  },
+  "activeUserLoans": {
+    "text": "Vous n'avez aucune transaction en cours.",
+    "info": {
+      "line_1": "Besoin d'aide pour effectuer une transaction ? Consultez notre guide sur ",
+      "line_2": " comment trader et prêter avec Sovryn",
+      "line_3": "."
+    }
+  },
+  "topUpTradingPositionHandler": {
+    "title": "Rajouter à la position",
+    "topUpAmount": "Montant à rajouter",
+    "topUp": "Rajouter",
+    "currency": "Devise"
+  },
+  "liquidityRemoveContainer": {
+    "fields": {
+      "currency": "Devise",
+      "currency_placeholder": "Sélectionner une devise",
+      "amount": "Entrez le montant",
+      "target_amount": "Montant cible",
+      "fee": "Frais"
     },
-    "liquidity": {
-      "borrow": {
-        "line_1": "il n'y a pas assez de {{currency}} dans le pool de prêts pour emprunter.",
-        "line_2": "Actuellement, seul {{amount}} {{currency}} est disponible dans le pool.",
-        "line_3": "Le pool augmentera une fois que les utilisateurs rembourseront leurs prêts."
-      },
-      "redeem": {
-        "line_1": "Il n'y a pas assez de {{currency}} dans le pool de prêts.",
-        "line_2": "Actuellement, seul {{amount}} {{currency}} est disponible dans le pool.",
-        "line_3": "Le pool augmentera une fois que les utilisateurs rembourseront leurs prêts."
+    "supplied_balance": "Solde approvisionné",
+    "not_connected": "Connectez-vous à votre portefeuille",
+    "btn": "Retirer"
+  },
+  "borrowActivity": {
+    "tabs": {
+      "active": "Actif",
+      "history": "Historique"
+    },
+    "walletNote": "Connectez d'abord votre portefeuille !"
+  },
+  "borrowHistory": {
+    "table": {
+      "headers": {
+        "borrowAmount": "Emprunté",
+        "collateralAmount": "Garantie",
+        "interestAPR": "Intérêt APY",
+        "timestamp": "Date"
       }
+    },
+    "no_items": "Votre historique d'emprunt est vide."
+  },
+  "wrongNetworkDialog": {
+    "title": "Passer au réseau {{name}}",
+    "networkAlert": "Nous avons détecté que vous êtes sur le réseau {{name}}.",
+    "networkAlertUnknown": "Nous avons détecté que vous êtes sur un réseau différent.",
+    "walletAlert": "Veuillez passer à {{network}} dans votre portefeuille {{wallet}}.",
+    "tutorialGuide": "Comment se connecter à {{network}} avec {{wallet}}",
+    "settings": {
+      "title": "Paramètres {{network}}",
+      "name": "Nom du réseau :",
+      "rpc": "Nouvelle URL RPC :",
+      "chainId": "ID de chaîne :",
+      "symbol": "Symbole :",
+      "explorer": "URL de l'explorateur de blocs :"
+    },
+    "stepTitle": {
+      "step1": "Étape 01 :",
+      "step2": "Étape 02 :",
+      "step3": "Étape 03 :",
+      "step4": "Étape 04 :",
+      "step5": "Étape 05 :",
+      "step6": "Étape 06 :"
+    },
+    "metamask": {
+      "step1": "Ouvrez MetaMask dans votre navigateur",
+      "step2": "Allez dans le menu déroulant du réseau",
+      "step3": "Sélectionnez RPC personnalisé",
+      "step4": "Saisissez les paramètres {{network}}",
+      "step5": "Cliquez sur Enregistrer",
+      "step6": "Cliquez sur Ajouter un réseau",
+      "connectButton": "Configurer {{network}} dans MetaMask"
+    },
+    "liquality": {
+      "step1": "Ouvrez Liquality dans votre navigateur",
+      "step2": "Allez dans le menu déroulant",
+      "step3": "Sélectionnez Paramètres",
+      "step4": "Allez dans le menu déroulant du réseau",
+      "step5": "Sélectionnez {{network}}"
+    },
+    "nifty": {
+      "step1": "Ouvrez Nifty dans votre navigateur",
+      "step2": "Allez dans le menu déroulant",
+      "step3": "Sélectionnez Paramètres"
+    }
+  },
+  "rskConnectTutorial": {
+    "browser_wallet": "Portefeuille de navigateur",
+    "mobile_wallet": "Portefeuille mobile",
+    "mobile_wallet_alert_line1": "Assurez-vous d'utiliser un portefeuille mobile compatible avec le portefeuille RSK. Nous vous suggérons RWallet ou Defiant.",
+    "mobile_wallet_alert_line2": "MetaMask a des problèmes pour calculer les frais de gaz pour le réseau RSK - vérifiez toujours s'ils ne sont pas trop élevés avant d'approuver la transaction !",
+    "hardware_wallet": "Portefeuille matériel",
+    "speech": {
+      "1": "Ouvrez votre portefeuille de navigateur",
+      "2": "Allez dans le menu déroulant du réseau",
+      "3": "Sélectionnez RPC personnalisé",
+      "4": "Saisissez les détails du réseau",
+      "5": "Cliquez sur Enregistrer",
+      "6": "Cliquez sur Ajouter un réseau",
+      "7": "Connectez votre portefeuille !"
+    },
+    "mobileSpeech": {
+      "1": "Accédez au menu Wallet",
+      "2": "Sélectionnez Paramètres",
+      "3": "Sélectionnez Réseaux",
+      "4": "Cliquez sur Ajouter un réseau",
+      "5": "Saisissez les paramètres du réseau",
+      "6": "Cliquez sur Ajouter",
+      "7": "Scannez le code QR pour vous connecter !"
+    },
+    "speech_qr_code": "Scannez le code QR avec un portefeuille compatible avec la connexion de portefeuille",
+    "input_settings": {
+      "title": "Paramètres du réseau RSK",
+      "network": "Nom du réseau",
+      "new_RPC": "Nouvelle URL RPC",
+      "chain_Id": "ID de la chaîne",
+      "symbol": "Symbole",
+      "explorer_url": "URL de l'explorateur de blocs"
+    },
+    "step": "Étape",
+    "screens": {
+      "1": {
+        "title": "Connectez votre portefeuille",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "11": {
+        "title": "Connectez-vous au réseau RSK",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "2": {
+        "title": "Comment se connecter au réseau RSK",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "3": {
+        "title": "Scannez le code QR",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "4": {
+        "title": "Connectez-vous avec un portefeuille mobile",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "5": {
+        "title": "Choisissez votre portefeuille",
+        "banner": "Pour toute assistance, contactez la communauté"
+      }
+    }
+  },
+  "SOVConnectTutorial": {
+    "browser_wallet": "Portefeuille de navigateur",
+    "mobile_wallet": "Portefeuille mobile",
+    "hardware_wallet": "Portefeuille matériel",
+    "speech": {
+      "1": "Ouvrez votre portefeuille de navigateur",
+      "2": "Allez dans le menu déroulant du réseau",
+      "3": "Sélectionnez RPC personnalisé",
+      "4": "Saisissez les détails du réseau",
+      "5": "Cliquez sur Enregistrer",
+      "6": "Cliquez sur Ajouter un réseau",
+      "7": "Connectez votre portefeuille !"
+    },
+    "mobileSpeech": {
+      "1": "Accédez au menu Wallet",
+      "2": "Sélectionnez Paramètres",
+      "3": "Sélectionnez Réseaux",
+      "4": "Cliquez sur Ajouter un réseau",
+      "5": "Saisissez les paramètres du réseau",
+      "6": "Cliquez sur Ajouter",
+      "7": "Scannez le code QR pour vous connecter !"
+    },
+    "speech_qr_code": "Scannez le code QR avec un portefeuille compatible avec la connexion de portefeuille",
+    "input_settings": {
+      "title": "PARAMÈTRES DU TOKEN SOV",
+      "token_address": "Adresse du contrat de jeton",
+      "symbol": "Symbole",
+      "decimals": "Décimales"
+    },
+    "step": "Étape",
+    "screens": {
+      "1": {
+        "title": "Connectez votre portefeuille",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "11": {
+        "title": "Connectez-vous au réseau RSK",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "2": {
+        "title": "Comment se connecter au réseau RSK",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "3": {
+        "title": "Scannez le code QR",
+        "banner": "Pour toute assistance, contactez la communauté"
+      },
+      "4": {
+        "title": "Comment connecter SOV à votre portefeuille MetaMask",
+        "banner": "Pour toute assistance, contactez la communauté"
+      }
+    }
+  },
+  "mobileNotReady": {
+    "submit": "Soumettre",
+    "p1": "L'expérience utilisateur de Sovryn n'est pas encore optimisée pour les mobiles.",
+    "p2": "Inscrivez votre e-mail pour être informé lorsque notre version mobile sera prête !",
+    "p3": "D'ici là, pourquoi ne pas essayer la version de bureau ?",
+    "errorText": "Erreur lors de la soumission du formulaire",
+    "success": "Succès !",
+    "successText": "Nous vous contacterons dès que Sovryn Mobile sera en direct."
+  },
+  "walletProvider": {
+    "txRequestDialog": {
+      "closeButton": "Ok",
+      "approve": {
+        "title": "Approuver les jetons",
+        "description": "Confirmez la transaction dans votre portefeuille pour approuver les dépenses de jetons dans ce contrat intelligent.",
+        "error": "La demande d'approbation a échoué :"
+      }
+    },
+    "userDenied": "Transaction refusée"
+  },
+  "sendTxProgress": {
+    "pending_for_user": {
+      "title": "En attente de l'utilisateur",
+      "text": "Veuillez confirmer la transaction dans votre portefeuille."
+    },
+    "pending": {
+      "title": "Transaction en attente",
+      "text": "Votre transaction est en cours de traitement."
+    },
+    "confirmed": {
+      "title": "Transaction confirmée !",
+      "text": "Votre transaction a été confirmée dans la blockchain."
+    },
+    "failed": {
+      "title": "Transaction échouée !",
+      "text": "La transaction a été annulée par le contrat."
+    },
+    "denied": {
+      "title": "Rejetée !",
+      "text": "L'utilisateur a refusé la transaction."
+    },
+    "texts": {
+      "transaction": "Transaction",
+      "closeButton": "Fermer"
+    }
+  },
+  "topUpBtcDialog": {
+    "meta": {
+      "title": "Recharge"
+    }
+  },
+  "portfolioPage": {
+    "portfolio": "Portefeuille",
+    "rewards": "Récompenses",
+    "meta": {
+      "title": "Portefeuille",
+      "description": "Gérez les actifs pris en charge dans votre portefeuille connecté"
+    },
+    "tabs": {
+      "userAssets": "Actifs",
+      "vestedAssets": "Investissement",
+      "userNFTS": "Galerie"
+    },
+    "claimDialog": {
+      "redemptionSuccessful": "Rachat réussi",
+      "vestedSovLink": "Vous pourrez maintenant voir votre SOV investi sur notre page de <0>staking</0>.",
+      "congratulations": "Félicitations, vous êtes maintenant propriétaire de SOV !",
+      "checkSov": "Vérifiez SOV",
+      "txHash": "Hash de la transaction :",
+      "redeemOriginsSOV": "Racheter Origins SOV",
+      "requiresRBTC": "Cette transaction nécessite du rBTC pour les frais de gaz.",
+      "originsBTCdeposit": "Dépôt de BTC d'origine :",
+      "claimedSov": "SOV réclamé à {{count}} sats",
+      "sov": "SOV",
+      "btc": "BTC"
+    }
+  },
+  "salesPage": {
+    "meta": {
+      "title": "Prévente",
+      "description": "Page de prévente SOV"
+    }
+  },
+  "userAssets": {
+    "meta": {
+      "title": "Portefeuille",
+      "description": "Gérez les actifs pris en charge dans votre portefeuille connecté"
+    },
+    "emptyVestTable": "Vous n'avez aucun contrat d'investissement",
+    "tableHeaders": {
+      "asset": "Actif",
+      "balance": "Solde",
+      "dollarBalance": "Valeur en USD",
+      "lockedAmount": "Montant bloqué"
+    },
+    "actions": {
+      "deposit": "Dépôt",
+      "fastBtc": "Dépôt",
+      "convert": "Convertir en XUSD",
+      "unwrap": "Déballer en RBTC",
+      "swap": "Échanger",
+      "trade": "Trading sur marge",
+      "buy": "Acheter",
+      "claimSov": "Réclamer SOV",
+      "redeemRBTC": "Racheter RBTC",
+      "withdraw": "Retirer"
+    },
+    "sendMessage": "Envoyez {{asset}} depuis votre adresse connectée sur le réseau RSK",
+    "receiveMessage": "Recevez {{asset}} sur votre adresse connectée sur le réseau RSK",
+    "convertDialog": {
+      "title": "Convertir",
+      "from": "De",
+      "to": "À",
+      "cta": "Convertir en XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction en cours",
+        "titleCompleted": "Transaction terminée",
+        "titleFailed": "Échec de la transaction",
+        "statusInProgress": "La création peut prendre quelques minutes",
+        "dateTime": "Date/Heure",
+        "amountSent": "Montant envoyé",
+        "amountReceived": "Montant reçu",
+        "hash": "RSK Relay Hash",
+        "cta": "Fermer"
+      }
+    },
+    "unwrapDialog": {
+      "title": "Développer WRBTC",
+      "from": "De",
+      "to": "À",
+      "cta": "Développer en RBTC",
+      "txDialog": {
+        "titleInProgress": "Transaction en cours",
+        "titleCompleted": "Transaction terminée",
+        "titleFailed": "Échec de la transaction",
+        "statusInProgress": "La création peut prendre quelques minutes",
+        "dateTime": "Date/Heure",
+        "amountSent": "Montant envoyé",
+        "amountReceived": "Montant reçu",
+        "hash": "Hash du relais RSK",
+        "cta": "Fermer"
+      }
+    },
+    "gallery": {
+      "title": "NFT de génération 01 SOV's",
+      "community": "Communauté",
+      "hero": "Héros",
+      "superhero": "Superhéros",
+      "preOrder": "Pré-commande SOV Genesis",
+      "purchaseLimit": "Limite d'achat :",
+      "tier": "Niveau",
+      "sovOG": "SOV-OG",
+      "btc": "BTC",
+      "emptyGallery": "Votre portefeuille connecté n'a actuellement aucun NFT pris en charge. Rejoignez la <0>communauté Sovryn</0> pour avoir la chance de gagner des récompenses NFT.",
+      "loadingMessage": "Chargement de votre galerie."
+    }
+  },
+  "swapHistory": {
+    "title": "Historique des échanges",
+    "tableHeaders": {
+      "time": "Date/Heure",
+      "from": "Actif envoyé",
+      "amountSent": "Montant envoyé",
+      "to": "Actif reçu",
+      "amountReceived": "Montant reçu",
+      "status": "Statut",
+      "transactionFee": "Frais de transaction",
+      "gasFee": "Frais de gaz"
+    },
+    "emptyState": "L'historique est vide.",
+    "recentSwapHistory": "Historique récent des échanges"
+  },
+  "vestedHistory": {
+    "title": "Historique des investissements",
+    "tableHeaders": {
+      "time": "Date/Heure",
+      "vestingSchedule": "Type",
+      "amount": "Montant",
+      "hash": "Hash de transaction",
+      "status": "Statut"
+    }
+  },
+  "spotHistory": {
+    "title": "Historique Spot",
+    "tableHeaders": {
+      "time": "Date/Heure",
+      "pair": "Paire",
+      "orderType": "Type d'ordre",
+      "amountPaid": "Montant payé",
+      "amountReceived": "Montant reçu",
+      "transactionFee": "Frais de transaction",
+      "status": "Statut"
+    },
+    "emptyState": "L'historique est vide."
+  },
+  "topUpHistory": {
+    "meta": {
+      "title": "Historique des recharges"
+    },
+    "tableHeaders": {
+      "time": "Date/Heure",
+      "asset": "Actif",
+      "amount": "Montant",
+      "fee": "Frais",
+      "depositTx": "ID de dépôt BTC",
+      "transferTx": "Hash de relais RSK",
+      "txHash": "Transaction"
+    },
+    "emptyState": "L'historique est vide.",
+    "walletHistory": "Le portefeuille doit être connecté.",
+    "loading": "Chargement...",
+    "btc": "BTC"
+  },
+  "validationErrors": {
+    "insufficientBalance": "Fonds insuffisants disponibles",
+    "minimumZero": "Le montant minimum doit être supérieur à zéro"
+  },
+  "lendingPage": {
+    "deposit": "Dépôt",
+    "withdraw": "Retirer",
+    "meta": {
+      "title": "Prêter",
+      "description": "Page de prêt"
     },
     "tabs": {
       "deposit": "Dépôt",
       "redeem": "Racheter"
     },
+    "amount": {
+      "deposit": "Montant à déposer",
+      "redeem": "Montant à racheter"
+    },
     "tradeButtons": {
       "deposit": "Déposer {{asset}}",
-      "redeem": "Utiliser {{asset}}"
-    }
-  },
-  "leverageSelector": {
-    "text": "Effet de levier"
-  },
-  "limitsNotification": {
-    "text": "Sovryn vient de lever les limites des transactions (hourra!). Cela signifie que vous pouvez maintenant prendre n'importe quelle taille de position. Veuillez toutefois noter que, comme les limites viennent tout juste d'être supprimées, la liquidité du système peut être faible au départ."
-  },
-  "liquidity": {
-    "amount": "Entrer le montant",
-    "amountTarget": "Montant cible",
-    "currency": "Devise\n",
-    "currencySelect": "Sélectionnez la devise",
-    "fee": "frais",
-    "meta": "Ajouter de la liquidité",
-    "pool": "Pool",
-    "poolSelect": "Sélectionnez une pool",
-    "supply": "Fournir",
-    "title": "Liquidité",
-    "token": "Jetons de pool attendus",
-    "v1": {
-      "balance": "Solde disponible"
-    },
-    "withdraw": "Retirer"
-  },
-  "liquidityMining": {
-    "explainer": {
-      "airDrop": "Les récompenses seront déposées dans les portefeuilles des fournisseurs de liquidité au plus tard le 8 mai 2021",
-      "comingSoon": "Bientôt disponible",
-      "earnSOV": "Gagnez du SOV en déposant des liquidités dans le pool de liquidités USDT / BTC",
-      "endDate": "Date de fin: 1er mai 2021, 12h00 UTC",
-      "rewardPoolRBTC": "Récompense pour le dépôt de RBTC: 25 000 SOV",
-      "rewardPoolUSDT": "Récompense pour le dépôt d'USDT: 25 000 SOV",
-      "startDate": "Date de début: 1er avril 2021, 12h00 UTC",
-      "yourShare": "Votre part de la pool est calculée par:",
-      "yourShare_D": "liquidité totale ajoutée * nombre de blocs détenus",
-      "yourShare_N": "Liquidité ajoutée par vous * nombre de blocs détenus"
-    }
-  },
-  "liquidityRemoveContainer": {
-    "btn": "Retirer",
-    "fields": {
-      "amount": "Entrer le montant",
-      "currency": "Devise",
-      "currency_placeholder": "Sélectionnez la devise",
-      "fee": "Frais",
-      "target_amount": "Montant cible"
-    },
-    "not_connected": "Connectez à votre portefeuille ",
-    "supplied_balance": "Balance fournie"
-  },
-  "mainMenu": {
-    "borrow": "Emprunter",
-    "buySov": "Acheter du SOV",
-    "finance": "Finance",
-    "governance": "Gouvernance",
-    "help": "Aide",
-    "lend": "Prêter",
-    "liquidity": "tenue de marché",
-    "marginTrade": "Margin Trading",
-    "staking": "Staking",
-    "stats": "Statistiques",
-    "swap": "Échanger",
-    "trade": "Trade",
-    "wallet": "Portefeuille",
-    "bitocracy": "Bitocracy"
-  },
-  "marginTradeForm": {
-    "buttons": {
-      "submit": "Placer un Trade"
-    },
-    "fields": {
-      "amount": "Montant",
-      "currency": "Devise",
-      "currency_placeholder": "Choisir la devise",
-      "startPrice": "Prix ​​de départ"
+      "redeem": "Racheter {{asset}}"
     },
     "liquidity": {
-      "line_1": "La liquidité est trop faible pour l'échange.",
-      "line_2": "Essayez une autre paire ou attendez que les arbitres rééquilibrent."
-    }
-  },
-  "marketingPage": {
-    "explain": {
-      "comingSoon": "Bientôt disponible",
-      "datesSOV": "SOV/RBTC dates: 13th April 2021 12.00 UTC - 11th May 2021 12.00 UTC",
-      "datesUSDT": "USDT/RBTC dates: 1st April 2021, 12.00 UTC - 1st May 2021, 12.00 UTC",
-      "depositRBTC": "Récompense pour le dépôt de RBTC: 25 000 SOV",
-      "depositSOV": "\nRécompense pour le dépôt de SOV / RBTC: 75000 SOV (15k / semaine plus 15k supplémentaires pour la 1ère semaine)",
-      "depositUSDT": "Récompense pour le dépôt d'USDT: 25 000 SOV",
-      "earn": "Gagnez du SOV en déposant des liquidités dans les pools de liquidités USDT / RBTC ou SOV / RBTC",
-      "liquidityAdded": "liquidité ajoutée par vous * nombre de blocs détenus",
-      "sharePool": "Votre part de la pool est calculée par:",
-      "title": "COMMENT ÇA MARCHE?",
-      "totalAdded": "liquidité totale ajoutée * nombre de blocs détenus"
+      "redeem": {
+        "line_1": "Il n'y a pas assez de {{currency}} dans la piscine de prêt.",
+        "line_2": "Actuellement, la piscine n'a que {{amount}} {{currency}} disponible.",
+        "line_3": "La piscine augmentera lorsque les utilisateurs rembourseront leurs prêts."
+      },
+      "borrow": {
+        "line_1": "Il n'y a pas assez de {{currency}} dans la piscine de prêt pour emprunter.",
+        "line_2": "Actuellement, la piscine n'a que {{amount}} {{currency}} disponible.",
+        "line_3": "La piscine augmentera lorsque les utilisateurs rembourseront leurs prêts."
+      }
     },
-    "liquidity": {
-      "asset": "Actif",
-      "connetWallet": "Connectez votre portefeuille pour voir votre historique d'extraction de liquidité.",
-      "miningEvent": "Vos événements d'extraction de liquidité",
-      "noAsset": "Vous n'avez pas encore d'événement d'extraction de liquidité {{asset}}.",
-      "pool": "Pool",
-      "provider": "* Ce nombre peut augmenter ou diminuer en fonction de la quantité de liquidité que les autres fournisseurs de liquidité ajoutent ou retirent du pool",
-      "reward": "Récompense",
-      "rewardPool": "Votre part actuelle du pool de récompenses *",
-      "rewardSOV": "Votre récompense de SOV actuelle *",
-      "sov": "25k SOV",
-      "title": "Liquidités de minage : USDT/BTC POOL",
-      "rewardPoolNote": "* Pour les semaines qui sont encore en cours, ce nombre peut augmenter ou diminuer"
+    "poolChart": {
+      "totalLiquidity": "Liquidité totale",
+      "apy": "{{asset}} APY",
+      "available": "Disponible",
+      "borrowed": "Emprunté"
+    },
+    "rowTable": {
+      "noLiquidityProvided": "Prêtez votre {{asset}} et gagnez des revenus",
+      "tableHeaders": {
+        "apy": "APY",
+        "yourDeposit": "Votre dépôt",
+        "myProfit": "Profit",
+        "rewards": "Récompenses"
+      }
+    },
+    "modal": {
+      "deposit": {
+        "title": "Dépôt",
+        "cta": "Dépôt",
+        "amount": "Montant",
+        "max": "(Max {{limit}} {{asset}})",
+        "apy": "APY <0/> variable"
+      },
+      "withdraw": {
+        "title": "Retrait",
+        "cta": "Retrait",
+        "amount": "Montant :",
+        "reward": "Récompense :",
+        "depositBalance": "Votre dépôt : <0/> <1/>"
+      }
+    },
+    "historyTable": {
+      "title": "Historique des prêts",
+      "emptyState": "L'historique est vide.",
+      "tableHeaders": {
+        "time": "Date/Heure",
+        "pool": "Piscine",
+        "action": "Action",
+        "asset": "Actif",
+        "lendingAmount": "Montant du prêt",
+        "transactionHash": "Hash de transaction",
+        "status": "Statut"
+      }
     }
   },
-  "mobileNotReady": {
-    "errorText": "Erreur sur l'envoie du Formulaire ",
-    "p1": "L'expérience utilisateur Sovryn n'est pas encore optimisée pour le mobile.",
-    "p2": "Enregistrez votre e-mail pour savoir quand notre version mobile est prête!",
-    "p3": "D'ici là, pourquoi ne pas essayer la version bureau?",
-    "submit": "Envoyer",
-    "success": "Succès!",
-    "successText": "Nous vous contacterons dès que Sovryn Mobile sera en ligne."
+  "activeBorrowTable": {
+    "headers": {
+      "borrowAmount": "Emprunté",
+      "collateralAmount": "Collatéral",
+      "interestAPR": "Intérêt APY",
+      "endTimestamp": "Remboursement jusqu'à"
+    },
+    "repayButton": "Rembourser",
+    "addCollateralButton": "Ajouter du collatéral"
   },
-  "modal": {
-    "close": "Fermer "
+  "repayPositionForm": {
+    "title": "Rembourser le prêt",
+    "labels": {
+      "borrowedAmount": "Montant emprunté",
+      "amountToRepay": "Montant {{currency}} à rembourser",
+      "amountToReceive": "Vous recevrez"
+    },
+    "tinyPositionError": "Vous laissez une petite position. Veuillez fermer l'intégralité de votre prêt.",
+    "button": "Rembourser"
+  },
+  "closeTradingPositionHandler": {
+    "title": "Fermer la position",
+    "withdrawIn": "Actif à recevoir :",
+    "amountReceived": "Montant reçu :",
+    "marginType": "Type de marge :",
+    "positionSize": "Taille de la position :",
+    "minimumReceived": "Minimum reçu :",
+    "pl": "P/L :",
+    "amountToClose": "Montant de la position à fermer :",
+    "withdrawAmount": "Vous recevrez :",
+    "simulationFailed": "La transaction ne fermera pas : {{error}}",
+    "liquidity": {
+      "line_1": "La liquidité est trop faible pour fermer la position.",
+      "line_2": "Essayez un autre actif de retour ou attendez que les arbitres rééquilibrent."
+    }
+  },
+  "tradeConfirmationDialog": {
+    "main": {
+      "positionSize": "Taille de la position",
+      "positionLeverge": "Effet de levier de la position",
+      "maintenanceMargin": "Marge de maintenance",
+      "estimatedLiquidationPrice": "Prix de liquidation estimé",
+      "gasPriceNote": "Assurez-vous que le prix du gaz n'excède pas 0.06 GWEI",
+      "positionEntryPrice": "Prix d'entrée approximatif de la position",
+      "entryPriceNote": "Le prix est pris sur notre AMM et est donc sujet à des fluctuations.",
+      "tradeButtonLong": "Passer Long",
+      "tradeButtonShort": "Passer Short",
+      "closeBtn": "Fermer la fenêtre"
+    },
+    "positions": {
+      "long": "Long",
+      "short": "Court"
+    },
+    "tx": {
+      "pendingForUserTitle": "Examiner la transaction",
+      "pendingForUserText": "Examinez et confirmez la transaction dans votre portefeuille"
+    }
   },
   "notifyDialog": {
-    "acceptTerms": "J'ai lu et je comprends que je suis responsable de ma propre souveraineté",
+    "heading": "Attention… Vraiment",
+    "acceptTerms": "J'ai lu et compris que je suis responsable de ma propre Sovrynité",
+    "salesBtn": "Je comprends",
     "generalAlert": {
-      "p1": "SOVRYN est une plateforme de trading et de prêt de bitcoins décentralisée, la première du genre!",
-      "p2": "Vous seul contrôlez et avez accès à votre patrimoine, toute action que vous entreprenez pourrait entraîner une perte potentielle de fonds.",
-      "p3": "Assurez-vous de vérifier tous les prix des frais de transaction avant de continuer, car les portefeuilles tiers peuvent automatiquement présenter des frais élevés.",
+      "p1": "SOVRYN est une plateforme de trading et de prêt Bitcoin décentralisée, la première du genre !",
+      "p2": "Vous seul contrôlez et avez accès à votre richesse, toute action que vous entreprenez pourrait entraîner une perte potentielle de fonds.",
+      "p3": "Assurez-vous de vérifier tous les frais de transaction avant de continuer, car les portefeuilles tiers peuvent présenter automatiquement des frais élevés.",
       "p4_1": "Veuillez visiter notre ",
       "p4_2": "FAQ",
-      "p4_3": " Si vous avez des questions.",
-      "p5_1": "Si vous êtes nouveau sur DeFi, voici le ",
-      "p5_2": "Didacticiel",
-      "p5_3": " sur la façon d'utiliser SOVRYN."
+      "p4_3": " si vous avez des questions.",
+      "p5_1": "Si vous êtes nouveau dans la finance décentralisée (DeFi), voici le ",
+      "p5_2": "tutoriel",
+      "p5_3": " sur la manière d'utiliser SOVRYN."
     },
-    "heading": "Attention… Non vraiment",
     "metamaskAlert": {
+      "p1": "Nous avons remarqué que vous avez installé MetaMask.",
+      "p2_1": "Il existe des problèmes connus lors de l'utilisation de MetaMask avec SOVRYN. Nous vous suggérons d'utiliser un portefeuille de navigateur comme ",
+      "p2_2": "Liquality Wallet",
+      "p2_3": " ou ",
+      "p2_4": "Nifty Wallet",
+      "p2_5": ". Si vous souhaitez continuer avec MetaMask, veuillez prendre en compte les erreurs connues suivantes :",
       "knownErrors": {
-        "checksum": {
-          "description": "utiliser des adresses minuscules comme destinataire pour les transactions manuelles",
-          "title": "Somme de contrôle ETH au lieu de somme de contrôle RSK"
-        },
         "defaultGasPrice": {
-          "description": "réglez manuellement le prix de votre gas à 0,06 GWEI",
-          "title": "Prix ​​du gas par défaut élevé"
+          "title": "Frais de gaz par défaut élevés",
+          "description": "réglez votre frais de gaz manuellement à 0.06 GWEI"
+        },
+        "checksum": {
+          "title": "Checksum ETH au lieu de checksum RSK",
+          "description": "utilisez des adresses en minuscules en tant que destinataire pour les transactions manuelles"
         },
         "price": {
-          "description": "actuellement, nous vous suggérons de vérifier le solde de vos tokens dans la section SOVRYN Mon portefeuille.",
-          "title": "Affiche le prix en ETH au lieu de (r) BTC"
+          "title": "Affiche le prix en ETH au lieu de (r)BTC",
+          "description": "actuellement, nous vous suggérons de vérifier vos soldes de jetons dans la section My Wallet de SOVRYN."
         }
-      },
-      "p1": "Nous avons remarqué que MetaMask est installé.",
-      "p2_1": "Il existe des problèmes connus lors de l'utilisation de MetaMask avec SOVRYN. Nous vous suggérons d'utiliser un portefeuille navigateur comme",
-      "p2_2": "Portefeuille Liquality",
-      "p2_3": " Ou ",
-      "p2_4": "Portefeuille astucieux",
-      "p2_5": ". Si vous souhaitez continuer avec MetaMask, veuillez noter les erreurs connues suivantes:"
-    },
-    "salesBtn": "Je comprends"
+      }
+    }
+  },
+  "mobileBrowsersWarningDialog": {
+    "acceptTerms": "J'accepte les risques et souhaite utiliser l'application avec mon appareil mobile",
+    "salesBtn": "Je comprends",
+    "content": {
+      "paragraph1": "L'application Sovryn n'est pas encore entièrement compatible avec une utilisation sur les appareils mobiles.",
+      "paragraph2": "D'ici là, pourquoi ne pas essayer la version bureau ?"
+    }
+  },
+  "promotionsDialog": {
+    "title": "Nouvel événement sur Origins Launchpad",
+    "promotion1_title": "MYNT",
+    "promotion1_1": "L'événement de démarrage MYNT est maintenant en direct !",
+    "promotion1_2": "Découvrez plus d'informations sur MYNT <0>ici</0>",
+    "promotion1_3": "Prêt à participer ? Rendez-vous sur la page de l'événement en cliquant sur le bouton ci-dessous !",
+    "promotion1_cta": "Aller à l'événement"
+  },
+  "transakDialog": {
+    "title": "Acheter <0>RBTC</0> avec des fiat",
+    "explanation1": "Transak vous permet d'acheter <0>RBTC</0> avec des FIAT en quelques minutes !",
+    "explanation2": "Transak peut vous demander de remplir un formulaire KYC !",
+    "chainId": "Assurez-vous que votre portefeuille est configuré sur le réseau correct. Liquality Wallet nécessite un rafraîchissement de l'application pour détecter le changement de réseau.",
+    "cta": "Acheter <0>RBTC</0> avec des fiat"
   },
   "onCopy": {
     "address": "L'adresse a été copiée dans le presse-papiers."
   },
-  "pageNotFound": {
-    "backHome": "Retour sur la page d'accueil",
-    "text": "Page not found."
+  "vestingDialog": {
+    "title": "Retirer le déblocage",
+    "subtitle": "Cette transaction nécessite du RBTC pour les frais de gaz.",
+    "amount": "Montant à retirer :",
+    "receiver": "Recevoir {{asset}} à :",
+    "calculating": "Calcul en cours...",
+    "schedule": "Calendrier de déblocage"
   },
-  "repayPositionForm": {
-    "button": "Rembourser",
-    "labels": {
-      "amountToReceive": "Vous allez recevoir",
-      "amountToRepay": "{{currency}} montant à rembourser",
-      "borrowedAmount": "Montant emprunté"
-    },
-    "title": "Rembourser le prêt"
-  },
-  "rskConnectTutorial": {
-    "browser_wallet": "Portefeuille web",
-    "hardware_wallet": "Portefeuille physique",
-    "input_settings": {
-      "chain_Id": "ID de la chaîne",
-      "explorer_url": "URL de l'explorateur de blocs",
-      "network": "Nom de réseau",
-      "new_RPC": "Nouvelle URL RPC",
-      "symbol": "Symbole",
-      "title": "Paramètres réseau RSK"
-    },
-    "mobile_wallet": "Portefeuille mobile",
-    "mobile_wallet_alert_line1": "Assurez-vous d'utiliser un portefeuille mobile prenant en charge le portefeuille RSK. Nous suggérons RWallet ou Defiant.",
-    "mobile_wallet_alert_line2": "MetaMask a des problèmes avec le calcul du prix du gaz pour le réseau RSK - vérifiez toujours s'il n'est pas trop important avant d'approuver la transaction!",
-    "mobileSpeech": {
-      "1": "Aller sur le menu portefeuille ",
-      "2": "Sélectionnez Paramètres",
-      "3": "Sélectionnez les réseaux",
-      "4": "Cliquez sur Ajouter un réseau",
-      "5": "Paramètres réseau d'entrée",
-      "6": "Cliquez sur Ajouter",
-      "7": "Scannez le code QR pour vous connecter!"
-    },
-    "screens": {
-      "1": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Connectez votre portefeuille"
+  "rewardPage": {
+    "availableRewards": "Récompenses disponibles :",
+    "totalRewards": "Total des récompenses gagnées :",
+    "liquidityRewards": "Récompenses de liquidité",
+    "lendingRewards": "Récompenses de prêt",
+    "tradingRewards": "Récompenses de trading",
+    "lockedRewards": "Récompenses bloquées :",
+    "claimableRewards": "Récompenses récupérables",
+    "stakingReward": "Récompenses de jalonnement",
+    "referralReward": "Récompenses de parrainage",
+    "vested": "Acquis",
+    "liquid": "Liquide",
+    "comingSoon": "Bientôt disponible",
+    "noRewardInfoText": {
+      "rewardSovTab": {
+        "title": "Vous n'avez aucune Reward SOV",
+        "recommendationsTitle": "Pour gagner des Reward SOV, vous devrez soit :",
+        "recommendation1": "Mettre en gage des actifs dans l'une des piscines de prêt avec un événement de récompense SOV actif",
+        "recommendation2": "Ajouter de la liquidité à l'une des piscines de rendement avec des récompenses SOV",
+        "recommendation3": "Effectuer un échange sur marge avec n'importe quelle paire d'actifs sur Sovryn"
       },
-      "11": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Connectez-vous au réseau RSK"
+      "liquidSovTab": {
+        "title": "Vous n'avez aucune Liquid SOV",
+        "recommendationsTitle": "Pour gagner des Liquid SOV, vous devrez :",
+        "recommendation1": "Mettre en jeu des SOV",
+        "recommendation2": "Effectuer un échange sur marge avec n'importe quelle paire d'actifs sur Sovryn"
       },
-      "2": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Comment se connecter au réseau RSK"
-      },
-      "3": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Scanner le code QR"
-      },
-      "4": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Connectez-vous avec le portefeuille mobile"
-      },
-      "5": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Choisissez votre portefeuille"
+      "feesEarnedTab": {
+        "title": "Vous n'avez pas gagné de frais",
+        "recommendationsTitle": "Pour gagner des frais, vous devrez :",
+        "recommendation1": "Mettre en jeu des SOV",
+        "recommendation2": "Avoir des utilisateurs actifs utiliser votre lien d'affiliation",
+        "recommendation3": "Vous pouvez également réclamer ici des jetons airdropés lors de leur distribution"
       }
     },
-    "speech_qr_code": "Scanner le code QR avec un portefeuille compatible wallet-connect",
-    "speech": {
-      "1": "Ouvrez votre portefeuille navigateur",
-      "2": "Aller au menu déroulant réseau",
-      "3": "Sélectionnez un RPC personnalisé",
-      "4": "Entrer les détails du réseau",
-      "5": "Cliquez sur Enregistrer",
-      "6": "Cliquez sur Ajouter un réseau",
-      "7": "Engagez votre portefeuille!"
-    },
-    "step": "Etape"
-  },
-  "salesPage": {
     "meta": {
-      "description": "Page de prévente SOV",
-      "title": "Prévente"
+      "title": "Récompense",
+      "description": "Reward SOV"
+    },
+    "claimForm": {
+      "title": "Montant à réclamer :",
+      "available": "Total des Reward SOV disponibles :",
+      "cta": "RÉCLAMER",
+      "ctaAll": "TOUT RÉCLAMER",
+      "note": "La réclamation entraînera simultanément la réclamation des récompenses liquides et acquises, et démarrera automatiquement une période de déblocage de 40 semaines avec une période de rétention maximale de 4 semaines.",
+      "learn": "En savoir plus",
+      "claimDisabled": "Il n'y a pas suffisamment de SOV dans le contrat StakingRewardsProxy pour faciliter une réclamation de récompenses à ce moment. Par conséquent, pour éviter une perte de frais de gaz en initiant une transaction qui échouera inévitablement, le bouton RÉCLAMER a été désactivé. Soyez assuré que l'équipe en est consciente et que les fonds devraient être réapprovisionnés sous peu.",
+      "contractFailure": "En raison d'un problème connu, la réclamation de la transaction {{currency}} échouera. Des travaux sur une correction sont en cours.",
+      "simulatorFailure": "Erreur inconnue, veuillez réessayer ultérieurement.",
+      "noCheckpoints": "Aucuns frais disponibles à réclamer. Veuillez attendre le prochain point de contrôle.",
+      "liquidityMiningError": "Votre contrat de déblocage de minage de liquidités contient plus de {{count}} points de contrôle de récompenses. Veuillez retirer les récompenses liquides de votre contrat de déblocage pour activer le bouton 'Réclamer' et réclamer des récompenses supplémentaires."
+    },
+    "liquidClaimForm": {
+      "note": "La réclamation de vos récompenses les ajoutera automatiquement à votre solde de portefeuille SOV.",
+      "txNote": "Plusieurs transactions peuvent être nécessaires pour réclamer l'intégralité de votre solde de récompenses.",
+      "learn": "En savoir plus"
+    },
+    "feesEarnedClaimForm": {
+      "learn": "En savoir plus",
+      "asset": "Actif",
+      "amount": "Montant",
+      "assetValue": "Valeur <0/>"
+    },
+    "stakingForm": {
+      "title": "Montant à réclamer :",
+      "available": "Total des récompenses de jalonnement disponibles :",
+      "cta": "Réclamer"
+    },
+    "totalEarned": "Total des récompenses gagnées :",
+    "sov": {
+      "reward": "Reward SOV",
+      "liquid": "Liquid SOV",
+      "fee": "Fees Earned"
+    },
+    "fee": {
+      "stakingFee": "Frais de jalonnement",
+      "referralFee": "Frais de parrainage",
+      "tradingRebate": "Remise de trading"
+    },
+    "historyTable": {
+      "title": "Historique des Reward SOV",
+      "titleFeesEarned": "Historique des frais gagnés",
+      "tableHeaders": {
+        "time": "Date",
+        "type": "Type",
+        "amount": "Montant",
+        "transactionHash": "Transaction Hash",
+        "status": "Statut"
+      },
+      "event": {
+        "lendingReward": "Récompense de prêt",
+        "liquidityReward": "Récompense de liquidité",
+        "tradingReward": "Récompense de trading",
+        "stakingReward": "Récompense de jalonnement",
+        "referralReward": "Récompense de parrainage",
+        "feesReward": "Récompense de frais",
+        "vesting": "Déblocage",
+        "staking": "Jalonnement",
+        "referral": "Récompense de parrainage"
+      },
+      "walletHistory": "Le portefeuille doit être connecté.",
+      "emptyState": "L'historique est vide.",
+      "loading": "Chargement..."
     }
   },
-  "sendTxProgress": {
-    "confirmed": {
-      "text": "Votre transaction a été confirmée dans la blockchain.",
-      "title": "Transaction confirmée!"
+  "marginTradePage": {
+    "openPositions": "Positions ouvertes",
+    "meta": {
+      "title": "Trade sur marge",
+      "description": "Trade avec marge"
     },
-    "denied": {
-      "text": "L'utilisateur a refusé la transaction.",
-      "title": "Rejeté!"
+    "tradeForm": {
+      "labels": {
+        "pair": "Paire :",
+        "asset": "Actif :",
+        "leverage": "Effet de levier de la position :",
+        "amount": "Montant :",
+        "slippage": "Tolérance au glissement :",
+        "balance": "Solde disponible : <0/> <1/>",
+        "txFee": "Frais de transaction : <0/>",
+        "tradingFee": "Frais de trading :",
+        "networkFee": "Frais de réseau :",
+        "estimatedNetworkFee": "Frais de réseau (estimés) :"
+      },
+      "buttons": {
+        "long": "Long",
+        "short": "Short"
+      },
+      "placePosition": {
+        "placeLong": "Passer Long",
+        "placeShort": "Passer Short"
+      },
+      "market": "Marché",
+      "limit": "Limite"
     },
-    "failed": {
-      "text": "La transaction a été annulée par le contrat.",
-      "title": "Transaction échoué!"
+    "recentTrades": {
+      "title": "Trades récents",
+      "price": "Prix",
+      "size": "Taille",
+      "time": "Heure",
+      "noTrades": "Aucun trade récent",
+      "long": "A",
+      "short": "V"
     },
-    "pending_for_user": {
-      "text": "Veuillez confirmer la transaction dans votre portefeuille.",
-      "title": "En attente pour l'utilisateur"
+    "tradeDialog": {
+      "title": "Examiner la transaction",
+      "pair": "Paire de trading :",
+      "leverage": "Effet de levier de la position :",
+      "asset": "Collatéral :",
+      "margin": "Marge :",
+      "direction": "Paire :",
+      "positionSize": "Taille de la position",
+      "maintananceMargin": "Marge de maintenance :",
+      "estimationErrorNote": "L'ouverture de la position échouera : {{error}}",
+      "liquidationPrice": "Prix de liquidation estimé :",
+      "entryPrice": "Prix d'entrée de la position :",
+      "minEntry": "Prix d'entrée minimum : ",
+      "maxEntry": "Prix d'entrée maximum : ",
+      "minLiq": "Prix de liquidation minimum : ",
+      "interestAPR": "Intérêt APY",
+      "renewalDate": "Date de renouvellement :",
+      "position": {
+        "long": "Achat",
+        "short": "Vente"
+      },
+      "newPositionDetails": "Nouveaux détails de la position",
+      "buy": "acheter",
+      "sell": "vendre"
     },
-    "pending": {
-      "text": "Votre transaction est en cours de traitement.",
-      "title": "Transaction en attente"
-    },
-    "texts": {
-      "closeButton": "Fermer",
-      "transaction": "Transaction"
+    "tradingHistory": "Historique des ordres avec marge",
+    "limitOrderHistory": {
+      "limitPriceHelper": "Le prix d'exécution final des ordres à cours limité est impacté par le coût des frais de relais et le glissement au moment de l'exécution. Pour plus de détails, consultez le <0>wiki</0>.",
+      "filledPriceHelper": "Le prix d'exécution final des ordres à cours limité est impacté par le coût des frais de relais et le glissement au moment de l'exécution, il ne correspondra donc pas exactement au prix limité défini. Pour plus de détails, consultez le <0>wiki</0>."
     }
   },
-  "serviceWorkerToaster": {
-    "button": "Mettez à jour maintenant",
-    "message": "Le nouveau contenu est disponible et sera utilisé lorsque tous les onglets de cette page seront fermés.",
-    "title": "L'application a été mise à jour."
+  "emailNotificationsDialog": {
+    "dialogTitle": "Paramètres de notification",
+    "title": "Recevez des notifications par e-mail pour les remplissages d'ordres à cours limité, les appels de marge et les liquidations. Détails <0>ici</0>.",
+    "emailInputLabel": "Adresse e-mail",
+    "emailInputPlaceholder": "Saisissez votre adresse e-mail",
+    "alertGroups": {
+      "marginTradingToggle": "Trading avec marge",
+      "spotTradingToggle": "Trading au comptant"
+    },
+    "successMessage": "Vos préférences ont été enregistrées.",
+    "errorMessage": "Une erreur s'est produite. Veuillez réessayer.",
+    "authErrorMessage": "Échec de l'authentification",
+    "unconfirmedEmailWarning": "Non confirmé - vérifiez votre boîte de réception pour l'e-mail de confirmation",
+    "invalidEmailWarning": "Adresse e-mail non valide",
+    "savedChangesMessage": "Changements enregistrés",
+    "unsavedChangesMessage": "Vos modifications n'ont pas encore été enregistrées",
+    "unsubscribed": "Désabonné"
   },
-  "SOVConnectTutorial": {
-    "browser_wallet": "Portefeuille de navigateur",
-    "hardware_wallet": "Portefeuille physique",
-    "input_settings": {
-      "decimals": "Décimales",
-      "symbol": "symbole",
-      "title": "PARAMÈTRES DU TOKEN SOV",
-      "token_address": "Adresse du contrat de token"
+  "form": {
+    "select": {
+      "noResults": "Aucun résultat",
+      "placeholder": "Sélectionner un élément"
+    }
+  },
+  "buySovPage": {
+    "meta": {
+      "title": "La négociation SOV est maintenant en direct !",
+      "description": "La négociation SOV est maintenant en direct !"
     },
-    "mobile_wallet": "Portefeuille mobile",
-    "mobileSpeech": {
-      "1": "Aller au menu Portefeuille ",
-      "2": "Sélectionnez Paramètres",
-      "3": "Sélectionnez le réseau",
-      "4": "Cliquez sur Ajouter un réseau",
-      "5": "Paramètres réseau d'entrée",
-      "6": "Cliquez sur Ajouter",
-      "7": "Scannez le code QR pour vous connecter!"
+    "banner": {
+      "title": "La négociation SOV est maintenant en direct !",
+      "cta": "Acheter SOV"
     },
-    "screens": {
-      "1": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Connectez votre portefeuille"
+    "stats": {
+      "totalSupply": "Offre totale :",
+      "circulatingSupply": "Offre en circulation :",
+      "marketCap": "Capitalisation boursière :",
+      "lastPrice": "Dernier prix échangé :"
+    },
+    "engage": {
+      "title": "Connecter le portefeuille",
+      "line1": "Connectez un portefeuille de navigateur, mobile ou matériel connecté à la <0>RSK Mainnet</0>",
+      "line2": "Vous n'avez pas de portefeuille ? Sovryn recommande <0>Liquality Wallet</0>",
+      "cta": "Connecter le portefeuille"
+    },
+    "topUp": {
+      "title": "Recharger <0>RBTC</0> en une seule fois",
+      "line1": "Vous aurez besoin de <0>RBTC</0> dans votre portefeuille pour acheter SOV et payer les frais de gaz sur RSK Mainnet.",
+      "line2": "En savoir plus sur <0>RBTC</0> sur RSK",
+      "cta": "Recharger le portefeuille"
+    },
+    "form": {
+      "title": "Acheter SOV avec <0>RBTC</0>",
+      "enterAmount": "Entrer le montant",
+      "availableBalance": "Solde disponible :",
+      "minimumReceived": "Montant minimum reçu :",
+      "cta": "Acheter SOV"
+    },
+    "slippageDialog": {
+      "title": "Paramètres avancés",
+      "tolerance": "Tolérance au glissement :",
+      "minimumReceived": "Montant minimum reçu",
+      "minEntryPrice": "Prix d'entrée minimum",
+      "maximumPrice": "Prix maximum"
+    },
+    "txDialog": {
+      "pendingUser": {
+        "title": "Confirmer la transaction",
+        "text": "Veuillez confirmer la transaction dans votre portefeuille {{walletName}}"
       },
-      "11": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Connectez-vous au réseau RSK"
-      },
-      "2": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Comment se connecter au réseau RSK"
-      },
-      "3": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Scanner le code QR"
-      },
-      "4": {
-        "banner": "Pour toute assistance, contactez la communauté",
-        "title": "Comment connecter SOV à votre portefeuille Metamask"
+      "txStatus": {
+        "title": "État de la transaction",
+        "aborted": "Vous avez choisi de rejeter cette transaction. Veuillez annuler ou réessayer votre transaction",
+        "abortedLedger": "Assurez-vous que l'option \"Données de contrat\" est activée dans les paramètres de votre application Ledger",
+        "cta": "Voir dans le suivi"
       }
     },
-    "speech_qr_code": "Scanner le code QR avec un portefeuille compatible wallet-connect",
-    "speech": {
-      "1": "Ouvrez votre portefeuille de web",
-      "2": "Aller au menu déroulant réseau",
-      "3": "Sélectionnez un RPC personnalisé",
-      "4": "Entrer les détails du réseau",
-      "5": "Cliquez sur Enregistrer",
-      "6": "Cliquez sur Ajouter un réseau",
-      "7": "Engagez votre portefeuille!"
+    "promotions": {
+      "title": "Promotions SOV",
+      "p1": {
+        "title": "Largage du butin de la piscine de 50k SOV BTC/USDT en avril",
+        "text": "Devenez un fournisseur de liquidité Sovryn vénéré et respecté en ajoutant votre crypto à la piscine. Plus vous conservez des fonds dans la piscine, plus vous gagnerez de SOV.",
+        "cta": "Sovryn fait brrrrrrrrrrrrrrr"
+      },
+      "p2": {
+        "title": "Largage du butin de la piscine de 75k SOV BTC/SOV en avril",
+        "text": "La piscine de liquidité SOV/BTC est ouverte, vous offrant la chance de participer à notre plus grand cadeau de fourniture de liquidité.",
+        "cta": "Voici comment participer"
+      },
+      "p3": {
+        "title": "Largage du butin de la piscine de 30K SOV SOV/RBTC en avril",
+        "text": "Prenez votre part des 30K récompenses SOV en fournissant de la liquidité à la piscine SOV/RBTC. Des récompenses hebdomadaires roulantes supplémentaires seront annoncées prochainement.",
+        "cta": "Gagner maintenant"
+      },
+      "p4": {
+        "title": "Largage du butin de la piscine de 35K SOV ETHs/RBTC en avril",
+        "text": "Au cours de la première semaine, 1,2 million de dollars de SOV seront distribués aux fournisseurs de liquidité de l'AMM. Ce super largage de butin durera 7 jours. Quelques calculs rapides indiquent que les premiers entrants dans la piscine recevront environ 3000 % !! Le plus grand rendement sur ETH aujourd'hui. Des récompenses supplémentaires seront annoncées chaque semaine.",
+        "cta": "Gagner maintenant"
+      }
     },
-    "step": "étape"
+    "features": {
+      "title": "Fonctionnalités du protocole Sovryn",
+      "learnMore": "En savoir plus",
+      "mining": {
+        "title": "Minage de liquidité",
+        "text": "Sovryn dit au revoir aux services centralisés qui fournissent traditionnellement des services de market-making. Les frais générés par le trading sont répartis entre les fournisseurs de liquidité en récompense pour faciliter les échanges et les swaps.",
+        "cta": "Miner"
+      },
+      "marginTrading": {
+        "title": "Trading sur marge",
+        "text": "Le trading sur marge vous permet d'utiliser des actifs dans votre portefeuille comme garantie pour votre marge, d'emprunter davantage d'actifs ou d'augmenter votre position initiale.",
+        "cta": "Trader"
+      },
+      "swap": {
+        "title": "Échanger",
+        "text": "Échangez sans friction entre les jetons répertoriés. L'AMM décentralisé Sovryn garantit que personne ne peut profiter de la création d'un échange",
+        "cta": "Échanger"
+      },
+      "liquidity": {
+        "title": "Market Making",
+        "text": "La solution de couche 2 de Sovryn opérant sur la chaîne latérale Bitcoin Rootstock (RSK) facilite l'utilisation sans friction de primitives financières pour plusieurs actifs sur plusieurs chaînes, poursuivant ainsi la vision de la souveraineté monétaire de Satoshi au-delà des simples transactions peer-to-peer.",
+        "cta": "Fournisseur de liquidité"
+      },
+      "lending": {
+        "title": "Prêt",
+        "text": "Gagnez un revenu passif en prêtant directement vos actifs aux emprunteurs ou aux traders sur marge et réduisez votre exposition aux performances et aux fluctuations plus larges du marché. La solution non custodienne de Sovryn vous garde en contrôle de vos fonds, et vous êtes libre de retirer vos actifs à tout moment.",
+        "cta": "Prêter"
+      },
+      "stake": {
+        "title": "Mise en jeu et vote",
+        "text": "Le protocole Sovryn a des incitations codées en dur pour une croissance à long terme. Les détenteurs de jetons qui mettent en jeu leurs SOV reçoivent une part proportionnelle des revenus que la plateforme génère à partir de divers frais de transaction lorsqu'ils participent à la gouvernance du protocole en votant.",
+        "cta": "Miser"
+      }
+    },
+    "title": "Achetez SOV exclusivement sur Sovryn !",
+    "earn": "Gagner avec Sovryn"
   },
-  "statsPage": {
-    "ammpool": {
-      "contractBalance": "Solde du contrat",
-      "imBalance": "Déséquilibre",
-      "pool": "Pool",
-      "stakedBalance": "Staked Balance",
-      "title": "BALANCES AMM"
+  "spotTradingPage": {
+    "meta": {
+      "title": "Trading Spot",
+      "description": "Trading Spot"
     },
-    "asset": "Actif",
-    "borrowAPR": "Emprunter APR",
-    "lending": "Statistiques de prêt",
-    "supplyAPR": "Approvisionnement APR",
-    "titles": {
-      "allVolumne": "VOLUME DEPUIS LE DEBUT",
-      "btc": "BTC",
-      "hourVolumne": "VOLUME 24 HEURES",
-      "lending": "Statistiques de prêt",
-      "tradingVolume": "Volume de trade",
-      "transactionVolume": " Volume de Transactions",
-      "tvl": "Valeur totale verrouillée",
-      "usd": "USD"
+    "tradeForm": {
+      "buy_cta": "PASSER UN ORDRE D'ACHAT",
+      "sell_cta": "PASSER UN ORDRE DE VENTE",
+      "amountReceived": "Montant Reçu",
+      "buy": "Acheter",
+      "sell": "Vendre",
+      "market": "Marché",
+      "limit": "Limite",
+      "advancedSettings": "Paramètres Avancés",
+      "limitPrice": "Prix Limite :",
+      "limitPriceTooltip": "Le prix d'exécution final des ordres limite est impacté par les frais de relais et le glissement. Veuillez noter que cela ne correspondra pas exactement au prix saisi ici. Pour plus de détails, consultez le <0>wiki</0>.",
+      "receive": "Recevoir :",
+      "amount": "Montant :",
+      "errors": {
+        "minAmount": "La taille de l'ordre limite est trop faible, veuillez réessayer avec un montant plus important.",
+        "maxAmount": "La taille maximale de l'ordre limite est atteinte, veuillez consulter notre <0>wiki</0> pour plus de détails."
+      }
     },
-    "totalAssetBorrowed": "Actif total emprunté",
-    "totalAssetSupplied": "Actif total fournis",
-    "totalAvailable": "Total disponible",
-    "tradingVolume": "Volume d'échanges",
-    "tvl": {
-      "amm": "Contrat AMM",
-      "btc": "Valeur (BTC)",
-      "lend": "Contrat de prêt",
-      "protocol": "Contrat de protocole",
-      "total": "Total",
-      "type": "Type de contrat",
-      "usd": "Valeur (USD)"
+    "priceHistory": {
+      "turnover": "Chiffre d'Affaires",
+      "lastTradedPrice": "Dernier prix échangé"
+    },
+    "history": {
+      "marketOrder": "Historique des ordres de marché",
+      "openLimitOrders": "Ordres limite ouverts",
+      "limitOrderHistory": "Historique des ordres limite"
+    },
+    "tradeDialog": {
+      "marketTitle": "Examiner l'Ordre",
+      "limitTitle": "Examiner l'Ordre",
+      "tradingPair": "Paire de Trading :",
+      "orderType": "Type d'Ordre :",
+      "tradeAmount": "Montant de la Transaction :",
+      "limitPrice": "Prix Limite :",
+      "duration": "Durée :",
+      "receiveAmount": "Montant Reçu :",
+      "orderAmount": "Montant de l'Ordre :",
+      "newOrderDetails": "Détails Nouvel Ordre",
+      "order": "Ordre"
+    },
+    "limitOrderSetting": {
+      "title": "Paramètres Avancés",
+      "duration": "Durée :",
+      "untilCancelled": "Jusqu'à annulation",
+      "day_one": "{{count}} jour",
+      "day_other": "{{count}} jours",
+      "partialFilled": "Autoriser les ordres partiellement remplis :",
+      "infinity": "∞"
+    },
+    "recentTrades": {
+      "title": "Trades Récents",
+      "titleAMMInfo": "Veuillez noter qu'il n'y a pas de pool AMM pour cette paire de trading, nous ne pouvons donc afficher que les trades effectués sur le pool AMM sous-jacent de l'actif de base - par exemple, les trades entre <0></0> et <1></1>.",
+      "price": "Prix",
+      "size": "Taille",
+      "time": "Heure",
+      "noTrades": "Aucun Trade Récent"
+    },
+    "openLimitOrders": {
+      "dateTime": "Date/Heure",
+      "pair": "Paire",
+      "orderType": "Type d'Ordre",
+      "tradeAmount": "Montant de la Transaction",
+      "limitPrice": "Prix Limite",
+      "limitPriceHelper": "Le prix d'exécution final des ordres limite est impacté par les frais de relais et le glissement au moment de l'exécution, pour plus de détails, consultez le <0>wiki</0>.",
+      "executionPrice": "Prix d'Exécution",
+      "amountReceive": "Montant à Recevoir",
+      "duration": "Durée",
+      "deadline": "Date Limite",
+      "actions": "Actions",
+      "noData": "Aucune Donnée",
+      "filledAmount": "Montant Rempli",
+      "filledPrice": "Prix Rempli",
+      "leverage": "Effet de Levier",
+      "cta": {
+        "edit": "Modifier",
+        "close": "Fermer"
+      }
+    },
+    "limitOrderHistory": {
+      "limitPriceHelper": "Le prix d'exécution final des ordres limite est impacté par les frais de relais et le glissement au moment de l'exécution. Veuillez vérifier les tables des positions ouvertes/historique des ordres sur marge pour le prix d'exécution réel. Pour plus de détails, consultez le <0>wiki</0>."
+    },
+    "cancelDialog": {
+      "title": "Annuler l'Ordre Limite",
+      "cta": "Confirmer",
+      "complete": "Annulation Complète",
+      "failed": "Annulation Échouée",
+      "tx": {
+        "title": "Annuler",
+        "message": "Annuler l'Ordre Limite {{tradeType}}"
+      }
     }
   },
-  "swapHistory": {
-    "tableHeaders": {
-      "amountReceived": "Montant reçu",
-      "amountSent": "Montant envoyé",
+  "pairNavbar": {
+    "pair": "Paire",
+    "asset": "Actif",
+    "lastTradedPrice": "Dernier prix échangé",
+    "dayChange": "Changement 24H",
+    "dayPercentChange": "Changement 24h en %",
+    "dayLow": "Plus bas 24h :",
+    "dayHigh": "Plus haut 24h :",
+    "all": "TOUS",
+    "search": "Rechercher"
+  },
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirmer {{action}}",
+      "text": "Veuillez confirmer la transaction dans votre portefeuille {{walletName}}",
+      "failed": "Échec de la confirmation",
+      "retry": "Réessayer"
+    },
+    "txStatus": {
+      "title": "Statut de la transaction",
+      "aborted": "Votre transaction a échoué. <br/>Veuillez annuler ou réessayer votre transaction",
+      "abortedLedger": "Assurez-vous que l'option \"Données du contrat\" est activée dans les paramètres de votre application Ledger",
+      "cta": "Voir dans le suivi",
+      "processing": "{{action}} en cours...",
+      "complete": "{{action}} terminé",
+      "submit": "{{action}} soumis"
+    }
+  },
+  "BridgeDepositPage": {
+    "poweredBy": "Propulsé par babelFish",
+    "network": "Réseau",
+    "title": "Recevoir {{asset}}",
+    "subtitle": "Recevoir {{asset}} sur le réseau RSK",
+    "changeWallet": "Vous souhaitez utiliser un portefeuille différent ?",
+    "chainSelector": {
+      "wrongNetwork": {
+        "title": "Changer vers {{network}}"
+      },
+      "chooseNetwork": {
+        "title": "Sélectionnez le réseau à partir duquel vous souhaitez recevoir {{asset}}"
+      }
+    },
+    "sidebarSteps": {
+      "chooseSource": "Choisir<br />la source",
+      "selectWallet": "Sélectionner<br /> le portefeuille",
+      "selectToken": "Sélectionner<br /> le jeton",
+      "enterAmount": "Entrer<br /> le montant",
+      "reviewTransaction": "Revoir<br /> la transaction",
+      "processingTransaction": "Traitement<br /> de la transaction",
+      "transactionCompleted": "Transaction<br /> terminée"
+    },
+    "reviewStep": {
+      "title": "Détails de la transaction",
+      "dateTime": "Date/Heure",
       "from": "De",
-      "status": "Status",
-      "time": "Date/Heure",
+      "to": "À",
+      "token": "Jeton",
+      "amount": "Montant",
+      "bridgeFee": "Frais de pont",
+      "tx": "Tx",
+      "confirmDeposit": "Confirmer",
+      "next": "Suivant"
+    },
+    "walletSelector": {
+      "wrongNetwork": "Nous avons détecté que vous êtes sur",
+      "switch": "Veuillez passer à {{network}} dans votre",
+      "wallet": "portefeuille",
+      "howToConnect": "Comment se connecter à {{network}} avec {{walletName}}"
+    },
+    "amountSelector": {
+      "title": "Entrer le montant à déposer",
+      "balance": "Solde",
+      "dailyDepositLimits": "Limites de dépôt quotidiennes",
+      "minAmount": "Montant minimum",
+      "maxAmount": "Montant maximum",
+      "dailyLimit": "Limite quotidienne",
+      "dailyLimitSpent": "Limite quotidienne atteinte",
+      "fee": "Frais",
+      "aggregatorBalance": "Solde de l'agrégateur",
+      "depositAmount": "Montant à envoyer"
+    },
+    "confirmStep": {
+      "pleaseWait": "Veuillez patienter",
+      "preparingTransaction": "Préparation de la transaction",
+      "allowTransaction": "Autoriser la transaction",
+      "approve": "Veuillez approuver {{from}} {{symbol}} pour être dépensé par les contrats intelligents Sovryn dans votre portefeuille {{providerType}}.",
+      "confirmTransaction": "Confirmer la transaction",
+      "confirm": "Veuillez confirmer la transaction commerciale dans votre portefeuille {{providerType}}.",
+      "depositInProgress": "Dépôt en cours",
+      "depositComplete": "Dépôt terminé",
+      "depositFailed": "Échec du dépôt",
+      "transactionDenied": "Transaction refusée",
+      "rejectedByUser": "Rejetée par l'utilisateur",
       "to": "À"
     },
-    "title": "Historique des échanges"
-  },
-  "swapTradeForm": {
-    "arbitrage": {
-      "best_rate": "Faites un profit instantané en échangeant jusqu'à",
-      "for": "jusqu'à",
-      "popover_p1": "Actuellement sur Sovryn, vous pouvez échanger {{fromAmount}} {{fromToken}} contre {{toAmount}} {{toToken}}. C'est {{Earn}} {{toToken}} plus que le prix du marché (argent gratuit!).",
-      "popover_p2": "Cet arbitrage est une opportunité pour nos utilisateurs de gagner de l'argent supplémentaire en vendant leur {{fromToken}}, et contribue à maintenir l'équilibre de notre AMM (market maker automatisé)."
+    "returnToPortfolio": {
+      "title": "Se connecter à RSK",
+      "connectNetwork": "Connecter au réseau",
+      "notConnected": "Pour continuer, vous devez vous connecter à votre",
+      "wrongNetwork": "Pour continuer, revenez au réseau RSK dans votre",
+      "switchNetwork": "Changer de réseau",
+      "connected": "Tout est prêt",
+      "return": "Retour au portefeuille"
     },
-    "buttons": {
-      "submit": "Placer un Trade",
-      "switchAssets": "Changer d'actifs"
-    },
-    "fields": {
-      "currency_placeholder": "Choisissez la devise",
-      "receive": "Vous recevez",
-      "send": "Vous envoyez"
+    "tokenSelector": {
+      "title": "Sélectionnez le jeton source sur le réseau {{network}}",
+      "notSupported": "Désolé, aucun jeton de dépôt pris en charge pour {{targetAsset}} sur le réseau{{network}}. Essayez de choisir un autre réseau ou un autre jeton."
     }
   },
-  "title": "Sovryn",
-  "topUpBtcDialog": {
-    "meta": {
-      "title": "Recharger"
-    }
-  },
-  "topUpHistory": {
-    "emptyState": "L'histoirique est vide.",
-    "loading": "Chargement...",
-    "meta": {
-      "title": "Historique des recharges"
+  "BridgeWithdrawPage": {
+    "title": "Envoyer {{asset}}",
+    "subtitle": "Envoyer {{asset}} depuis le réseau RSK",
+    "transactionDetails": "Détails de la transaction",
+    "chainSelector": {
+      "chooseNetwork": {
+        "title": "Sélectionnez le réseau sur lequel vous souhaitez créer un pont et envoyer {{asset}}"
+      }
     },
-    "tableHeaders": {
+    "sidebarSteps": {
+      "chooseDestination": "Choisir<br />la destination",
+      "selectToken": "Sélectionner<br /> le jeton",
+      "enterAmount": "Entrer<br /> le montant",
+      "enterAddress": "Entrer<br /> l'adresse",
+      "reviewTransaction": "Revoir<br /> la transaction",
+      "processingTransaction": "Traitement<br /> de la transaction",
+      "transactionCompleted": "Transaction<br /> terminée"
+    },
+    "reviewStep": {
+      "title": "Revoir le retrait de {{symbol}}",
+      "dateTime": "Date/Heure",
+      "from": "De",
+      "to": "À",
+      "token": "Jeton",
       "amount": "Montant",
-      "asset": "Actif",
-      "depositTx": "ID de dépôt BTC",
-      "fee": "Frais ",
-      "time": "Date / heure",
-      "transferTx": "RSK Relay Hash",
-      "txHash": "Transaction"
+      "receiver": "Destinataire",
+      "bridgeFee": "Frais de pont",
+      "bridgeFeeWarning": "AVERTISSEMENT : FRAIS ÉLEVÉS. Le coût du gaz sur Ethereum est significativement plus élevé que sur BSC ou RSK.",
+      "tx": "Tx",
+      "confirm": "Confirmer"
     },
-    "walletHistory": "Le portefeuille doit être connecté."
-  },
-  "topUpTradingPositionHandler": {
-    "currency": "Devise",
-    "title": "Position de recharge",
-    "topUp": "Recharge",
-    "topUpAmount": "Montant de la recharge"
-  },
-  "tradeConfirmationDialog": {
-    "main": {
-      "closeBtn": "Fermer la boîte de dialogue",
-      "entryPriceNote": "Le prix est prélevé sur notre AMM et en tant que tel est sujet à des fluctuations.",
-      "estimatedLiquidationPrice": "Est. du prix ​​de liquidation",
-      "gasPriceNote": "Assurez-vous que le prix du gaz ne dépasse pas 0,06 GWEI",
-      "maintenanceMargin": "Marge de maintenance",
-      "positionEntryPrice": "Prix ​​d'entrée approximatif de la position",
-      "positionLeverge": "Position de l'effet de levier",
-      "positionSize": "Taille de la position",
-      "tradeButtonLong": "Placer un Long",
-      "tradeButtonShort": "Placer un Short"
+    "amountSelector": {
+      "title": "Entrer le montant à retirer",
+      "balance": "Solde",
+      "dailyBridgeLimits": "Limites de pont quotidiennes",
+      "minAmount": "Montant minimum",
+      "maxAmount": "Montant maximum",
+      "dailyLimit": "Limite quotidienne",
+      "dailyLimitSpent": "Limite quotidienne atteinte",
+      "fee": "Frais",
+      "aggregatorBalance": "Solde de l'agrégateur",
+      "withdrawAmount": "Montant à envoyer",
+      "insufficientAggregator": "Solde de l'agrégateur insuffisant pour le retrait.",
+      "insufficientDaily": "Limite quotidienne dépassée."
     },
-    "positions": {
-      "long": "Long",
-      "short": "Short"
+    "confirmStep": {
+      "pleaseWait": "Veuillez patienter",
+      "preparingTransaction": "Préparation de la transaction",
+      "allowTransaction": "Autoriser la transaction",
+      "approve": "Veuillez approuver {{from}} {{symbol}} pour être dépensé par les contrats intelligents Sovryn dans votre portefeuille {{providerType}}.",
+      "confirmTransaction": "Confirmer la transaction",
+      "confirm": "Veuillez confirmer la transaction commerciale dans votre portefeuille {{providerType}}.",
+      "withdrawInProgress": "Traitement de la commande",
+      "withdrawComplete": "Commande terminée",
+      "withdrawFailed": "Échec du retrait",
+      "transactionDenied": "Transaction refusée",
+      "rejectedByUser": "Rejetée par l'utilisateur"
     },
-    "tx": {
-      "pendingForUserText": "Vérifiez et confirmez la transaction dans votre portefeuille",
-      "pendingForUserTitle": "Revoir la transaction"
+    "receiverSelector": {
+      "title": "Entrer l'adresse du portefeuille {{currentNetwork}} de réception",
+      "desc": "Adresse de réception {{targetAsset}}",
+      "confirm": "Veuillez vérifier et confirmer",
+      "withdrawWarning": "Attention lors de l'envoi vers des adresses d'échange !",
+      "withdrawDisclaimer": "Tous les échanges ne prennent pas en charge la réception d'actifs directement depuis les contrats intelligents de pont. Avant d'envoyer directement à une adresse d'échange, assurez-vous que votre échange prend en charge la réception directe de transactions depuis les contrats intelligents. <0>En savoir plus ici.</0>"
+    },
+    "tokenSelector": {
+      "title": "Sélectionnez le jeton que vous souhaitez recevoir sur le réseau {{network}}",
+      "notSupported": "Désolé, aucun jeton de dépôt pris en charge pour {{sourceAsset}} sur le réseau{{network}}. Essayez de choisir un autre réseau ou un autre jeton.",
+      "maxWithdrawal": "Retrait maximal:"
     }
   },
-  "tradeOrSwapTabs": {
-    "tabs": {
-      "swap": "Echanger",
-      "trade": "Trade"
-    }
-  },
-  "tradingActivity": {
-    "tabs": {
-      "activeTrades": "Actif",
-      "tradingHistory": "Fermé"
+  "perpetualPage": {
+    "meta": {
+      "title": "Perpétuels",
+      "description": "Échangez avec les contrats à terme perpétuels de Sovryn"
     },
-    "title": "Mon activité de trading",
-    "walletNote": "Connectez d'abord votre portefeuille!"
-  },
-  "tradingHistoryPage": {
-    "auth": "Veuillez connecter et autoriser votre portefeuille.",
-    "noClosedTrades": "Vous n'avez aucune transaction fermée.",
-    "table": {
-      "closePrice": "Prix ce fermeture",
-      "leverage": "Effet de levier",
-      "openPrice": "Prix ​​ouvert",
+    "shutdown": {
+      "message": "Nous travaillons sur une nouvelle version des contrats perpétuels Sovryn ! Restez informé via les réseaux sociaux !"
+    },
+    "btcbConversionDialog": {
+      "sourceTitle": "De {{source}}",
+      "destinationTitle": "À {{destination}}",
+      "balance": "Solde :",
+      "tradingAccount": "Compte de trading",
+      "transfer": "Transférer",
+      "lowFundsWarning": "Actuellement, le montant maximal pouvant être converti est de {{aggregatorBalance}} BTC. Veuillez contacter le support pour augmenter le solde du pont."
+    },
+    "openPositionsTable": {
+      "pair": "Symbole",
       "positionSize": "Taille de la position",
-      "profit": "Profit",
-      "profitLabels": {
-        "down": "En bas par",
-        "noChange": "Pas de changement",
-        "up": "En haut par"
+      "value": "Valeur",
+      "entryPrice": "Prix d'entrée",
+      "liquidationPrice": "Prix de liquidation",
+      "margin": "Marge",
+      "unrealized": "Bénéfice/Perte non réalisé",
+      "realized": "Bénéfice/Perte réalisé",
+      "actions": "Actions",
+      "editLeverage": "Effet de levier",
+      "editMargin": "Marge",
+      "editClose": "Fermer",
+      "tooltips": {
+        "editLeverage": "Modifier l'effet de levier de votre position. Cette action retirera de votre compte de marge ou déposera sur votre compte de marge.",
+        "editMargin": "Transférer des garanties de marge entre votre portefeuille et votre compte de marge. Cette action modifiera l'effet de levier de votre position.",
+        "editClose": "Fermer la position ouverte entière avec un ordre au marché.",
+        "positionSize": "La taille de votre position. Les valeurs négatives indiquent des positions courtes.",
+        "entryPrice": "Le prix moyen reçu lors de l'ouverture de cette position.",
+        "liquidationPrice": "Le prix de liquidation est le prix de marque auquel votre position peut être liquidée. Pour éloigner votre position du prix de liquidation, vous pouvez réduire la taille de votre position en négociant, ajouter de la marge ou utiliser l'action d'effet de levier pour réduire l'effet de levier.",
+        "margin": "La marge allouée à la position et le ratio d'effet de levier entre crochets. Plus le ratio d'effet de levier est bas, plus le prix de liquidation sera éloigné par rapport au prix d'entrée de votre position.",
+        "unrealized": "Le bénéfice/perte non réalisé est calculé en utilisant le prix de marque. Il contient également les paiements de financement accumulés.",
+        "realized": "Le bénéfice/perte réalisé qui a été versé sur votre compte de marge. Cela inclut les frais et le glissement. Les paiements de financement sont rapportés séparément."
       }
     },
-    "title": "Historique de trading"
-  },
-  "tradingPage": {
-    "email": {
-      "optin": {
-        "text": "Vous recevrez désormais des notifications par e-mail lorsque vos positions sont proches de la liquidation et si une position a été liquidée. Vous pouvez vous désinscrire à tout moment",
-        "title": "Succès"
+    "openOrders": "Ordres en cours",
+    "openOrdersTable": {
+      "dateTime": "Date & Heure",
+      "symbol": "Symbole",
+      "orderType": "Type",
+      "orderState": "État",
+      "collateral": "Garantie",
+      "orderSize": "Taille",
+      "limitPrice": "Prix limite",
+      "triggerPrice": "Prix de déclenchement",
+      "transactionId": "ID de transaction",
+      "timeInForce": "Durée de validité",
+      "cancel": "Annuler",
+      "orderTypes": {
+        "limit": "Limite",
+        "stop": "Arrêt",
+        "buy": "Acheter",
+        "sell": "Vendre"
       },
-      "unsubscribe": {
-        "text": "Vous ne recevrez plus d'e-mails concernant les appels de marge ou les positions liquidées. Vous pouvez vous réabonner à ces notifications à tout moment.",
-        "title": "Vous êtes maintenant désabonné des notifications par e-mail"
+      "tableData": {
+        "market": "Marché",
+        "limit": "Limite",
+        "stopLoss": "Arrêt des pertes",
+        "liquidation": "Liquidation",
+        "buy": "ACHETER",
+        "sell": "VENDRE",
+        "day": "jour",
+        "days": "jours"
+      },
+      "tooltips": {
+        "orderType": "Ordre d'achat à cours limité, ordre de vente à cours limité, ordre d'achat stop ou ordre de vente stop",
+        "collateral": "Devise de la garantie de marge",
+        "orderSize": "Notionnel de l'ordre suivi de la devise de base",
+        "limitPrice": "Prix limite dans la devise de cotation de l'ordre",
+        "triggerPrice": "Soit vide (\"-\"), soit un prix dans la devise de cotation",
+        "cancel": "Annuler l'ordre"
       }
     },
-    "meta": {
-      "description": "Trade avec Sovryn.",
-      "title": "Trading"
-    }
-  },
-  "trandingPositionSelector": {
-    "long": "Long",
-    "short": "Short"
-  },
-  "userAssets": {
-    "actions": {
-      "claimSov": "Réclamer votre SOV",
-      "deposit": "FastBTC",
-      "redeemRBTC": "Racheter le rBTC",
-      "swap": "Échanger",
-      "trade": "Trade",
-      "withdraw": "Retirer"
+    "layout": {
+      "button": "Personnaliser la mise en page",
+      "showAmmDepth": "Afficher la profondeur AMM",
+      "showChart": "Afficher le graphique",
+      "showRecentTrades": "Afficher les transactions récentes",
+      "showTradeForm": "Afficher le formulaire de transaction",
+      "showTables": "Afficher les tableaux",
+      "hideAmmDepth": "Masquer la profondeur AMM",
+      "hideChart": "Masquer le graphique",
+      "hideRecentTrades": "Masquer les transactions récentes",
+      "hideTradeForm": "Masquer le formulaire de transaction",
+      "hideTables": "Masquer les tableaux"
     },
-    "meta": {
-      "title": "Portefeuille connecté"
+    "pairSelector": {
+      "markPrice": "Prix de marque",
+      "gsn": "GSN",
+      "tooltips": {
+        "gsnEnabled": "Frais payés en BTC. Avec le Gas Station Network (GSN), vous pouvez payer les frais de gaz en BTC.",
+        "gsnDisabled": "Frais payés en BNB. Avec le Gas Station Network (GSN), vous pouvez payer les frais de gaz en BTC.",
+        "gsnUnsupported": "Le GSN est actuellement pris en charge uniquement pour les portefeuilles basés sur le navigateur."
+      }
     },
-    "tableHeaders": {
+    "toasts": {
+      "market": "Marché",
+      "buy": "Acheter",
+      "sell": "Vendre",
+      "closePosition": "Fermer la position",
+      "orderComplete": "Ordre complet",
+      "orderFailed": "Échec de l'ordre",
+      "increaseMargin": "Augmenter la marge",
+      "decreaseMargin": "Diminuer la marge",
+      "createLimitOrder": "Créer un ordre à cours limité",
+      "cancelLimitOrder": "Annuler l'ordre à cours limité",
+      "editLeverage": "Modifier l'effet de levier à {{leverage}}x",
+      "approvalComplete": "Approbation complète",
+      "approvalFailed": "Échec de l'approbation"
+    },
+    "accountBalance": {
+      "btcbConversion": "Convertir BTCB",
+      "titleBalance": "Compte perpétuel",
+      "titleHistory": "Historique de financement",
+      "total": "Solde total :",
+      "pending": "Transfert en attente…",
+      "available": "Solde disponible",
+      "inPositions": "En positions",
+      "unrealized": "Bénéfice/Perte non réalisé",
+      "viewHistory": "Voir l'historique des transactions",
+      "deposit": "Dépôt BTC",
+      "withdraw": "Retrait BTC",
+      "transfer": "Transfert RSK",
+      "availableBalance": "Solde disponible :",
+      "fundAccount": "Alimenter le compte",
+      "viewAccount": "Voir le compte",
       "action": "Action",
-      "asset": "Actif",
-      "dollarBalance": "Solde en dollars",
-      "lockedAmount": "Montant bloqué",
-      "totalBalance": "Solde total"
-    }
-  },
-  "vestingDialog": {
-    "amount": "Montant à retirer:",
-    "calculating": "Calcul en cours...",
-    "receiver": "Recevez du SOV pour:",
-    "subtitle": "Cette transaction nécessite du rBTC pour le gas.",
-    "title": "Retirer l'acquisition"
-  },
-  "wallet": {
-    "btn": "Connecter le portefeuille",
-    "changeWallet": "Changer de portefeuille",
-    "connect_btn": "Engager le portefeuille",
-    "disconnect": "Déconnecter",
-    "my_wallet": "Mon portefeuille",
-    "referrals": "Parrainer un ami"
-  },
-  "portfolioPage": {
-    "portfolio": "Portfolio",
-    "rewards": "Rewards",
-    "meta": {
-      "title": "Portfolio",
-      "description": "Manage supported assets in your connected wallet"
+      "time": "Date/Heure",
+      "amount": "Montant",
+      "status": "Statut",
+      "transactionId": "ID de transaction"
     },
-    "tabs": {
-      "userAssets": "Actifs",
-      "userNFTS": "NFTS",
-      "vestedAssets": "Actifs acquis"
-    }
-  },
-  "walletProvider": {
-    "txRequestDialog": {
-      "approve": {
-        "description": "Confirmez la transaction dans votre portefeuille pour approuver les dépenses de jetons dans ce smart-contrat.",
-        "error": "La demande d'approbation a échoué:",
-        "title": "Approuver les tokens"
+    "ammDepth": {
+      "title": "Profondeur AMM (<0/>)",
+      "price": "Prix (<0/>)",
+      "change": "% de changement",
+      "total": "Taille de l'ordre (<0/>)",
+      "tooltips": {
+        "indexPrice": "Prix d'index : <0/>",
+        "indexPriceDescription": "Le prix d'index est constitué d'un ensemble de prix au comptant obtenus via l'oracle Chainlink.",
+        "markPrice": "Prix de marque : <0/>",
+        "markPriceDescription": "Dernier prix de marque pour ce contrat. Pour éviter la manipulation des prix, le prix de marque est utilisé pour les calculs de bénéfice/perte non réalisé et de marge.",
+        "midPrice": "Prix médian : <0/>",
+        "change": "Changement de prix par rapport au prix médian lors de la négociation de la taille d'ordre correspondante."
+      }
+    },
+    "chart": {
+      "title": "Graphique (<0/>)"
+    },
+    "contractDetails": {
+      "volume24h": "Volume 24h :",
+      "openInterest": "Intérêt ouvert :",
+      "fundingRate": "Taux de financement : ",
+      "lotSize": "Taille du lot :",
+      "minPositionSize": "Taille minimale de la position :",
+      "tooltips": {
+        "lastTradedPrice": "Dernier prix négocié.",
+        "openInterest": "Le montant total des contrats détenus par les traders longs ou courts, selon ce qui est plus important.",
+        "fundingRate": "Taux de financement payé des acheteurs aux vendeurs. S'il est négatif, les vendeurs paient aux acheteurs. Nous mettons à l'échelle le taux affiché pour qu'il soit un taux de 8 heures. Le taux est rafraîchi à chaque interaction avec le contrat intelligent ou au plus tard à chaque bloc. La valeur moyenne pondérée dans le temps est utilisée pour calculer le taux de financement payé."
+      }
+    },
+    "recentTrades": {
+      "title": "Transactions récentes (<0/>)",
+      "price": "Prix (<0/>)",
+      "size": "Taille (<0/>)",
+      "time": "Heure"
+    },
+    "tradeForm": {
+      "titles": {
+        "order": "Passer un nouvel ordre",
+        "welcome": "Bienvenue sur Sovryn Perpetuals",
+        "slippage": "Paramètres de glissement"
       },
-      "closeButton": "Ok"
+      "text": {
+        "welcome1": "Pour commencer à trader :",
+        "welcome2": "<0>Alimentez votre portefeuille</0>",
+        "welcome3": "Revenez sur cette page et connectez votre portefeuille via le bouton ci-dessous",
+        "welcome4": "Nouveau dans les contrats perpétuels ? <0>Lisez notre guide de démarrage</0>"
+      },
+      "labels": {
+        "pair": "Symbole :",
+        "asset": "Actif à recevoir :",
+        "leverageSelector": "Effet de levier de trading :",
+        "leverage": "Effet de levier :",
+        "orderSize": "Taille de l'ordre :",
+        "limitPrice": "Prix limite :",
+        "expiry": "Expiration :",
+        "days": "Jours",
+        "orderCost": "Coût de l'ordre :",
+        "maxTradeSize": "Max :",
+        "minEntryPrice": "Prix d'entrée minimum :",
+        "maxEntryPrice": "Prix d'entrée maximum :",
+        "minLiquidationPrice": "Prix de liquidation minimum :",
+        "liquidationPrice": "Prix de liquidation :",
+        "tradingFee": "Frais de trading :",
+        "relayerFee": "Frais du relayer :",
+        "slippage": "Tolérance au glissement :",
+        "balance": "Solde disponible : <0/> <1/>",
+        "txFee": "Frais de transaction : <0/> {{symbol}}",
+        "triggerPrice": "Prix de déclenchement :",
+        "resultingPosition": "Position résultante",
+        "keepPositionLeverage": "Conserver le levier de position",
+        "reduceOnly": "Réduire uniquement"
+      },
+      "buttons": {
+        "buy": "Acheter",
+        "sell": "Vendre",
+        "connect": "Connecter le portefeuille",
+        "market": "Marché",
+        "limit": "Limite",
+        "stop": "Stop",
+        "buyMarket": "Acheter au marché",
+        "buyLimit": "Acheter à cours limité",
+        "buyStop": "Acheter à cours stop",
+        "sellMarket": "Vendre au marché",
+        "sellLimit": "Vendre à cours limité",
+        "sellStop": "Vendre à cours stop",
+        "minLeverage": "MIN",
+        "slippageSettings": "Paramètres de glissement"
+      },
+      "disabledState": {
+        "emptyBalanceExplanation": "Fund your account to start trading",
+        "whitelistExplanation": "Sovryn Perpetuals trading is not available for unregistered users. Based on your current address, you are not part of the selected users that are granted access to the Sovryn Perpetuals trading platform. This will change in the future and you will be able to trade with us! Please check-in again soon here, on <0>sovryn.app</0>, or follow us on <1>Twitter</1> to stay informed."
+      },
+      "tooltips": {
+        "orderSize": "The notional amount for your position.",
+        "orderCost": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "orderCostLimit": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of estimated margin and trading fee at the time of execution.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
+        "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee.",
+        "keepPositionLeverage": "You can keep the leverage of the current position by checking this box.",
+        "reduceOnly": "Reduce only orders strictly reduce your open position.",
+        "maxTradeSize": "Maximal order size currently allowed by the system.",
+        "leverage": "If at the time of order execution, there is an existing position, the position leverage will remain unchanged if the order partially closes the existing position. If instead, the order increases the existing position size, the order will add margin according to your choice of trade leverage. The resulting position leverage depends on how much margin was added with the trade and the amount of margin in the existing position before the trade.",
+        "limitPrice": "The execution price will be at or below the limit price for buy orders, at or above for sell orders.",
+        "expiry": "The order will no longer be executed after expiration.",
+        "triggerPrice": "Only if the Mark Price is above the trigger price, a limit buy order can execute. Limit sell orders only execute if the Mark Price is below the trigger price."
+      }
+    },
+    "reviewTrade": {
+      "titles": {
+        "close": "Revue de Fermeture",
+        "newOrder": "Revue de l'Ordre",
+        "editSize": "Revue de Modification de Taille",
+        "editLeverage": "Revue de Modification de Levier",
+        "editMargin": "Revue de Modification de Marge",
+        "cancelOrder": "Annuler l'Ordre"
+      },
+      "close": "Fermer",
+      "buy": "Acheter",
+      "sell": "Vendre",
+      "market": "Marché",
+      "limit": "Limite",
+      "stop": "Arrêt",
+      "cancel": "Annuler",
+      "deposit": "Dépôt",
+      "withdraw": "Retirer",
+      "leverage": "Effet de Levier",
+      "margin": "Marge",
+      "increase": "Augmenter",
+      "decrease": "Diminuer",
+      "positionFullyClosed": "Position Entièrement Fermée",
+      "positionDetailsTitle": "Détails de la Nouvelle Position",
+      "labels": {
+        "positionSize": "Taille de la Position :",
+        "margin": "Marge :",
+        "leverage": "Effet de Levier :",
+        "entryPrice": "Prix d'Entrée :",
+        "liquidationPrice": "Prix de Liquidation :",
+        "totalToReceive": "Total à Recevoir :",
+        "maxEntryPrice": "Prix d'Entrée Maximum :",
+        "minEntryPrice": "Prix d'Entrée Minimum :",
+        "limitPrice": "Prix Limite :",
+        "triggerPrice": "Prix de Déclenchement :",
+        "orderSize": "Taille de l'Ordre :"
+      },
+      "confirm": "Confirmer"
+    },
+    "processTrade": {
+      "titles": {
+        "approval": "Approuver l'Ordre",
+        "approvalFailed": "Approbation Échouée",
+        "approvalRejected": "Approbation Rejetée",
+        "confirm": "Confirmer l'Ordre",
+        "confirmRejected": "Confirmation Rejetée",
+        "confirmMulti": "Confirmer {{current}} sur {{count}}",
+        "confirmMultiRejected": "Confirmation de {{current}} sur {{count}} Rejetée",
+        "processing": "Traitement de la Commande...",
+        "completed": "Commande Terminée",
+        "failed": "Échec de la Commande"
+      },
+      "texts": {
+        "approval": "Veuillez approuver le BTC à dépenser par les contrats intelligents Sovryn dans votre portefeuille {{wallet}}",
+        "confirm": "Veuillez confirmer la transaction dans votre portefeuille {{wallet}}",
+        "confirmMulti": "Veuillez confirmer la transaction {{current}} de {{count}} dans votre portefeuille {{wallet}}",
+        "error": "Votre transaction a échoué en raison de <0>{{error}}</0>. Votre position n'a pas été ouverte.",
+        "rejected": "La demande de transaction a été rejetée",
+        "cancelOrRetry": "Veuillez annuler ou réessayer votre transaction",
+        "failReasons": {
+          "insufficientUserFunds": "Vous n'avez pas suffisamment de solde pour payer les frais de gaz de cette transaction",
+          "unknown": "Une erreur inconnue s'est produite"
+        }
+      },
+      "labels": {
+        "approvalTx": "ID de Transaction d'Approbation :",
+        "marginTx": "ID de Transaction de Marge :",
+        "tradeTx": "ID de Transaction de Commerce :",
+        "tx": "ID de Transaction :"
+      },
+      "buttons": {
+        "retry": "Réessayer",
+        "close": "Fermer"
+      }
+    },
+    "editMargin": {
+      "title": "Modifier la Marge",
+      "increase": "Augmenter",
+      "decrease": "Diminuer",
+      "increaseLabel": "Déposer de la marge :",
+      "decreaseLabel": "Retirer de la marge :",
+      "button": "Examiner"
+    },
+    "editLeverage": {
+      "title": "Modifier l'Effet de Levier",
+      "margin": "Marge de Position :",
+      "liquidation": "Prix de Liquidation :",
+      "button": "Examiner"
+    },
+    "closePosition": {
+      "title": "Fermer la Position",
+      "amount": "Montant de Fermeture :",
+      "total": "Total à Recevoir :",
+      "button": "Examiner"
+    },
+    "currentTrade": {
+      "position": "Position Actuelle :",
+      "margin": "Marge Actuelle :",
+      "available": "Solde Disponible :",
+      "unrealizedPnL": "P&L Non Réalisé :"
+    },
+    "openPositions": "Positions Ouvertes",
+    "closedPositions": "Positions Fermées",
+    "orderHistory": "Historique des Ordres",
+    "fundingPayments": "Paiements de Financement",
+    "closedPositionsTable": {
+      "dateTime": "Date et Heure",
+      "symbol": "Symbole",
+      "collateral": "Collatéral",
+      "positionSize": "Taille de la Position",
+      "realizedPnl": "P&L Réalisé",
+      "noData": "Pas de données"
+    },
+    "orderHistoryTable": {
+      "dateTime": "Date et Heure",
+      "symbol": "Symbole",
+      "orderType": "Type",
+      "orderState": "État",
+      "collateral": "Collatéral",
+      "orderSize": "Taille",
+      "triggerPrice": "Prix de Déclenchement",
+      "limitPrice": "Prix Limite",
+      "execPrice": "Prix d'Exécution",
+      "orderId": "ID",
+      "tableData": {
+        "market": "Marché",
+        "limit": "Limite",
+        "stop": "Arrêt",
+        "liquidation": "Liquidation",
+        "buy": "ACHETER",
+        "sell": "VENDRE"
+      },
+      "tooltips": {
+        "type": "Les types sont Marché, Limite, Arrêt, Achat/Vente, Liquidation.",
+        "state": "Rempli/Ouvert. Les ordres du marché sont remplis immédiatement.",
+        "triggerPrice": "Les ordres stop comportent un prix de déclenchement. Les ordres limites ne sont exécutés que si le prix du marché est supérieur au prix de déclenchement pour les ordres d'achat, et inférieur pour les ordres de vente.",
+        "limitPrice": "Le prix limite pour les ordres limites et stop. Pour les ordres du marché, le prix limite est déterminé en fonction des paramètres de glissement."
+      }
+    },
+    "fundingPaymentsTable": {
+      "dateTime": "Date et Heure",
+      "symbol": "Symbole",
+      "collateral": "Collatéral",
+      "received": "Financement Reçu",
+      "rate": "Taux",
+      "timeSinceLastPayment": "Temps depuis le dernier paiement (JJ:HH:MM:SS)",
+      "tooltips": {
+        "receivedFunding": "Financement versé au trader. Si négatif, le trader a payé.",
+        "rate": "Le taux de financement moyen pondéré dans le temps, ajusté pour être un taux sur 8 heures.",
+        "timeSinceLastPayment": "La durée pendant laquelle le paiement de financement s'applique."
+      }
+    },
+    "warnings": {
+      "priceExceedsSlippage": "Le commerce risque d'échouer car le prix prévu dépasse le prix limite ! Mettez à jour le glissement à au moins {{slippage}} pour éviter l'échec de la transaction.",
+      "targetMarginUnsafe": "La transaction risque d'échouer. La position résultante ne respecte pas la marge de maintenance requise.",
+      "exceedsBalance": "Le coût de la commande dépasse le solde total. Votre transaction pourrait échouer en cas de glissement élevé.",
+      "exceedsBalanceLimitOrder": "Le coût de la commande dépasse le solde total. Votre transaction pourrait échouer.",
+      "limitPriceWorseThanCurrentPrice": "Le prix de l'ordre limite est pire que le prix actuel du marché.",
+      "maximalAmountOfLimitOrders": "Il y a une quantité maximale de 15 ordres limite/arrêt."
     }
   },
-  "whiteListedNotification": {
-    "text": "Votre portefeuille n'est pas autorisé à utiliser Sovryn Dapp. Toutes les interactions sont désactivées jusqu'à ce que vous passiez à un portefeuille autorisé ou que vous autorisiez ce portefeuille. Les portefeuilles sont automatiquement autorisés s'ils contiennent des SOV (y compris des SOV acquis ou jalonnés). La documentation sur Sovryn dapp est disponible sur le <0> wiki </0>."
+  "claimOriginBanner": {
+    "text": "Votre SOV est prêt à être réclamé !",
+    "cta": "Récupérer SOV"
+  },
+  "escrowPage": {
+    "meta": {
+      "title": "",
+      "description": ""
+    },
+    "infoBar": {
+      "timeRemaining": "Temps restant dans le programme de récompense",
+      "timeCompleted": "Complété",
+      "liquidityTarget": "Objectif total de liquidité :",
+      "remainingToCollect": "Total restant à collecter :"
+    },
+    "form": {
+      "amount": "Entrer le montant :",
+      "reward": "Récompense SOV attendue :",
+      "cta": "Déposer SOV"
+    },
+    "description": {
+      "title": "Escrow de Pool de Liquidité Uniswap",
+      "line1": "Les participants au pool d'escrow recevront une récompense de 5 %, plus une part proportionnelle des frais de transaction générés dans le pool SOV/ETH après que toute perte impermanente ait été couverte par Sovryn, offrant un rendement minimum de 60% par an.",
+      "line2": "100 % des SOV détenus en fiducie par Sovryn au nom des utilisateurs dans le pool de liquidité d'escrow Uniswap seront retournés aux portefeuilles des utilisateurs 30 jours après le lancement du pool.",
+      "line3": "La récompense de 5 % plus la part proportionnelle des frais seront créditées sur les portefeuilles des utilisateurs en SOV, 30 jours après le lancement du pool."
+    },
+    "table": {
+      "labels": {
+        "pool": "Pool",
+        "provided": "Liquidité Fournie",
+        "share": "Part actuelle du Pool",
+        "totalFees": "Total des Frais Collectés",
+        "minimumRewards": "Récompenses Minimales Collectées",
+        "unlockDate": "Date de Déverrouillage",
+        "action": "Action"
+      },
+      "uniswapPool": "Jetons de Pool Uniswap",
+      "addButton": "Ajouter",
+      "withdrawButton": "Retirer"
+    }
+  },
+  "landingPage": {
+    "meta": {
+      "title": "Bienvenue sur Sovryn",
+      "description": "La plateforme de trading et de prêt de Bitcoin décentralisée"
+    },
+    "welcomeTitle": "Bienvenue sur Sovryn",
+    "welcomeMessage": "La plateforme de trading et de prêt de Bitcoin décentralisée",
+    "tradingVolume": {
+      "dayVolumeTitle": "Volume sur 24 heures",
+      "tvlTitle": "Total Verrouillé en Valeur",
+      "btc": "BTC",
+      "usd": "USD"
+    },
+    "arbitrageOpportunity": {
+      "title": "Opportunité d'arbitrage",
+      "swap": "échanger",
+      "swapUp": "Échangez jusqu'à ",
+      "for": "pour jusqu'à ",
+      "noArbitrage": "Il n'y a actuellement aucune opportunité d'arbitrage..."
+    },
+    "tvl": {
+      "title": "Total verrouillé en valeur",
+      "type": "Type de Contrat",
+      "btc": "Valeur (BTC)",
+      "usd": "Valeur (USD)",
+      "protocol": "Contrat de Protocole",
+      "lend": "Contrats de Prêt",
+      "amm": "Contrats AMM",
+      "zero": "Contrats Zero",
+      "staked": "Contrat de Mise en Jeu Bitocracy",
+      "subProtocol": "Contrat de Courbe de Bons MYNT",
+      "myntAggregator": "Contrat d'Aggrégateur MYNT",
+      "subtotal": "Sous-total",
+      "total": "Total"
+    },
+    "promotions": {
+      "title": "Promotions",
+      "learnMore": "En savoir plus",
+      "sections": {
+        "lending": "Prêt",
+        "borrowing": "Emprunt",
+        "yieldFarming": "Ferme de Rendement",
+        "marginTrading": "Trading avec Marge",
+        "swap": "Échange",
+        "spotTrading": "Trading Spot"
+      }
+    },
+    "lendBorrow": "PRÊTER ET EMPRUNTER DES ACTIFS",
+    "ammpool": {
+      "title": "Pools AMM",
+      "asset": "Actif",
+      "pool": "Pool",
+      "stakedBalance": "Solde Mis en Jeu",
+      "contractBalance": "Solde du Contrat",
+      "imBalance": "Déséquilibre",
+      "apy": "APY"
+    },
+    "banner": {
+      "originsFish": "Pré-vente du jeton Origins FISH",
+      "liveNow": "EN DIRECT MAINTENANT !",
+      "buyNow": "Acheter Maintenant",
+      "soldOut": "ÉPUISÉ !",
+      "learnMore": "En savoir plus",
+      "getStarted": "Rejoignez la liste d'attente",
+      "timer": {
+        "days": "JOURS",
+        "hours": "HEURES",
+        "mins": "MINUTES",
+        "secs": "SECONDES"
+      }
+    },
+    "cryptocurrencyPrices": {
+      "title": "PRIX DES CRYPTOMONNAIES PAR CHANGEMENT EN 24H",
+      "asset": "Actif",
+      "price": "Prix",
+      "24h": "Changement 24h%",
+      "7d": "Changement 7j%",
+      "marketCap": "Capitalisation Boursière",
+      "marketCapTooltip": "La capitalisation boursière est calculée comme la circulation * le prix actuel en USD. <br /> <br /> Pour SOV, la circulation = offre totale (100m) - jetons dans des contrats de mise en jeu, <0>à l'exclusion de</0> jetons dans des contrats de fonds d'adoption et de développement. <br /> <br /> Pour RBTC, la circulation = BTC verrouillé dans le peg 2 voies RSK <br /> <br /> Pour tous les autres jetons, la circulation = offre totale <br /> <br /> Pour les jetons qui sont passés par un pont depuis une autre chaîne, la circulation est l'offre de ce jeton sur la chaîne RSK. Par exemple, la circulation d'ETHs n'est pas égale à la circulation d'ETH sur ethereum.",
+      "circulatingSupply": "Offre en Circulation",
+      "circulatingSupplyTooltip": "Nous avons mis à jour la formule d'offre de circulation pour montrer la quantité de jetons SOV liquides conformément aux normes du marché. Les SOV déverrouillés des contrats de fonds d'adoption et de développement sont maintenant comptabilisés comme circulant, et les SOV mis en jeu (que ce soit par mise en jeu ou mise en jeu volontaire) ne sont pas comptabilisés comme circulant. <br /> <br /> Il n'y a pas de changement dans vos fonds avec cette modification. Il s'agit simplement d'une standardisation de l'affichage de l'offre en circulation."
+    }
+  },
+  "promotions": {
+    "title": "{{rewardAmount}} récompenses hebdomadaires en SOV",
+    "duration": "Récompenses hebdomadaires en cours",
+    "text": "Fournissez un ratio 1:1 de {{asset1}} et {{asset2}} au pool de liquidité {{asset1}}/{{asset2}} AMM et commencez instantanément à accumuler votre part de {{rewardAmount}} récompenses en SOV.",
+    "apy": "{{apy}}% APY actuel"
+  },
+  "liquidityMining": {
+    "deposit": "Déposer",
+    "withdraw": "Retirer",
+    "meta": {
+      "title": "Ferme de Rendement"
+    },
+    "explainer": {
+      "earnSOV": "Gagnez du SOV en déposant de la liquidité dans le pool de liquidité USDT/BTC",
+      "startDate": "Date de début : 1er avril 2021, 12h00 UTC",
+      "endDate": "Date de fin : 1er mai 2021, 12h00 UTC",
+      "rewardPoolUSDT": "Pool de récompenses pour le dépôt de USDT : 25 000 SOV",
+      "rewardPoolRBTC": "Pool de récompenses pour le dépôt de RBTC : 25 000 SOV",
+      "yourShare": "Votre part du pool est calculée par :",
+      "yourShare_N": "liquidité ajoutée par vous * nombre de blocs détenus",
+      "yourShare_D": "liquidité totale ajoutée * nombre de blocs détenus",
+      "airDrop": "Les récompenses seront déposées dans les portefeuilles des fournisseurs de liquidité au plus tard le 8 mai 2021",
+      "comingSoon": "Bientôt disponible"
+    },
+    "historyTable": {
+      "title": "Historique de la Liquidité",
+      "emptyState": "L'historique est vide.",
+      "tableHeaders": {
+        "time": "Date/Heure",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Actif",
+        "liquidityAmount": "Montant de Liquidité",
+        "transactionHash": "Hash de Transaction",
+        "status": "Statut"
+      },
+      "txType": {
+        "added": "Ajouté",
+        "removed": "Retiré"
+      }
+    },
+    "rowTable": {
+      "noLiquidityProvided": "Ajoutez de la liquidité et gagnez des revenus",
+      "tableHeaders": {
+        "totalEarned": "Total Gagné",
+        "balance": "Solde",
+        "pl": "P/L",
+        "rewards": "Récompenses"
+      }
+    },
+    "modals": {
+      "deposit": {
+        "title": "Déposer de la Liquidité",
+        "cta": "Déposer",
+        "amount": "Montant :"
+      },
+      "withdraw": {
+        "title": "Retirer de la Liquidité",
+        "cta": "Retirer",
+        "amount": "Montant :",
+        "reward": "Récompense :"
+      }
+    },
+    "lootDropLink": "En savoir plus",
+    "chartOverlayText": "APY% Bientôt disponible !",
+    "recalibration": "Prochaine recalibration le {{date}}"
+  },
+  "addToMargin": {
+    "title": "Ajouter à la Marge",
+    "amount": "Augmenter la marge de :",
+    "liquidationPrice": "Prix de Liquidation estimé :"
+  },
+  "addCollateral": {
+    "title": "Ajouter du Collatéral",
+    "collateralBalance": "Solde du Collatéral",
+    "liquidationPrice": "Prix de Liquidation",
+    "collateralRatio": "Ratio de Collatéral",
+    "amount": "Augmenter le collatéral de :",
+    "newInfo": "Nouveaux détails :",
+    "review": "Examiner la Transaction",
+    "errors": {
+      "balance": "Veuillez entrer un montant égal ou inférieur au solde de {{asset}} dans votre adresse."
+    }
+  },
+  "openPositionTable": {
+    "direction": "Direction",
+    "positionSize": "Taille de la Position",
+    "entryPrice": "Prix d'Entrée",
+    "liquidationPrice": "Prix de Liquidation",
+    "positionMargin": "Marge de Position",
+    "unrealizedPL": "P&L Non Réalisé",
+    "interestAPR": "APR d'Intérêt",
+    "actions": "Actions",
+    "noData": "Aucune donnée",
+    "rolloverDate": "Date de Rollover",
+    "event": "Événement",
+    "amountRepaid": "Montant Remboursé",
+    "collateralWithdrawn": "Collatéral Retiré",
+    "exitPrice": "Prix de Sortie",
+    "positionChange": "Changement de Position",
+    "closingPrice": "Prix de Fermeture",
+    "timestamp": "Horodatage",
+    "txID": "ID de Transaction",
+    "cta": {
+      "increase": "Augmenter",
+      "margin": "Marge",
+      "close": "Fermer",
+      "details": "Détails"
+    },
+    "explainers": {
+      "positionMargin": "La portion de votre marge qui est attribuée aux exigences de marge initiale sur vos positions ouvertes. Il s'agit de la valeur d'entrée de tous les contrats que vous détenez divisée par l'effet de levier sélectionné, plus le profit et la perte non réalisés.<br/><br/>Si le pourcentage actuel de la marge descend à 15%, votre position sera liquidée.",
+      "unrealizedPL": "En raison des limitations des contrats intelligents, nous estimons uniquement le profit entre le prix d'entrée et les prix actuels de l'AMM sans prendre en compte les augmentations de marge ou les retraits partiels de position.<br/>En survolant une valeur, vous verrez le montant correct en tokens que vous recevriez si vous décidiez de fermer la position maintenant.",
+      "closingPrice": "Le prix de sortie est à 95% de la valeur du prix de fermeture affiché. Cette différence est due à la remise appliquée en tant qu'incitation pour les liquidateurs."
+    },
+    "profitTooltip": "Fermer la position retirerait l'un de ces éléments :"
+  },
+  "tradingChart": {
+    "lineChartOnly": "Seuls les actifs <0/> ou <1/> sont affichés sous forme de graphiques linéaires"
+  },
+  "competitionPage": {
+    "allTimeRanking": "Classement Tout Temps",
+    "lastResetOfRanking": "Dernière Réinitialisation du Classement {{date}}",
+    "meta": {
+      "title": "Classement des Transactions",
+      "description": ""
+    },
+    "leaderboard": {
+      "tabs": {
+        "bestReturn": "Meilleur Rendement",
+        "highestVolume": "Plus Haut Volume",
+        "mostTrades": "Le Plus de Transactions",
+        "highestProfit": "Plus Haut Profit"
+      },
+      "tables": {
+        "highestVolumeTable": {
+          "volume": "Volume ({{pair}})"
+        },
+        "mostTradesTable": {
+          "trades": "Transactions"
+        },
+        "highestProfitTable": {
+          "profit": "Profit ({{pair}})"
+        }
+      }
+    },
+    "nav": {
+      "perpetualSwap": "Perpetuels",
+      "leaderboard": "Classement",
+      "competition": "Compétition"
+    },
+    "rules": {
+      "title": "Classement des Transactions",
+      "reportBugs": "Veuillez signaler les bugs et les problèmes ici !",
+      "prizeDistribution": "La cagnotte totale est de 0,5 BTC plus une part du profit/perte que l'AMM subit pendant la compétition. Les gains sont versés aux 3 meilleurs traders et sont distribués en fonction de leur P&L.",
+      "welcomeMessage": "Pour commencer à trader, allez sur <0>la page des Perpetuels</0>, connectez votre portefeuille, alimentez-le et tradez."
+    },
+    "registered": "Vous êtes inscrit ! Si vous avez besoin d'aide, veuillez cliquer sur le bouton d'aide en haut à droite ou poster un message sur notre <0>discord</0>.",
+    "cta": {
+      "connect": "Connecter le Portefeuille",
+      "enter": "Entrer dans le Classement",
+      "compete": "Trader"
+    },
+    "table": {
+      "rank": "Classement",
+      "name": "Nom / Adresse du Portefeuille",
+      "positions": "Positions Ouvertes",
+      "trade": "Trade Actuel",
+      "total": "P&L Total",
+      "potentialPrize": "Prix Potentiel",
+      "empty": "Personne n'est encore inscrit. Vous pourriez être le premier !"
+    },
+    "join": {
+      "title": "Participer à la Compétition",
+      "pseudonym": "Pseudonyme (Facultatif) :",
+      "pseudonymPlaceholder": "Entrez le Pseudonyme",
+      "wallet": "Adresse du Portefeuille :",
+      "conditions": "J'accepte les termes et conditions de la compétition de trading de Perp Swaps",
+      "cta": "Confirmer"
+    },
+    "countdown": {
+      "days": "jours",
+      "hours": "heures",
+      "minutes": "minutes",
+      "seconds": "secondes",
+      "label": "Temps restant :"
+    }
   }
 }
