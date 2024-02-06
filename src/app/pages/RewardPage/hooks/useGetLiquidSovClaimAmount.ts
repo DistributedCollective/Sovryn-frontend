@@ -21,23 +21,32 @@ export const useGetLiquidSovClaimAmount = () => {
     }
 
     const now = Math.ceil(Date.now() / 1000);
-    const lockDate = await contractReader
-      .call('staking', 'timestampToLockDate', [now])
+
+    const startTime = await contractReader
+      .call('stakingRewards', 'startTime', [])
       .then(Number);
 
-    let checks = 30;
-    let amount = 0;
-    let lastWithdrawalInterval = 0;
-    let restartTime = 0;
+    const maxDuration = await contractReader
+      .call('stakingRewards', 'maxDuration', [])
+      .then(Number);
 
-    // If lastWithdrawalInterval > 0 and amount = 0
-    // call getStakerCurrentReward(True, lastWithdrawalInterval)
-    // Stop when: a) Both lastWithdrawalInterval > 0 and amount > 0 OR b) lastWithdrawalInterval(returned) > currentTimeStamp
+    const result = await contractReader.call<{
+      lastWithdrawalInterval: string;
+      amount: string;
+    }>('stakingRewards', 'getStakerCurrentReward', [false, 0], address);
+
+    let checks = 30;
+    let intervalAmount = 0;
+    let lastWithdrawalInterval = 0;
+    let restartTime = startTime;
+
+    // Call getStakerCurrentReward(True, restartTime) until either
+    // a) lastWithdrawalInterval > 0 and amount > 0 OR b) restartTime >= now
     // as additional brake, run at maximum 30 checks
     while (
       !(
-        (lastWithdrawalInterval > 0 && amount > 0) ||
-        lastWithdrawalInterval === lockDate ||
+        (lastWithdrawalInterval > 0 && intervalAmount > 0) ||
+        restartTime >= now ||
         checks < 0
       )
     ) {
@@ -49,7 +58,7 @@ export const useGetLiquidSovClaimAmount = () => {
           }>(
             'stakingRewards',
             'getStakerCurrentReward',
-            [false, lastWithdrawalInterval],
+            [true, restartTime],
             address,
           )
           .then(response => ({
@@ -61,8 +70,12 @@ export const useGetLiquidSovClaimAmount = () => {
           restartTime = lastWithdrawalInterval;
         }
 
+        if (result.amount === 0) {
+          restartTime += Number(maxDuration);
+        }
+
         lastWithdrawalInterval = result.lastWithdrawalInterval;
-        amount = result.amount;
+        intervalAmount = result.amount;
         checks--;
       } catch (e) {
         console.error(e);
@@ -72,7 +85,7 @@ export const useGetLiquidSovClaimAmount = () => {
 
     return {
       lastWithdrawalInterval: restartTime,
-      amount: bignumber(amount).toString(),
+      amount: bignumber(result.amount).toString(),
     };
   }, [address]);
 
