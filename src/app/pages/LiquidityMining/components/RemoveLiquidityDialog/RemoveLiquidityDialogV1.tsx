@@ -58,7 +58,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
   const weiAmount = useWeiAmount(amount);
 
   const {
-    value: { amount: poolTokenBalance, accumulatedReward },
+    value: { amount: poolTokenBalance },
     loading,
   } = useLiquidityMining_getUserInfo(pool.poolTokenA);
 
@@ -155,11 +155,6 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
 
   const rewards = useLiquidityMining_getUserAccumulatedReward(pool.poolTokenA);
 
-  const reward = useMemo(
-    () => bignumber(rewards.value).add(accumulatedReward).toFixed(0),
-    [rewards.value, accumulatedReward],
-  );
-
   const handleConfirm = () => withdraw();
 
   return (
@@ -203,7 +198,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
               value={
                 <LoadableValue
                   loading={rewards.loading || loading}
-                  value={weiToNumberFormat(reward, 6)}
+                  value={weiToNumberFormat(rewards.value, 6)}
                 />
               }
               appendElem={<AssetRenderer asset={Asset.SOV} />}
