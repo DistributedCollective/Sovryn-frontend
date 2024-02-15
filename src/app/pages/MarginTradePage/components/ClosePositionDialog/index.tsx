@@ -76,10 +76,11 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     id,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
+    positionSize: positionSizeValue,
   } = item;
 
   const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
-  const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
+  const positionSize = positionSizeValue || DEFAULT_TRADE.positionSize;
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(collateralTokenId),
   );

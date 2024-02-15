@@ -48,10 +48,10 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
     trade,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
+    positionSize: positionSizeItem,
   } = item;
   const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
-  const positionSizeValue =
-    trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
+  const positionSizeValue = positionSizeItem || DEFAULT_TRADE.positionSize;
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     collateralTokenId,
   );
