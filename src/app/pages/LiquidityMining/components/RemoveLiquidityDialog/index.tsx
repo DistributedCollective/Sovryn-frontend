@@ -53,7 +53,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
   const poolTokenAddress = pool.getPoolTokenAddress(asset)!;
 
   const {
-    value: { amount: poolTokenBalance, accumulatedReward },
+    value: { amount: poolTokenBalance },
     loading,
   } = useLiquidityMining_getUserInfo(poolTokenAddress);
   const {
@@ -100,11 +100,6 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
 
   const rewards = useLiquidityMining_getUserAccumulatedReward(poolTokenAddress);
 
-  const reward = useMemo(
-    () => bignumber(rewards.value).add(accumulatedReward).toFixed(0),
-    [rewards.value, accumulatedReward],
-  );
-
   const handleConfirm = () => withdraw();
 
   const assets = useMemo(() => [pool.assetA, pool.assetB], [pool]);
@@ -144,7 +139,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
               value={
                 <LoadableValue
                   loading={rewards.loading || loading}
-                  value={weiToNumberFormat(reward, 6)}
+                  value={weiToNumberFormat(rewards.value, 6)}
                 />
               }
               appendElem={<AssetRenderer asset={Asset.SOV} />}
