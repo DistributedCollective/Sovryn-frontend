@@ -34,9 +34,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
     collateralToken: { id: collateralTokenId },
     liquidates,
     closeWithSwaps,
+    positionSize: positionSizeValue,
   } = event;
   const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
-  const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
+  const positionSize = positionSizeValue || DEFAULT_TRADE.positionSize;
   const entryPrice = trade?.[0].entryPrice || DEFAULT_TRADE.entryPrice;
   const transaction = trade?.[0].transaction.id || DEFAULT_TRADE.transactionId;
   const loanAsset = assetByTokenAddress(loanTokenId);
