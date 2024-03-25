@@ -171,7 +171,7 @@
     "url-loader": "2.3.0",
     "web3": "1.2.11",
     "web3-eth-contract": "1.2.11",
-    "web3-utils": "1.2.11",
+    "web3-utils": "4.2.1",
     "webpack": "4.42.0",
     "webpack-bundle-analyzer": "4.4.2",
     "webpack-dev-server": "3.10.3",
