@@ -33,7 +33,7 @@ interface IBaseClaimFormProps {
   dataActionId?: string;
 }
 
-const MAX_LIQUID_STAKES = 44;
+const MAX_LIQUID_STAKES = 33;
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   className,
