@@ -28,7 +28,7 @@ const rskToEthAssets = [
     dllrIcon,
     18,
     4,
-    '0xEfC78FC7D48B64958315949279bA181C2114abbD',
+    '0xc1411567d2670e24d9C4DaAa7CdA95686e1250AA',
     false,
     CrossBridgeAsset.DLLR,
     false,
