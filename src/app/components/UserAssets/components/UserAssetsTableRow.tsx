@@ -209,7 +209,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               dataActionId={`portfolio-action-convert-${asset}`}
             />
           )}
-          {[Asset.SOV, Asset.ETH, Asset.BNB].includes(asset) && (
+          {[Asset.SOV, Asset.ETH, Asset.BNB, Asset.DLLR].includes(asset) && (
             <BridgeLink asset={asset} disableWithdrawal={!hasAnyTokens} />
           )}
           {asset === Asset.WRBTC && (

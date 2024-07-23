@@ -1,6 +1,7 @@
 import sovIcon from './icons/sov.svg';
 import ethsIcon from './icons/eths.svg';
 import xusdIcon from './icons/xusd.svg';
+import dllrIcon from './icons/dllr.svg';
 import { AssetModel } from '../../types/asset-model';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { ethsAggregatorRSK, xusdAggregatorRSK } from './eth-to-rsk.mainnet';
@@ -20,6 +21,21 @@ const rskToEthAssets = [
     undefined,
     undefined,
     [CrossBridgeAsset.ESOV],
+  ),
+  new AssetModel(
+    CrossBridgeAsset.DLLR,
+    'DLLR',
+    dllrIcon,
+    18,
+    4,
+    '0xc1411567d2670e24d9C4DaAa7CdA95686e1250AA',
+    false,
+    CrossBridgeAsset.DLLR,
+    false,
+    false,
+    undefined,
+    undefined,
+    [CrossBridgeAsset.EDLLR],
   ),
   new AssetModel(
     CrossBridgeAsset.ETHS,

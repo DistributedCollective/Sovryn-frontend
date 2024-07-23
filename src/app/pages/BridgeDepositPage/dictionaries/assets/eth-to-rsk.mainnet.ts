@@ -1,4 +1,5 @@
 import sovIcon from './icons/sov.svg';
+import dllrIcon from './icons/dllr.svg';
 import ethIcon from './icons/eth.svg';
 import usdtIcon from './icons/usdt.svg';
 import usdcIcon from './icons/usdc.svg';
@@ -19,6 +20,17 @@ const ethToRskAssets = [
     '0xbdab72602e9ad40fc6a6852caf43258113b8f7a5',
     false,
     CrossBridgeAsset.SOV,
+    false,
+  ),
+  new AssetModel(
+    CrossBridgeAsset.EDLLR,
+    'eDLLR',
+    dllrIcon,
+    18,
+    4,
+    '0xbdbb63f938c8961af31ead3deba5c96e6a323dd1',
+    false,
+    CrossBridgeAsset.DLLR,
     false,
   ),
   new AssetModel(
