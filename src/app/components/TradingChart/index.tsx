@@ -6,7 +6,7 @@
  * and make any relevant changes before updating the library version:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import classNames from 'classnames';
 import {
   widget,
@@ -18,11 +18,6 @@ import Datafeed from './datafeed';
 import Storage from './storage';
 import { noop } from '../../constants';
 import { useApolloClient } from '@apollo/client';
-import { hasDirectFeed } from './helpers';
-import { Trans } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import { AssetRenderer } from '../AssetRenderer';
-import { Asset } from 'types';
 import { SeriesStyle } from './types';
 
 export enum Theme {
@@ -40,13 +35,6 @@ export function TradingChart(props: ChartContainerProps) {
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
   const client = useApolloClient();
-
-  const disabledFeatures = useMemo(() => {
-    if (!hasDirectFeed(props.symbol)) {
-      return ['header_chart_type']; //don't allow user to switch candle type if using a line chart
-    }
-    return [];
-  }, [props.symbol]);
 
   useEffect(() => {
     try {
@@ -71,7 +59,6 @@ export function TradingChart(props: ChartContainerProps) {
           'header_symbol_search',
           //'header_saveload', //uncomment to disable storing of drawings
           'header_compare',
-          ...disabledFeatures,
         ],
         autosize: true,
         // toolbar_bg: '#a3a3a3',
@@ -106,20 +93,13 @@ export function TradingChart(props: ChartContainerProps) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client, JSON.stringify(disabledFeatures)]);
+  }, [client]);
 
   useLayoutEffect(() => {
     if (chart && hasCharts) {
       chart.chart().resetData();
 
-      // if quote asset is not RBTC or XUSD, make it line chart, otherwise candle
-      chart
-        .chart()
-        .setChartType(
-          (hasDirectFeed(props.symbol)
-            ? SeriesStyle.Candles
-            : SeriesStyle.Line) as number,
-        );
+      chart.chart().setChartType(SeriesStyle.Candles as number);
 
       chart.chart().setSymbol(props.symbol, noop);
     }
@@ -173,17 +153,6 @@ export function TradingChart(props: ChartContainerProps) {
             <Skeleton height="55%" />
           </div>
         </div>
-        {!hasDirectFeed(props.symbol) && (
-          <div className="tw-py-2 tw-px-3 tw-text-xs tw-opacity-50">
-            <Trans
-              i18nKey={translations.tradingChart.lineChartOnly}
-              components={[
-                <AssetRenderer asset={Asset.XUSD} />,
-                <AssetRenderer asset={Asset.RBTC} />,
-              ]}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

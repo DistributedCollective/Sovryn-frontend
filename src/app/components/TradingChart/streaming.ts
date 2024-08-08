@@ -15,12 +15,8 @@ import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCand
 import { debug } from 'utils/debug';
 import { pushPrice } from 'utils/pair-price-tracker';
 import { TradingCandleDictionary } from './dictionary';
-import {
-  Bar,
-  getTokensFromSymbol,
-  hasDirectFeed,
-  queryPairByChunks,
-} from './helpers';
+import { getTokensFromSymbol, queryPairByChunks } from './helpers';
+import { Bar } from './types';
 
 type SubItem = {
   symbolInfo: any;
@@ -55,15 +51,11 @@ export class Streaming {
     );
 
     queryPairByChunks(
-      this.client!,
       details,
       baseToken,
       quoteToken,
       subscriptionItem?.lastBar?.time / 1000,
       Math.ceil(Date.now() / 1000),
-      hasDirectFeed(subscriptionItem?.symbolInfo?.name),
-      1,
-      true,
     )
       .then(bars => {
         bars.reverse().forEach((item, index) => {
