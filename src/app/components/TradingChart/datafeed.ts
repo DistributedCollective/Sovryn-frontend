@@ -23,11 +23,7 @@ import {
   resolutionMap,
   supportedResolutions,
 } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
-import {
-  getTokensFromSymbol,
-  hasDirectFeed,
-  queryPairByChunks,
-} from './helpers';
+import { getTokensFromSymbol, queryPairByChunks } from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { TradingCandleDictionary } from './dictionary';
 import { pushPrice } from 'utils/pair-price-tracker';
@@ -114,7 +110,6 @@ const tradingChartDataFeeds = (
       const { baseToken, quoteToken } = getTokensFromSymbol(symbolInfo.name);
 
       let items = await queryPairByChunks(
-        graphqlClient,
         candleDetails,
         baseToken,
         quoteToken,
@@ -122,7 +117,6 @@ const tradingChartDataFeeds = (
         Math.floor(
           Math.min(to + candleDetails.candleSeconds, Date.now() / 1e3),
         ),
-        hasDirectFeed(symbolInfo.name),
       );
 
       if (!items || items.length === 0) {
