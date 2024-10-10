@@ -10,3 +10,12 @@ export enum SeriesStyle {
   PointAndFigure = 6,
   LineBreak = 7,
 }
+
+export type Bar = {
+  time: number;
+  low: number;
+  high: number;
+  open: number;
+  close: number;
+  volume?: number;
+};
