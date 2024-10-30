@@ -10,23 +10,89 @@ export class TradingCandleDictionary {
   >([
     [
       CandleDuration.M_1,
-      new CandleDetails('candleStickMinutes', 'D', 1, 5, 60),
+      new CandleDetails('candleSticksMinutes', 'D', 1, 5, 60, '1m'),
+    ],
+    [
+      CandleDuration.M_10,
+      new CandleDetails('candleSticksTenMinutes', 'D', 3, 5, 60 * 10, '10m'),
     ],
     [
       CandleDuration.M_15,
-      new CandleDetails('candleStickFifteenMinutes', 'D', 3, 5, 60 * 15),
+      new CandleDetails(
+        'candleSticksFifteenMinutes',
+        'D',
+        3,
+        5,
+        60 * 15,
+        '15m',
+      ),
+    ],
+    [
+      CandleDuration.M_30,
+      new CandleDetails('candleSticksThirtyMinutes', 'D', 3, 5, 60 * 30, '30m'),
     ],
     [
       CandleDuration.H_1,
-      new CandleDetails('candleStickHours', 'D', 5, 5, 60 * 60),
+      new CandleDetails('candleSticksHours', 'D', 5, 5, 60 * 60, '1h'),
     ],
     [
       CandleDuration.H_4,
-      new CandleDetails('candleStickFourHours', 'D', 10, 10, 60 * 60 * 4),
+      new CandleDetails(
+        'candleSticksFourHours',
+        'D',
+        10,
+        10,
+        60 * 60 * 4,
+        '4h',
+      ),
+    ],
+    [
+      CandleDuration.H_12,
+      new CandleDetails(
+        'candleSticksTwelveHours',
+        'D',
+        10,
+        10,
+        60 * 60 * 12,
+        '12h',
+      ),
     ],
     [
       CandleDuration.D_1,
-      new CandleDetails('candleStickDays', 'D', 90, 90, 60 * 60 * 24),
+      new CandleDetails('candleSticksDays', 'D', 90, 90, 60 * 60 * 24, '1d'),
+    ],
+    [
+      CandleDuration.D_3,
+      new CandleDetails(
+        'candleSticksThreeDays',
+        'D',
+        90,
+        90,
+        60 * 60 * 24 * 3,
+        '3d',
+      ),
+    ],
+    [
+      CandleDuration.W_1,
+      new CandleDetails(
+        'candleSticksOneWeek',
+        'D',
+        90,
+        90,
+        60 * 60 * 24 * 7,
+        '1w',
+      ),
+    ],
+    [
+      CandleDuration.D_30,
+      new CandleDetails(
+        'candleSticksOneMonth',
+        'D',
+        90,
+        90,
+        60 * 60 * 24 * 30,
+        '30d',
+      ),
     ],
   ]);
 
