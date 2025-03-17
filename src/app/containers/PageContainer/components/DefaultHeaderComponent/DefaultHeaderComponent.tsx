@@ -549,6 +549,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                   <FontAwesomeIcon icon={faCaretDown} size="xs" />
                 </span>
               </NavPopover>
+              <MenuItem
+                href="https://origins.sovryn.app/"
+                hrefExternal
+                text={t(translations.mainMenu.origins)}
+                label=""
+                dataActionId="header-origins-link"
+                icon={undefined}
+              />
             </Menu>
           </div>
         </div>
