@@ -297,6 +297,8 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
           contractName={contractName}
           condition={true}
           textClassName={'tw-text-gray-10 tw-text-gray-10'}
+          customLimit={simulator.gasUsed > 0 ? simulator.gasUsed : undefined}
+          customLoading={simulator.status === SimulationStatus.PENDING}
         />
         <LabelValuePair
           label={t(translations.marginTradePage.tradeDialog.maintananceMargin)}

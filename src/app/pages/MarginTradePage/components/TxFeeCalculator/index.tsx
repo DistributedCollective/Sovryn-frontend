@@ -17,6 +17,8 @@ interface ITxFeeCalculatorProps {
   className?: string;
   textClassName?: string;
   onFeeUpdated?: (value: string) => void;
+  customLimit?: number;
+  customLoading?: boolean;
 }
 
 export const TxFeeCalculator: React.FC<ITxFeeCalculatorProps> = ({
@@ -29,6 +31,8 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculatorProps> = ({
   className = 'tw-mb-1',
   textClassName,
   onFeeUpdated,
+  customLimit,
+  customLoading,
 }) => {
   const { t } = useTranslation();
   return (
@@ -56,6 +60,8 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculatorProps> = ({
           txConfig={txConfig}
           condition={condition}
           onFeeUpdated={onFeeUpdated}
+          customLimit={customLimit}
+          customLoading={customLoading}
         />
       </div>
     </div>
