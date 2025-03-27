@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import type { TransactionConfig } from 'web3-core';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { ContractName } from 'utils/types/contracts';
@@ -9,6 +9,8 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import { gas } from 'utils/blockchain/gas-price';
+import { bignumber } from 'mathjs';
 
 interface ITransactionFeeProps {
   asset?: Asset;
@@ -18,6 +20,8 @@ interface ITransactionFeeProps {
   txConfig?: TransactionConfig;
   condition?: boolean;
   onFeeUpdated?: (value: string) => void;
+  customLimit?: number;
+  customLoading?: boolean;
 }
 
 export const TransactionFee: React.FC<ITransactionFeeProps> = ({
@@ -28,14 +32,30 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
   txConfig = {},
   condition = true,
   onFeeUpdated,
+  customLimit,
+  customLoading,
 }) => {
   const { t } = useTranslation();
-  const { value, loading, error, gasPrice, gasLimit } = useEstimateContractGas(
+  const {
+    value: v,
+    loading,
+    error,
+    gasPrice,
+    gasLimit,
+  } = useEstimateContractGas(
     contractName,
     methodName,
     args,
     txConfig,
     condition,
+  );
+
+  const value = useMemo(
+    () =>
+      bignumber(customLimit ?? v)
+        .mul(gas.get())
+        .toFixed(0),
+    [customLimit, v],
   );
 
   useEffect(() => {
@@ -51,7 +71,7 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
           {weiToNumberFormat(value, 6)} <AssetSymbolRenderer asset={asset} />
         </>
       }
-      loading={loading}
+      loading={customLoading ?? loading}
       tooltip={
         <>
           {fromWei(value)} <AssetSymbolRenderer asset={asset} />
@@ -62,10 +82,10 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
           </small>
           <br />
           <small className="tw-text-gray-6">
-            ({t(translations.common.gasLimit)}: {gasLimit}{' '}
+            ({t(translations.common.gasLimit)}: {customLimit ?? gasLimit}{' '}
             {t(translations.common.units)})
           </small>
-          {error && <p className="tw-text-warning">{error}</p>}
+          {error && !customLimit && <p className="tw-text-warning">{error}</p>}
         </>
       }
     />
