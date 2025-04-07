@@ -225,7 +225,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
               }`}
               loading={loading}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={addToMarginLocked || currentMargin === '0' || loading}
+              disabled={addToMarginLocked || loading}
               title={
                 (addToMarginLocked &&
                   t(translations.maintenance.addToMarginTrades).replace(
