@@ -89,11 +89,11 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               tradeType={tradeType}
             />
           </div>
-          {fee && (
+          {/* {fee && (
             <div className="tw-py-3 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
               {fee}
             </div>
-          )}
+          )} */}
           <div className="tw-text-center tw-mt-1 tw-mb-2">
             {t(translations.spotTradingPage.tradeDialog.newOrderDetails)}
           </div>
