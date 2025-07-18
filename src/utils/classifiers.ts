@@ -159,6 +159,8 @@ export const CREATE_TICKET_LINK = 'https://help.sovryn.app/';
 
 export const BABELFISH_APP_LINK = 'https://app.babelfish.money';
 
+export const POWPEG_LINK = 'https://powpeg.rootstock.io/';
+
 export const WIKI_LIMIT_ORDER_LIMITS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';
 export const WIKI_LIMIT_ORDER_WALLETS_LINK =

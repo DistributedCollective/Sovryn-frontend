@@ -13,7 +13,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Tooltip } from '@blueprintjs/core';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, POWPEG_LINK } from 'utils/classifiers';
 
 export const ReceiveRBTCPage: React.FC = () => {
   const { t } = useTranslation();
@@ -30,7 +30,7 @@ export const ReceiveRBTCPage: React.FC = () => {
     [fastBtcReceiveLocked],
   );
 
-  const btcButton = useMemo(
+  const fastBtcButton = useMemo(
     () => (
       <Link onClick={onBtcClicked} to="/fast-btc/deposit">
         <SelectBox disabled={fastBtcReceiveLocked}>
@@ -39,6 +39,17 @@ export const ReceiveRBTCPage: React.FC = () => {
       </Link>
     ),
     [fastBtcReceiveLocked, onBtcClicked],
+  );
+
+  const powPegButton = useMemo(
+    () => (
+      <a href={POWPEG_LINK} target="_blank" rel="noreferrer noopener">
+        <SelectBox>
+          <img src={btcIcon} alt="PowPeg" />
+        </SelectBox>
+      </a>
+    ),
+    [],
   );
 
   const onBankClicked = useCallback(
@@ -96,8 +107,19 @@ export const ReceiveRBTCPage: React.FC = () => {
           <div className="tw-mb-20 tw-text-base tw-text-center tw-font-semibold">
             {t(translations.receiveRBTCPage.selectSource)}
           </div>
-          <div className="tw-flex tw-items-center tw-justify-center">
-            <div className="tw-text-center">
+          <div className="tw-flex tw-items-stretch tw-justify-center">
+            <div className="tw-text-center tw-h-full">
+              {powPegButton}
+              <p className="tw-mt-3 tw-mb-1 tw-font-medium">
+                {t(translations.receiveRBTCPage.powPeg)} <br />
+              </p>
+
+              <p className="tw-my-0 tw-text-xs tw-font-medium tw-text-success-50">
+                {t(translations.common.recommended)}
+              </p>
+            </div>
+
+            <div className="tw-text-center tw-h-full">
               {fastBtcReceiveLocked ? (
                 <Tooltip
                   position="top"
@@ -122,17 +144,17 @@ export const ReceiveRBTCPage: React.FC = () => {
                     </>
                   }
                 >
-                  {btcButton}
+                  {fastBtcButton}
                 </Tooltip>
               ) : (
-                btcButton
+                fastBtcButton
               )}
               <p className="tw-mt-3 tw-font-medium">
-                {t(translations.receiveRBTCPage.bitcoinNetwork)}
+                {t(translations.receiveRBTCPage.fastBtc)}
               </p>
             </div>
 
-            <div className="tw-text-center">
+            <div className="tw-text-center tw-h-full">
               {fastBtcReceiveLocked || transakLocked ? (
                 <Tooltip
                   position="top"
