@@ -22,7 +22,8 @@ import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd
 import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
-import { BABELFISH_APP_LINK, POWPEG_LINK } from 'utils/classifiers';
+import { BABELFISH_APP_LINK } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface IUserAssetsTableRow {
   item: AssetDetails;
@@ -54,6 +55,10 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
   const asset = useMemo(() => {
     return item.asset;
   }, [item.asset]);
+
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcSendLocked = checkMaintenance(States.FASTBTC_SEND);
+  const fastBtcReceiveLocked = checkMaintenance(States.FASTBTC_RECEIVE);
 
   useEffect(() => {
     const get = async () => {
@@ -140,6 +145,67 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 hoverOpenDelay={0}
                 hoverCloseDelay={0}
                 interactionKind="hover"
+                content={
+                  <>
+                    {fastBtcSendLocked
+                      ? t(translations.maintenance.fastBTCPortfolio)
+                      : t(translations.userAssets.sendMessage, { asset })}
+                  </>
+                }
+                className="tw-flex tw-items-center"
+              >
+                {fastBtcSendLocked ? (
+                  <div className="tw-cursor-not-allowed tw-opacity-25">
+                    {t(translations.common.send)}
+                  </div>
+                ) : (
+                  <Button
+                    text={t(translations.common.send)}
+                    href="/fast-btc/withdraw"
+                    style={ButtonStyle.link}
+                    size={ButtonSize.sm}
+                    dataActionId={`portfolio-action-send-${asset}`}
+                  />
+                )}
+              </Tooltip>
+
+              <Tooltip
+                position="top"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={
+                  <>
+                    {fastBtcReceiveLocked
+                      ? t(translations.maintenance.fastBTCPortfolio)
+                      : t(translations.userAssets.receiveMessage, { asset })}
+                  </>
+                }
+                className="tw-flex tw-items-center"
+              >
+                {fastBtcReceiveLocked ? (
+                  <div className="tw-cursor-not-allowed tw-opacity-25">
+                    {t(translations.common.receive)}
+                  </div>
+                ) : (
+                  <Button
+                    text={t(translations.common.receive)}
+                    href="/rbtc"
+                    style={ButtonStyle.link}
+                    size={ButtonSize.sm}
+                    dataActionId={`portfolio-action-receive-${asset}`}
+                  />
+                )}
+              </Tooltip>
+            </>
+          )}
+          {/* {asset === Asset.RBTC && (
+            <>
+              <Tooltip
+                position="top"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
                 content={t(translations.userAssets.sendOrReceiveMessage, {
                   asset,
                 })}
@@ -155,7 +221,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 />
               </Tooltip>
             </>
-          )}
+          )} */}
           {[Asset.USDT, Asset.RDOC].includes(asset) && (
             <Button
               text={t(translations.userAssets.actions.convert)}
