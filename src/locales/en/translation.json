@@ -37,7 +37,9 @@
     "walletCompatibility": "Wallet Compatibility",
     "send": "Send",
     "receive": "Receive",
-    "save": "Save"
+    "sendOrReceive": "Send / Receive",
+    "save": "Save",
+    "recommended": "Recommended"
   },
   "tradeEvents": {
     "CloseWithSwap": "Withdraw",
@@ -233,7 +235,8 @@
     "title": "Receive RBTC",
     "description": "Receive RBTC via bitcoin or bank/card transfer",
     "selectSource": "Select Source",
-    "bitcoinNetwork": "Bitcoin Network",
+    "fastBtc": "Fast BTC",
+    "powPeg": "PowPeg",
     "bankCard": "Bank/Card"
   },
   "fastBtcPage": {
@@ -1287,6 +1290,7 @@
     },
     "sendMessage": "Send {{asset}} from your connected address in the RSK network",
     "receiveMessage": "Receive {{asset}} to your connected address in the RSK network",
+    "sendOrReceiveMessage": "Send or receive {{asset}} from/to your connected address in the RSK network",
     "convertDialog": {
       "title": "Convert",
       "from": "From",

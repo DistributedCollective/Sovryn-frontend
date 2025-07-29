@@ -12,7 +12,6 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { AssetRenderer } from '../../AssetRenderer/';
 import { Sovryn } from 'utils/sovryn';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Button, ButtonSize, ButtonStyle } from '../../Button';
 import { BridgeLink } from './BridgeLink';
 import { useDollarValue } from 'app/hooks/useDollarValue';
@@ -24,6 +23,7 @@ import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
 import { BABELFISH_APP_LINK } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface IUserAssetsTableRow {
   item: AssetDetails;
@@ -199,6 +199,29 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               </Tooltip>
             </>
           )}
+          {/* {asset === Asset.RBTC && (
+            <>
+              <Tooltip
+                position="top"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={t(translations.userAssets.sendOrReceiveMessage, {
+                  asset,
+                })}
+                className="tw-flex tw-items-center"
+              >
+                <Button
+                  text={t(translations.common.sendOrReceive)}
+                  href={POWPEG_LINK}
+                  hrefExternal
+                  style={ButtonStyle.link}
+                  size={ButtonSize.sm}
+                  dataActionId={`portfolio-action-open-powpeg-${asset}`}
+                />
+              </Tooltip>
+            </>
+          )} */}
           {[Asset.USDT, Asset.RDOC].includes(asset) && (
             <Button
               text={t(translations.userAssets.actions.convert)}
