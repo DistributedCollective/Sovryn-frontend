@@ -17,7 +17,6 @@ import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { useAccount } from 'app/hooks/useAccount';
 import { PairNavbar } from 'app/components/PairNavbar';
-import { LimitOrderTables } from './components/LimitOrderTables';
 import { SpotHistory } from './components/SpotHistory';
 import { TradingType } from 'types/trading-pairs';
 import { RecentTrades } from 'app/components/RecentTrades';
@@ -39,16 +38,6 @@ export function SpotTradingPage() {
         id: 'market',
         label: t(translations.spotTradingPage.history.marketOrder),
         content: <SpotHistory />,
-      },
-      {
-        id: 'openlimit',
-        label: t(translations.spotTradingPage.history.openLimitOrders),
-        content: <LimitOrderTables activeTab={1} />,
-      },
-      {
-        id: 'closedlimit',
-        label: t(translations.spotTradingPage.history.limitOrderHistory),
-        content: <LimitOrderTables activeTab={2} />,
       },
     ],
     [t],
