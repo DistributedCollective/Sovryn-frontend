@@ -570,7 +570,7 @@ export const DefaultHeaderComponent: React.FC = () => {
               popoverClassName="tw-mw-340"
               disabled={!connected}
               content={
-                <div className="tw-px-3.5 tw-py-2 tw-font-normal">
+                <div className="tw-px-1 sm:tw-px-3.5 tw-py-2 tw-font-normal">
                   <div className="tw-mb-6">
                     {t(translations.mainMenu.tooltips.fundWalletButton)}
                   </div>
@@ -594,15 +594,17 @@ export const DefaultHeaderComponent: React.FC = () => {
                 style={ButtonStyle.normal}
                 size={ButtonSize.md}
                 disabled={!connected}
-                className="tw-rounded tw-px-5 tw-text-sm"
+                className={classNames('tw-rounded tw-px-5 tw-text-sm', {
+                  'tw-hidden sm:tw-block': !connected,
+                })}
                 dataActionId="header-link-deposit"
               />
             </Popover>
           </li>
-          <li className="tw-mr-2 2xl:tw-mr-4">
+          <li className="tw-mr-1 sm:tw-mr-2 2xl:tw-mr-4">
             <WalletConnector />
           </li>
-          <li className="tw-mr-2 2xl:tw-mr-4">
+          <li className="tw-mr-1 sm:tw-mr-2 2xl:tw-mr-4">
             <LanguageToggle />
           </li>
         </Menu>

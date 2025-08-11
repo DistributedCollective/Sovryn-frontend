@@ -107,7 +107,7 @@ export const ReceiveRBTCPage: React.FC = () => {
           <div className="tw-mb-20 tw-text-base tw-text-center tw-font-semibold">
             {t(translations.receiveRBTCPage.selectSource)}
           </div>
-          <div className="tw-flex tw-items-stretch tw-justify-center">
+          <div className="tw-flex tw-flex-wrap tw-items-stretch tw-justify-center">
             <div className="tw-text-center tw-h-full">
               {powPegButton}
               <p className="tw-mt-3 tw-font-medium">
