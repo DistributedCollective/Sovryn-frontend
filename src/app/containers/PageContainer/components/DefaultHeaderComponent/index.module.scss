@@ -92,7 +92,7 @@
 }
 
 .logo {
-  @apply tw-h-8 tw-m-0 tw-w-auto 2xl:tw-h-10;
+  @apply tw-h-5 sm:tw-h-8 tw-m-0 tw-w-auto 2xl:tw-h-10;
 
   // custom font for "Alpha" logo text
   #Alpha tspan {
