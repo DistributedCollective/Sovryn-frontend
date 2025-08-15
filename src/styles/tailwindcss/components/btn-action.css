@@ -9,13 +9,17 @@
       tw-no-underline;
   }
 
-  .tw-btn-action:hover {
+  .tw-btn-action:hover:not(:disabled) {
     @apply tw-opacity-75
       tw-no-underline;
   }
 
   .tw-btn-action:disabled {
     @apply tw-opacity-25 tw-bg-opacity-100 tw-cursor-not-allowed;
+  }
+
+  .tw-btn-action:disabled:hover {
+    @apply tw-opacity-25;
   }
 
   .tw-btn-action.loading,
