@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from '@blueprintjs/core';
 
 import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -14,11 +15,14 @@ import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+
 import { AmmHistory, DialogType } from './types';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/components/Promotions/components/PromotionCard/types';
+import classNames from 'classnames';
+import { usePoolDepositStatus } from '../../hooks/usePoolDepositStatus';
 
 interface IMiningPoolProps {
   pool: AmmLiquidityPool;
@@ -48,6 +52,11 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
     [States.ADD_LIQUIDITY]: addliquidityLocked,
     [States.REMOVE_LIQUIDITY]: removeliquidityLocked,
   } = checkMaintenances();
+
+  const {
+    isBlocked: isDepositBlocked,
+    message: depositBlockedMessage,
+  } = usePoolDepositStatus(pool);
 
   const onNonEmptyBalance = useCallback(() => setIsEmptyBalance(false), [
     setIsEmptyBalance,
@@ -80,16 +89,32 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
   ]);
 
   const Actions = () => {
+    const isDepositDisabled =
+      !canInteract || addliquidityLocked || isDepositBlocked;
+
     return (
       <div className="tw-ml-5 tw-w-full tw-max-w-36">
-        <ActionButton
-          text={t(translations.liquidityMining.deposit)}
-          onClick={() => setDialog(DialogType.ADD)}
-          className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-10 hover:tw-opacity-75"
-          textClassName="tw-text-base"
-          disabled={!canInteract || addliquidityLocked}
-          dataActionId={`yieldFarm-depositButton-${pool.assetA}`}
-        />
+        <Tooltip
+          position="top"
+          hoverOpenDelay={0}
+          hoverCloseDelay={0}
+          interactionKind="hover"
+          disabled={!isDepositBlocked}
+          content={depositBlockedMessage || ''}
+          className="tw-block tw-w-full tw-mb-3"
+        >
+          <ActionButton
+            text={t(translations.liquidityMining.deposit)}
+            onClick={() => setDialog(DialogType.ADD)}
+            className={classNames(
+              'tw-block tw-w-full tw-rounded-lg',
+              !isDepositDisabled && 'tw-bg-primary-10 hover:tw-opacity-75',
+            )}
+            textClassName="tw-text-base"
+            disabled={isDepositDisabled}
+            dataActionId={`yieldFarm-depositButton-${pool.assetA}`}
+          />
+        </Tooltip>
         <ActionButton
           text={t(translations.liquidityMining.withdraw)}
           onClick={() => setDialog(DialogType.REMOVE)}
