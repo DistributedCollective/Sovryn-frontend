@@ -19,8 +19,6 @@ import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
 import { Tabs } from 'app/components/Tabs';
 import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
-import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
-import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
 
 export const MarginTradePage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -58,16 +56,6 @@ export const MarginTradePage: React.FC = () => {
         id: 'tradingHistory',
         label: t(translations.marginTradePage.tradingHistory),
         content: <ClosedPositionsTable />,
-      },
-      {
-        id: 'limitOrders',
-        label: t(translations.spotTradingPage.history.openLimitOrders),
-        content: <OpenLimitOrdersPositionsTable />,
-      },
-      {
-        id: 'limitOrderHistory',
-        label: t(translations.spotTradingPage.history.limitOrderHistory),
-        content: <LimitOrderHistory />,
       },
     ],
     [t],
