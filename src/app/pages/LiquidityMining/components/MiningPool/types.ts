@@ -1,3 +1,5 @@
+import { Asset, ChainId } from 'types';
+
 export type ChartDatum = [number, number]; //[unix timestamp, value]
 export type ChartData = ChartDatum[];
 
@@ -37,3 +39,9 @@ export enum DialogType {
   ADD,
   REMOVE,
 }
+
+export type BlockedPoolConfig = {
+  assetA: Asset;
+  chainId: ChainId;
+  message: string;
+};
