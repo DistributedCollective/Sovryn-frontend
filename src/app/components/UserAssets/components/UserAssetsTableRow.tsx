@@ -22,7 +22,7 @@ import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd
 import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
-import { BABELFISH_APP_LINK } from 'utils/classifiers';
+import { BABELFISH_APP_LINK, POWPEG_LINK } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface IUserAssetsTableRow {
@@ -161,7 +161,8 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 ) : (
                   <Button
                     text={t(translations.common.send)}
-                    href="/fast-btc/withdraw"
+                    hrefExternal
+                    href={POWPEG_LINK}
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
                     dataActionId={`portfolio-action-send-${asset}`}
