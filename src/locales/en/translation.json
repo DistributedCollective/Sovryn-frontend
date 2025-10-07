@@ -235,7 +235,7 @@
     "title": "Receive RBTC",
     "description": "Receive RBTC via bitcoin or bank/card transfer",
     "selectSource": "Select Source",
-    "fastBtc": "Fast BTC",
+    "fastBtc": "Fast BTC (legacy)",
     "powPeg": "PowPeg",
     "bankCard": "Bank/Card"
   },
