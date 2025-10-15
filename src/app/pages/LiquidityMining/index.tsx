@@ -14,14 +14,10 @@ import { useAccount } from '../../hooks/useAccount';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
 import { HistoryTable } from './components/HistoryTable';
 import { MiningPool } from './components/MiningPool';
-import { getNextDay } from '../../../utils/dateHelpers';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
-import { Promotions } from 'app/components/Promotions';
 
 const pools = LiquidityPoolDictionary.list();
-
-const date = getNextDay(2);
 
 export function LiquidityMining() {
   const { t } = useTranslation();
@@ -57,16 +53,7 @@ export function LiquidityMining() {
       <Helmet>
         <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
-      <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full">
-        <Promotions
-          carouselClassName="tw-mt-3 tw-mb-7"
-          customDurationText={t(translations.liquidityMining.recalibration, {
-            date,
-          })}
-          cardImageClassName="tw-transform tw-scale-85"
-          dataAttributePrefix="yieldfarm-promo-learnmore"
-        />
-
+      <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full tw-pt-11">
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 
         {(addLiqLocked || removeLiqLocked) && (

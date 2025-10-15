@@ -8,7 +8,6 @@ import { TradingVolume } from './components/TradingVolume';
 // import { BabelSoldOutBanner } from './components/Banner/BabelSoldOutBanner';
 import { GetStartedBanner } from './components/Banner/GetStartedBanner';
 import { TotalValueLocked } from './components/TotalValueLocked';
-import { Promotions } from '../../components/Promotions';
 import { AmmBalance } from './components/AmmBalance';
 import { currentChainId, graphWrapperUrl } from 'utils/classifiers';
 import { TvlData } from 'app/containers/StatsPage/types';
@@ -157,13 +156,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
         </div>
 
-        <Promotions
-          className="tw-mt-14"
-          cardClassName="tw-my-7"
-          cardImageClassName="tw-mb-3"
-          dataAttributePrefix="landing-promo-learnmore"
-        />
-        <div className="tw-max-w-screen-xl tw-mx-auto">
+        <div className="tw-max-w-screen-xl tw-mx-auto tw-mt-14">
           <div className="tw-w-full tw-overflow-auto">
             {pairsData && pairsData.pairs && (
               <CryptocurrencyPrices
