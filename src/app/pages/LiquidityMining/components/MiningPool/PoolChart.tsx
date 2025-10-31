@@ -26,7 +26,7 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
 
       const primaryAssetData: ChartData = history.data[poolTokenA]?.map(i => [
         Date.parse(i.activity_date),
-        Number(i.APY_pc),
+        Number(i.APY_fees_pc),
       ]);
 
       setPrimaryAssetHistory(
@@ -41,7 +41,7 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
       ) {
         const secondaryAssetData: ChartData = history.data[
           poolTokenB
-        ]?.map(i => [Date.parse(i.activity_date), Number(i.APY_pc)]);
+        ]?.map(i => [Date.parse(i.activity_date), Number(i.APY_fees_pc)]);
 
         setSecondaryAssetHistory(
           secondaryAssetData.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)),

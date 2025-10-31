@@ -1,4 +1,3 @@
-import { PromotionColor } from 'app/components/Promotions/components/PromotionCard/types';
 import { AppMode } from 'types/app-mode';
 import { Asset } from 'types/asset';
 import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
@@ -11,7 +10,7 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x5fc0b3ac4683bd8af8e244e646d897a2c3f2a6ac',
     '0x64B1aC8301f64c92721804ed78f2ee6025aaf7cE',
-  ).setPromotionColor(PromotionColor.Orange),
+  ),
   new AmmLiquidityPool(
     Asset.SOV,
     Asset.RBTC,
@@ -19,9 +18,7 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0xc2d05263318e2304fc7cdad40eea6a091b310080',
     '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
-  )
-    .setPromotionColor(PromotionColor.Purple)
-    .setPreviousConverters(['0xaBAABc2191A23D6Bb2cfa973892062c131cb7647']),
+  ).setPreviousConverters(['0xaBAABc2191A23D6Bb2cfa973892062c131cb7647']),
   new AmmLiquidityPool(
     Asset.XUSD,
     Asset.RBTC,
@@ -29,12 +26,10 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0xD877fd00ECF08eD78BF549fbc74bac3001aBBb07',
     '0xb89D193c8a9Ae3fadF73B23519c215a0B7DD1B37',
-  )
-    .setPromotionColor(PromotionColor.Yellow)
-    .setPreviousConverters([
-      '0x9a1aE300b23F4C676186e6d417ac586889aAfF42',
-      '0xe5e750ead0e564e489b0776273e4a10f3f3d4028',
-    ]),
+  ).setPreviousConverters([
+    '0x9a1aE300b23F4C676186e6d417ac586889aAfF42',
+    '0xe5e750ead0e564e489b0776273e4a10f3f3d4028',
+  ]),
   new AmmLiquidityPool(
     Asset.FISH,
     Asset.RBTC,

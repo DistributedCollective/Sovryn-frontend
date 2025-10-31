@@ -65,7 +65,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
       return '';
     }
     return ammData?.data[poolTokenA][ammData?.data[poolTokenA].length - 1]
-      .APY_pc;
+      .APY_fees_pc;
   }, [ammData, poolTokenA]);
 
   return (
