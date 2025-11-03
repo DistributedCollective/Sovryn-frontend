@@ -1,45 +1,36 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
 import { SelectBox } from '../BridgeDepositPage/components/SelectBox';
 import btcIcon from 'assets/images/BTC.svg';
 
-import dollarIcon from 'assets/images/fiat/dollar.svg';
-import eruoIcon from 'assets/images/fiat/euro.svg';
-import poundIcon from 'assets/images/fiat/pound.svg';
-import { Link } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Tooltip } from '@blueprintjs/core';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite, POWPEG_LINK } from 'utils/classifiers';
+import { POWPEG_LINK } from 'utils/classifiers';
 
 export const ReceiveRBTCPage: React.FC = () => {
   const { t } = useTranslation();
-  const { checkMaintenance, States } = useMaintenance();
-  const fastBtcReceiveLocked = checkMaintenance(States.FASTBTC_RECEIVE);
-  const transakLocked = checkMaintenance(States.TRANSAK);
 
-  const onBtcClicked = useCallback(
-    e => {
-      if (fastBtcReceiveLocked) {
-        e.preventDefault();
-      }
-    },
-    [fastBtcReceiveLocked],
-  );
+  // const onBtcClicked = useCallback(
+  //   e => {
+  //     if (fastBtcReceiveLocked) {
+  //       e.preventDefault();
+  //     }
+  //   },
+  //   [fastBtcReceiveLocked],
+  // );
 
-  const fastBtcButton = useMemo(
-    () => (
-      <Link onClick={onBtcClicked} to="/fast-btc/deposit">
-        <SelectBox disabled={fastBtcReceiveLocked}>
-          <img src={btcIcon} alt="btc" />
-        </SelectBox>
-      </Link>
-    ),
-    [fastBtcReceiveLocked, onBtcClicked],
-  );
+  // const fastBtcButton = useMemo(
+  //   () => (
+  //     <Link onClick={onBtcClicked} to="/fast-btc/deposit">
+  //       <SelectBox disabled={fastBtcReceiveLocked}>
+  //         <img src={btcIcon} alt="btc" />
+  //       </SelectBox>
+  //     </Link>
+  //   ),
+  //   [fastBtcReceiveLocked, onBtcClicked],
+  // );
 
   const powPegButton = useMemo(
     () => (
@@ -52,35 +43,35 @@ export const ReceiveRBTCPage: React.FC = () => {
     [],
   );
 
-  const onBankClicked = useCallback(
-    e => {
-      if (fastBtcReceiveLocked || transakLocked) {
-        e.preventDefault();
-      }
-    },
-    [fastBtcReceiveLocked, transakLocked],
-  );
+  // const onBankClicked = useCallback(
+  //   e => {
+  //     if (fastBtcReceiveLocked || transakLocked) {
+  //       e.preventDefault();
+  //     }
+  //   },
+  //   [fastBtcReceiveLocked, transakLocked],
+  // );
 
-  const bankButton = useMemo(
-    () => (
-      <Link to="/fast-btc/transak" onClick={onBankClicked}>
-        <SelectBox disabled={fastBtcReceiveLocked || transakLocked}>
-          <div className="tw-flex">
-            <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-              <img src={dollarIcon} alt="dollar" />
-            </div>
-            <div className="tw-z-10 tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-              <img src={poundIcon} alt="pound" />
-            </div>
-            <div className="tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
-              <img src={eruoIcon} alt="euro" />
-            </div>
-          </div>
-        </SelectBox>
-      </Link>
-    ),
-    [fastBtcReceiveLocked, transakLocked, onBankClicked],
-  );
+  // const bankButton = useMemo(
+  //   () => (
+  //     <Link to="/fast-btc/transak" onClick={onBankClicked}>
+  //       <SelectBox disabled={fastBtcReceiveLocked || transakLocked}>
+  //         <div className="tw-flex">
+  //           <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+  //             <img src={dollarIcon} alt="dollar" />
+  //           </div>
+  //           <div className="tw-z-10 tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+  //             <img src={poundIcon} alt="pound" />
+  //           </div>
+  //           <div className="tw-border tw--ml-5 tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
+  //             <img src={eruoIcon} alt="euro" />
+  //           </div>
+  //         </div>
+  //       </SelectBox>
+  //     </Link>
+  //   ),
+  //   [fastBtcReceiveLocked, transakLocked, onBankClicked],
+  // );
 
   return (
     <>
@@ -122,7 +113,7 @@ export const ReceiveRBTCPage: React.FC = () => {
               </p> */}
             </div>
 
-            <div className="tw-text-center tw-h-full">
+            {/* <div className="tw-text-center tw-h-full">
               {fastBtcReceiveLocked ? (
                 <Tooltip
                   position="top"
@@ -155,9 +146,9 @@ export const ReceiveRBTCPage: React.FC = () => {
               <p className="tw-mt-3 tw-font-medium">
                 {t(translations.receiveRBTCPage.fastBtc)}
               </p>
-            </div>
+            </div> */}
 
-            <div className="tw-text-center tw-h-full">
+            {/* <div className="tw-text-center tw-h-full">
               {fastBtcReceiveLocked || transakLocked ? (
                 <Tooltip
                   position="top"
@@ -216,7 +207,7 @@ export const ReceiveRBTCPage: React.FC = () => {
                   {t(translations.receiveRBTCPage.bankCard)}
                 </p>
               </Tooltip>
-            </div>
+            </div> */}
           </div>
         </div>
       </CrossChainLayout>
