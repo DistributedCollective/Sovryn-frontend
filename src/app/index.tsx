@@ -46,7 +46,6 @@ import { OriginsLaunchpadPage } from './pages/OriginsLaunchpad/Loadable';
 import { OriginsClaimPage } from './pages/OriginsClaimPage/Loadable';
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
-import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import { ReceiveRBTCPage } from './pages/ReceiveRBTCPage';
@@ -127,11 +126,7 @@ export function App() {
                   path="/unsubscribe"
                   render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
                 />
-                <Route
-                  exact
-                  path="/fast-btc/:type/:network?"
-                  component={FastBtcPage}
-                />
+
                 <Route exact path="/rbtc/" component={ReceiveRBTCPage} />
                 <Route component={NotFoundPage} />
               </Switch>
