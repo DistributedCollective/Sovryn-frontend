@@ -70,17 +70,17 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     [checkMaintenance, States],
   );
 
-  const onOpenDeposit = useCallback(() => {
-    if (!fundLocked) {
-      history.push('/fast-btc/deposit/bsc');
-    }
-  }, [fundLocked, history]);
+  // const onOpenDeposit = useCallback(() => {
+  //   if (!fundLocked) {
+  //     history.push('/fast-btc/deposit/bsc');
+  //   }
+  // }, [fundLocked, history]);
 
-  const onOpenWithdraw = useCallback(() => {
-    if (!withdrawLocked) {
-      history.push('/fast-btc/withdraw/bsc');
-    }
-  }, [history, withdrawLocked]);
+  // const onOpenWithdraw = useCallback(() => {
+  //   if (!withdrawLocked) {
+  //     history.push('/fast-btc/withdraw/bsc');
+  //   }
+  // }, [history, withdrawLocked]);
 
   const onOpenTransfer = useCallback(() => {
     if (!transferLocked) {
@@ -225,7 +225,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
           {t(translations.perpetualPage.accountBalance.btcbConversion)}
         </ActionButton>
 
-        <ActionButton
+        {/* <ActionButton
           onClick={onOpenDeposit}
           disabled={fundLocked}
           tooltip={
@@ -249,7 +249,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
           dataActionId="perps-accountBalance-btc-withdraw"
         >
           {t(translations.perpetualPage.accountBalance.withdraw)}
-        </ActionButton>
+        </ActionButton> */}
 
         <ActionButton
           onClick={onOpenTransfer}
