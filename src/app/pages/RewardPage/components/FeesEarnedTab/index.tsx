@@ -111,7 +111,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                         },
                       )}
                       textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-                      disabled={isClaimDisabled}
+                      disabled={isClaimDisabled || claimFeesEarnedLocked}
                       title={
                         (claimFeesEarnedLocked &&
                           t(translations.maintenance.claimRewardsTitle)) ||

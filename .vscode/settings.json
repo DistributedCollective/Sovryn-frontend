@@ -39,5 +39,6 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/node_modules": false
-  }
+  },
+  "i18n-ally.localesPaths": ["src/locales"]
 }
