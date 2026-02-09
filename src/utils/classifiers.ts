@@ -141,7 +141,7 @@ export const gasLimit = {
   [TxType.CLAIM_ALL_REWARDS]: 6800000,
 };
 
-export const discordInvite = 'https://discord.gg/sovryn';
+export const discordInvite = 'https://discord.gg/5mAMAJb2X3';
 
 export const sovrynTwitter = 'https://twitter.com/SovrynBTC';
 export const sovrynTelegram = 'https://t.me/SovrynBitcoin';
