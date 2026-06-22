@@ -5,7 +5,7 @@
   "dependencies": {
     "@apollo/client": "3.5.10",
     "@apollo/react-hooks": "4.0.0",
-    "@babel/core": "7.9.0",
+    "@babel/core": "7.29.6",
     "@blueprintjs/core": "3.42.0",
     "@blueprintjs/select": "3.13.7",
     "@fortawesome/fontawesome-svg-core": "6.1.1",
