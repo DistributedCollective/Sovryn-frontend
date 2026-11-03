@@ -75,7 +75,7 @@
     "file-loader": "4.3.0",
     "fs-extra": "^8.1.0",
     "graphql": "15.8.0",
-    "highcharts": "9.1.0",
+    "highcharts": "11.4.9",
     "highcharts-react-official": "3.0.0",
     "html-webpack-link-type-plugin": "1.1.0",
     "html-webpack-plugin": "4.5.2",
